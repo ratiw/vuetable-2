@@ -1,9 +1,9 @@
 {
   "name": "vuetable-2",
   "version": "0.9.0",
-  "description": "A Vue.js project",
+  "description": "A Vue.js 2.0 component for data table",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
