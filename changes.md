@@ -1,4 +1,4 @@
-# What Changes
+# What's Changed
 - `vuetable-pagination` is no longer part of `vuetable` by default.
     + better customization
     + cleaner implementation
