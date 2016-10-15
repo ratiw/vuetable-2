@@ -2,6 +2,7 @@
   "name": "vuetable-2",
   "version": "0.9.1",
   "description": "A Vue.js 2.0 component for data table",
+  "license": "MIT",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
   "private": false,
   "scripts": {
