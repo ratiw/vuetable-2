@@ -107,7 +107,7 @@ export default {
         default: 'data'
     },
     paginationPath: {
-        type: [String, Boolean],
+        type: [String],
         default: 'links.pagination'
     },
     queryParams: {
@@ -295,9 +295,11 @@ export default {
     loadSuccess: function(response) {
       this.fireEvent('load-success', response)
 
-      this.tableData = this.transform(this.getObjectValue(response.body, this.dataPath, null))
+      let body = this.transform(response.body)
 
-      this.tablePagination = this.getObjectValue(response.body, this.paginationPath, null)
+      this.tableData = this.getObjectValue(body, this.dataPath, null)
+      this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
+
       if (this.tablePagination === null) {
         this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. '
           + 'It looks like the data returned from the sever does not have pagination information '
