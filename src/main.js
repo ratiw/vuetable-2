@@ -9,9 +9,9 @@ let E_SERVER_ERROR = 'Error communicating with the server'
 Vue.component('custom-actions', {
   template: [
     '<div>',
-      '<button class="ui red button" @click="itemAction(\'view-item\', rowData)"><i class="zoom icon"></i></button>',
-      '<button class="ui blue button" @click="itemAction(\'edit-item\', rowData)"><i class="edit icon"></i></button>',
-      '<button class="ui green button" @click="itemAction(\'delete-item\', rowData)"><i class="delete icon"></i></button>',
+      '<button class="ui red button" @click="onClick(\'view-item\', rowData)"><i class="zoom icon"></i></button>',
+      '<button class="ui blue button" @click="onClick(\'edit-item\', rowData)"><i class="edit icon"></i></button>',
+      '<button class="ui green button" @click="onClick(\'delete-item\', rowData)"><i class="delete icon"></i></button>',
     '</div>'
   ].join(''),
   props: {
@@ -21,12 +21,10 @@ Vue.component('custom-actions', {
     }
   },
   methods: {
-    onClick: function(event) {
-      console.log('actions: on-click', event.target)
+    onClick: function(action, data) {
+      console.log('actions: on-click', data.name)
+      sweetAlert(action, data.name)
     },
-    onDoubleClick: function(event) {
-      console.log('actions: on-dblclick', event.target)
-    }
   }
 })
 
@@ -145,9 +143,22 @@ let vm = new Vue({
   },
   methods: {
     transform: function(data) {
-      let transformed = []
+      let transformed = {}
+      transformed.pagination = {
+        total: data.total,
+        per_page: data.per_page,
+        current_page: data.current_page,
+        last_page: data.last_page,
+        next_page_url: data.next_page_url,
+        prev_page_url: data.prev_page_url,
+        from: data.from,
+        to: data.to
+      }
+
+      transformed.data = []
+      data = data.data
       for (let i = 0; i < data.length; i++) {
-        transformed.push({
+        transformed['data'].push({
           id: data[i].id,
           name: data[i].name,
           nickname: data[i].nickname,
@@ -248,17 +259,6 @@ let vm = new Vue({
     },
     onCellDoubleClicked (data, field, event) {
       console.log('cellDoubleClicked:', field.name)
-    },
-    onActions (action, data) {
-      console.log('actions: ', action, data.name)
-
-      if (action === 'view-item') {
-        sweetAlert(action, data.name)
-      } else if (action === 'edit-item') {
-        sweetAlert(action, data.name)
-      } else if (action === 'delete-item') {
-        sweetAlert(action, data.name)
-      }
     },
     onLoadSuccess (response) {
       // set pagination data to pagination-info component
