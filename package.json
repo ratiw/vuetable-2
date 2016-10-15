@@ -1,6 +1,6 @@
 {
   "name": "vuetable-2",
-  "version": "0.15.1",
+  "version": "0.9.1",
   "description": "A Vue.js 2.0 component for data table",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
   "private": false,
