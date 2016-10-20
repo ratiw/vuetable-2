@@ -6,7 +6,7 @@
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'" :class="[field.titleClass || '']">
-                <input type="checkbox" @change="toggleAllCheckboxes($event.target.checked, field.name)">
+                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)">
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
@@ -43,8 +43,8 @@
                 </td>
                 <td v-if="extractName(field.name) == '__checkbox'" :class="[{'vuetable-checkboxes': true}, field.dataClass]">
                   <input type="checkbox"
-                    @change="toggleCheckbox($event.target.checked, item, field.name)"
-                    :checked="isSelectedRow(item, field.name)">
+                    @change="toggleCheckbox(item, field.name, $event)"
+                    :checked="rowSelected(item, field.name)">
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="field.dataClass">
                   <component :is="extractArgs(field.name)" :row-data="item"></component>
@@ -553,6 +553,12 @@ export default {
     },
     isSelectedRow: function(key) {
       return this.selectedTo.indexOf(key) >= 0
+    },
+    rowSelected: function(dataItem, fieldName){
+      let idColumn = this.extractArgs(fieldName)
+      let key = dataItem[idColumn]
+
+      return this.isSelectedRow(key);
     },
     toggleAllCheckboxes: function(fieldName, event) {
       let self = this
