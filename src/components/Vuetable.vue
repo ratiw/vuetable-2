@@ -6,7 +6,7 @@
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'" :class="[field.titleClass || '']">
-                <input type="checkbox" @change="toggleAllCheckboxes(field.name,$event)">
+                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)">
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
