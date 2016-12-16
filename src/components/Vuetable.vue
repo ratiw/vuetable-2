@@ -205,7 +205,7 @@ export default {
   },
   computed: {
     useDetailRow: function() {
-      if (this.tableData && typeof this.tableData[0][this.detailRowId] === 'undefined') {
+      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.detailRowId] === 'undefined') {
         this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
         return false
       }
