@@ -5,8 +5,10 @@
         <template v-for="field in fields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <th v-if="extractName(field.name) == '__checkbox'" :class="[field.titleClass || '']">
-                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)">
+              <th v-if="extractName(field.name) == '__checkbox'"
+                :class="[field.titleClass, 'checkbox_'+extractArgs(field.name)]">
+                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
+                  :checked="checkCheckboxesState(field.name)">
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
@@ -558,7 +560,42 @@ export default {
       let idColumn = this.extractArgs(fieldName)
       let key = dataItem[idColumn]
 
-      return this.isSelectedRow(key);
+      return this.isSelectedRow(key)
+    },
+    checkCheckboxesState: function(fieldName) {
+      if (this.selectedTo.length === 0) return false
+
+      var self = this
+      var idColumn = this.extractArgs(fieldName)
+      var selector = 'th.checkbox_' + idColumn + ' input[type=checkbox]'
+      var els = document.querySelectorAll(selector)
+
+      // count how many checkbox row in the current page has been checked
+      var selected = this.tableData.filter(function(item) {
+        return self.selectedTo.indexOf(item[idColumn]) >= 0
+      })
+
+      // count == 0, clear the checkbox
+      if (selected.length <= 0) {
+        els.forEach(function(el) {
+          el.indeterminate = false
+        })
+        return false
+      }
+      // count > 0 and count < perPage, set checkbox state to 'indeterminate'
+      else if (selected.length < this.perPage) {
+        els.forEach(function(el) {
+          el.indeterminate = true
+        })
+        return true
+      }
+      // count == perPage, set checkbox state to 'checked'
+      else {
+        els.forEach(function(el) {
+          el.indeterminate = false
+        })
+        return true
+      }
     },
     toggleAllCheckboxes: function(fieldName, event) {
       let self = this
