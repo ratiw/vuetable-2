@@ -47,7 +47,7 @@ describe('Properties', () => {
         components: { Vuetable }
       }).$mount()
 
-      expect(console.error).to.have.been.calledWith('[Vue warn]: Missing required prop: "fields" (found in component <vuetable>)')
+      expect(console.error).to.have.been.calledWith('[Vue warn]: Missing required prop: "fields" \n(found in component <vuetable>)')
 
       console.error.restore()
     })
