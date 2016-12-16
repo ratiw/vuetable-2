@@ -76,7 +76,7 @@
             :class="[css.detailRowClass]"
           >
             <td :colspan="countVisibleFields">
-              <component :is="detailRowComponent" :row-data="item"></component>
+              <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
             </td>
           </tr>
         </template>
