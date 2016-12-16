@@ -34,7 +34,7 @@
     </thead>
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
-        <tr @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
+        <tr @dblclick="onRowDoubleClicked(item, $event)" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
           <template v-for="field in fields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
@@ -629,11 +629,14 @@ export default {
       return true
     },
     onRowClicked: function(dataItem, event) {
-      this.$emit(this.eventPrefix+'row-clicked', dataItem, event)
+      this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
       return true
     },
+    onRowDoubleClicked: function(dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)
+    },
     onDetailRowClick: function(dataItem, event) {
-      this.$emit(this.eventPrefix+'detail-row-clicked', dataItem, event)
+      this.$emit(this.eventPrefix + 'detail-row-clicked', dataItem, event)
     },
     onCellClicked: function(dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-clicked', dataItem, field, event)
