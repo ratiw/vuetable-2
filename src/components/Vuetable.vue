@@ -152,6 +152,11 @@ export default {
         return false
       }
     },
+    /*
+     * physical key that will trigger multi-sort option
+     * possible values: 'alt', 'ctrl', 'meta', 'shift'
+     * 'ctrl' might not work as expected on Mac
+     */
     multiSortKey: {
       type: String,
       default: 'alt'
