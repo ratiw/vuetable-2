@@ -12,8 +12,8 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="[field.titleClass, {'sortable': isSortable(field)}]"
-                  v-html="field.title || ''">
+                  :class="[field.titleClass, {'sortable': isSortable(field)}]">
+                  {{ field.title || '' }}
                   <i v-if="isCurrentSortField(field) && field.title"
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
