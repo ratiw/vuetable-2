@@ -567,6 +567,8 @@ export default {
       return this.isSelectedRow(key)
     },
     checkCheckboxesState: function(fieldName) {
+      if (! this.tableData) return
+
       var self = this
       var idColumn = this.extractArgs(fieldName)
       var selector = 'th.checkbox_' + idColumn + ' input[type=checkbox]'
