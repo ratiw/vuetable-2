@@ -68,43 +68,45 @@ Vue.component('my-detail-row', {
 
 
 let tableColumns = [
-    {
-        name: 'id',
-        title: '',
-        dataClass: 'center aligned',
-        callback: 'showDetailRow'
-    },
-    {
-      name: 'name',
-      title: 'Full Name',
-      sortField: 'name'
-    },
-    {
-        name: 'email',
-        sortField: 'email',
-        visible: true
-    },
-    {
-        name: 'nickname',
-        sortField: 'nickname',
-        callback: 'allCap'
-    },
-    {
-        name: 'birthdate',
-        sortField: 'birthdate',
-        callback: 'formatDate|D/MM/Y'
-    },
-    {
-        name: 'gender',
-        sortField: 'gender',
-        titleClass: 'center aligned',
-        dataClass: 'center aligned',
-        callback: 'gender'
-    },
-    {
-      name: '__component:custom-actions',
-      dataClass: 'center aligned'
-    }
+  '__sequence',
+  '__checkbox:id',
+  {
+    name: 'id',
+    title: '',
+    dataClass: 'center aligned',
+    callback: 'showDetailRow'
+  },
+  {
+    name: 'name',
+    title: 'Full Name',
+    sortField: 'name'
+  },
+  {
+    name: 'email',
+    sortField: 'email',
+    visible: true
+  },
+  {
+    name: 'nickname',
+    sortField: 'nickname',
+    callback: 'allCap'
+  },
+  {
+    name: 'birthdate',
+    sortField: 'birthdate',
+    callback: 'formatDate|D/MM/Y'
+  },
+  {
+    name: 'gender',
+    sortField: 'gender',
+    titleClass: 'center aligned',
+    dataClass: 'center aligned',
+    callback: 'gender'
+  },
+  {
+    name: '__component:custom-actions',
+    dataClass: 'center aligned'
+  }
 ]
 
 let vm = new Vue({
@@ -191,7 +193,7 @@ let vm = new Vue({
       if (field.name.slice(0, 2) === '__') {
         return field.name.indexOf(':') >= 0
           ? field.name.split(':')[1]
-          : fiel.name.replace('__', '')
+          : field.name.replace('__', '')
       }
     },
     allCap (value) {
