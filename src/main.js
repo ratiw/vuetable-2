@@ -288,26 +288,5 @@ let vm = new Vue({
     onChangePage (page) {
       this.$refs.vuetable.changePage(page)
     },
-    registerEvents () {
-      let self = this
-      this.$on('vuetable:action', (action, data) => {
-        self.onActions(action, data)
-      })
-      this.$on('vuetable:cell-clicked', (data, field, event) => {
-        self.onCellClicked(data, field, event)
-      })
-      this.$on('vuetable:cell-dblclicked', (data, field, event) => {
-        self.onCellDoubleClicked(data, field, event)
-      })
-      this.$on('vuetable:load-success', (response) => {
-        self.onLoadSuccess(response)
-      })
-      this.$on('vuetable:load-error', (response) => {
-        self.onLoadError(response)
-      })
-    }
   },
-  created () {
-    this.registerEvents()
-  }
 })
