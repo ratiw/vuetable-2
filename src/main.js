@@ -165,6 +165,7 @@ let vm = new Vue({
           name: data[i].name,
           nickname: data[i].nickname,
           email: data[i].email,
+          age: data[i].age,
           birthdate: data[i].birthdate,
           gender: data[i].gender,
           address: data[i].address.line1 + ' ' + data[i].address.line2 + ' ' + data[i].address.zipcode

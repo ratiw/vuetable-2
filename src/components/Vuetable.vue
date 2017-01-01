@@ -14,7 +14,7 @@
                   @click="orderBy(field, $event)"
                   :class="[field.titleClass, {'sortable': isSortable(field)}]">
                   {{ field.title || '' }}
-                  <i v-if="isCurrentSortField(field) && field.title"
+                  <i v-if="isInCurrentSortGroup(field) && field.title"
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
@@ -27,7 +27,7 @@
                 :id="'_' + field.name"
                 :class="[field.titleClass,  {'sortable': isSortable(field)}]">
                 {{  getTitle(field) }}&nbsp;
-                <i v-if="isCurrentSortField(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
+                <i v-if="isInCurrentSortGroup(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
             </template>
           </template>
@@ -388,21 +388,24 @@ export default {
     isSortable: function(field) {
       return !(typeof field.sortField === 'undefined')
     },
-    isCurrentSortField: function(field) {
-      return this.currentSortOrder(field) !== false;
+    isInCurrentSortGroup: function(field) {
+      return this.currentSortOrderPosition(field) !== false;
     },
-    currentSortOrder: function(field) {
+    currentSortOrderPosition: function(field) {
       if ( ! this.isSortable(field)) {
         return false
       }
 
       for (let i = 0; i < this.sortOrder.length; i++) {
-        if (this.sortOrder[i].field === field.sortField) {
+        if (this.fieldIsInSortOrderPosition(field, i)) {
           return i;
         }
       }
 
       return false;
+    },
+    fieldIsInSortOrderPosition(field, i) {
+      return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
     },
     orderBy: function(field, event) {
       if ( ! this.isSortable(field)) return
@@ -420,11 +423,12 @@ export default {
       this.loadData()
     },
     multiColumnSort: function(field) {
-      let i = this.currentSortOrder(field);
+      let i = this.currentSortOrderPosition(field);
 
       if(i === false) { //this field is not in the sort array yet
         this.sortOrder.push({
-          field: field.sortField,
+          field: field.name,
+          sortField: field.sortField,
           direction: 'asc'
         });
       } else { //this field is in the sort array, now we change its state
@@ -439,26 +443,31 @@ export default {
     },
     singleColumnSort: function(field) {
       if (this.sortOrder.length === 0) {
-        this.sortOrder.push({
-          field: '',
-          direction: 'asc'
-        });
+        this.clearSortOrder()
       }
 
       this.sortOrder.splice(1); //removes additional columns
 
-      if (this.sortOrder[0].field === field.sortField) {
+      if (this.fieldIsInSortOrderPosition(field, 0)) {
         // change sort direction
         this.sortOrder[0].direction = this.sortOrder[0].direction === 'asc' ? 'desc' : 'asc'
       } else {
         // reset sort direction
         this.sortOrder[0].direction = 'asc'
       }
-      this.sortOrder[0].field = field.sortField
+      this.sortOrder[0].field = field.name
+      this.sortOrder[0].sortField = field.sortField
+    },
+    clearSortOrder: function() {
+      this.sortOrder.push({
+        field: '',
+        sortField: '',
+        direction: 'asc'
+      });
     },
     sortIcon: function(field) {
       let cls = {}
-      let i = this.currentSortOrder(field);
+      let i = this.currentSortOrderPosition(field);
 
       if (i !== false) {
         if (this.sortOrder[i].direction == 'asc') {
@@ -485,7 +494,7 @@ export default {
           step = 0.3
 
       let count = this.sortOrder.length;
-      let current = this.currentSortOrder(field)
+      let current = this.currentSortOrderPosition(field)
 
 
       if(max - count * step < min) {
