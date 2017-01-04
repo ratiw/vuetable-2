@@ -18,8 +18,11 @@
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
-              <th v-if="notIn(extractName(field.name), ['__checkbox', '__component'])"
-                  :id="'_' + extractArgs(field.name)" class="[field.titleClass || '']" v-html="field.title || ''">
+              <th v-if="extractName(field.name) == '__sequence'"
+                  :class="['vuetable-sequence', field.titleClass || '']" v-html="field.title || ''">
+              </th>
+              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component'])"
+                  :id="'_' + extractArgs(field.name)" :class="[field.titleClass || '']" v-html="field.title || ''">
               </th>
             </template>
             <template v-else>

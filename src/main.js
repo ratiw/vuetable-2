@@ -68,7 +68,12 @@ Vue.component('my-detail-row', {
 
 
 let tableColumns = [
-  '__sequence',
+  {
+    name: '__sequence',
+    title: 'No.',
+    titleClass: 'right aligned',
+    dataClass: 'right aligned'
+  },
   '__checkbox:id',
   {
     name: 'id',
