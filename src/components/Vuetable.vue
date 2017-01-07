@@ -46,6 +46,9 @@
                 <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
+                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]">
+                  <i :class="['sort-handle', css.sortHandleIcon]"></i>
+                </td>
                 <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
