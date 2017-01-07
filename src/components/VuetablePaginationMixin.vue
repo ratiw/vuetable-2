@@ -80,18 +80,5 @@ export default {
     setPaginationData (tablePagination) {
       this.tablePagination = tablePagination
     },
-    registerEvents () {
-      let self = this
-
-      this.$on('vuetable-pagination:set-options', (options) => {
-        for (var n in options) {
-          Vue.set(self, n, options[n])
-        }
-      })
-    }
-  },
-  created () {
-    this.registerEvents()
-  }
 }
 </script>
