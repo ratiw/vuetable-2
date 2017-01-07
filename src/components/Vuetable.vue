@@ -192,6 +192,7 @@ export default {
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
           detailRowClass: 'vuetable-detail-row',
+          sortHandleIcon: 'grey sidebar icon',
         }
       }
     },
