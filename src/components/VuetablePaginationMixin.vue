@@ -80,5 +80,6 @@ export default {
     setPaginationData (tablePagination) {
       this.tablePagination = tablePagination
     },
+  }
 }
 </script>
