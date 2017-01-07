@@ -1,5 +1,5 @@
 <template>
-  <table :class="[{'vuetable': true}, css.tableClass]">
+  <table :class="['vuetable', css.tableClass]">
     <thead>
       <tr>
         <template v-for="field in fields">
@@ -43,15 +43,15 @@
           <template v-for="field in fields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="[{'vuetable-sequence': true}, field.dataClass]"
+                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
-                <td v-if="extractName(field.name) == '__checkbox'" :class="[{'vuetable-checkboxes': true}, field.dataClass]">
+                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
                     :checked="rowSelected(item, field.name)">
                 </td>
-                <td v-if="extractName(field.name) === '__component'" :class="field.dataClass">
+                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
                   <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
                 </td>
               </template>
@@ -730,6 +730,9 @@ export default {
 </script>
 
 <style>
+  [v-cloak] {
+    display: none;
+  }
   .vuetable th.sortable:hover {
     color: #2185d0;
     cursor: pointer;
