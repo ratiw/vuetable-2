@@ -32,18 +32,6 @@ export default {
         return 2
       }
     },
-    paginationInfoTemplate: {
-      type: String,
-      default() {
-        return "Displaying {from} to {to} of {total} items"
-      }
-    },
-    paginationInfoNoDataTemplate: {
-      type: String,
-      default() {
-        return 'No relevant data'
-      }
-    },
   },
   data: function() {
       return {
