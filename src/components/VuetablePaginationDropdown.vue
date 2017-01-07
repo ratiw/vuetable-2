@@ -37,23 +37,8 @@ export default {
   },
   methods: {
     loadPage (page) {
-      // update dropdown value
-      // if (page == 'prev' && !this.isOnFirstPage) {
-      //   this.setDropdownToPage(this.tablePagination.current_page-1)
-      // } else if (page == 'next' && !this.isOnLastPage) {
-      //   this.setDropdownToPage(this.tablePagination.current_page+1)
-      // }
-
       this.$emit('vuetable-pagination:change-page', page)
     },
-    // setDropdownToPage (page) {
-    //   this.$nextTick( () => {
-    //     let el = document.getElementById('vuetable-pagination-dropdown')
-    //     if (el) {
-    //       el.value = page
-    //     }
-    //   })
-    // },
     selectPage (event) {
       this.$emit('vuetable-pagination:change-page', event.target.selectedIndex+1)
     },
