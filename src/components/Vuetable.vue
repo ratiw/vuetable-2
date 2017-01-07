@@ -6,29 +6,29 @@
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'"
-                :class="[field.titleClass, 'checkbox_'+extractArgs(field.name)]">
+                :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]">
                 <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
                   :checked="checkCheckboxesState(field.name)">
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="[field.titleClass, {'sortable': isSortable(field)}]">
+                  :class="['vuetable-th-component-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
                   {{ field.title || '' }}
                   <i v-if="isInCurrentSortGroup(field) && field.title"
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
               <th v-if="extractName(field.name) == '__sequence'"
-                  :class="['vuetable-sequence', field.titleClass || '']" v-html="field.title || ''">
+                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component'])"
-                  :id="'_' + extractArgs(field.name)" :class="[field.titleClass || '']" v-html="field.title || ''">
+                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
               </th>
             </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="[field.titleClass,  {'sortable': isSortable(field)}]">
+                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]">
                 {{  getTitle(field) }}&nbsp;
                 <i v-if="isInCurrentSortGroup(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
@@ -73,7 +73,7 @@
           </template>
         </tr>
         <template v-if="useDetailRow">
-          <tr v-if="isVisibleDetailRow(item[detailRowId])"
+          <tr v-if="isVisibleDetailRow(item[trackBy])"
             @click="onDetailRowClick(item, $event)"
             :transition="detailRowTransition"
             :class="[css.detailRowClass]"
@@ -168,10 +168,6 @@ export default {
       type: String,
       default: ''
     },
-    detailRowId: {
-      type: String,
-      default: 'id'
-    },
     detailRowComponent: {
       type: String,
       default: ''
@@ -179,6 +175,10 @@ export default {
     detailRowTransition: {
       type: String,
       default: ''
+    },
+    trackBy: {
+      type: String,
+      default: 'id'
     },
     css: {
       type: Object,
@@ -215,7 +215,7 @@ export default {
   },
   computed: {
     useDetailRow: function() {
-      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.detailRowId] === 'undefined') {
+      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
         this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
         return false
       }
@@ -546,9 +546,10 @@ export default {
     },
     toggleCheckbox: function(dataItem, fieldName, event) {
       let isChecked = event.target.checked
-      let idColumn = this.extractArgs(fieldName)
-      if (idColumn === undefined) {
-        this.warn('You did not provide reference id column with "__checkbox:<column_name>" field!')
+      let idColumn = this.trackBy
+
+      if (dataItem[idColumn] === undefined) {
+        this.warn('__checkbox field: The "'+this.trackBy+'" field does not exist! Make sure the field you specify in "track-by" prop does exist.')
         return
       }
 
@@ -616,7 +617,7 @@ export default {
     toggleAllCheckboxes: function(fieldName, event) {
       let self = this
       let isChecked = event.target.checked
-      let idColumn = this.extractArgs(fieldName)
+      let idColumn = this.trackBy
 
       if (isChecked) {
         this.tableData.forEach(function(dataItem) {
