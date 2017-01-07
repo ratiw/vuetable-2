@@ -562,6 +562,7 @@ export default {
       } else {
         this.unselectId(key)
       }
+      this.$emit('vuetable:checkbox-toggled', isChecked, dataItem)
     },
     selectId: function(key) {
       if ( ! this.isSelectedRow(key)) {
@@ -631,6 +632,7 @@ export default {
           self.unselectId(dataItem[idColumn])
         })
       }
+      this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
     gotoPreviousPage: function() {
       if (this.currentPage > 1) {
