@@ -590,7 +590,7 @@ export default {
 
       var self = this
       var idColumn = this.extractArgs(fieldName)
-      var selector = 'th.checkbox_' + idColumn + ' input[type=checkbox]'
+      var selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
       var els = document.querySelectorAll(selector)
 
       // count how many checkbox row in the current page has been checked
