@@ -1,19 +1,19 @@
 <script>
 export default {
   props: {
-    paginationInfoClass: {
+    infoClass: {
       type: String,
       default() {
         return 'left floated left aligned six wide column'
       }
     },
-    paginationInfoTemplate: {
+    infoTemplate: {
       type: String,
       default() {
         return "Displaying {from} to {to} of {total} items"
       }
     },
-    paginationInfoNoDataTemplate: {
+    noDataTemplate: {
       type: String,
       default() {
         return 'No relevant data'

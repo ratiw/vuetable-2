@@ -1,5 +1,5 @@
 <template>
-  <div :class="['vuetable-pagination-info', paginationInfoClass]"
+  <div :class="['vuetable-pagination-info', infoClass]"
     v-html="paginationInfo">
   </div>
 </template>
@@ -8,15 +8,14 @@
 import PaginationInfoMixin from './VuetablePaginationInfoMixin.vue'
 
 export default {
-  name: 'pagination-info',
   mixins: [PaginationInfoMixin],
   computed: {
     paginationInfo () {
       if (this.tablePagination == null || this.tablePagination.total == 0) {
-        return this.paginationInfoNoDataTemplate
+        return this.noDataTemplate
       }
 
-      return this.paginationInfoTemplate
+      return this.infoTemplate
         .replace('{from}', this.tablePagination.from || 0)
         .replace('{to}', this.tablePagination.to || 0)
         .replace('{total}', this.tablePagination.total || 0)
