@@ -76,15 +76,16 @@
           </template>
         </tr>
         <template v-if="useDetailRow">
-          <tr v-if="isVisibleDetailRow(item[trackBy])"
-            @click="onDetailRowClick(item, $event)"
-            :transition="detailRowTransition"
-            :class="[css.detailRowClass]"
-          >
-            <td :colspan="countVisibleFields">
-              <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
-            </td>
-          </tr>
+          <transition :name="detailRowTransition">
+            <tr v-if="isVisibleDetailRow(item[trackBy])"
+              @click="onDetailRowClick(item, $event)"
+              :class="[css.detailRowClass]"
+            >
+              <td :colspan="countVisibleFields">
+                <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+              </td>
+            </tr>
+          </transition>
         </template>
       </template>
     </tbody>
