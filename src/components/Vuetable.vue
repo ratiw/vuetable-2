@@ -12,7 +12,7 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
                   {{ field.title || '' }}
                   <i v-if="isInCurrentSortGroup(field) && field.title"
                      :class="sortIcon(field)"
@@ -580,7 +580,7 @@ export default {
       return this.selectedTo.indexOf(key) >= 0
     },
     rowSelected: function(dataItem, fieldName){
-      let idColumn = this.extractArgs(fieldName)
+      let idColumn = this.trackBy
       let key = dataItem[idColumn]
 
       return this.isSelectedRow(key)
@@ -589,7 +589,7 @@ export default {
       if (! this.tableData) return
 
       var self = this
-      var idColumn = this.extractArgs(fieldName)
+      var idColumn = this.trackBy
       var selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
       var els = document.querySelectorAll(selector)
 

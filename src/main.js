@@ -74,7 +74,7 @@ let tableColumns = [
     titleClass: 'right aligned',
     dataClass: 'right aligned'
   },
-  '__checkbox:id',
+  '__checkbox',
   {
     name: 'id',
     title: '',
