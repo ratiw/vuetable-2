@@ -240,8 +240,8 @@ export default {
         return
       }
 
-      var self = this
-      var obj
+      let self = this
+      let obj
       this.fields.forEach(function(field, i) {
         if (typeof (field) === 'string') {
           obj = {
@@ -588,13 +588,13 @@ export default {
     checkCheckboxesState: function(fieldName) {
       if (! this.tableData) return
 
-      var self = this
-      var idColumn = this.trackBy
-      var selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
-      var els = document.querySelectorAll(selector)
+      let self = this
+      let idColumn = this.trackBy
+      let selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
+      let els = document.querySelectorAll(selector)
 
       // count how many checkbox row in the current page has been checked
-      var selected = this.tableData.filter(function(item) {
+      let selected = this.tableData.filter(function(item) {
         return self.selectedTo.indexOf(item[idColumn]) >= 0
       })
 
@@ -678,7 +678,7 @@ export default {
       }
     },
     onRowClass: function(dataItem, index) {
-      var func = this.rowClassCallback.trim()
+      let func = this.rowClassCallback.trim()
 
       if (func !== '' && typeof this.$parent[func] === 'function') {
           return this.$parent[func].call(this.$parent, dataItem, index)
