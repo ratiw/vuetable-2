@@ -2,7 +2,7 @@
   <table :class="[{'vuetable': true}, css.tableClass]">
     <thead>
       <tr>
-        <template v-for="field in fields">
+        <template v-for="field in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'"
@@ -40,7 +40,7 @@
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
         <tr @dblclick="onRowDoubleClicked(item, $event)" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
-          <template v-for="field in fields">
+          <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
                 <td v-if="extractName(field.name) == '__sequence'" :class="[{'vuetable-sequence': true}, field.dataClass]"
@@ -95,6 +95,9 @@ Vue.use(VueResource)
 
 export default {
   props: {
+
+    // vue 2.0 disable change props,
+    // so need add middle param to calculate table fields
     fields: {
       type: Array,
       required: true
@@ -205,9 +208,12 @@ export default {
       currentPage: 1,
       selectedTo: [],
       visibleDetailRows: [],
+      tableFields: [],
+
     }
   },
   created: function() {
+    this.tableFields = this.fields;
     this.normalizeFields()
     if (this.loadOnStart) {
       this.loadData()
@@ -223,7 +229,7 @@ export default {
       return this.detailRowComponent !== ''
     },
     countVisibleFields: function() {
-      return this.fields.filter(function(field) {
+      return this.tableFields.filter(function(field) {
         return field.visible
       }).length
     }
@@ -237,7 +243,8 @@ export default {
 
       var self = this
       var obj
-      this.fields.forEach(function(field, i) {
+      this.tableFields.forEach(function(field, i) {
+
         if (typeof (field) === 'string') {
           obj = {
             name: field,
@@ -258,7 +265,7 @@ export default {
             visible: (field.visible === undefined) ? true : field.visible,
           }
         }
-        Vue.set(self.fields, i, obj)
+        Vue.set(self.tableFields, i, obj)
       })
     },
     setTitle: function(str) {
@@ -276,7 +283,7 @@ export default {
       return field.title
     },
     isSpecialField: function(fieldName) {
-      return fieldName.slice(0, 2) === '__'
+      return (fieldName.slice(0, 2) === '__')
     },
     titleCase: function(str) {
       return str.replace(/\w+/g, function(txt) {
