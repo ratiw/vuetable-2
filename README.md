@@ -1,9 +1,9 @@
 [![npm](https://img.shields.io/npm/v/vuetable-2.svg)](https://www.npmjs.com/package/vuetable-2)
 [![npm](https://img.shields.io/npm/l/vuetable-2.svg?maxAge=2592000)]()
 
-# vuetable-2 - data table simplify!
+# Vuetable-2 - data table simplify!
 
-### vuetable is only working for Vue 1.x, vuetable-2 is for Vue 2.x
+### Vuetable-2 works with Vue 2.x, vuetable is for Vue 1.x
 
 If you're looking for the version that's working with Vue 1.x, please go to [`vuetable`](https://github.com/ratiw/vue-table) repo.
 
