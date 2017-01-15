@@ -3,10 +3,13 @@
 
 # vuetable-2 - data table simplify!
 
----
-## vuetable is only working for Vue 1.x, vuetable-2 is for Vue 2.x
+### vuetable is only working for Vue 1.x, vuetable-2 is for Vue 2.x
+
 If you're looking for the version that's working with Vue 1.x, please go to [`vuetable`](https://github.com/ratiw/vue-table) repo.
+
 ---
+
+### Documentation and Tutorial
 
 Documentation is still under development. Meanwhile, check out the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
 with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). It should be enough to get you started.
