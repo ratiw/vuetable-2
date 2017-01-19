@@ -1,7 +1,7 @@
 <template>
   <div :class="[css.wrapperClass]">
     <a @click="loadPage('prev')"
-       :class="[css.linkClass, {css.disabledClass : isOnFirstPage}]">
+       :class="[css.linkClass, {[css.disabledClass] : isOnFirstPage}]">
       <i :class="icons.prev"></i>
     </a>
     <select :class="['vuetable-pagination-dropdown', dropdownClass]" @change="selectPage($event)">
@@ -10,7 +10,7 @@
       </option>
     </select>
     <a @click="loadPage('next')"
-       :class="[css.linkClass, {css.disabledClass : isOnLastPage}]">
+       :class="[css.linkClass, {[css.disabledClass] : isOnLastPage}]">
       <i :class="icons.next"></i>
     </a>
   </div>
