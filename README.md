@@ -16,3 +16,4 @@ with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). 
 
 If you've been using Vuetable for Vue 1.x before, checkout [what's changed](https://github.com/ratiw/vuetable-2/blob/master/changes.md) for info on changes from Vuetable for Vue 1.x and the [upgrade guide](https://github.com/ratiw/vuetable-2/blob/master/upgrade-guide.md) on how you could upgrade from Vuetable for Vue 1.x.
 
+Original version works great but wanted to be able to define action buttons per instance of a data table without depending on a globally defined component. I did this by adding a slot in place of the <component><component> that was used in the vuetable.vue.
