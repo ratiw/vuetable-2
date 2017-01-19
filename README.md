@@ -31,3 +31,5 @@ e.g.
 ```
 
 the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
+
+The original functionality still works 
