@@ -39,7 +39,7 @@
     </thead>
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
-        <tr @dblclick="onRowDoubleClicked(item, $event)" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
+        <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
           <template v-for="field in fields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
