@@ -29,7 +29,7 @@
               <th v-if="extractName(field.name) == '__sequence'"
                   :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
               </th>
-              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component'])"
+              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
                   :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
               </th>
             </template>
