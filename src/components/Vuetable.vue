@@ -18,6 +18,14 @@
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
+              <th v-if="extractName(field.name) == '__slot'"
+                  @click="orderBy(field, $event)"
+                  :class="['vuetable-th-slot-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
+                  {{ field.title || '' }}
+                  <i v-if="isInCurrentSortGroup(field) && field.title"
+                     :class="sortIcon(field)"
+                     :style="{opacity: sortIconOpacity(field)}"></i>
+              </th>
               <th v-if="extractName(field.name) == '__sequence'"
                   :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
               </th>
@@ -55,9 +63,10 @@
                     :checked="rowSelected(item, field.name)">
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
-                  <slot name='actions' :row-data="item" :row-index="index">
                     <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
-                  </slot>
+                </td>
+                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                  <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
                 </td>
               </template>
               <template v-else>
