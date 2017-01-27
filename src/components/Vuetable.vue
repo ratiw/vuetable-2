@@ -36,6 +36,18 @@
           </template>
         </template>
       </tr>
+      <tr v-if="isFiltered(fields)">
+        <template v-for="field in fields">
+          <template v-if="field.searchField">
+            <th>
+              <input class="searchFilter" v-model="searchFor[field.name]"  :placeholder="field.title" @keyup.enter="setFilter(field.name)" />
+            </th>
+          </template>
+          <template v-else>
+            <th></th>
+          </template>
+        </template>
+      </tr>
     </thead>
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
@@ -125,7 +137,9 @@ export default {
         return {
           sort: 'sort',
           page: 'page',
-          perPage: 'per_page'
+          perPage: 'per_page',
+          filter: 'filter',
+          filterOn: 'filterOn',
         }
       }
     },
@@ -210,6 +224,9 @@ export default {
       currentPage: 1,
       selectedTo: [],
       visibleDetailRows: [],
+      searchFor: {},
+      filter: null,
+      filterOn: null,
     }
   },
   created: function() {
@@ -251,6 +268,7 @@ export default {
             dataClass: '',
             callback: null,
             visible: true,
+            searchField: false,
           }
         } else {
           obj = {
@@ -261,6 +279,7 @@ export default {
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
+            searchField: field.searchField,
           }
         }
         Vue.set(self.fields, i, obj)
@@ -310,6 +329,15 @@ export default {
     loadSuccess: function(response) {
       this.fireEvent('load-success', response)
 
+      const data = response.data.data;
+      for (const curentVar in this.searchFor) {
+        if (this.searchFor[curentVar] !== '') {
+          for (const n in data) {
+            data[n][curentVar] = this.highlight(this.searchFor[curentVar], data[n][curentVar]);
+          }
+        }
+      }
+
       let body = this.transform(response.body)
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
@@ -357,6 +385,9 @@ export default {
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
 
+      params[this.queryParams.filter] = this.filter
+      params[this.queryParams.filterOn] = this.filterOn
+
       for (let x in this.appendParams) {
         params[x] = this.appendParams[x]
       }
@@ -395,6 +426,16 @@ export default {
     },
     isSortable: function(field) {
       return !(typeof field.sortField === 'undefined')
+    },
+    isFiltered: function(fields){
+      let isFiltered = false;
+      fields.forEach(function(field, i) {
+        if(field.searchField !== undefined && field.searchField){
+          isFiltered = true;
+          return;
+        }
+      });
+      return isFiltered;
     },
     isInCurrentSortGroup: function(field) {
       return this.currentSortOrderPosition(field) !== false;
@@ -716,6 +757,42 @@ export default {
       } else {
         this.gotoPage(page)
       }
+    },
+    setFilter(name) {
+      //delete others inputs
+      for (const curentVar in this.searchFor) {
+        if (curentVar !== name) {
+          this.searchFor[curentVar] = '';
+        }
+      }
+
+      this.filter = this.searchFor[name];
+      this.filterOn = name;
+
+      this.$nextTick(() => {
+        this.refresh();
+      });
+    },
+    preg_quote: function( str ) {
+      // http://kevin.vanzonneveld.net
+      // +   original by: booeyOH
+      // +   improved by: Ates Goral (http://magnetiq.com)
+      // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+      // +   bugfixed by: Onno Marsman
+      // *     example 1: preg_quote("$40");
+      // *     returns 1: '\$40'
+      // *     example 2: preg_quote("*RRRING* Hello?");
+      // *     returns 2: '\*RRRING\* Hello\?'
+      // *     example 3: preg_quote("\\.+*?[^]$(){}=!<>|:");
+      // *     returns 3: '\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:'
+
+      return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
+    },
+    highlight: function(needle, haystack) {
+      return haystack.replace(
+        new RegExp('(' + this.preg_quote(needle) + ')', 'ig'),
+        '<span class="highlight">$1</span>'
+      )
     },
     reload: function() {
       this.loadData()
