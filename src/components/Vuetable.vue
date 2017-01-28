@@ -18,10 +18,18 @@
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
+              <th v-if="extractName(field.name) == '__slot'"
+                  @click="orderBy(field, $event)"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
+                  {{ field.title || '' }}
+                  <i v-if="isInCurrentSortGroup(field) && field.title"
+                     :class="sortIcon(field)"
+                     :style="{opacity: sortIconOpacity(field)}"></i>
+              </th>
               <th v-if="extractName(field.name) == '__sequence'"
                   :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
               </th>
-              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component'])"
+              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
                   :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
               </th>
             </template>
@@ -55,7 +63,10 @@
                     :checked="rowSelected(item, field.name)">
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
-                  <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                    <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                </td>
+                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                  <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
                 </td>
               </template>
               <template v-else>
