@@ -20,7 +20,7 @@
               </th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-slot-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
                   {{ field.title || '' }}
                   <i v-if="isInCurrentSortGroup(field) && field.title"
                      :class="sortIcon(field)"
