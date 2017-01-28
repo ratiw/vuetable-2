@@ -83,21 +83,24 @@ let tableColumns = [
   },
   {
     name: 'name',
-    title: 'Full Name',
+    title: '<i class="book icon"></i> Full Name',
     sortField: 'name'
   },
   {
     name: 'email',
+    title: '<i class="mail outline icon"></i> Email',
     sortField: 'email',
     visible: true
   },
   {
     name: 'nickname',
+    title: '<i class="paw icon"></i> Nickname',
     sortField: 'nickname',
     callback: 'allCap'
   },
   {
     name: 'birthdate',
+    title: '<i class="orange birthday icon"></i> Birthdate',
     sortField: 'birthdate',
     callback: 'formatDate|D/MM/Y'
   },
