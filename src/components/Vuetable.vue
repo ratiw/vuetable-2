@@ -38,7 +38,7 @@
         </template>
       </tr>
     </thead>
-    <tbody v-cloak>
+    <tbody v-cloak class="vuetable-body">
       <template v-for="(item, index) in tableData">
         <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
           <template v-for="field in tableFields">
@@ -92,6 +92,13 @@
           </tr>
         </template>
       </template>
+      <template v-if="lessThanMinRows">
+        <tr v-for="i in blankRows" class="blank-row">
+          <template v-for="field in fields">
+            <td v-if="field.visible">&nbsp;</td>
+          </template>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
@@ -113,6 +120,16 @@ export default {
     apiUrl: {
         type: String,
         default: ''
+    },
+    apiMode: {
+      type: Boolean,
+      default: true
+    },
+    data: {
+      type: Array,
+      default: function() {
+        return null
+      }
     },
     dataPath: {
         type: String,
@@ -200,6 +217,10 @@ export default {
         }
       }
     },
+    minRows: {
+      type: Number,
+      default: 0
+    },
     silent: {
       type: Boolean,
       default: false
@@ -222,14 +243,17 @@ export default {
       this.fireEvent('initialized', this.tableFields)
     })
 
-    if (this.loadOnStart) {
+    if (this.apiMode && this.loadOnStart) {
       this.loadData()
+    }
+    if (this.apiMode == false && this.data.length > 0) {
+      this.setData(this.data)
     }
   },
   computed: {
     useDetailRow () {
-      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
-        this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
+      if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
+        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!')
         return false
       }
 
@@ -239,6 +263,22 @@ export default {
       return this.tableFields.filter(function(field) {
         return field.visible
       }).length
+    },
+    lessThanMinRows: function() {
+      if (this.tableData === null || this.tableData.length === 0) {
+        return true
+      }
+      return this.tableData.length < this.minRows
+    },
+    blankRows: function() {
+      if (this.tableData === null || this.tableData.length === 0) {
+        return this.minRows
+      }
+      if (this.tableData.length >= this.minRows) {
+        return 0
+      }
+
+      return this.minRows - this.tableData.length
     }
   },
   methods: {
@@ -275,6 +315,9 @@ export default {
         self.tableFields.push(obj)
       })
     },
+    setData (data) {
+      this.tableData = data
+    },
     setTitle (str) {
       if (this.isSpecialField(str)) {
         return ''
@@ -309,6 +352,8 @@ export default {
       return arr.indexOf(str) === -1
     },
     loadData (success = this.loadSuccess, failed = this.loadFailed) {
+      if (! this.apiMode) return
+
       this.fireEvent('loading')
 
       this.httpOptions['params'] = this.getAllQueryParams()
@@ -353,6 +398,13 @@ export default {
     },
     parentFunctionExists (func) {
       return (func !== '' && typeof this.$parent[func] === 'function')
+    },
+    callParentFunction (func, args, defaultValue = null) {
+      if (this.parentFunctionExists(func)) {
+        return this.$parent[func].call(this.$parent, args)
+      }
+
+      return defaultValue
     },
     fireEvent (eventName, args) {
       this.$emit(this.eventPrefix + eventName, args)
@@ -427,7 +479,7 @@ export default {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
     },
     orderBy (field, event) {
-      if ( ! this.isSortable(field)) return
+      if ( ! this.isSortable(field) || ! this.apiMode) return
 
       let key = this.multiSortKey.toLowerCase() + 'Key'
 
