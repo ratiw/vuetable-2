@@ -21,7 +21,7 @@ Vue.component('custom-actions', {
     }
   },
   methods: {
-    onClick: function(action, data) {
+    onClick (action, data) {
       console.log('actions: on-click', data.name)
       sweetAlert(action, data.name)
     },
@@ -60,7 +60,7 @@ Vue.component('my-detail-row', {
     }
   },
   methods: {
-    onClick: function(event) {
+    onClick (event) {
       console.log('my-detail-row: on-click', event.target)
     }
   },
@@ -152,7 +152,7 @@ let vm = new Vue({
     }
   },
   methods: {
-    transform: function(data) {
+    transform (data) {
       let transformed = {}
       transformed.pagination = {
         total: data.total,
@@ -185,18 +185,18 @@ let vm = new Vue({
     showSettingsModal () {
       $('#settingsModal').modal({
         detachable: false,
-        onVisible: function() {
+        onVisible () {
           $('.ui.checkbox').checkbox()
         }
       }).modal('show')
     },
-    showLoader: function() {
+    showLoader () {
       this.loading = 'loading'
     },
-    hideLoader: function() {
+    hideLoader () {
       this.loading = ''
     },
-    getFieldTitle: function(field) {
+    getFieldTitle (field) {
       if (field.title !== '') return this.stripHTML(field.title)
 
       if (field.name.slice(0, 2) === '__') {
@@ -221,7 +221,7 @@ let vm = new Vue({
         ? '<span class="ui teal label"><i class="male icon"></i>Male</span>'
         : '<span class="ui pink label"><i class="female icon"></i>Female</span>'
     },
-    showDetailRow: function(value) {
+    showDetailRow (value) {
       let icon = this.$refs.vuetable.isVisibleDetailRow(value) ? 'down' : 'right'
       return [
         '<a class="show-detail-row">',
@@ -229,7 +229,7 @@ let vm = new Vue({
         '</a>'
       ].join('')
     },
-    setFilter: function() {
+    setFilter () {
       this.moreParams = {
         'filter': this.searchFor
       }
@@ -237,11 +237,11 @@ let vm = new Vue({
         this.$refs.vuetable.refresh()
       })
     },
-    resetFilter: function() {
+    resetFilter () {
       this.searchFor = ''
       this.setFilter()
     },
-    preg_quote: function( str ) {
+    preg_quote ( str ) {
       // http://kevin.vanzonneveld.net
       // +   original by: booeyOH
       // +   improved by: Ates Goral (http://magnetiq.com)
@@ -256,13 +256,13 @@ let vm = new Vue({
 
       return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/g, "\\$1");
     },
-    highlight: function(needle, haystack) {
+    highlight (needle, haystack) {
       return haystack.replace(
         new RegExp('(' + this.preg_quote(needle) + ')', 'ig'),
         '<span class="highlight">$1</span>'
       )
     },
-    rowClassCB: function(data, index) {
+    rowClassCB (data, index) {
       return (index % 2) === 0 ? 'odd' : 'even'
     },
     onCellClicked (data, field, event) {
