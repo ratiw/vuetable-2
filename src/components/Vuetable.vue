@@ -12,26 +12,27 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
-                  {{ field.title || '' }}
-                  <i v-if="isInCurrentSortGroup(field) && field.title"
-                     :class="sortIcon(field)"
-                     :style="{opacity: sortIconOpacity(field)}"></i>
-              </th>
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                  v-html="getTitle(field)"
+              ></th>
+              <th v-if="extractName(field.name) == '__slot'"
+                  @click="orderBy(field, $event)"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                  v-html="getTitle(field)"
+              ></th>
               <th v-if="extractName(field.name) == '__sequence'"
-                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
+                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="getTitle(field)">
               </th>
-              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component'])"
-                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
+              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
+                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="getTitle(field)">
               </th>
             </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]">
-                {{  getTitle(field) }}&nbsp;
-                <i v-if="isInCurrentSortGroup(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
-              </th>
+                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+                v-html="getTitle(field)"
+              ></th>
             </template>
           </template>
         </template>
@@ -55,7 +56,10 @@
                     :checked="rowSelected(item, field.name)">
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
-                  <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                    <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                </td>
+                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                  <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
                 </td>
               </template>
               <template v-else>
@@ -274,11 +278,13 @@ export default {
       return this.titleCase(str)
     },
     getTitle: function(field) {
-      if (typeof field.title === 'undefined') {
-        return field.name.replace('.', ' ')
+      let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
+
+      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
+        return title + ' <i class="' + this.sortIcon(field) + '" style="opacity:' + this.sortIconOpacity(field) + '"></i>'
       }
 
-      return field.title
+      return title
     },
     isSpecialField: function(fieldName) {
       return fieldName.slice(0, 2) === '__'
@@ -474,15 +480,11 @@ export default {
       });
     },
     sortIcon: function(field) {
-      let cls = {}
-      let i = this.currentSortOrderPosition(field);
+      let cls = ''
+      let i = this.currentSortOrderPosition(field)
 
       if (i !== false) {
-        if (this.sortOrder[i].direction == 'asc') {
-          cls[this.css.ascendingIcon] = true
-        } else {
-          cls[this.css.descendingIcon] = true
-        }
+        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
       }
 
       return cls;

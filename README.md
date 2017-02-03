@@ -16,3 +16,20 @@ with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). 
 
 If you've been using Vuetable for Vue 1.x before, checkout [what's changed](https://github.com/ratiw/vuetable-2/blob/master/changes.md) for info on changes from Vuetable for Vue 1.x and the [upgrade guide](https://github.com/ratiw/vuetable-2/blob/master/upgrade-guide.md) on how you could upgrade from Vuetable for Vue 1.x.
 
+Original version works great but wanted to be able to define action buttons per instance of a data table without depending on a globally defined component. I did this by adding a slot in place of the component that was used in the vuetable.vue.
+
+Use scoped slot in parent when defining the actions [Vue Doc for scopped Slots](https://vuejs.org/v2/guide/components.html#Scoped-Slots)
+
+e.g.
+```html
+<template slot="actions" scope="props">
+    <div class="table-button-container">
+        <button class="btn btn-default" @click="onClick('edit-item', props.rowData)"><i class="fa fa-edit"></i> View</button>&nbsp;&nbsp;
+        <button class="btn btn-danger" @click="onClick('delete-item', props.rowData)"><i class="fa fa-remove"></i> Edit</button>&nbsp;&nbsp;
+    </div>
+</template>
+```
+
+the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
+
+The original functionality still works
