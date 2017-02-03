@@ -77,7 +77,7 @@ let tableColumns = [
   '__checkbox',
   {
     name: 'id',
-    title: '',
+    title: '<i class="unordered list icon"></i> Detail',
     dataClass: 'center aligned',
     callback: 'showDetailRow'
   },
@@ -197,13 +197,16 @@ let vm = new Vue({
       this.loading = ''
     },
     getFieldTitle: function(field) {
-      if (field.title !== '') return field.title
+      if (field.title !== '') return this.stripHTML(field.title)
 
       if (field.name.slice(0, 2) === '__') {
         return field.name.indexOf(':') >= 0
           ? field.name.split(':')[1]
           : field.name.replace('__', '')
       }
+    },
+    stripHTML (str) {
+      return str ? str.replace(/(<([^>]+)>)/ig,"") : ''
     },
     allCap (value) {
       return value.toUpperCase()
