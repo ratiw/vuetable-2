@@ -219,6 +219,10 @@ export default {
   },
   created: function() {
     this.normalizeFields()
+    this.$nextTick(function() {
+      this.fireEvent('initialized', this.tableFields)
+    })
+
     if (this.loadOnStart) {
       this.loadData()
     }
