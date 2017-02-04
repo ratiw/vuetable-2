@@ -74,7 +74,12 @@ let tableColumns = [
     titleClass: 'right aligned',
     dataClass: 'right aligned'
   },
-  '__checkbox',
+  {
+    name: '__checkbox',
+    title: 'checkbox',
+    titleClass: 'center aligned',
+    dataClass: 'center aligned'
+  },
   {
     name: 'id',
     title: '<i class="unordered list icon"></i> Detail',
@@ -106,6 +111,7 @@ let tableColumns = [
   },
   {
     name: 'gender',
+    title: 'Gender',
     sortField: 'gender',
     titleClass: 'center aligned',
     dataClass: 'center aligned',
@@ -113,6 +119,8 @@ let tableColumns = [
   },
   {
     name: '__component:custom-actions',
+    title: 'Actions',
+    titleClass: 'center aligned',
     dataClass: 'center aligned'
   }
 ]
@@ -130,6 +138,7 @@ let vm = new Vue({
     searchFor: '',
     moreParams: {},
     fields: tableColumns,
+    vuetableFields: null,
     sortOrder: [{
         field: 'name',
         direction: 'asc',
@@ -199,11 +208,14 @@ let vm = new Vue({
     getFieldTitle (field) {
       if (field.title !== '') return this.stripHTML(field.title)
 
+      let title = ''
       if (field.name.slice(0, 2) === '__') {
-        return field.name.indexOf(':') >= 0
+        title = field.name.indexOf(':') >= 0
           ? field.name.split(':')[1]
           : field.name.replace('__', '')
       }
+
+      return title
     },
     stripHTML (str) {
       return str ? str.replace(/(<([^>]+)>)/ig,"") : ''
@@ -300,5 +312,8 @@ let vm = new Vue({
     onChangePage (page) {
       this.$refs.vuetable.changePage(page)
     },
+    onInitialized (fields) {
+      this.vuetableFields = fields
+    }
   },
 })
