@@ -2,7 +2,7 @@
   <table :class="['vuetable', css.tableClass]">
     <thead>
       <tr>
-        <template v-for="field in fields">
+        <template v-for="field in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'"
@@ -41,7 +41,7 @@
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
         <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
-          <template v-for="field in fields">
+          <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
                 <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
@@ -209,6 +209,7 @@ export default {
   data: function() {
     return {
       eventPrefix: 'vuetable:',
+      tableFields: [],
       tableData: null,
       tablePagination: null,
       currentPage: 1,
@@ -232,7 +233,7 @@ export default {
       return this.detailRowComponent !== ''
     },
     countVisibleFields: function() {
-      return this.fields.filter(function(field) {
+      return this.tableFields.filter(function(field) {
         return field.visible
       }).length
     }
@@ -244,6 +245,7 @@ export default {
         return
       }
 
+      this.tableFields = []
       let self = this
       let obj
       this.fields.forEach(function(field, i) {
@@ -267,7 +269,7 @@ export default {
             visible: (field.visible === undefined) ? true : field.visible,
           }
         }
-        Vue.set(self.fields, i, obj)
+        self.tableFields.push(obj)
       })
     },
     setTitle: function(str) {
