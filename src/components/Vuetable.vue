@@ -125,7 +125,7 @@ export default {
     },
     queryParams: {
       type: Object,
-      default: function() {
+      default () {
         return {
           sort: 'sort',
           page: 'page',
@@ -135,31 +135,31 @@ export default {
     },
     appendParams: {
       type: Object,
-      default: function() {
+      default () {
         return {}
       }
     },
     httpOptions: {
       type: Object,
-      default: function() {
+      default () {
         return {}
       }
     },
     perPage: {
         type: Number,
-        default: function() {
+        default () {
             return 10
         }
     },
     sortOrder: {
       type: Array,
-      default: function() {
+      default () {
         return []
       }
     },
     multiSort: {
       type: Boolean,
-      default: function() {
+      default () {
         return false
       }
     },
@@ -190,7 +190,7 @@ export default {
     },
     css: {
       type: Object,
-      default: function() {
+      default () {
         return {
           tableClass: 'ui blue selectable celled stackable attached table',
           loadingClass: 'loading',
@@ -206,7 +206,7 @@ export default {
       default: false
     }
   },
-  data: function() {
+  data () {
     return {
       eventPrefix: 'vuetable:',
       tableFields: [],
@@ -217,7 +217,7 @@ export default {
       visibleDetailRows: [],
     }
   },
-  created: function() {
+  created () {
     this.normalizeFields()
     this.$nextTick(function() {
       this.fireEvent('initialized', this.tableFields)
@@ -228,7 +228,7 @@ export default {
     }
   },
   computed: {
-    useDetailRow: function() {
+    useDetailRow () {
       if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
         this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
         return false
@@ -236,14 +236,14 @@ export default {
 
       return this.detailRowComponent !== ''
     },
-    countVisibleFields: function() {
+    countVisibleFields () {
       return this.tableFields.filter(function(field) {
         return field.visible
       }).length
     }
   },
   methods: {
-    normalizeFields: function() {
+    normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
         this.warn('You need to provide "fields" prop.')
         return
@@ -276,14 +276,14 @@ export default {
         self.tableFields.push(obj)
       })
     },
-    setTitle: function(str) {
+    setTitle (str) {
       if (this.isSpecialField(str)) {
         return ''
       }
 
       return this.titleCase(str)
     },
-    getTitle: function(field) {
+    getTitle (field) {
       let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
 
       if (title.length > 0 && this.isInCurrentSortGroup(field)) {
@@ -292,24 +292,24 @@ export default {
 
       return title
     },
-    isSpecialField: function(fieldName) {
+    isSpecialField (fieldName) {
       return fieldName.slice(0, 2) === '__'
     },
-    titleCase: function(str) {
+    titleCase (str) {
       return str.replace(/\w+/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
       })
     },
-    camelCase: function(str, delimiter = '_') {
+    camelCase (str, delimiter = '_') {
       let self = this
       return str.split(delimiter).map(function(item) {
         return self.titleCase(item)
       }).join('')
     },
-    notIn: function(str, arr) {
+    notIn (str, arr) {
       return arr.indexOf(str) === -1
     },
-    loadData: function(success = this.loadSuccess, failed = this.loadFailed) {
+    loadData (success = this.loadSuccess, failed = this.loadFailed) {
       this.fireEvent('loading')
 
       this.httpOptions['params'] = this.getAllQueryParams()
@@ -319,7 +319,7 @@ export default {
         failed
       )
     },
-    loadSuccess: function(response) {
+    loadSuccess (response) {
       this.fireEvent('load-success', response)
 
       let body = this.transform(response.body)
@@ -339,11 +339,11 @@ export default {
         this.fireEvent('loaded')
       })
     },
-    loadFailed: function(response) {
+    loadFailed (response) {
       this.fireEvent('load-error', response)
       this.fireEvent('loaded')
     },
-    transform: function(data) {
+    transform (data) {
       let func = 'transform'
 
       if (this.parentFunctionExists(func)) {
@@ -352,18 +352,18 @@ export default {
 
       return data
     },
-    parentFunctionExists: function(func) {
+    parentFunctionExists (func) {
       return (func !== '' && typeof this.$parent[func] === 'function')
     },
-    fireEvent: function(eventName, args) {
+    fireEvent (eventName, args) {
       this.$emit(this.eventPrefix + eventName, args)
     },
-    warn: function(msg) {
+    warn (msg) {
       if (!this.silent) {
         console.warn(msg)
       }
     },
-    getAllQueryParams: function() {
+    getAllQueryParams () {
       let params = {}
       params[this.queryParams.sort] = this.getSortParam()
       params[this.queryParams.page] = this.currentPage
@@ -375,7 +375,7 @@ export default {
 
       return params
     },
-    getSortParam: function() {
+    getSortParam () {
       if (!this.sortOrder || this.sortOrder.field == '') {
         return ''
       }
@@ -386,7 +386,7 @@ export default {
 
       return this.getDefaultSortParam()
     },
-    getDefaultSortParam: function() {
+    getDefaultSortParam () {
       let result = '';
 
       for (let i = 0; i < this.sortOrder.length; i++) {
@@ -399,19 +399,19 @@ export default {
 
       return result;
     },
-    extractName: function(string) {
+    extractName (string) {
       return string.split(':')[0].trim()
     },
-    extractArgs: function(string) {
+    extractArgs (string) {
       return string.split(':')[1]
     },
-    isSortable: function(field) {
+    isSortable (field) {
       return !(typeof field.sortField === 'undefined')
     },
-    isInCurrentSortGroup: function(field) {
+    isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
-    currentSortOrderPosition: function(field) {
+    currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
         return false
       }
@@ -424,10 +424,10 @@ export default {
 
       return false;
     },
-    fieldIsInSortOrderPosition(field, i) {
+    fieldIsInSortOrderPosition (field, i) {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
     },
-    orderBy: function(field, event) {
+    orderBy (field, event) {
       if ( ! this.isSortable(field)) return
 
       let key = this.multiSortKey.toLowerCase() + 'Key'
@@ -442,7 +442,7 @@ export default {
       this.currentPage = 1    // reset page index
       this.loadData()
     },
-    multiColumnSort: function(field) {
+    multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
 
       if(i === false) { //this field is not in the sort array yet
@@ -461,7 +461,7 @@ export default {
         }
       }
     },
-    singleColumnSort: function(field) {
+    singleColumnSort (field) {
       if (this.sortOrder.length === 0) {
         this.clearSortOrder()
       }
@@ -478,14 +478,14 @@ export default {
       this.sortOrder[0].field = field.name
       this.sortOrder[0].sortField = field.sortField
     },
-    clearSortOrder: function() {
+    clearSortOrder () {
       this.sortOrder.push({
         field: '',
         sortField: '',
         direction: 'asc'
       });
     },
-    sortIcon: function(field) {
+    sortIcon (field) {
       let cls = ''
       let i = this.currentSortOrderPosition(field)
 
@@ -495,7 +495,7 @@ export default {
 
       return cls;
     },
-    sortIconOpacity: function(field) {
+    sortIconOpacity (field) {
       /*
        * fields with stronger precedence have darker color
        *
@@ -521,10 +521,10 @@ export default {
 
       return opacity
     },
-    hasCallback: function(item) {
+    hasCallback (item) {
       return item.callback ? true : false
     },
-    callCallback: function(field, item) {
+    callCallback (field, item) {
       if ( ! this.hasCallback(field)) return
 
       let args = field.callback.split('|')
@@ -540,7 +540,7 @@ export default {
 
       return null
     },
-    getObjectValue: function(object, path, defaultValue) {
+    getObjectValue (object, path, defaultValue) {
       defaultValue = (typeof defaultValue === 'undefined') ? null : defaultValue
 
       let obj = object
@@ -557,7 +557,7 @@ export default {
       }
       return obj
     },
-    toggleCheckbox: function(dataItem, fieldName, event) {
+    toggleCheckbox (dataItem, fieldName, event) {
       let isChecked = event.target.checked
       let idColumn = this.trackBy
 
@@ -574,26 +574,26 @@ export default {
       }
       this.$emit('vuetable:checkbox-toggled', isChecked, dataItem)
     },
-    selectId: function(key) {
+    selectId (key) {
       if ( ! this.isSelectedRow(key)) {
         this.selectedTo.push(key)
       }
     },
-    unselectId: function(key) {
+    unselectId (key) {
       this.selectedTo = this.selectedTo.filter(function(item) {
         return item !== key
       })
     },
-    isSelectedRow: function(key) {
+    isSelectedRow (key) {
       return this.selectedTo.indexOf(key) >= 0
     },
-    rowSelected: function(dataItem, fieldName){
+    rowSelected (dataItem, fieldName){
       let idColumn = this.trackBy
       let key = dataItem[idColumn]
 
       return this.isSelectedRow(key)
     },
-    checkCheckboxesState: function(fieldName) {
+    checkCheckboxesState (fieldName) {
       if (! this.tableData) return
 
       let self = this
@@ -628,7 +628,7 @@ export default {
         return true
       }
     },
-    toggleAllCheckboxes: function(fieldName, event) {
+    toggleAllCheckboxes (fieldName, event) {
       let self = this
       let isChecked = event.target.checked
       let idColumn = this.trackBy
@@ -644,33 +644,33 @@ export default {
       }
       this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
-    gotoPreviousPage: function() {
+    gotoPreviousPage () {
       if (this.currentPage > 1) {
         this.currentPage--
         this.loadData()
       }
     },
-    gotoNextPage: function() {
+    gotoNextPage () {
       if (this.currentPage < this.tablePagination.last_page) {
         this.currentPage++
         this.loadData()
       }
     },
-    gotoPage: function(page) {
+    gotoPage (page) {
       if (page != this.currentPage && (page > 0 && page <= this.tablePagination.last_page)) {
         this.currentPage = page
         this.loadData()
       }
     },
-    isVisibleDetailRow: function(rowId) {
+    isVisibleDetailRow (rowId) {
       return this.visibleDetailRows.indexOf( rowId ) >= 0
     },
-    showDetailRow: function(rowId) {
+    showDetailRow (rowId) {
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId)
       }
     },
-    hideDetailRow: function(rowId) {
+    hideDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.splice(
           this.visibleDetailRows.indexOf(rowId),
@@ -678,14 +678,14 @@ export default {
         )
       }
     },
-    toggleDetailRow: function(rowId) {
+    toggleDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.hideDetailRow(rowId)
       } else {
         this.showDetailRow(rowId)
       }
     },
-    onRowClass: function(dataItem, index) {
+    onRowClass (dataItem, index) {
       let func = this.rowClassCallback.trim()
 
       if (func !== '' && typeof this.$parent[func] === 'function') {
@@ -693,30 +693,30 @@ export default {
       }
       return ''
     },
-    onRowChanged: function(dataItem) {
+    onRowChanged (dataItem) {
       this.fireEvent('row-changed', dataItem)
       return true
     },
-    onRowClicked: function(dataItem, event) {
+    onRowClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
       return true
     },
-    onRowDoubleClicked: function(dataItem, event) {
+    onRowDoubleClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)
     },
-    onDetailRowClick: function(dataItem, event) {
+    onDetailRowClick (dataItem, event) {
       this.$emit(this.eventPrefix + 'detail-row-clicked', dataItem, event)
     },
-    onCellClicked: function(dataItem, field, event) {
+    onCellClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-clicked', dataItem, field, event)
     },
-    onCellDoubleClicked: function(dataItem, field, event) {
+    onCellDoubleClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
     },
     /*
      * API for externals
      */
-    changePage: function(page) {
+    changePage (page) {
       if (page === 'prev') {
         this.gotoPreviousPage()
       } else if (page === 'next') {
@@ -725,16 +725,16 @@ export default {
         this.gotoPage(page)
       }
     },
-    reload: function() {
+    reload () {
       this.loadData()
     },
-    refresh: function() {
+    refresh () {
       this.currentPage = 1
       this.loadData()
     },
   }, // end: methods
   watch: {
-    'multiSort': function(newVal, oldVal) {
+    'multiSort' (newVal, oldVal) {
       if (newVal === false && this.sortOrder.length > 1) {
         this.sortOrder.splice(1);
         this.loadData();
