@@ -1,34 +1,42 @@
 <template>
-  <table :class="[{'vuetable': true}, css.tableClass]">
+  <table :class="['vuetable', css.tableClass]">
     <thead>
       <tr>
         <template v-for="field in fields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'"
-                :class="[field.titleClass, 'checkbox_'+extractArgs(field.name)]">
+                :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]">
                 <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
                   :checked="checkCheckboxesState(field.name)">
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="[field.titleClass, {'sortable': isSortable(field)}]">
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
+                  {{ field.title || '' }}
+                  <i v-if="isInCurrentSortGroup(field) && field.title"
+                     :class="sortIcon(field)"
+                     :style="{opacity: sortIconOpacity(field)}"></i>
+              </th>
+              <th v-if="extractName(field.name) == '__slot'"
+                  @click="orderBy(field, $event)"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
                   {{ field.title || '' }}
                   <i v-if="isInCurrentSortGroup(field) && field.title"
                      :class="sortIcon(field)"
                      :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
               <th v-if="extractName(field.name) == '__sequence'"
-                  :class="['vuetable-sequence', field.titleClass || '']" v-html="field.title || ''">
+                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
               </th>
-              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component'])"
-                  :id="'_' + extractArgs(field.name)" :class="[field.titleClass || '']" v-html="field.title || ''">
+              <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
+                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
               </th>
             </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="[field.titleClass,  {'sortable': isSortable(field)}]">
+                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]">
                 {{  getTitle(field) }}&nbsp;
                 <i v-if="isInCurrentSortGroup(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
               </th>
@@ -43,16 +51,22 @@
           <template v-for="field in fields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="[{'vuetable-sequence': true}, field.dataClass]"
+                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
-                <td v-if="extractName(field.name) == '__checkbox'" :class="[{'vuetable-checkboxes': true}, field.dataClass]">
+                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]">
+                  <i :class="['sort-handle', css.sortHandleIcon]"></i>
+                </td>
+                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
                     :checked="rowSelected(item, field.name)">
                 </td>
-                <td v-if="extractName(field.name) === '__component'" :class="field.dataClass">
-                  <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
+                    <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                </td>
+                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                  <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
                 </td>
               </template>
               <template v-else>
@@ -73,15 +87,16 @@
           </template>
         </tr>
         <template v-if="useDetailRow">
-          <tr v-if="isVisibleDetailRow(item[detailRowId])"
-            @click="onDetailRowClick(item, $event)"
-            :transition="detailRowTransition"
-            :class="[css.detailRowClass]"
-          >
-            <td :colspan="countVisibleFields">
-              <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
-            </td>
-          </tr>
+          <transition :name="detailRowTransition">
+            <tr v-if="isVisibleDetailRow(item[trackBy])"
+              @click="onDetailRowClick(item, $event)"
+              :class="[css.detailRowClass]"
+            >
+              <td :colspan="countVisibleFields">
+                <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+              </td>
+            </tr>
+          </transition>
         </template>
       </template>
     </tbody>
@@ -168,10 +183,6 @@ export default {
       type: String,
       default: ''
     },
-    detailRowId: {
-      type: String,
-      default: 'id'
-    },
     detailRowComponent: {
       type: String,
       default: ''
@@ -179,6 +190,10 @@ export default {
     detailRowTransition: {
       type: String,
       default: ''
+    },
+    trackBy: {
+      type: String,
+      default: 'id'
     },
     css: {
       type: Object,
@@ -189,6 +204,7 @@ export default {
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
           detailRowClass: 'vuetable-detail-row',
+          sortHandleIcon: 'grey sidebar icon',
         }
       }
     },
@@ -215,7 +231,7 @@ export default {
   },
   computed: {
     useDetailRow: function() {
-      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.detailRowId] === 'undefined') {
+      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
         this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
         return false
       }
@@ -235,8 +251,8 @@ export default {
         return
       }
 
-      var self = this
-      var obj
+      let self = this
+      let obj
       this.fields.forEach(function(field, i) {
         if (typeof (field) === 'string') {
           obj = {
@@ -550,9 +566,10 @@ export default {
     },
     toggleCheckbox: function(dataItem, fieldName, event) {
       let isChecked = event.target.checked
-      let idColumn = this.extractArgs(fieldName)
-      if (idColumn === undefined) {
-        this.warn('You did not provide reference id column with "__checkbox:<column_name>" field!')
+      let idColumn = this.trackBy
+
+      if (dataItem[idColumn] === undefined) {
+        this.warn('__checkbox field: The "'+this.trackBy+'" field does not exist! Make sure the field you specify in "track-by" prop does exist.')
         return
       }
 
@@ -562,6 +579,7 @@ export default {
       } else {
         this.unselectId(key)
       }
+      this.$emit('vuetable:checkbox-toggled', isChecked, dataItem)
     },
     selectId: function(key) {
       if ( ! this.isSelectedRow(key)) {
@@ -577,7 +595,7 @@ export default {
       return this.selectedTo.indexOf(key) >= 0
     },
     rowSelected: function(dataItem, fieldName){
-      let idColumn = this.extractArgs(fieldName)
+      let idColumn = this.trackBy
       let key = dataItem[idColumn]
 
       return this.isSelectedRow(key)
@@ -585,13 +603,13 @@ export default {
     checkCheckboxesState: function(fieldName) {
       if (! this.tableData) return
 
-      var self = this
-      var idColumn = this.extractArgs(fieldName)
-      var selector = 'th.checkbox_' + idColumn + ' input[type=checkbox]'
-      var els = document.querySelectorAll(selector)
+      let self = this
+      let idColumn = this.trackBy
+      let selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
+      let els = document.querySelectorAll(selector)
 
       // count how many checkbox row in the current page has been checked
-      var selected = this.tableData.filter(function(item) {
+      let selected = this.tableData.filter(function(item) {
         return self.selectedTo.indexOf(item[idColumn]) >= 0
       })
 
@@ -620,7 +638,7 @@ export default {
     toggleAllCheckboxes: function(fieldName, event) {
       let self = this
       let isChecked = event.target.checked
-      let idColumn = this.extractArgs(fieldName)
+      let idColumn = this.trackBy
 
       if (isChecked) {
         this.tableData.forEach(function(dataItem) {
@@ -631,6 +649,7 @@ export default {
           self.unselectId(dataItem[idColumn])
         })
       }
+      this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
     gotoPreviousPage: function() {
       if (this.currentPage > 1) {
@@ -674,7 +693,7 @@ export default {
       }
     },
     onRowClass: function(dataItem, index) {
-      var func = this.rowClassCallback.trim()
+      let func = this.rowClassCallback.trim()
 
       if (func !== '' && typeof this.$parent[func] === 'function') {
           return this.$parent[func].call(this.$parent, dataItem, index)
@@ -733,6 +752,9 @@ export default {
 </script>
 
 <style>
+  [v-cloak] {
+    display: none;
+  }
   .vuetable th.sortable:hover {
     color: #2185d0;
     cursor: pointer;

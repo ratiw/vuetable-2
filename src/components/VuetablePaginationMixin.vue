@@ -32,18 +32,6 @@ export default {
         return 2
       }
     },
-    paginationInfoTemplate: {
-      type: String,
-      default() {
-        return "Displaying {from} to {to} of {total} items"
-      }
-    },
-    paginationInfoNoDataTemplate: {
-      type: String,
-      default() {
-        return 'No relevant data'
-      }
-    },
   },
   data: function() {
       return {
@@ -92,18 +80,6 @@ export default {
     setPaginationData (tablePagination) {
       this.tablePagination = tablePagination
     },
-    registerEvents () {
-      let self = this
-
-      this.$on('vuetable-pagination:set-options', (options) => {
-        for (var n in options) {
-          Vue.set(self, n, options[n])
-        }
-      })
-    }
-  },
-  created () {
-    this.registerEvents()
   }
 }
 </script>

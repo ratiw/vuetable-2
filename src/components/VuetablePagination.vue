@@ -1,12 +1,12 @@
 <template>
   <div v-if="tablePagination && tablePagination.last_page > 1" :class="css.wrapperClass">
     <a @click="loadPage(1)"
-      :class="[{'btn-nav': true}, css.linkClass, isOnFirstPage ? css.disabledClass : '']">
+      :class="['btn-nav', css.linkClass, isOnFirstPage ? css.disabledClass : '']">
         <i v-if="icons.first != ''" :class="[icons.first]"></i>
         <span v-else>&laquo;</span>
     </a>
     <a @click="loadPage('prev')"
-      :class="[{'btn-nav': true}, css.linkClass, isOnFirstPage ? css.disabledClass : '']">
+      :class="['btn-nav', css.linkClass, isOnFirstPage ? css.disabledClass : '']">
         <i v-if="icons.next != ''" :class="[icons.prev]"></i>
         <span v-else>&nbsp;&lsaquo;</span>
     </a>
@@ -27,12 +27,12 @@
       </template>
     </template>
     <a @click="loadPage('next')"
-      :class="[{'btn-nav': true}, css.linkClass, isOnLastPage ? css.disabledClass : '']">
+      :class="['btn-nav', css.linkClass, isOnLastPage ? css.disabledClass : '']">
       <i v-if="icons.next != ''" :class="[icons.next]"></i>
       <span v-else>&rsaquo;&nbsp;</span>
     </a>
     <a @click="loadPage(totalPage)"
-      :class="[{'btn-nav': true}, css.linkClass, isOnLastPage ? css.disabledClass : '']">
+      :class="['btn-nav', css.linkClass, isOnLastPage ? css.disabledClass : '']">
       <i v-if="icons.last != ''" :class="[icons.last]"></i>
       <span v-else>&raquo;</span>
     </a>

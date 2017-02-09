@@ -1,16 +1,16 @@
 <template>
   <div :class="[css.wrapperClass]">
     <a @click="loadPage('prev')"
-       :class="[css.linkClass, isOnFirstPage ? css.disabledClass : '']">
+       :class="[css.linkClass, {[css.disabledClass] : isOnFirstPage}]">
       <i :class="icons.prev"></i>
     </a>
-    <select :class="[{'vuetable-pagination-dropdown': true}, dropdownClass]" @change="selectPage($event)">
+    <select :class="['vuetable-pagination-dropdown', dropdownClass]" @change="selectPage($event)">
       <option v-for="n in totalPage" :class="[css.pageClass]" :value="n" :selected="isCurrentPage(n)">
         {{pageText}} {{n}}
       </option>
     </select>
     <a @click="loadPage('next')"
-       :class="[css.linkClass, isOnLastPage ? css.disabledClass : '']">
+       :class="[css.linkClass, {[css.disabledClass] : isOnLastPage}]">
       <i :class="icons.next"></i>
     </a>
   </div>
@@ -37,23 +37,8 @@ export default {
   },
   methods: {
     loadPage (page) {
-      // update dropdown value
-      // if (page == 'prev' && !this.isOnFirstPage) {
-      //   this.setDropdownToPage(this.tablePagination.current_page-1)
-      // } else if (page == 'next' && !this.isOnLastPage) {
-      //   this.setDropdownToPage(this.tablePagination.current_page+1)
-      // }
-
       this.$emit('vuetable-pagination:change-page', page)
     },
-    // setDropdownToPage (page) {
-    //   this.$nextTick( () => {
-    //     let el = document.getElementById('vuetable-pagination-dropdown')
-    //     if (el) {
-    //       el.value = page
-    //     }
-    //   })
-    // },
     selectPage (event) {
       this.$emit('vuetable-pagination:change-page', event.target.selectedIndex+1)
     },

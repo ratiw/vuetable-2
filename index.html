@@ -41,9 +41,6 @@
         margin-top: auto;
         margin-bottom: auto;
       }
-      [v-cloak] {
-        display: none;
-      }
       .highlight {
         background-color: yellow;
       }
@@ -109,7 +106,6 @@
                       :per-page="perPage"
                       :append-params="moreParams"
                       detail-row-component="my-detail-row"
-                      detail-row-id="id"
                       detail-row-transition="expand"
                       row-class-callback="rowClassCB"
                       @vuetable:pagination-data="onPaginationData"
@@ -120,7 +116,7 @@
                     ></vuetable>
                     <div class="vuetable-pagination ui bottom attached segment grid">
                       <vuetable-pagination-info ref="paginationInfo"
-                        :pagination-info-template="paginationInfoTemplate"
+                        :info-template="paginationInfoTemplate"
                       ></vuetable-pagination-info>
                       <component :is="paginationComponent" ref="pagination"
                         @vuetable-pagination:change-page="onChangePage"
