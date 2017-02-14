@@ -11,12 +11,16 @@ If you're looking for the version that's working with Vue 1.x, please go to [`vu
 
 ### Documentation and Tutorial
 
-Documentation is still under development. Meanwhile, check out the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
+Documentation is still under development. Meanwhile, check out 
+
+- the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
 with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). It should be enough to get you started.
+
+- Sample project using Vuetable-2 with Laravel 5.4 and Laravel-Mix
 
 If you've been using Vuetable for Vue 1.x before, checkout [what's changed](https://github.com/ratiw/vuetable-2/blob/master/changes.md) for info on changes from Vuetable for Vue 1.x and the [upgrade guide](https://github.com/ratiw/vuetable-2/blob/master/upgrade-guide.md) on how you could upgrade from Vuetable for Vue 1.x.
 
-Original version works great but wanted to be able to define action buttons per instance of a data table without depending on a globally defined component. I did this by adding a slot in place of the component that was used in the vuetable.vue.
+You can now make use of Vue's scoped slot using the new `__slot` special field, thanks to @sjmarve. That means you are able to define action buttons per instance of a data table without depending on a globally defined component.
 
 Use scoped slot in parent when defining the actions [Vue Doc for scopped Slots](https://vuejs.org/v2/guide/components.html#Scoped-Slots)
 
