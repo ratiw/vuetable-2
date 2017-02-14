@@ -16,7 +16,7 @@ Documentation is still under development. Meanwhile, check out
 - the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
 with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). It should be enough to get you started.
 
-- Sample project using Vuetable-2 with Laravel 5.4 and Laravel-Mix
+- [Sample project](https://github.com/ratiw/vuetable-2-with-laravel-5.4) using Vuetable-2 with Laravel 5.4 and Laravel-Mix
 
 If you've been using Vuetable for Vue 1.x before, checkout [what's changed](https://github.com/ratiw/vuetable-2/blob/master/changes.md) for info on changes from Vuetable for Vue 1.x and the [upgrade guide](https://github.com/ratiw/vuetable-2/blob/master/upgrade-guide.md) on how you could upgrade from Vuetable for Vue 1.x.
 
