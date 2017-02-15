@@ -530,6 +530,10 @@ export default {
     callCallback: function(field, item) {
       if ( ! this.hasCallback(field)) return
 
+      if(typeof(field.callback) == 'function') {
+       return field.callback(this.getObjectValue(item, field.name))
+      }
+
       let args = field.callback.split('|')
       let func = args.shift()
 
