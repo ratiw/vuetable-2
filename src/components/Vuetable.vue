@@ -685,6 +685,21 @@ export default {
         this.showDetailRow(rowId)
       }
     },
+    showField (index) {
+      if (index < 0 || index > this.tableFields.length) return
+
+      this.tableFields[index].visible = true
+    },
+    hideField (index) {
+      if (index < 0 || index > this.tableFields.length) return
+
+      this.tableFields[index].visible = false
+    },
+    toggleField (index) {
+      if (index < 0 || index > this.tableFields.length) return
+
+      this.tableFields[index].visible = ! this.tableFields[index].visible
+    },
     onRowClass (dataItem, index) {
       let func = this.rowClassCallback.trim()
 
