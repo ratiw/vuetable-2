@@ -746,6 +746,10 @@ export default {
         this.sortOrder.splice(1);
         this.loadData();
       }
+    },
+    'apiUrl': function (newVal, oldVal) {
+      if(newVal !== oldVal)
+        this.refresh()
     }
   },
 }
