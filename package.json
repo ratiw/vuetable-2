@@ -13,8 +13,9 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "vue": "^2.0.0",
-    "vue-resource": "^1.0.0"
+    "vue-resource": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
