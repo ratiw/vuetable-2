@@ -609,9 +609,10 @@ export default {
       let els = document.querySelectorAll(selector)
 
       //fixed:document.querySelectorAll return the typeof nodeList not array
-      els.forEach=function(cb){
-        [].forEach.call(els, cb);
-      }
+      if (els.forEach===undefined)
+        els.forEach=function(cb){
+          [].forEach.call(els, cb);
+        }
 
       // count how many checkbox row in the current page has been checked
       let selected = this.tableData.filter(function(item) {
