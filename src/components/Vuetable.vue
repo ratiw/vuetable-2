@@ -180,7 +180,7 @@ export default {
       default: 'alt'
     },
     rowClassCallback: {
-      type: String,
+      type: [String, Function],
       default: ''
     },
     detailRowComponent: {
@@ -693,6 +693,10 @@ export default {
       }
     },
     onRowClass: function(dataItem, index) {
+      if(typeof(this.rowClassCallback) === 'function') {
+        return this.rowClassCallback(dataItem, index)
+      }
+
       let func = this.rowClassCallback.trim()
 
       if (func !== '' && typeof this.$parent[func] === 'function') {
