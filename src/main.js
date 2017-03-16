@@ -296,5 +296,8 @@ let vm = new Vue({
     onChangePage (page) {
       this.$refs.vuetable.changePage(page)
     },
+    updateFieldVisible (event, field) {
+      field.visible = event.target.checked
+    }
   },
 })
