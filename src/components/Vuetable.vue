@@ -49,7 +49,7 @@
           <template v-if="field.visible">
             <template v-if="field.searchField">
               <th>
-                <input class="searchFilter" v-model="searchFor[field.name]"  :placeholder="field.title" @change="refresh" />
+                <input class="searchFilter" :value="searchFilter[field.name]"  :placeholder="field.title" @change="filterSearch($event,field)" />
               </th>
             </template>
             <template v-else>
@@ -151,7 +151,7 @@ export default {
           sort: 'sort',
           page: 'page',
           perPage: 'per_page',
-          searchFor: 'searchFor'
+          searchFilter: 'search_filter'
         }
       }
     },
@@ -236,7 +236,7 @@ export default {
       currentPage: 1,
       selectedTo: [],
       visibleDetailRows: [],
-      searchFor: {}
+      searchFilter: {}
     }
   },
   created: function() {
@@ -386,7 +386,7 @@ export default {
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
 
-      params[this.queryParams.searchFor] = JSON.stringify(this.searchFor)
+      params[this.queryParams.searchFilter] = JSON.stringify(this.searchFilter)
 
       for (let x in this.appendParams) {
         params[x] = this.appendParams[x]
@@ -769,6 +769,14 @@ export default {
       this.currentPage = 1
       this.loadData()
     },
+    filterSearch: function (event, field) {
+      if (event.target.value === '') {
+        delete this.searchFilter[field.name]
+      } else {
+        this.searchFilter[field.name] = event.target.value
+      }
+      this.refresh()
+    }
   }, // end: methods
   watch: {
     'multiSort': function(newVal, oldVal) {
