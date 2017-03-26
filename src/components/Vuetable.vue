@@ -173,7 +173,7 @@ export default {
       default: 'alt'
     },
     rowClassCallback: {
-      type: String,
+      type: [String, Function],
       default: ''
     },
     detailRowComponent: {
@@ -527,6 +527,10 @@ export default {
     callCallback (field, item) {
       if ( ! this.hasCallback(field)) return
 
+      if(typeof(field.callback) == 'function') {
+       return field.callback(this.getObjectValue(item, field.name))
+      }
+
       let args = field.callback.split('|')
       let func = args.shift()
 
@@ -685,7 +689,11 @@ export default {
         this.showDetailRow(rowId)
       }
     },
-    onRowClass (dataItem, index) {
+    onRowClass: function(dataItem, index) {
+      if(typeof(this.rowClassCallback) === 'function') {
+        return this.rowClassCallback(dataItem, index)
+      }
+
       let func = this.rowClassCallback.trim()
 
       if (func !== '' && typeof this.$parent[func] === 'function') {
@@ -739,6 +747,10 @@ export default {
         this.sortOrder.splice(1);
         this.loadData();
       }
+    },
+    'apiUrl': function (newVal, oldVal) {
+      if(newVal !== oldVal)
+        this.refresh()
     }
   },
 }
