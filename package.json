@@ -11,7 +11,12 @@
   },
   "private": false,
   "keywords": [
-    "vue", "component", "table", "datatable", "pagination-components", "json"
+    "vue",
+    "component",
+    "table",
+    "datatable",
+    "pagination-components",
+    "json"
   ],
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -22,7 +27,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "vue": "^2.0.0",
+    "vue": "^2.2.0",
     "axios": "^0.15.3"
   },
   "devDependencies": {
@@ -72,6 +77,7 @@
     "vue-html-loader": "1.2.3",
     "vue-loader": "8.5.2",
     "vue-style-loader": "1.0.0",
+    "vue-template-compiler": "^2.2.6",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0",
