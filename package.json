@@ -2,9 +2,17 @@
   "name": "vuetable-2",
   "version": "1.3.0",
   "description": "A Vue.js 2.0 component for data table",
+  "main": "dist/vuetable-2.js",
   "license": "MIT",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ratiw/vuetable-2.git"
+  },
   "private": false,
+  "keywords": [
+    "vue", "component", "table", "datatable", "pagination-components", "json"
+  ],
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
@@ -14,9 +22,8 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "axios": "^0.15.3",
     "vue": "^2.0.0",
-    "vue-resource": "^1.0.0"
+    "axios": "^0.15.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
