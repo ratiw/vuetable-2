@@ -321,7 +321,6 @@ export default {
     loadSuccess (response) {
       this.fireEvent('load-success', response)
 
-      // let body = this.transform(response.body)
       let body = this.transform(response.data)
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
