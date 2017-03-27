@@ -751,7 +751,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   [v-cloak] {
     display: none;
   }
