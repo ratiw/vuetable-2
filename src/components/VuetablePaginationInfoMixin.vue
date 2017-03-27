@@ -1,10 +1,12 @@
 <script>
 export default {
   props: {
-    infoClass: {
-      type: String,
+    css: {
+      type: Object,
       default() {
-        return 'left floated left aligned six wide column'
+        return {
+          infoClass: 'left floated left aligned six wide column'
+        }
       }
     },
     infoTemplate: {
