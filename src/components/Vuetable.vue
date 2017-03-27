@@ -98,8 +98,9 @@
 
 <script>
 import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
+// import VueResource from 'vue-resource'
+// Vue.use(VueResource)
+import axios from 'axios'
 
 export default {
   props: {
@@ -314,7 +315,11 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      Vue.http.get(this.apiUrl, this.httpOptions).then(
+      // Vue.http.get(this.apiUrl, this.httpOptions).then(
+      //   success,
+      //   failed
+      // )
+      axios.get(this.apiUrl, this.httpOptions).then(
         success,
         failed
       )
@@ -322,7 +327,8 @@ export default {
     loadSuccess (response) {
       this.fireEvent('load-success', response)
 
-      let body = this.transform(response.body)
+      // let body = this.transform(response.body)
+      let body = this.transform(response.data)
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
