@@ -23,7 +23,7 @@ module.exports = [
 		output: {
 			path: "./dist",
 			filename: "vuetable-2.js",
-			library: "VueTable",
+			library: "Vuetable",
 			libraryTarget: "umd"
 		},
 
