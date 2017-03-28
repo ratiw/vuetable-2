@@ -1,19 +1,19 @@
 import Vuetable from './components/Vuetable.vue'
-import VueTablePagination from './components/VuetablePagination.vue'
-import VueTablePaginationDropDown from './components/VuetablePaginationDropdown.vue'
-import VueTablePaginationInfo from './components/VuetablePaginationInfo.vue'
+import VuetablePagination from './components/VuetablePagination.vue'
+import VuetablePaginationDropDown from './components/VuetablePaginationDropdown.vue'
+import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 
 function install(Vue){
   Vue.component("vuetable", Vuetable);
-  Vue.component("vuetable-pagination", VueTablePaginationInfo);
-  Vue.component("vuetable-pagination-dropdown", VueTablePaginationDropDown);
-  Vue.component("vuetable-pagination-info", VueTablePaginationInfo);
+  Vue.component("vuetable-pagination", VuetablePaginationInfo);
+  Vue.component("vuetable-pagination-dropdown", VuetablePaginationDropDown);
+  Vue.component("vuetable-pagination-info", VuetablePaginationInfo);
 }
 export {
   Vuetable,
-  VueTablePagination,
-  VueTablePaginationDropDown,
-  VueTablePaginationInfo,
+  VuetablePagination,
+  VuetablePaginationDropDown,
+  VuetablePaginationInfo,
   install
 };
 
