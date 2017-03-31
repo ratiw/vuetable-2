@@ -2,7 +2,7 @@
   <table :class="['vuetable', css.tableClass]">
     <thead>
       <tr>
-        <template v-for="field in fields">
+        <template v-for="field in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'"
@@ -12,43 +12,36 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]">
-                  {{ field.title || '' }}
-                  <i v-if="isInCurrentSortGroup(field) && field.title"
-                     :class="sortIcon(field)"
-                     :style="{opacity: sortIconOpacity(field)}"></i>
-              </th>
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                  v-html="getTitle(field)"
+              ></th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]">
-                  {{ field.title || '' }}
-                  <i v-if="isInCurrentSortGroup(field) && field.title"
-                     :class="sortIcon(field)"
-                     :style="{opacity: sortIconOpacity(field)}"></i>
-              </th>
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                  v-html="getTitle(field)"
+              ></th>
               <th v-if="extractName(field.name) == '__sequence'"
-                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="field.title || ''">
+                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="getTitle(field)">
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
-                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="field.title || ''">
+                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="getTitle(field)">
               </th>
             </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]">
-                {{  getTitle(field) }}&nbsp;
-                <i v-if="isInCurrentSortGroup(field)" :class="sortIcon(field)" :style="{opacity: sortIconOpacity(field)}"></i>
-              </th>
+                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+                v-html="getTitle(field)"
+              ></th>
             </template>
           </template>
         </template>
       </tr>
     </thead>
-    <tbody v-cloak>
+    <tbody v-cloak class="vuetable-body">
       <template v-for="(item, index) in tableData">
-        <tr @dblclick="onRowDoubleClicked(item, $event)" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
-          <template v-for="field in fields">
+        <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
+          <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
                 <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
@@ -87,17 +80,24 @@
           </template>
         </tr>
         <template v-if="useDetailRow">
-          <transition :name="detailRowTransition">
-            <tr v-if="isVisibleDetailRow(item[trackBy])"
-              @click="onDetailRowClick(item, $event)"
-              :class="[css.detailRowClass]"
-            >
+          <tr v-if="isVisibleDetailRow(item[trackBy])"
+            @click="onDetailRowClick(item, $event)"
+            :class="[css.detailRowClass]"
+          >
+            <transition :name="detailRowTransition">
               <td :colspan="countVisibleFields">
                 <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
               </td>
-            </tr>
-          </transition>
+            </transition>
+          </tr>
         </template>
+      </template>
+      <template v-if="lessThanMinRows">
+        <tr v-for="i in blankRows" class="blank-row">
+          <template v-for="field in fields">
+            <td v-if="field.visible">&nbsp;</td>
+          </template>
+        </tr>
       </template>
     </tbody>
   </table>
@@ -105,8 +105,7 @@
 
 <script>
 import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
+import axios from 'axios'
 
 export default {
   props: {
@@ -122,6 +121,16 @@ export default {
         type: String,
         default: ''
     },
+    apiMode: {
+      type: Boolean,
+      default: true
+    },
+    data: {
+      type: Array,
+      default: function() {
+        return null
+      }
+    },
     dataPath: {
         type: String,
         default: 'data'
@@ -132,7 +141,7 @@ export default {
     },
     queryParams: {
       type: Object,
-      default: function() {
+      default () {
         return {
           sort: 'sort',
           page: 'page',
@@ -142,31 +151,31 @@ export default {
     },
     appendParams: {
       type: Object,
-      default: function() {
+      default () {
         return {}
       }
     },
     httpOptions: {
       type: Object,
-      default: function() {
+      default () {
         return {}
       }
     },
     perPage: {
         type: Number,
-        default: function() {
+        default () {
             return 10
         }
     },
     sortOrder: {
       type: Array,
-      default: function() {
+      default () {
         return []
       }
     },
     multiSort: {
       type: Boolean,
-      default: function() {
+      default () {
         return false
       }
     },
@@ -180,7 +189,7 @@ export default {
       default: 'alt'
     },
     rowClassCallback: {
-      type: String,
+      type: [String, Function],
       default: ''
     },
     detailRowComponent: {
@@ -197,7 +206,7 @@ export default {
     },
     css: {
       type: Object,
-      default: function() {
+      default () {
         return {
           tableClass: 'ui blue selectable celled stackable attached table',
           loadingClass: 'loading',
@@ -208,14 +217,19 @@ export default {
         }
       }
     },
+    minRows: {
+      type: Number,
+      default: 0
+    },
     silent: {
       type: Boolean,
       default: false
     }
   },
-  data: function() {
+  data () {
     return {
       eventPrefix: 'vuetable:',
+      tableFields: [],
       tableData: null,
       tablePagination: null,
       currentPage: 1,
@@ -223,34 +237,58 @@ export default {
       visibleDetailRows: [],
     }
   },
-  created: function() {
+  created () {
     this.normalizeFields()
-    if (this.loadOnStart) {
+    this.$nextTick(function() {
+      this.fireEvent('initialized', this.tableFields)
+    })
+
+    if (this.apiMode && this.loadOnStart) {
       this.loadData()
+    }
+    if (this.apiMode == false && this.data.length > 0) {
+      this.setData(this.data)
     }
   },
   computed: {
-    useDetailRow: function() {
-      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
-        this.warn('You need to define "detail-row-id" in order for detail-row feature to work!')
+    useDetailRow () {
+      if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
+        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!')
         return false
       }
 
       return this.detailRowComponent !== ''
     },
-    countVisibleFields: function() {
-      return this.fields.filter(function(field) {
+    countVisibleFields () {
+      return this.tableFields.filter(function(field) {
         return field.visible
       }).length
+    },
+    lessThanMinRows: function() {
+      if (this.tableData === null || this.tableData.length === 0) {
+        return true
+      }
+      return this.tableData.length < this.minRows
+    },
+    blankRows: function() {
+      if (this.tableData === null || this.tableData.length === 0) {
+        return this.minRows
+      }
+      if (this.tableData.length >= this.minRows) {
+        return 0
+      }
+
+      return this.minRows - this.tableData.length
     }
   },
   methods: {
-    normalizeFields: function() {
+    normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
         this.warn('You need to provide "fields" prop.')
         return
       }
 
+      this.tableFields = []
       let self = this
       let obj
       this.fields.forEach(function(field, i) {
@@ -274,54 +312,61 @@ export default {
             visible: (field.visible === undefined) ? true : field.visible,
           }
         }
-        Vue.set(self.fields, i, obj)
+        self.tableFields.push(obj)
       })
     },
-    setTitle: function(str) {
+    setData (data) {
+      this.tableData = data
+    },
+    setTitle (str) {
       if (this.isSpecialField(str)) {
         return ''
       }
 
       return this.titleCase(str)
     },
-    getTitle: function(field) {
-      if (typeof field.title === 'undefined') {
-        return field.name.replace('.', ' ')
+    getTitle (field) {
+      let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
+
+      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
+        return title + ' <i class="' + this.sortIcon(field) + '" style="opacity:' + this.sortIconOpacity(field) + '"></i>'
       }
 
-      return field.title
+      return title
     },
-    isSpecialField: function(fieldName) {
+    isSpecialField (fieldName) {
       return fieldName.slice(0, 2) === '__'
     },
-    titleCase: function(str) {
+    titleCase (str) {
       return str.replace(/\w+/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
       })
     },
-    camelCase: function(str, delimiter = '_') {
+    camelCase (str, delimiter = '_') {
       let self = this
       return str.split(delimiter).map(function(item) {
         return self.titleCase(item)
       }).join('')
     },
-    notIn: function(str, arr) {
+    notIn (str, arr) {
       return arr.indexOf(str) === -1
     },
-    loadData: function(success = this.loadSuccess, failed = this.loadFailed) {
+    loadData (success = this.loadSuccess, failed = this.loadFailed) {
+      if (! this.apiMode) return
+
       this.fireEvent('loading')
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      Vue.http.get(this.apiUrl, this.httpOptions).then(
+      axios.get(this.apiUrl, this.httpOptions).then(
         success,
         failed
       )
     },
-    loadSuccess: function(response) {
+    loadSuccess (response) {
       this.fireEvent('load-success', response)
 
-      let body = this.transform(response.body)
+      let body = this.transform(response.data)
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
@@ -338,11 +383,11 @@ export default {
         this.fireEvent('loaded')
       })
     },
-    loadFailed: function(response) {
+    loadFailed (response) {
       this.fireEvent('load-error', response)
       this.fireEvent('loaded')
     },
-    transform: function(data) {
+    transform (data) {
       let func = 'transform'
 
       if (this.parentFunctionExists(func)) {
@@ -351,18 +396,25 @@ export default {
 
       return data
     },
-    parentFunctionExists: function(func) {
+    parentFunctionExists (func) {
       return (func !== '' && typeof this.$parent[func] === 'function')
     },
-    fireEvent: function(eventName, args) {
+    callParentFunction (func, args, defaultValue = null) {
+      if (this.parentFunctionExists(func)) {
+        return this.$parent[func].call(this.$parent, args)
+      }
+
+      return defaultValue
+    },
+    fireEvent (eventName, args) {
       this.$emit(this.eventPrefix + eventName, args)
     },
-    warn: function(msg) {
+    warn (msg) {
       if (!this.silent) {
         console.warn(msg)
       }
     },
-    getAllQueryParams: function() {
+    getAllQueryParams () {
       let params = {}
       params[this.queryParams.sort] = this.getSortParam()
       params[this.queryParams.page] = this.currentPage
@@ -374,7 +426,7 @@ export default {
 
       return params
     },
-    getSortParam: function() {
+    getSortParam () {
       if (!this.sortOrder || this.sortOrder.field == '') {
         return ''
       }
@@ -385,7 +437,7 @@ export default {
 
       return this.getDefaultSortParam()
     },
-    getDefaultSortParam: function() {
+    getDefaultSortParam () {
       let result = '';
 
       for (let i = 0; i < this.sortOrder.length; i++) {
@@ -398,19 +450,19 @@ export default {
 
       return result;
     },
-    extractName: function(string) {
+    extractName (string) {
       return string.split(':')[0].trim()
     },
-    extractArgs: function(string) {
+    extractArgs (string) {
       return string.split(':')[1]
     },
-    isSortable: function(field) {
+    isSortable (field) {
       return !(typeof field.sortField === 'undefined')
     },
-    isInCurrentSortGroup: function(field) {
+    isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
-    currentSortOrderPosition: function(field) {
+    currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
         return false
       }
@@ -423,11 +475,11 @@ export default {
 
       return false;
     },
-    fieldIsInSortOrderPosition(field, i) {
+    fieldIsInSortOrderPosition (field, i) {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
     },
-    orderBy: function(field, event) {
-      if ( ! this.isSortable(field)) return
+    orderBy (field, event) {
+      if ( ! this.isSortable(field) || ! this.apiMode) return
 
       let key = this.multiSortKey.toLowerCase() + 'Key'
 
@@ -441,7 +493,7 @@ export default {
       this.currentPage = 1    // reset page index
       this.loadData()
     },
-    multiColumnSort: function(field) {
+    multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
 
       if(i === false) { //this field is not in the sort array yet
@@ -460,7 +512,7 @@ export default {
         }
       }
     },
-    singleColumnSort: function(field) {
+    singleColumnSort (field) {
       if (this.sortOrder.length === 0) {
         this.clearSortOrder()
       }
@@ -477,28 +529,24 @@ export default {
       this.sortOrder[0].field = field.name
       this.sortOrder[0].sortField = field.sortField
     },
-    clearSortOrder: function() {
+    clearSortOrder () {
       this.sortOrder.push({
         field: '',
         sortField: '',
         direction: 'asc'
       });
     },
-    sortIcon: function(field) {
-      let cls = {}
-      let i = this.currentSortOrderPosition(field);
+    sortIcon (field) {
+      let cls = ''
+      let i = this.currentSortOrderPosition(field)
 
       if (i !== false) {
-        if (this.sortOrder[i].direction == 'asc') {
-          cls[this.css.ascendingIcon] = true
-        } else {
-          cls[this.css.descendingIcon] = true
-        }
+        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
       }
 
       return cls;
     },
-    sortIconOpacity: function(field) {
+    sortIconOpacity (field) {
       /*
        * fields with stronger precedence have darker color
        *
@@ -524,10 +572,10 @@ export default {
 
       return opacity
     },
-    hasCallback: function(item) {
+    hasCallback (item) {
       return item.callback ? true : false
     },
-    callCallback: function(field, item) {
+    callCallback (field, item) {
       if ( ! this.hasCallback(field)) return
 
       if(typeof(field.callback) == 'function') {
@@ -547,7 +595,7 @@ export default {
 
       return null
     },
-    getObjectValue: function(object, path, defaultValue) {
+    getObjectValue (object, path, defaultValue) {
       defaultValue = (typeof defaultValue === 'undefined') ? null : defaultValue
 
       let obj = object
@@ -564,7 +612,7 @@ export default {
       }
       return obj
     },
-    toggleCheckbox: function(dataItem, fieldName, event) {
+    toggleCheckbox (dataItem, fieldName, event) {
       let isChecked = event.target.checked
       let idColumn = this.trackBy
 
@@ -581,32 +629,38 @@ export default {
       }
       this.$emit('vuetable:checkbox-toggled', isChecked, dataItem)
     },
-    selectId: function(key) {
+    selectId (key) {
       if ( ! this.isSelectedRow(key)) {
         this.selectedTo.push(key)
       }
     },
-    unselectId: function(key) {
+    unselectId (key) {
       this.selectedTo = this.selectedTo.filter(function(item) {
         return item !== key
       })
     },
-    isSelectedRow: function(key) {
+    isSelectedRow (key) {
       return this.selectedTo.indexOf(key) >= 0
     },
-    rowSelected: function(dataItem, fieldName){
+    rowSelected (dataItem, fieldName){
       let idColumn = this.trackBy
       let key = dataItem[idColumn]
 
       return this.isSelectedRow(key)
     },
-    checkCheckboxesState: function(fieldName) {
+    checkCheckboxesState (fieldName) {
       if (! this.tableData) return
 
       let self = this
       let idColumn = this.trackBy
       let selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
       let els = document.querySelectorAll(selector)
+
+      //fixed:document.querySelectorAll return the typeof nodeList not array
+      if (els.forEach===undefined)
+        els.forEach=function(cb){
+          [].forEach.call(els, cb);
+        }
 
       // count how many checkbox row in the current page has been checked
       let selected = this.tableData.filter(function(item) {
@@ -635,7 +689,7 @@ export default {
         return true
       }
     },
-    toggleAllCheckboxes: function(fieldName, event) {
+    toggleAllCheckboxes (fieldName, event) {
       let self = this
       let isChecked = event.target.checked
       let idColumn = this.trackBy
@@ -651,33 +705,33 @@ export default {
       }
       this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
-    gotoPreviousPage: function() {
+    gotoPreviousPage () {
       if (this.currentPage > 1) {
         this.currentPage--
         this.loadData()
       }
     },
-    gotoNextPage: function() {
+    gotoNextPage () {
       if (this.currentPage < this.tablePagination.last_page) {
         this.currentPage++
         this.loadData()
       }
     },
-    gotoPage: function(page) {
+    gotoPage (page) {
       if (page != this.currentPage && (page > 0 && page <= this.tablePagination.last_page)) {
         this.currentPage = page
         this.loadData()
       }
     },
-    isVisibleDetailRow: function(rowId) {
+    isVisibleDetailRow (rowId) {
       return this.visibleDetailRows.indexOf( rowId ) >= 0
     },
-    showDetailRow: function(rowId) {
+    showDetailRow (rowId) {
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId)
       }
     },
-    hideDetailRow: function(rowId) {
+    hideDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.splice(
           this.visibleDetailRows.indexOf(rowId),
@@ -685,14 +739,33 @@ export default {
         )
       }
     },
-    toggleDetailRow: function(rowId) {
+    toggleDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.hideDetailRow(rowId)
       } else {
         this.showDetailRow(rowId)
       }
     },
-    onRowClass: function(dataItem, index) {
+    showField (index) {
+      if (index < 0 || index > this.tableFields.length) return
+
+      this.tableFields[index].visible = true
+    },
+    hideField (index) {
+      if (index < 0 || index > this.tableFields.length) return
+
+      this.tableFields[index].visible = false
+    },
+    toggleField (index) {
+      if (index < 0 || index > this.tableFields.length) return
+
+      this.tableFields[index].visible = ! this.tableFields[index].visible
+    },
+    onRowClass (dataItem, index) {
+      if(typeof(this.rowClassCallback) === 'function') {
+        return this.rowClassCallback(dataItem, index)
+      }
+
       let func = this.rowClassCallback.trim()
 
       if (func !== '' && typeof this.$parent[func] === 'function') {
@@ -700,30 +773,30 @@ export default {
       }
       return ''
     },
-    onRowChanged: function(dataItem) {
+    onRowChanged (dataItem) {
       this.fireEvent('row-changed', dataItem)
       return true
     },
-    onRowClicked: function(dataItem, event) {
+    onRowClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
       return true
     },
-    onRowDoubleClicked: function(dataItem, event) {
+    onRowDoubleClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)
     },
-    onDetailRowClick: function(dataItem, event) {
+    onDetailRowClick (dataItem, event) {
       this.$emit(this.eventPrefix + 'detail-row-clicked', dataItem, event)
     },
-    onCellClicked: function(dataItem, field, event) {
+    onCellClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-clicked', dataItem, field, event)
     },
-    onCellDoubleClicked: function(dataItem, field, event) {
+    onCellDoubleClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
     },
     /*
      * API for externals
      */
-    changePage: function(page) {
+    changePage (page) {
       if (page === 'prev') {
         this.gotoPreviousPage()
       } else if (page === 'next') {
@@ -732,26 +805,30 @@ export default {
         this.gotoPage(page)
       }
     },
-    reload: function() {
+    reload () {
       this.loadData()
     },
-    refresh: function() {
+    refresh () {
       this.currentPage = 1
       this.loadData()
     },
   }, // end: methods
   watch: {
-    'multiSort': function(newVal, oldVal) {
+    'multiSort' (newVal, oldVal) {
       if (newVal === false && this.sortOrder.length > 1) {
         this.sortOrder.splice(1);
         this.loadData();
       }
+    },
+    'apiUrl': function (newVal, oldVal) {
+      if(newVal !== oldVal)
+        this.refresh()
     }
   },
 }
 </script>
 
-<style>
+<style scoped>
   [v-cloak] {
     display: none;
   }

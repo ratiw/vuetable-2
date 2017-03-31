@@ -2,19 +2,33 @@
   "name": "vuetable-2",
   "version": "1.3.0",
   "description": "A Vue.js 2.0 component for data table",
+  "main": "dist/vuetable-2.js",
   "license": "MIT",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ratiw/vuetable-2.git"
+  },
   "private": false,
+  "keywords": [
+    "vue",
+    "component",
+    "table",
+    "datatable",
+    "pagination-components",
+    "json"
+  ],
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
+    "build:bundle": "webpack --progress --config build/webpack.build.config.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "vue": "^2.0.0",
-    "vue-resource": "^1.0.0"
+    "vue": "^2.2.0",
+    "axios": "^0.15.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -57,11 +71,13 @@
     "shelljs": "^0.6.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
+    "stats-webpack-plugin": "0.4.3",
     "url-loader": "^0.5.7",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "1.2.3",
     "vue-loader": "8.5.2",
     "vue-style-loader": "1.0.0",
+    "vue-template-compiler": "^2.2.6",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0",
