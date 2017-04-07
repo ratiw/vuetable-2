@@ -30,9 +30,6 @@ export default {
     }
   },
   methods: {
-    loadPage (page) {
-      this.$emit('vuetable-pagination:change-page', page)
-    },
     registerEvents () {
       let self = this
 

@@ -22,17 +22,6 @@ export default {
         }
       }
     },
-    // icons: {
-    //   type: Object,
-    //   default () {
-    //     return {
-    //       first: 'angle double left icon',
-    //       prev: 'left chevron icon',
-    //       next: 'right chevron icon',
-    //       last: 'angle double right icon',
-    //     }
-    //   }
-    // },
     onEachSide: {
       type: Number,
       default () {
@@ -41,9 +30,10 @@ export default {
     },
   },
   data: function() {
-      return {
-        tablePagination: null
-      }
+    return {
+      eventPrefix: 'vuetable-pagination:',
+      tablePagination: null
+    }
   },
   computed: {
     totalPage () {
@@ -79,7 +69,7 @@ export default {
   },
   methods: {
     loadPage (page) {
-      this.$emit('vuetable-pagination:change-page', page)
+      this.$emit(this.eventPrefix+'change-page', page)
     },
     isCurrentPage (page) {
       return page === this.tablePagination.current_page
