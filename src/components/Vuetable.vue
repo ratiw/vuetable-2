@@ -56,10 +56,14 @@
                     :checked="rowSelected(item, field.name)">
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
-                    <component :is="extractArgs(field.name)" :row-data="item" :row-index="index"></component>
+                  <component :is="extractArgs(field.name)"
+                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                  ></component>
                 </td>
                 <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
-                  <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
+                  <slot :name="extractArgs(field.name)"
+                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                  ></slot>
                 </td>
               </template>
               <template v-else>
