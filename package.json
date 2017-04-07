@@ -18,6 +18,19 @@
     "pagination-components",
     "json"
   ],
+  "browserify": {
+    "transform": [
+      "babelify",
+      [
+        "vueify",
+        {
+          "_flags": {
+            "debug": true
+          }
+        }
+      ]
+    ]
+  },
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
@@ -39,6 +52,7 @@
     "babel-preset-stage-2": "^6.0.0",
     "babel-register": "^6.0.0",
     "babel-runtime": "^6.0.0",
+    "babelify": "^7.3.0",
     "chai": "^3.5.0",
     "chromedriver": "^2.21.2",
     "connect-history-api-fallback": "^1.1.0",
@@ -78,6 +92,7 @@
     "vue-loader": "8.5.2",
     "vue-style-loader": "1.0.0",
     "vue-template-compiler": "^2.2.6",
+    "vueify": "^9.4.1",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0",
