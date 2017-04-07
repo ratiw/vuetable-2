@@ -12,6 +12,7 @@ export default {
           linkClass: 'icon item',
           paginationClass: 'ui bottom attached segment grid',
           paginationInfoClass: 'left floated left aligned six wide column',
+          dropdownClass: 'ui search dropdown',
           icons: {
             first: 'angle double left icon',
             prev: 'left chevron icon',
