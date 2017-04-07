@@ -20,7 +20,7 @@
                   :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
                   v-html="getTitle(field)"
               ></th>
-              <th v-if="extractName(field.name) == '__sequence'"
+              <th v-if="apiMode && extractName(field.name) == '__sequence'"
                   :class="['vuetable-th-sequence', field.titleClass || '']" v-html="getTitle(field)">
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
@@ -44,7 +44,7 @@
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+                <td v-if="apiMode && extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
                 <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]">
