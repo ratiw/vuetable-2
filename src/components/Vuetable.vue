@@ -374,7 +374,8 @@ export default {
       if (this.tablePagination === null) {
         this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. '
           + 'It looks like the data returned from the sever does not have pagination information '
-          + 'or you may have set it incorrectly.'
+          + "or you may have set it incorrectly.\n"
+          + 'You can explicitly suppress this warning by setting pagination-path="".'
         )
       }
 
