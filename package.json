@@ -5,9 +5,6 @@
   "license": "MIT",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
   "private": false,
-  "browser": {
-    "vue": "vue/dist/vue.common"
-  },
   "browserify": {
     "transform": [
       "babelify",
