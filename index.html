@@ -107,7 +107,7 @@
                       :append-params="moreParams"
                       detail-row-component="my-detail-row"
                       detail-row-transition="expand"
-                      row-class-callback="rowClassCB"
+                      :row-class="rowClassCB"
                       @vuetable:pagination-data="onPaginationData"
                       @vuetable:load-success="onLoadSuccess"
                       @vuetable:loading="showLoader"

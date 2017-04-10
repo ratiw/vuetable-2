@@ -192,7 +192,12 @@ export default {
       type: String,
       default: 'alt'
     },
+    /* deprecated */
     rowClassCallback: {
+      type: [String, Function],
+      default: ''
+    },
+    rowClass: {
       type: [String, Function],
       default: ''
     },
@@ -767,16 +772,16 @@ export default {
       this.tableFields[index].visible = ! this.tableFields[index].visible
     },
     onRowClass (dataItem, index) {
-      if(typeof(this.rowClassCallback) === 'function') {
-        return this.rowClassCallback(dataItem, index)
+      if (this.rowClassCallback !== '') {
+        this.warn('"row-class-callback" prop is deprecated, please use "row-class" prop instead.')
+        return
       }
 
-      let func = this.rowClassCallback.trim()
-
-      if (func !== '' && typeof this.$parent[func] === 'function') {
-          return this.$parent[func].call(this.$parent, dataItem, index)
+      if (typeof(this.rowClass) === 'function') {
+        return this.rowClass(dataItem, index)
       }
-      return ''
+
+      return this.rowClass
     },
     onRowChanged (dataItem) {
       this.fireEvent('row-changed', dataItem)
