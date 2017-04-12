@@ -325,6 +325,7 @@ export default {
       })
     },
     setData (data) {
+      this.apiMode = false
       this.tableData = data
     },
     setTitle (str) {
