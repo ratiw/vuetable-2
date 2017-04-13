@@ -17,6 +17,7 @@
         * vuetable:detail-row-clicked
         * vuetable:cell-clicked
         * vuetable:cell-dblclicked
+        * vuetable:checkbox-toggled
     + No longer available
         * vuetable:reload -- directly call `reload()` method instead
         * vuetable:refresh -- directly call `refresh()` method instead
