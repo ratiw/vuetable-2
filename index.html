@@ -160,7 +160,7 @@
                       <div class="content">
                         <div v-for="field in fields" class="field">
                           <div class="ui checkbox">
-                            <input type="checkbox" v-model="field.visible">
+                            <input type="checkbox" :checked="field.visible" @change="updateFieldVisible($event, field)">
                             <label>{{ getFieldTitle(field) }}</label>
                           </div>
                         </div>

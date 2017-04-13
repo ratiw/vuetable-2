@@ -44,6 +44,20 @@
           </template>
         </template>
       </tr>
+      <tr v-if="isFiltered(fields)">
+        <template v-for="field in fields">
+          <template v-if="field.visible">
+            <template v-if="field.searchField">
+              <th>
+                <input class="searchFilter" :value="searchFilter[field.name]"  :placeholder="field.title" @change="filterSearch($event,field)" />
+              </th>
+            </template>
+            <template v-else>
+              <th></th>
+            </template>
+          </template>
+        </template>
+      </tr>
     </thead>
     <tbody v-cloak>
       <template v-for="(item, index) in tableData">
@@ -136,7 +150,8 @@ export default {
         return {
           sort: 'sort',
           page: 'page',
-          perPage: 'per_page'
+          perPage: 'per_page',
+          searchFilter: 'search_filter'
         }
       }
     },
@@ -221,6 +236,7 @@ export default {
       currentPage: 1,
       selectedTo: [],
       visibleDetailRows: [],
+      searchFilter: {}
     }
   },
   created: function() {
@@ -262,6 +278,7 @@ export default {
             dataClass: '',
             callback: null,
             visible: true,
+            searchField: false,
           }
         } else {
           obj = {
@@ -272,6 +289,7 @@ export default {
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
+            searchField: (field.searchField === undefined) ? false : field.searchField,
           }
         }
         Vue.set(self.fields, i, obj)
@@ -368,6 +386,8 @@ export default {
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
 
+      params[this.queryParams.searchFilter] = JSON.stringify(this.searchFilter)
+
       for (let x in this.appendParams) {
         params[x] = this.appendParams[x]
       }
@@ -406,6 +426,16 @@ export default {
     },
     isSortable: function(field) {
       return !(typeof field.sortField === 'undefined')
+    },
+    isFiltered: function(fields){
+      let isFiltered = false;
+      fields.forEach(function(field, i) {
+        if(field.searchField !== undefined && field.searchField){
+          isFiltered = true;
+          return;
+        }
+      });
+      return isFiltered;
     },
     isInCurrentSortGroup: function(field) {
       return this.currentSortOrderPosition(field) !== false;
@@ -739,6 +769,14 @@ export default {
       this.currentPage = 1
       this.loadData()
     },
+    filterSearch: function (event, field) {
+      if (event.target.value === '') {
+        delete this.searchFilter[field.name]
+      } else {
+        this.searchFilter[field.name] = event.target.value
+      }
+      this.refresh()
+    }
   }, // end: methods
   watch: {
     'multiSort': function(newVal, oldVal) {

@@ -84,12 +84,14 @@ let tableColumns = [
   {
     name: 'name',
     title: 'Full Name',
-    sortField: 'name'
+    sortField: 'name',
+    searchField: true,
   },
   {
     name: 'email',
     sortField: 'email',
-    visible: true
+    visible: true,
+    searchField: true,
   },
   {
     name: 'nickname',
@@ -294,5 +296,8 @@ let vm = new Vue({
     onChangePage (page) {
       this.$refs.vuetable.changePage(page)
     },
+    updateFieldVisible (event, field) {
+      field.visible = event.target.checked
+    }
   },
 })
