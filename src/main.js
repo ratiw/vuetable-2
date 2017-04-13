@@ -6,27 +6,27 @@ import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 
 let E_SERVER_ERROR = 'Error communicating with the server'
 
-Vue.component('custom-actions', {
-  template: [
-    '<div>',
-      '<button class="ui red button" @click="onClick(\'view-item\', rowData)"><i class="zoom icon"></i></button>',
-      '<button class="ui blue button" @click="onClick(\'edit-item\', rowData)"><i class="edit icon"></i></button>',
-      '<button class="ui green button" @click="onClick(\'delete-item\', rowData)"><i class="delete icon"></i></button>',
-    '</div>'
-  ].join(''),
-  props: {
-    rowData: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    onClick: function(action, data) {
-      console.log('actions: on-click', data.name)
-      sweetAlert(action, data.name)
-    },
-  }
-})
+// Vue.component('custom-actions', {
+//   template: [
+//     '<div>',
+//       '<button class="ui red button" @click="onClick(\'view-item\', rowData)"><i class="zoom icon"></i></button>',
+//       '<button class="ui blue button" @click="onClick(\'edit-item\', rowData)"><i class="edit icon"></i></button>',
+//       '<button class="ui green button" @click="onClick(\'delete-item\', rowData)"><i class="delete icon"></i></button>',
+//     '</div>'
+//   ].join(''),
+//   props: {
+//     rowData: {
+//       type: Object,
+//       required: true
+//     }
+//   },
+//   methods: {
+//     onClick: function(action, data) {
+//       console.log('actions: on-click', data.name)
+//       sweetAlert(action, data.name)
+//     },
+//   }
+// })
 
 Vue.component('my-detail-row', {
   template: [
@@ -109,9 +109,10 @@ let tableColumns = [
     callback: 'gender'
   },
   {
-    name: '__component:custom-actions',
+    name: 'custom-actions',
+    title: '',
     dataClass: 'center aligned'
-  }
+  },
 ]
 
 let vm = new Vue({
@@ -264,6 +265,10 @@ let vm = new Vue({
       if (field.name !== '__actions') {
         this.$refs.vuetable.toggleDetailRow(data.id)
       }
+    },
+    onClick: function(action, data) {
+      console.log('actions: on-click', data.name)
+      sweetAlert(action, data.name)
     },
     onCellDoubleClicked (data, field, event) {
       console.log('cellDoubleClicked:', field.name)

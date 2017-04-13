@@ -69,6 +69,11 @@
                   <slot :name="extractArgs(field.name)" :row-data="item" :row-index="index"></slot>
                 </td>
               </template>
+              <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+                <td>
+                  <slot :name="field.name" :field="field" :row-data="item" :row-index="index"></slot>
+                </td>
+              </template>
               <template v-else>
                 <td v-if="hasCallback(field)" :class="field.dataClass"
                   @click="onCellClicked(item, field, $event)"
