@@ -48,7 +48,7 @@
                   v-html="tablePagination.from + index">
                 </td>
                 <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]">
-                  <i :class="['sort-handle', css.sortHandleIcon]"></i>
+                  <i :class="['handle-icon', css.handleIcon]"></i>
                 </td>
                 <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
                   <input type="checkbox"
@@ -222,7 +222,7 @@ export default {
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
           detailRowClass: 'vuetable-detail-row',
-          sortHandleIcon: 'grey sidebar icon',
+          handleIcon: 'grey sidebar icon',
         }
       }
     },
