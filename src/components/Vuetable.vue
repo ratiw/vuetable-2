@@ -835,6 +835,10 @@ export default {
     'apiUrl': function (newVal, oldVal) {
       if(newVal !== oldVal)
         this.refresh()
+    },
+    'data': function (newVal, oldVal) {
+      if (this.apiMode == false)
+        this.setData (newVal)
     }
   },
 }
