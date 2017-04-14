@@ -24,7 +24,7 @@ You can now make use of Vue's scoped slot using the new `__slot` special field, 
 
 Use scoped slot in parent when defining the actions [Vue Doc for scopped Slots](https://vuejs.org/v2/guide/components.html#Scoped-Slots)
 
-e.g. 
+e.g.
 ```html
 <template slot="actions" scope="props">
     <div class="table-button-container">
@@ -36,4 +36,4 @@ e.g.
 
 the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
 
-The original functionality still works 
+The original functionality still works
