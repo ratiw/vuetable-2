@@ -364,6 +364,13 @@ export default {
     loadData (success = this.loadSuccess, failed = this.loadFailed) {
       if (! this.apiMode) return
 
+      if(! this.apiUrl) {
+        this.tableData = null;
+        this.tablePagination = null;
+        this.fireEvent('abort-load')
+        return;
+      }
+
       this.fireEvent('loading')
 
       this.httpOptions['params'] = this.getAllQueryParams()
