@@ -38,7 +38,7 @@ the onClick function can now be defined in the parent and the parent has Access 
 
 The original functionality still works 
 
-You can now make set the method for apiUrl.
+You can now set the method for apiUrl. It can be either POST or GET. Default is GET.
 
 e.g. 
 ```html
