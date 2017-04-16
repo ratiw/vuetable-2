@@ -122,6 +122,10 @@ export default {
         type: String,
         default: ''
     },
+    httpMethod: {
+        type: String,
+        default: 'get'
+    },
     dataPath: {
         type: String,
         default: 'data'
@@ -312,6 +316,14 @@ export default {
       this.fireEvent('loading')
 
       this.httpOptions['params'] = this.getAllQueryParams()
+
+      if (this.httpMethod.toLowerCase() == 'post'){
+          Vue.http.post(this.apiUrl, this.httpOptions.params).then(
+              success,
+              failed
+          )
+          return
+      }
 
       Vue.http.get(this.apiUrl, this.httpOptions).then(
         success,
