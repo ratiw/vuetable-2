@@ -37,3 +37,16 @@ e.g.
 the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
 
 The original functionality still works 
+
+You can now make set the method for apiUrl.
+
+e.g. 
+```html
+<template>
+    <vuetable ref="vuetable"
+              :api-url="apiUrl"
+              httpMethod="post"
+    ></vuetable>
+</template>
+```
+Enjoy :).
