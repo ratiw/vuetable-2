@@ -375,6 +375,11 @@ let vm = new Vue({
     onInitialized (fields) {
       console.log('onInitialized', fields)
       this.vuetableFields = fields
-    }
+    },
+    onDataReset () {
+      console.log('onDataReset')
+      this.$refs.paginationInfo.resetData()
+      this.$refs.pagination.resetData()
+    },
   },
 })
