@@ -824,6 +824,11 @@ export default {
       this.currentPage = 1
       this.loadData()
     },
+    resetData () {
+      this.tableData = null
+      this.tablePagination = null
+      this.fireEvent('data-reset')
+    }
   }, // end: methods
   watch: {
     'multiSort' (newVal, oldVal) {
