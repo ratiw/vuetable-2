@@ -98,7 +98,7 @@
       </template>
       <template v-if="lessThanMinRows">
         <tr v-for="i in blankRows" class="blank-row">
-          <template v-for="field in fields">
+          <template v-for="field in tableFields">
             <td v-if="field.visible">&nbsp;</td>
           </template>
         </tr>
