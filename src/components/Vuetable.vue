@@ -13,25 +13,25 @@
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
                   :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
-                  v-html="getTitle(field)"
+                  v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
                   :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
-                  v-html="getTitle(field)"
+                  v-html="renderTitle(field)"
               ></th>
               <th v-if="apiMode && extractName(field.name) == '__sequence'"
-                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="getTitle(field)">
+                  :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
-                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="getTitle(field)">
+                  :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="renderTitle(field)">
               </th>
             </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
                 :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
-                v-html="getTitle(field)"
+                v-html="renderTitle(field)"
               ></th>
             </template>
           </template>
@@ -47,9 +47,9 @@
                 <td v-if="apiMode && extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
                   v-html="tablePagination.from + index">
                 </td>
-                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]">
-                  <i :class="['handle-icon', css.handleIcon]"></i>
-                </td>
+                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]"
+                  v-html="renderIconTag(['handle-icon', css.handleIcon])"
+                ></td>
                 <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
@@ -213,6 +213,10 @@ export default {
       type: String,
       default: 'id'
     },
+    renderIcon: {
+      type: Function,
+      default: null
+    },
     css: {
       type: Object,
       default () {
@@ -335,11 +339,12 @@ export default {
 
       return this.titleCase(str)
     },
-    getTitle (field) {
+    renderTitle (field) {
       let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
 
       if (title.length > 0 && this.isInCurrentSortGroup(field)) {
-        return title + ' <i class="' + this.sortIcon(field) + '" style="opacity:' + this.sortIconOpacity(field) + '"></i>'
+        let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
+        return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
       }
 
       return title
@@ -772,6 +777,11 @@ export default {
       if (index < 0 || index > this.tableFields.length) return
 
       this.tableFields[index].visible = ! this.tableFields[index].visible
+    },
+    renderIconTag (classes, options = '') {
+      return this.renderIcon === null 
+        ? `<i class="${classes.join(' ')}" ${options}></i>`
+        : this.renderIcon(classes, options)
     },
     onRowClass (dataItem, index) {
       if (this.rowClassCallback !== '') {

@@ -142,6 +142,7 @@ Vue.component('settings-modal', {
 })
 
 let tableColumns = [
+  '__handle',
   {
     name: '__sequence',
     title: 'No.',
