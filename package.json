@@ -40,8 +40,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "axios": "^0.15.3",
-    "vue": "^2.2.0"
+    "axios": "^0.15.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -87,6 +86,7 @@
     "sinon-chai": "^2.8.0",
     "stats-webpack-plugin": "0.4.3",
     "url-loader": "^0.5.7",
+    "vue": "^2.2.0",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "1.2.3",
     "vue-loader": "8.5.2",
