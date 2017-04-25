@@ -25,8 +25,7 @@
       .vuetable button.ui.button i.icon {
         margin: 0;
       }
-      .vuetable th.sortable:hover {
-        color: #2185d0;
+      .vuetable td i.handle-icon:hover {
         cursor: pointer;
       }
       .vuetable-actions {
@@ -114,6 +113,7 @@
                       @vuetable:loaded="hideLoader"
                       @vuetable:cell-clicked="onCellClicked"
                       @vuetable:initialized="onInitialized"
+                      @vuetable:data-reset="onDataReset"
                     ></vuetable>
                     <div class="vuetable-pagination ui bottom attached segment grid">
                       <vuetable-pagination-info ref="paginationInfo"

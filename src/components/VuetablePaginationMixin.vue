@@ -77,6 +77,9 @@ export default {
     setPaginationData (tablePagination) {
       this.tablePagination = tablePagination
     },
+    resetData () {
+      this.tablePagination = null
+    }
   }
 }
 </script>
