@@ -108,7 +108,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import axios from 'axios'
 
 export default {
@@ -779,7 +778,7 @@ export default {
       this.tableFields[index].visible = ! this.tableFields[index].visible
     },
     renderIconTag (classes, options = '') {
-      return this.renderIcon === null 
+      return this.renderIcon === null
         ? `<i class="${classes.join(' ')}" ${options}></i>`
         : this.renderIcon(classes, options)
     },
