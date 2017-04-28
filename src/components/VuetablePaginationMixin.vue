@@ -12,17 +12,13 @@ export default {
           linkClass: 'icon item',
           paginationClass: 'ui bottom attached segment grid',
           paginationInfoClass: 'left floated left aligned six wide column',
-        }
-      }
-    },
-    icons: {
-      type: Object,
-      default () {
-        return {
-          first: 'angle double left icon',
-          prev: 'left chevron icon',
-          next: 'right chevron icon',
-          last: 'angle double right icon',
+          dropdownClass: 'ui search dropdown',
+          icons: {
+            first: 'angle double left icon',
+            prev: 'left chevron icon',
+            next: 'right chevron icon',
+            last: 'angle double right icon',
+          }
         }
       }
     },
@@ -34,9 +30,10 @@ export default {
     },
   },
   data: function() {
-      return {
-        tablePagination: null
-      }
+    return {
+      eventPrefix: 'vuetable-pagination:',
+      tablePagination: null
+    }
   },
   computed: {
     totalPage () {
@@ -72,7 +69,7 @@ export default {
   },
   methods: {
     loadPage (page) {
-      this.$emit('vuetable-pagination:change-page', page)
+      this.$emit(this.eventPrefix+'change-page', page)
     },
     isCurrentPage (page) {
       return page === this.tablePagination.current_page
@@ -80,6 +77,9 @@ export default {
     setPaginationData (tablePagination) {
       this.tablePagination = tablePagination
     },
+    resetData () {
+      this.tablePagination = null
+    }
   }
 }
 </script>

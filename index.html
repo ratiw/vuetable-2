@@ -25,8 +25,7 @@
       .vuetable button.ui.button i.icon {
         margin: 0;
       }
-      .vuetable th.sortable:hover {
-        color: #2185d0;
+      .vuetable td i.handle-icon:hover {
         cursor: pointer;
       }
       .vuetable-actions {
@@ -107,12 +106,14 @@
                       :append-params="moreParams"
                       detail-row-component="my-detail-row"
                       detail-row-transition="expand"
-                      row-class-callback="rowClassCB"
+                      :row-class="rowClassCB"
                       @vuetable:pagination-data="onPaginationData"
                       @vuetable:load-success="onLoadSuccess"
                       @vuetable:loading="showLoader"
                       @vuetable:loaded="hideLoader"
                       @vuetable:cell-clicked="onCellClicked"
+                      @vuetable:initialized="onInitialized"
+                      @vuetable:data-reset="onDataReset"
                     ></vuetable>
                     <div class="vuetable-pagination ui bottom attached segment grid">
                       <vuetable-pagination-info ref="paginationInfo"
@@ -125,52 +126,11 @@
 
                   </div><!-- vuetable-wrapper -->
 
-                </div><!-- content -->
+                  <settings-modal ref="settingsModal"
+                    :vuetable-fields="vuetableFields"
+                  ></settings-modal>
 
-                <div class="ui small modal" id="settingsModal">
-                  <div class="header">Settings</div>
-                  <div class="content ui form">
-                    <div class="field">
-                      <div class="ui checkbox">
-                        <input type="checkbox" v-model="multiSort">
-                        <label>Multisort (use Alt+Click)</label>
-                      </div>
-                    </div>
-                    <div class="ui divider"></div>
-                    <div class="field">
-                      <label>Pagination:</label>
-                      <select class="ui simple dropdown" v-model="paginationComponent">
-                        <option value="vuetable-pagination">vuetable-pagination</option>
-                        <option value="vuetable-pagination-dropdown">vuetable-pagination-dropdown</option>
-                      </select>
-                    </div>
-                    <div class="field">
-                      <label>Per Page:</label>
-                      <select class="ui simple dropdown" v-model="perPage">
-                        <option :value="10">10</option>
-                        <option :value="15">15</option>
-                        <option :value="20">20</option>
-                        <option :value="25">25</option>
-                      </select>
-                    </div>
-                    <div class="ui fluid card">
-                      <div class="content">
-                        <div class="header">Visible fields</div>
-                      </div>
-                      <div class="content">
-                        <div v-for="field in fields" class="field">
-                          <div class="ui checkbox">
-                            <input type="checkbox" v-model="field.visible">
-                            <label>{{ getFieldTitle(field) }}</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="actions">
-                    <div class="ui cancel button">Close</div>
-                  </div>
-                </div>
+                </div><!-- content -->
 
             </div><!-- app -->
         </div><!-- ui container -->
