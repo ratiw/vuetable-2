@@ -377,14 +377,13 @@ export default {
       this.httpOptions['params'] = this.getAllQueryParams()
 
       if (this.httpMethod.toLowerCase() == 'post'){
-          Vue.http.post(this.apiUrl, this.httpOptions.params).then(
+          axios.post(this.apiUrl, this.httpOptions.params).then(
               success,
               failed
           )
           return
       }
 
-      Vue.http.get(this.apiUrl, this.httpOptions).then(
       axios.get(this.apiUrl, this.httpOptions).then(
         success,
         failed
