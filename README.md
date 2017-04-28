@@ -11,8 +11,9 @@ If you're looking for the version that's working with Vue 1.x, please go to [`vu
 
 ### Documentation and Tutorial
 
-Documentation is still under development. Meanwhile, check out 
+Documentation is still under development in the [Wiki page](https://github.com/ratiw/vuetable-2/wiki). 
 
+Meanwhile, check out
 - the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
 with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). It should be enough to get you started.
 
