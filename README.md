@@ -39,6 +39,10 @@ the onClick function can now be defined in the parent and the parent has Access 
 
 The original functionality still works
 
+# Breaking Changes
+## v1.6.0
+- The `icons` prop of VuetablePagination is now moved into the `css` prop object. See this [codepen](https://codepen.io/ratiw/pen/GmJayw).
+
 # Example Code
 - Clone the project
 - Go into the cloned directory
