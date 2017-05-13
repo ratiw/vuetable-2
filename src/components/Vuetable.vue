@@ -96,7 +96,7 @@
           </tr>
         </template>
       </template>
-      <template v-if="countTableData === 0">
+      <template v-if="displayEmptyDataRow">
         <tr>
           <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
         </tr>
@@ -245,7 +245,7 @@ export default {
     noDataTemplate: {
       type: String,
       default() {
-        return 'No relevant data'
+        return ''
       }
     },
   },
@@ -292,6 +292,9 @@ export default {
         return 0
       }
       return this.tableData.length
+    },
+    displayEmptyDataRow () {
+      return this.countTableData === 0 && this.noDataTemplate.length > 0
     },
     lessThanMinRows: function() {
       if (this.tableData === null || this.tableData.length === 0) {
