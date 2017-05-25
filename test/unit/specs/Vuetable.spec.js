@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
 import Vuetable from 'src/components/Vuetable'
 
 describe('data requests', () => {
