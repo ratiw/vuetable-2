@@ -59,11 +59,11 @@ describe('Properties', () => {
         }
       }).$mount()
       let comp = vm.$children[0]
-      expect(comp.fields).to.have.lengthOf(2)
+      expect(comp.tableFields).to.have.lengthOf(2)
       // deep equal does not work as expected in Safari
       // as it sees only Getter/Setter functions, not the real vulue
       // but deep equal works as expected on both Chrome and Firefox
-      expect(comp.fields).to.satisfy(function(arr) {
+      expect(comp.tableFields).to.satisfy(function(arr) {
         return (
             arr[0].name === 'code' &&
             arr[0].title === 'Code' &&
@@ -97,13 +97,13 @@ describe('Properties', () => {
         }
       }).$mount()
       let comp = vm.$children[0]
-      expect(comp.fields).to.have.lengthOf(2)
-      expect(comp.fields[0].name).to.equal('code')
-      expect(comp.fields[0].title).to.equal('Code')
-      expect(comp.fields[0].titleClass).to.be.empty
-      expect(comp.fields[0].dataClass).to.be.empty
-      expect(comp.fields[0].callback).to.be.empty
-      expect(comp.fields[0].visible).to.be.true
+      expect(comp.tableFields).to.have.lengthOf(2)
+      expect(comp.tableFields[0].name).to.equal('code')
+      expect(comp.tableFields[0].title).to.equal('Code')
+      expect(comp.tableFields[0].titleClass).to.be.empty
+      expect(comp.tableFields[0].dataClass).to.be.empty
+      expect(comp.tableFields[0].callback).to.be.empty
+      expect(comp.tableFields[0].visible).to.be.true
 
       let nodes = comp.$el.querySelectorAll('table thead tr th')
       expect(nodes[0].attributes.id.value).to.equal('_code')
@@ -120,7 +120,7 @@ describe('Properties', () => {
           }]
         }
       }).$mount()
-      expect(vm.$children[0].fields[0].title).to.equal('Code')
+      expect(vm.$children[0].tableFields[0].title).to.equal('Code')
     })
 
     it('should correctly override field title when specified', () => {
@@ -134,7 +134,7 @@ describe('Properties', () => {
           }]
         }
       }).$mount()
-      expect(vm.$children[0].fields[0].title).to.equal('My Title')
+      expect(vm.$children[0].tableFields[0].title).to.equal('My Title')
     })
 
     it('should use the given titleClass to render field title', () => {
@@ -149,7 +149,7 @@ describe('Properties', () => {
         }
       }).$mount()
       let comp = vm.$refs.vuetable
-      expect(comp.fields[0].titleClass).to.equal('foo-bar')
+      expect(comp.tableFields[0].titleClass).to.equal('foo-bar')
       let nodes = comp.$el.querySelectorAll('table thead tr th')
       expect(nodes[0].attributes.id.value).to.equal('_code')
       expect(nodes[0].classList.contains('foo-bar')).to.be.true
