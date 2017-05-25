@@ -1,17 +1,16 @@
 import Vue from 'vue'
 import Vuetable from 'src/components/Vuetable'
+import axios from 'axios'
 
 describe('data requests', () => {
 
-  let xhr, requests
+  let axiosStub
 
   before(function() {
-    xhr = sinon.useFakeXMLHttpRequest()
-    requests = []
-    xhr.onCreate = function(req) { requests.push(req) }
+    axiosStub = sinon.stub(axios, 'get').resolves();
   })
   after(function() {
-    xhr.restore()
+    axios.get.restore()
   })
 
   it('should make a request to the given api when mounted', () => {
@@ -25,8 +24,7 @@ describe('data requests', () => {
       }
     }).$mount()
 
-    expect(requests).to.have.lengthOf(1)
-    expect(requests[0].url).to.equal('http://example.com/api/test?sort=&page=1&per_page=10')
+    expect(axiosStub).to.have.been.calledWith('http://example.com/api/test', {params: {page: 1, per_page: 10, sort: ''}})
   })
 
 })
