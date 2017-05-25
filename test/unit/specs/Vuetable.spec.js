@@ -157,15 +157,14 @@ describe('Properties', () => {
   })
 
   describe('load-on-start', () => {
-    let xhr, requests
 
-    before(function() {
-      xhr = sinon.useFakeXMLHttpRequest()
-      requests = []
-      xhr.onCreate = function(req) { requests.push(req) }
+    let axiosStub
+
+    before(function () {
+      axiosStub = sinon.stub(axios, 'get').resolves();
     })
-    after(function() {
-      xhr.restore()
+    after(function () {
+      axios.get.restore()
     })
 
     it('should not loadData() when set to false', () => {
@@ -180,7 +179,7 @@ describe('Properties', () => {
       }).$mount()
 
       expect(vm.$refs.vuetable.loadOnStart).to.equal.false
-      expect(requests).to.be.empty
+      expect(axiosStub).to.not.have.been.called
     })
   })
 })
