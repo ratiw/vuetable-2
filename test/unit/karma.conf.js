@@ -62,7 +62,10 @@ module.exports = function (config) {
       }
     },
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    files: [
+      '../../node_modules/babel-polyfill/dist/polyfill.js',
+      './index.js'
+    ],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },
