@@ -44,8 +44,29 @@ describe('data requests', () => {
     expect(AxiosGetStub).to.not.have.been.called
   })
 
+  it('should refresh the data if the api-url changes', done => {
+    const vm = new Vue({
+      template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" :api-url="apiUrl" :silent="true"></vuetable>',
+      components: {'vuetable': VuetableWithMocks},
+      data: {
+        columns: [
+          'name', 'description'
+        ],
+        apiUrl: 'http://example.com/api/test'
+      }
+    }).$mount()
 
+    const newApiUrl = 'http://example.com/api/test/apiUrlChange';
+    vm.apiUrl = newApiUrl
 
+    vm.$refs.vuetable.currentPage = 42 // To make sure we refresh, i.e. currentPage is set to 1
+
+    vm.$nextTick().then(() => {
+      expect(vm.$refs.vuetable.currentPage).to.equal(1)
+      expect(vm.$refs.vuetable.apiUrl).to.equal(newApiUrl)
+      expect(AxiosGetStub).to.be.calledWith('http://example.com/api/test/apiUrlChange', {params: {page: 1, per_page: 10, sort: ''}})
+    }).then(done, done)
+  })
 })
 
 /**
