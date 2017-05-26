@@ -15,10 +15,6 @@ describe('data requests', () => {
      })
   })
 
-  afterEach(function() {
-    AxiosGetStub.reset();
-  })
-
   it('should loadData() to the given api when mounted', () => {
     const vm = new Vue({
       template: '<vuetable :silent="true" :fields="columns" api-url="http://example.com/api/test"></vuetable>',
