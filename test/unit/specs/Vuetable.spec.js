@@ -35,18 +35,20 @@ describe('data requests', () => {
 
   it('should not loadData() when load-on-start set to false', () => {
     const vm = new Vue({
-                         template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" api-url="http://example.com/api/test" :silent="true"></vuetable>',
-                         components: {'vuetable': VuetableWithMocks},
-                         data: {
-                           columns: [
-                             'name', 'description'
-                           ],
-                         }
-                       }).$mount()
+      template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" api-url="http://example.com/api/test" :silent="true"></vuetable>',
+      components: {'vuetable': VuetableWithMocks},
+      data: {
+        columns: [
+          'name', 'description'
+        ],
+      }
+    }).$mount()
 
     expect(vm.$refs.vuetable.loadOnStart).to.equal.false
     expect(AxiosGetStub).to.not.have.been.called
   })
+
+
 
 })
 
