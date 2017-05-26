@@ -7,7 +7,7 @@ describe('data requests', () => {
   let AxiosGetStub
 
   beforeEach(function() {
-    AxiosGetStub = sinon.stub().resolves();
+    AxiosGetStub = sinon.stub().resolves({data: {data: [{name: 'john', description:'foo bar'}]}});
     VuetableWithMocks = VuetableInjector({
        'axios': {
          get: AxiosGetStub
