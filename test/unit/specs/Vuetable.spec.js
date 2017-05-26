@@ -17,7 +17,7 @@ describe('data requests', () => {
 
   it('should loadData() to the given api when mounted', () => {
     const vm = new Vue({
-      template: '<vuetable :silent="true" :fields="columns" api-url="http://example.com/api/test"></vuetable>',
+      template: '<vuetable :silent="true" :fields="columns" api-url="http://example.com/api/test/loadOnMount"></vuetable>',
       components: {'vuetable': VuetableWithMocks },
       data: {
         columns: [
@@ -26,12 +26,12 @@ describe('data requests', () => {
       }
     }).$mount()
 
-    expect(AxiosGetStub).to.have.been.calledWith('http://example.com/api/test', {params: {page: 1, per_page: 10, sort: '' }})
+    expect(AxiosGetStub).to.have.been.calledWith('http://example.com/api/test/loadOnMount', {params: {page: 1, per_page: 10, sort: '' }})
   })
 
   it('should not loadData() when load-on-start set to false', () => {
     const vm = new Vue({
-      template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" api-url="http://example.com/api/test" :silent="true"></vuetable>',
+      template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" api-url="http://example.com/api/test/noLoadOnMount" :silent="true"></vuetable>',
       components: {'vuetable': VuetableWithMocks},
       data: {
         columns: [
