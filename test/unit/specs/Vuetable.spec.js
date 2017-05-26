@@ -1,22 +1,28 @@
 import Vue from 'vue'
 import Vuetable from 'src/components/Vuetable'
-import axios from 'axios'
+const VuetableInjector = require('!!vue?inject!../../../src/components/Vuetable')
 
 describe('data requests', () => {
+  let VuetableWithMocks
+  let AxiosGetStub
 
-  let axiosStub
-
-  before(function() {
-    axiosStub = sinon.stub(axios, 'get').resolves();
+  beforeEach(function() {
+    AxiosGetStub = sinon.stub().resolves();
+    VuetableWithMocks = VuetableInjector({
+       'axios': {
+         get: AxiosGetStub
+       }
+     })
   })
-  after(function() {
-    axios.get.restore()
+
+  afterEach(function() {
+    AxiosGetStub.reset();
   })
 
-  it('should make a request to the given api when mounted', () => {
+  it('should loadData() to the given api when mounted', () => {
     const vm = new Vue({
       template: '<vuetable :silent="true" :fields="columns" api-url="http://example.com/api/test"></vuetable>',
-      components: { Vuetable },
+      components: {'vuetable': VuetableWithMocks },
       data: {
         columns: [
           'name', 'description'
@@ -24,7 +30,22 @@ describe('data requests', () => {
       }
     }).$mount()
 
-    expect(axiosStub).to.have.been.calledWith('http://example.com/api/test', {params: {page: 1, per_page: 10, sort: ''}})
+    expect(AxiosGetStub).to.have.been.calledWith('http://example.com/api/test', {params: {page: 1, per_page: 10, sort: '' }})
+  })
+
+  it('should not loadData() when load-on-start set to false', () => {
+    const vm = new Vue({
+                         template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" api-url="http://example.com/api/test" :silent="true"></vuetable>',
+                         components: {'vuetable': VuetableWithMocks},
+                         data: {
+                           columns: [
+                             'name', 'description'
+                           ],
+                         }
+                       }).$mount()
+
+    expect(vm.$refs.vuetable.loadOnStart).to.equal.false
+    expect(AxiosGetStub).to.not.have.been.called
   })
 
 })
@@ -154,32 +175,5 @@ describe('Properties', () => {
     })
 
 
-  })
-
-  describe('load-on-start', () => {
-
-    let axiosStub
-
-    before(function () {
-      axiosStub = sinon.stub(axios, 'get').resolves();
-    })
-    after(function () {
-      axios.get.restore()
-    })
-
-    it('should not loadData() when set to false', () => {
-      const vm = new Vue({
-        template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" api-url="http://example.com/api/test" :silent="true"></vuetable>',
-        components: { Vuetable },
-        data: {
-          columns: [
-            'name', 'description'
-          ],
-        }
-      }).$mount()
-
-      expect(vm.$refs.vuetable.loadOnStart).to.equal.false
-      expect(axiosStub).to.not.have.been.called
-    })
   })
 })
