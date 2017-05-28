@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuetable from '../../../src/components/Vuetable.vue'
-const VuetableInjector = require('!!vue?inject!../../../src/components/Vuetable')
+const VuetableInjector = require('!!vue-loader?inject!../../../src/components/Vuetable')
 
 describe('data requests', () => {
   let VuetableWithMocks
