@@ -245,7 +245,7 @@ export default {
     noDataTemplate: {
       type: String,
       default() {
-        return ''
+        return 'No Data Available'
       }
     },
   },
