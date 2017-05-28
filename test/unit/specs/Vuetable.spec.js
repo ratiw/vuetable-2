@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuetable from 'src/components/Vuetable'
+import Vuetable from '../../../src/components/Vuetable.vue'
 const VuetableInjector = require('!!vue?inject!../../../src/components/Vuetable')
 
 describe('data requests', () => {
