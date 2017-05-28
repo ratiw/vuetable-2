@@ -10,15 +10,34 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 
 var cssFileName = "vuetable-2.css";
+var jsFileName = "vuetable-2.js";
 
-module.exports = merge(baseWebpackConfig, {
+if(process.env.MINIFY && process.env.MINIFY === "false"){
+  jsFileName = "vuetable-2-full.js"
+}
+var minifyPlugins = [
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    sourceMap:true,
+    comments: false,
+    beautify: false
+  }),
+];
+
+var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({sourceMap: true,extract: true})
   },
   entry: path.join(__dirname, '..', "src/index.js"),
   output: {
     path: path.join(__dirname, '..', "dist"),
-    filename: "vuetable-2.js",
+    filename: jsFileName,
     library: "Vuetable",
     libraryTarget: "umd"
   },
@@ -27,18 +46,6 @@ module.exports = merge(baseWebpackConfig, {
       "process.env": {
         NODE_ENV: '"production"'
       }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap:true,
-      comments: false,
-      beautify: false
     }),
     new webpack.BannerPlugin({
       banner: banner,
@@ -54,3 +61,8 @@ module.exports = merge(baseWebpackConfig, {
     aliasFields: ["browser"]
   }
 });
+
+if(process.env.MINIFY && process.env.MINIFY === "true"){
+  webpackConfig.plugins = webpackConfig.plugins.concat(minifyPlugins);
+}
+module.exports = webpackConfig;
