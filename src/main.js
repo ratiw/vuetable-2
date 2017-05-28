@@ -200,6 +200,7 @@ let tableColumns = [
   }
 ]
 
+/* eslint-disable no-new */
 let vm = new Vue({
   el: '#app',
   components: {
