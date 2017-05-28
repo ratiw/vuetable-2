@@ -11,8 +11,9 @@ If you're looking for the version that's working with Vue 1.x, please go to [`vu
 
 ### Documentation and Tutorial
 
-Documentation is still under development. Meanwhile, check out 
+Documentation is still under development in the [Wiki page](https://github.com/ratiw/vuetable-2/wiki). 
 
+Meanwhile, check out
 - the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
 with follow-along project [here](https://github.com/ratiw/vuetable-2-tutorial). It should be enough to get you started.
 
@@ -50,6 +51,10 @@ e.g.
 Enjoy :).
 
 The original functionality still works
+
+# Breaking Changes
+## v1.6.0
+- The `icons` prop of VuetablePagination is now moved into the `css` prop object. See this [codepen](https://codepen.io/ratiw/pen/GmJayw).
 
 # Example Code
 - Clone the project
@@ -98,6 +103,10 @@ VueTablePaginationDropdown: VueTable.VueTablePaginationDropdown
 
 # Contributions
 Any contribution to the code (via pull request would be nice) or any part of the documentation (the Wiki always need some love and care) and any idea and/or suggestion are very welcome.
+
+> __Note__   
+> PR for any bug should be forked from `master` branch.  
+> PR for anything else should be forked from `develop` branch.
 
 However, please do not feel bad if your pull requests or contributions do not get merged or implemented into Vuetable.
 
