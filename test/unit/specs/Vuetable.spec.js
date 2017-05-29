@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuetable from '../../../src/components/Vuetable.vue'
 const VuetableInjector = require('!!vue-loader?inject!../../../src/components/Vuetable')
 
+let sandbox = sinon.sandbox.create()
+
 describe('data requests', () => {
   let VuetableWithMocks
   let AxiosGetStub
@@ -13,6 +15,11 @@ describe('data requests', () => {
          get: AxiosGetStub
        }
      })
+
+  })
+
+  afterEach(function() {
+    sandbox.restore()
   })
 
   it('should loadData() to the given api when mounted', () => {
@@ -56,14 +63,13 @@ describe('data requests', () => {
       }
     }).$mount()
 
+    let refreshSpy = sandbox.spy(vm.$refs.vuetable, 'refresh')
+
     const newApiUrl = 'http://example.com/api/test/apiUrlChange';
     vm.apiUrl = newApiUrl
 
-    vm.$refs.vuetable.currentPage = 42 // To make sure we refresh, i.e. currentPage is set to 1
-
     vm.$nextTick().then(() => {
-      expect(vm.$refs.vuetable.currentPage).to.equal(1)
-      expect(vm.$refs.vuetable.apiUrl).to.equal(newApiUrl)
+      expect(refreshSpy).to.have.been.called
       expect(AxiosGetStub).to.be.calledWith('http://example.com/api/test/apiUrlChange', {params: {page: 1, per_page: 10, sort: ''}})
     }).then(done, done)
   })
