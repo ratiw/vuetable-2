@@ -73,6 +73,31 @@ describe('data requests', () => {
       expect(AxiosGetStub).to.be.calledWith('http://example.com/api/test/apiUrlChange', {params: {page: 1, per_page: 10, sort: ''}})
     }).then(done, done)
   })
+
+  it('should not refresh the data if the api-url changes and reactive api url is disabled', done => {
+    const vm = new Vue({
+      template: '<vuetable ref="vuetable" :reactive-api-url="false" :load-on-start="false" :fields="columns" :api-url="apiUrl" :silent="true"></vuetable>',
+      components: {'vuetable': VuetableWithMocks},
+      data: {
+       columns: [
+         'name', 'description'
+       ],
+       apiUrl: 'http://example.com/api/test'
+      }
+      }).$mount()
+
+    let refreshSpy = sandbox.spy(vm.$refs.vuetable, 'refresh')
+
+    const newApiUrl = 'http://example.com/api/test/noReactiveApiUrl';
+    vm.apiUrl = newApiUrl
+
+    vm.$nextTick().then(() => {
+      expect(refreshSpy).to.not.have.been.called
+      expect(vm.$refs.vuetable.apiUrl).to.equal(newApiUrl)
+      expect(AxiosGetStub).to.not.have.been.calledWith('http://example.com/api/test/noReactiveApiUrl', {params: {page: 1, per_page: 10, sort: ''}})
+    })
+      .then(done, done)
+  })
 })
 
 /**
