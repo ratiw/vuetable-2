@@ -15,9 +15,9 @@ module.exports = function (config) {
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     // chai config
     client: {
-     chai: {
-       truncateThreshold: 0
-     }
+      chai: {
+        truncateThreshold: 0
+      }
     },
     reporters: ['spec', 'coverage'],
     files: [
