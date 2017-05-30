@@ -12,7 +12,7 @@
 - [Pagination](Pagination)
 - [Detail Row](Detail-Row)
 - [CSS Styling](CSS-Styling)
-- [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
+- [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/wiki)
 - [FAQ](FAQ)
 
 ### Components API
