@@ -2,11 +2,10 @@ import Vue from 'vue'
 import Vuetable from '../../../src/components/Vuetable.vue'
 const VuetableInjector = require('!!vue-loader?inject!../../../src/components/Vuetable')
 
-let sandbox = sinon.sandbox.create()
-
 describe('data requests', () => {
   let VuetableWithMocks
   let AxiosGetStub
+  let sandbox = sinon.sandbox.create()
 
   beforeEach(function() {
     AxiosGetStub = sinon.stub().resolves({data: {data: [{name: 'john', description:'foo bar'}]}});
