@@ -395,7 +395,7 @@ export default {
       axios.get(this.apiUrl, this.httpOptions).then(
         success,
         failed
-      )
+      ).catch(() => failed())
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)
