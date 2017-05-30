@@ -317,3 +317,9 @@
 
   The CSS class to apply to detail row during transition.
 
+### # no-data-template
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+Template when there are no records in the table. Inserted into table cell `td`
