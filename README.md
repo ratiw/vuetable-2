@@ -35,7 +35,20 @@ e.g.
 </template>
 ```
 
-the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
+the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :) 
+
+You can now set the method for apiUrl. It can be either POST or GET. Default is GET.
+
+e.g. 
+```html
+<template>
+    <vuetable ref="vuetable"
+              :api-url="apiUrl"
+              httpMethod="post"
+    ></vuetable>
+</template>
+```
+Enjoy :).
 
 The original functionality still works
 
@@ -91,9 +104,14 @@ VueTablePaginationDropdown: VueTable.VueTablePaginationDropdown
 # Contributions
 Any contribution to the code (via pull request would be nice) or any part of the documentation (the Wiki always need some love and care) and any idea and/or suggestion are very welcome.
 
+> __Note__   
+> PR for any bug should be forked from `master` branch.  
+> PR for anything else should be forked from `develop` branch.
+
 However, please do not feel bad if your pull requests or contributions do not get merged or implemented into Vuetable.
 
 Your contributions can, not only help make Vuetable better, but also push it away from what I intend to use it for. I just hope that you find it useful for your use or learn something useful from its source code. But remember, you can always fork it to make it work the way you want.
 
 # License
 Vuetable is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+

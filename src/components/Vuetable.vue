@@ -96,6 +96,11 @@
           </tr>
         </template>
       </template>
+      <template v-if="displayEmptyDataRow">
+        <tr>
+          <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
+        </tr>
+      </template>
       <template v-if="lessThanMinRows">
         <tr v-for="i in blankRows" class="blank-row">
           <template v-for="field in tableFields">
@@ -123,6 +128,10 @@ export default {
     apiUrl: {
         type: String,
         default: ''
+    },
+    httpMethod: {
+        type: String,
+        default: 'get'
     },
     apiMode: {
       type: Boolean,
@@ -236,7 +245,13 @@ export default {
     silent: {
       type: Boolean,
       default: false
-    }
+    },
+    noDataTemplate: {
+      type: String,
+      default() {
+        return 'No Data Available'
+      }
+    },
   },
   data () {
     return {
@@ -275,6 +290,15 @@ export default {
       return this.tableFields.filter(function(field) {
         return field.visible
       }).length
+    },
+    countTableData () {
+      if (this.tableData === null) {
+        return 0
+      }
+      return this.tableData.length
+    },
+    displayEmptyDataRow () {
+      return this.countTableData === 0 && this.noDataTemplate.length > 0
     },
     lessThanMinRows: function() {
       if (this.tableData === null || this.tableData.length === 0) {
@@ -372,10 +396,16 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      axios.get(this.apiUrl, this.httpOptions).then(
-        success,
-        failed
+      this.httpMethodValidator()
+      axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
+          success,
+          failed
       )
+    },
+    httpMethodValidator (){
+        if ((this.httpMethod.toLowerCase() != 'post') && (this.httpMethod.toLowerCase() != 'get')) {
+            this.warn('The HTTP method is not valid.')
+        }
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)
@@ -873,5 +903,8 @@ export default {
   .vuetable-pagination-info {
     margin-top: auto;
     margin-bottom: auto;
+  }
+  .vuetable-empty-result {
+    text-align: center;
   }
 </style>
