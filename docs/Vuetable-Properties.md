@@ -12,6 +12,7 @@
 - [append-params](#-append-params)
 - [query-params](#-query-params)
 - [http-options](#-http-options)
+- [http-method](#-http-method)
 - [track-by](#-track-by)
 - [sort-order](#-sort-order)
 - [multi-sort](#-multi-sort)
@@ -153,7 +154,15 @@
 
   Allow passing additional options to the server during AJAX call. Internally, Vuetable uses [`axios`](https://github.com/mzabriskie/axios)
   to handle AJAX request.
-  
+
+### # http-method
+- works in `api-mode` only
+- type: _String_
+- default: `get`
+- description
+
+  Only support `get` or `post` method. Please note that it must be the __lowercase__ string.
+
 ### # track-by
 - type: _String_
 - default: `id`

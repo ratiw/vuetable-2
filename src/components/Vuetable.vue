@@ -129,6 +129,13 @@ export default {
         type: String,
         default: ''
     },
+    httpMethod: {
+        type: String,
+        default: 'get',
+        validator: (value) => {
+          return ['get', 'post'].indexOf(value) > -1
+        }
+    },
     apiMode: {
       type: Boolean,
       default: true
@@ -392,9 +399,9 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      axios.get(this.apiUrl, this.httpOptions).then(
-        success,
-        failed
+      axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
+          success,
+          failed
       ).catch(() => failed())
     },
     loadSuccess (response) {
