@@ -35,7 +35,20 @@ e.g.
 </template>
 ```
 
-the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
+the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :) 
+
+You can now set the method for apiUrl. It can be either POST or GET. Default is GET.
+
+e.g. 
+```html
+<template>
+    <vuetable ref="vuetable"
+              :api-url="apiUrl"
+              httpMethod="post"
+    ></vuetable>
+</template>
+```
+Enjoy :).
 
 The original functionality still works
 
@@ -101,3 +114,4 @@ Your contributions can, not only help make Vuetable better, but also push it awa
 
 # License
 Vuetable is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
