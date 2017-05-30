@@ -35,7 +35,9 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "build:bundle": "webpack --progress --config build/webpack.build.config.js",
+    "bundle:min": "cross-env MINIFY=true webpack --progress --config build/webpack.build.config.js",
+    "bundle:full": "cross-env MINIFY=false webpack --progress --config build/webpack.build.config.js",
+    "bundle": "npm run bundle:min && npm run bundle:full",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e"
