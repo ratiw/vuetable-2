@@ -69,7 +69,7 @@ describe('data requests', () => {
 
     vm.$nextTick().then(() => {
       expect(refreshSpy).to.have.been.called
-      expect(AxiosGetStub).to.be.calledWith('http://example.com/api/test/apiUrlChange', {params: {page: 1, per_page: 10, sort: ''}})
+      expect(AxiosGetStub).to.have.been.calledWith('http://example.com/api/test/apiUrlChange', {params: {page: 1, per_page: 10, sort: ''}})
     }).then(done, done)
   })
 
