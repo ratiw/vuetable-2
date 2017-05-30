@@ -92,7 +92,6 @@ describe('data requests', () => {
 
     vm.$nextTick().then(() => {
       expect(refreshSpy).to.not.have.been.called
-      expect(vm.$refs.vuetable.apiUrl).to.equal(newApiUrl)
       expect(AxiosGetStub).to.not.have.been.calledWith('http://example.com/api/test/noReactiveApiUrl', {params: {page: 1, per_page: 10, sort: ''}})
     })
       .then(done, done)
