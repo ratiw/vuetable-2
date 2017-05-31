@@ -30,3 +30,14 @@
   
   Determine if detail row should be rendered by inspecting the availability of the data and various properties.
   
+### # countTableData
+- return: _Number_
+- description
+
+  Return the number of table rows.
+
+### # displayEmptyDataRow
+- return: _Boolean_
+- description
+
+  Determine if row with no data available should be displayed.

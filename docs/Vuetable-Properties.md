@@ -17,6 +17,7 @@
 - [min-rows](#-min-rows)
 - [multi-sort](#-multi-sort)
 - [multi-sort-key](#-multi-sort-key)
+- [no-data-template](#-no-data-template)
 - [pagination-path](#-pagination-path)
 - [per-page](#-per-page)
 - [query-params](#-query-params)
@@ -326,3 +327,9 @@
 
   The CSS class to apply to detail row during transition.
 
+### # no-data-template
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+  Template when there are no records in the table. Inserted into table cell `td`
