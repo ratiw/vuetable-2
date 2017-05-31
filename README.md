@@ -11,7 +11,7 @@ If you're looking for the version that's working with Vue 1.x, please go to [`vu
 
 ### Documentation and Tutorial
 
-Documentation is still under development in the [Wiki page](https://github.com/ratiw/vuetable-2/wiki). 
+Documentation is still under development, but you can view it at [https://ratiw.github.io/vuetable-2](https://ratiw.github.io/vuetable-2).  Thanks to @cristijora for the help.
 
 Meanwhile, check out
 - the [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/wiki)
@@ -35,20 +35,7 @@ e.g.
 </template>
 ```
 
-the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :) 
-
-You can now set the method for apiUrl. It can be either POST or GET. Default is GET.
-
-e.g. 
-```html
-<template>
-    <vuetable ref="vuetable"
-              :api-url="apiUrl"
-              httpMethod="post"
-    ></vuetable>
-</template>
-```
-Enjoy :).
+the onClick function can now be defined in the parent and the parent has Access to rowData and rowIndex via props. :)
 
 The original functionality still works
 
@@ -102,11 +89,12 @@ VueTablePaginationDropdown: VueTable.VueTablePaginationDropdown
 
 
 # Contributions
-Any contribution to the code (via pull request would be nice) or any part of the documentation (the Wiki always need some love and care) and any idea and/or suggestion are very welcome.
+Any contribution to the code (via pull request would be nice) or any part of the documentation and any idea and/or suggestion are very welcome.
 
-> __Note__   
-> PR for any bug should be forked from `master` branch.  
-> PR for anything else should be forked from `develop` branch.
+> __Note__    
+> For any bug fix, the PR should be forked from the `master` branch. And for any suggestion or additional feature, the PR should be forked from the `develop` branch, where it can be integrated and rolled out in the next release.  
+>
+> If you are not sure, please ask by openning a new issue. 
 
 However, please do not feel bad if your pull requests or contributions do not get merged or implemented into Vuetable.
 
@@ -114,4 +102,3 @@ Your contributions can, not only help make Vuetable better, but also push it awa
 
 # License
 Vuetable is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
-
