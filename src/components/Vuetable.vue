@@ -136,6 +136,10 @@ export default {
           return ['get', 'post'].indexOf(value) > -1
         }
     },
+    reactiveApiUrl: {
+        type: Boolean,
+        default: true
+    },
     apiMode: {
       type: Boolean,
       default: true
@@ -874,7 +878,7 @@ export default {
       }
     },
     'apiUrl': function (newVal, oldVal) {
-      if(newVal !== oldVal)
+      if(this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
     }
   },
