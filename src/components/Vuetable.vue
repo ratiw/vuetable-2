@@ -20,7 +20,7 @@
                   :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
                   v-html="renderTitle(field)"
               ></th>
-              <th v-if="apiMode && extractName(field.name) == '__sequence'"
+              <th v-if="extractName(field.name) == '__sequence'"
                   :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
@@ -281,7 +281,7 @@ export default {
       visibleDetailRows: [],
     }
   },
-  created () {
+  mounted () {
     this.normalizeFields()
     this.$nextTick(function() {
       this.fireEvent('initialized', this.tableFields)

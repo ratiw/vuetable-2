@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v1.6.1
+ * vuetable-2 v1.6.2
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -2070,7 +2070,7 @@ exports.default = {
       visibleDetailRows: []
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     this.normalizeFields();
     this.$nextTick(function () {
       this.fireEvent('initialized', this.tableFields);
@@ -3400,7 +3400,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.apiMode && _vm.extractName(field.name) == '__sequence') ? _c('th', {
+    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__sequence') ? _c('th', {
       class: ['vuetable-th-sequence', field.titleClass || ''],
       domProps: {
         "innerHTML": _vm._s(_vm.renderTitle(field))
