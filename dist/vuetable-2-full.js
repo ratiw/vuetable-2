@@ -867,7 +867,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\work\\Github\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -910,7 +910,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\work\\Github\\vuetable-2\\src\\components\\Vuetable.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -950,7 +950,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\work\\Github\\vuetable-2\\src\\components\\VuetablePagination.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -990,7 +990,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\work\\Github\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1030,7 +1030,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\work\\Github\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1925,12 +1925,33 @@ exports.default = {
       type: String,
       default: ''
     },
+    httpMethod: {
+      type: String,
+      default: 'get',
+      validator: function validator(value) {
+        return ['get', 'post'].indexOf(value) > -1;
+      }
+    },
+    reactiveApiUrl: {
+      type: Boolean,
+      default: true
+    },
     apiMode: {
       type: Boolean,
       default: true
     },
     data: {
-      type: Array,
+      type: [Array, Object],
+      default: function _default() {
+        return null;
+      }
+    },
+    dataTotal: {
+      type: Number,
+      default: 0
+    },
+    dataManager: {
+      type: Function,
       default: function _default() {
         return null;
       }
@@ -2009,10 +2030,7 @@ exports.default = {
       type: String,
       default: 'id'
     },
-    renderIcon: {
-      type: Function,
-      default: null
-    },
+
     css: {
       type: Object,
       default: function _default() {
@@ -2058,11 +2076,8 @@ exports.default = {
       this.fireEvent('initialized', this.tableFields);
     });
 
-    if (this.apiMode && this.loadOnStart) {
+    if (this.loadOnStart) {
       this.loadData();
-    }
-    if (this.apiMode == false && this.data.length > 0) {
-      this.setData(this.data);
     }
   },
 
@@ -2089,7 +2104,6 @@ exports.default = {
     displayEmptyDataRow: function displayEmptyDataRow() {
       return this.countTableData === 0 && this.noDataTemplate.length > 0;
     },
-
     lessThanMinRows: function lessThanMinRows() {
       if (this.tableData === null || this.tableData.length === 0) {
         return true;
@@ -2105,6 +2119,12 @@ exports.default = {
       }
 
       return this.minRows - this.tableData.length;
+    },
+    isApiMode: function isApiMode() {
+      return this.apiMode;
+    },
+    isDataMode: function isDataMode() {
+      return !this.apiMode;
     }
   },
   methods: {
@@ -2143,7 +2163,20 @@ exports.default = {
     },
     setData: function setData(data) {
       this.apiMode = false;
-      this.tableData = data;
+      if (Array.isArray(data)) {
+        this.tableData = data;
+        return;
+      }
+
+      this.fireEvent('loading');
+
+      this.tableData = this.getObjectValue(data, this.dataPath, null);
+      this.tablePagination = this.getObjectValue(data, this.paginationPath, null);
+
+      this.$nextTick(function () {
+        this.fireEvent('pagination-data', this.tablePagination);
+        this.fireEvent('loaded');
+      });
     },
     setTitle: function setTitle(str) {
       if (this.isSpecialField(str)) {
@@ -2161,6 +2194,9 @@ exports.default = {
       }
 
       return title;
+    },
+    renderSequence: function renderSequence(index) {
+      return this.tablePagination ? this.tablePagination.from + index : index;
     },
     isSpecialField: function isSpecialField(fieldName) {
       return fieldName.slice(0, 2) === '__';
@@ -2185,13 +2221,18 @@ exports.default = {
       var success = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.loadSuccess;
       var failed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.loadFailed;
 
-      if (!this.apiMode) return;
+      if (this.isDataMode) {
+        this.callDataManager();
+        return;
+      }
 
       this.fireEvent('loading');
 
       this.httpOptions['params'] = this.getAllQueryParams();
 
-      _axios2.default.get(this.apiUrl, this.httpOptions).then(success, failed);
+      _axios2.default[this.httpMethod](this.apiUrl, this.httpOptions).then(success, failed).catch(function () {
+        return failed();
+      });
     },
     loadSuccess: function loadSuccess(response) {
       this.fireEvent('load-success', response);
@@ -2307,7 +2348,7 @@ exports.default = {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField;
     },
     orderBy: function orderBy(field, event) {
-      if (!this.isSortable(field) || !this.apiMode) return;
+      if (!this.isSortable(field)) return;
 
       var key = this.multiSortKey.toLowerCase() + 'Key';
 
@@ -2564,7 +2605,39 @@ exports.default = {
     renderIconTag: function renderIconTag(classes) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
-      return this.renderIcon === null ? '<i class="' + classes.join(' ') + '" ' + options + '></i>' : this.renderIcon(classes, options);
+      return typeof this.css.renderIcon === 'undefined' ? '<i class="' + classes.join(' ') + '" ' + options + '></i>' : this.css.renderIcon(classes, options);
+    },
+    makePagination: function makePagination() {
+      var total = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var perPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var currentPage = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+      var pagination = {};
+      total = total === null ? this.dataTotal : total;
+      perPage = perPage === null ? this.perPage : perPage;
+      currentPage = currentPage === null ? this.currentPage : currentPage;
+
+      return {
+        'total': total,
+        'per_page': perPage,
+        'current_page': currentPage,
+        'last_page': Math.ceil(total / perPage) || 0,
+        'next_page_url': '',
+        'prev_page_url': '',
+        'from': (currentPage - 1) * perPage + 1,
+        'to': Math.min(currentPage * perPage, total)
+      };
+    },
+    normalizeSortOrder: function normalizeSortOrder() {
+      this.sortOrder.forEach(function (item) {
+        item.sortField = item.sortField || item.field;
+      });
+    },
+    callDataManager: function callDataManager() {
+      if (this.dataManager === null) return;
+
+      this.normalizeSortOrder();
+      this.setData(this.dataManager(this.sortOrder, this.makePagination()));
     },
     onRowClass: function onRowClass(dataItem, index) {
       if (this.rowClassCallback !== '') {
@@ -2627,9 +2700,8 @@ exports.default = {
         this.loadData();
       }
     },
-
     'apiUrl': function apiUrl(newVal, oldVal) {
-      if (newVal !== oldVal) this.refresh();
+      if (this.reactiveApiUrl && newVal !== oldVal) this.refresh();
     }
   }
 };
@@ -3175,6 +3247,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -3204,7 +3280,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\work\\Github\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -3368,10 +3444,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._l((_vm.tableFields), function(field) {
-      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.apiMode && _vm.extractName(field.name) == '__sequence') ? _c('td', {
+      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__sequence') ? _c('td', {
         class: ['vuetable-sequence', field.dataClass],
         domProps: {
-          "innerHTML": _vm._s(_vm.tablePagination.from + index)
+          "innerHTML": _vm._s(_vm.renderSequence(index))
         }
       }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__handle') ? _c('td', {
         class: ['vuetable-handle', field.dataClass],
