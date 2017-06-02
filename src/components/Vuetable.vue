@@ -238,10 +238,6 @@ export default {
       type: String,
       default: 'id'
     },
-    // renderIcon: {
-    //   type: Function,
-    //   default: null
-    // },
     css: {
       type: Object,
       default () {

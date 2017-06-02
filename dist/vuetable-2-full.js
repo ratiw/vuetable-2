@@ -2030,7 +2030,6 @@ exports.default = {
       type: String,
       default: 'id'
     },
-
     css: {
       type: Object,
       default: function _default() {
