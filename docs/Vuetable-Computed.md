@@ -1,15 +1,31 @@
 ## Vuetable - Computed Properties
 
-- [countVisibleFields](#-countvisiblefields)
-- [lessThanMinRows](#-lessthanminrows)
 - [blankRows](#-blankrows)
+- [countTableData](#-counttabledata)
+- [countVisibleFields](#-countvisiblefields)
+- [displayEmptyDataRow](#-displayemptydatarow)
+- [isApiMode](#-isapimode)
+- [isDataMode](#-isdatamode)
+- [lessThanMinRows](#-lessthanminrows)
 - [useDetailRow](#-usedetailrow)
+
+### # countTableData
+- return: _Number_
+- description
+
+  Return the number of rows for the current data or zero (0) if the `tableData` is `null`.
 
 ### # countVisibleFields
 - return: _Number_
 - description
 
-  Return the number o visible fields in the table by checking the field's `visible` option.
+  Return the number of visible fields in the table by checking the field's `visible` option.
+
+### # displayEmptyDataRow
+- return: _Boolean_
+- description
+
+  Determine if Vuetable should display empty data row message.
 
 ### # lessThanMinRows
 - return: _Boolean_
@@ -30,14 +46,15 @@
   
   Determine if detail row should be rendered by inspecting the availability of the data and various properties.
   
-### # countTableData
-- return: _Number_
-- description
-
-  Return the number of table rows.
-
-### # displayEmptyDataRow
+### # isApiMode
 - return: _Boolean_
 - description
 
-  Determine if row with no data available should be displayed.
+  Determine if Vuetable is currently in API mode.
+
+### # isDataMode
+- return: _Boolean_
+- description
+
+  Determine if Vuetable is currently in Data mode.
+  
