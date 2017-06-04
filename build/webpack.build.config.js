@@ -52,10 +52,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       raw: true
     }),
     new ExtractTextPlugin({filename: cssFileName, allChunks: true}),
-    new StatsPlugin({
-      fileName: "../stats.json",
-      chunkModules: true
-    })
+    new StatsPlugin('stats.json')
   ],
   resolve: {
     aliasFields: ["browser"]
