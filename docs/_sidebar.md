@@ -1,4 +1,3 @@
-### [Table of Contents](Home)
 
 ### Vuetable
 - [Fields Definition](Fields-Definition)
