@@ -1,22 +1,29 @@
 ## Vuetable - Methods
 
+### fields related
 - [normalizeFields](#-normalizeFields)
+- [showField](#-showfield)
+- [hideField](#-hidefield)
+- [toggleField](#-togglefield)
+
+### data related
 - [setData](#-setdata)
 - [reload](#-reload)
 - [refresh](#-refresh)
 - [resetData](#-resetdata)
 - [transform](#-transform)
+
+### pagination related
 - [gotoPreviousPage](#-gotopreviouspage)
 - [gotoNextPage](#-gotonextpage)
 - [gotoPage](#-gotopage)
 - [changePage](#-changepage)
+
+### detail row related
 - [isVisibleDetailRow](#-isvisibledetailrow)
 - [showDetailRow](#-showdetailrow)
 - [hideDetailRow](#-hidedetailrow)
 - [toggleDetailRow](#-toggledetailrow)
-- [showField](#-showfield)
-- [hideField](#-hidefield)
-- [toggleField](#-togglefield)
 
 ### # normalizeFields
 - params: _none_
@@ -30,11 +37,14 @@
 
 ### # setData
 - params: 
-  - data: _Array_
+  - data: _Array_ | _Object_
 - description
 
-  You can use this method to manually set the data that Vuetable will be used for table rendering instead of requesting 
-  data from the server.
+  You can use this method to manually set the data that Vuetable will be used for table rendering instead of requesting data from the server.
+
+  If the `data` parameter is of type Array, Vuetable will use those array as the data to render the table.
+
+  If the `data` parameter is of type Object, it must be conform to the [Data Structure](#) that Vuetable expects (e.g. contains both data and pagination information).  
 
   > __Note__
   > The method will automatically set `api-mode` to `false`.

@@ -2,7 +2,10 @@
 node_modules/
 dist/static
 dist/index.html
-npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 selenium-debug.log
 test/unit/coverage
 test/e2e/reports
+.idea/

@@ -1,28 +1,31 @@
 ## Vuetable - Properties
 
+- [append-params](#-append-params)
 - [api-mode](#-api-mode)
 - [api-url](#-api-url)
-- [fields](#-fields)
+- [css](#-css)
 - [data](#-data)
 - data-manager
 - [data-path](#-data-path)
 - data-total
-- [pagination-path](#-pagination-path)
-- [load-on-start](#-load-on-start)
-- [append-params](#-append-params)
-- [query-params](#-query-params)
-- [http-options](#-http-options)
-- [track-by](#-track-by)
-- [sort-order](#-sort-order)
-- [multi-sort](#-multi-sort)
-- [multi-sort-key](#-multi-sort-key)
-- [per-page](#-per-page)
-- [css](#-css)
-- [render-icon](#-render-icon)
-- [min-rows](#-min-rows)
-- [row-class](#-row-class)
 - [detail-row-component](#-detail-row-component)
 - [detail-row-transition](#-detail-row-transition)
+- [fields](#-fields)
+- [http-options](#-http-options)
+- [http-method](#-http-method)
+- [load-on-start](#-load-on-start)
+- [min-rows](#-min-rows)
+- [multi-sort](#-multi-sort)
+- [multi-sort-key](#-multi-sort-key)
+- [no-data-template](#-no-data-template)
+- [pagination-path](#-pagination-path)
+- [per-page](#-per-page)
+- [query-params](#-query-params)
+- [reactive-api-url](#-reactive-api-url)
+- [render-icon](#-render-icon)
+- [row-class](#-row-class)
+- [sort-order](#-sort-order)
+- [track-by](#-track-by)
 
 ### # api-mode
 - type: _Boolean_
@@ -48,6 +51,14 @@
   The URL of the api endpoint that Vuetable will interact with. If the API supports sorting, filtering, pagination of the data, 
   Vuetable can automatically append appropriate information to the server via query string.
   
+### # reactive-api-url
+- works in `api-mode` only
+- type: _Boolean_
+- default: `true`
+- description
+
+  Tells Vuetable whether it should watch for the change in `api-url` prop and refresh the data automatically.
+
 ### # fields
 - type: _Array_
 - default: _none_
@@ -153,7 +164,15 @@
 
   Allow passing additional options to the server during AJAX call. Internally, Vuetable uses [`axios`](https://github.com/mzabriskie/axios)
   to handle AJAX request.
-  
+
+### # http-method
+- works in `api-mode` only
+- type: _String_
+- default: `get`
+- description
+
+  Only support `get` or `post` method. Please note that it must be the __lowercase__ string.
+
 ### # track-by
 - type: _String_
 - default: `id`
@@ -308,3 +327,9 @@
 
   The CSS class to apply to detail row during transition.
 
+### # no-data-template
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+  Template when there are no records in the table. Inserted into table cell `td`

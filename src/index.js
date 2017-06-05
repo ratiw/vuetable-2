@@ -2,6 +2,9 @@ import Vuetable from './components/Vuetable.vue'
 import VuetablePagination from './components/VuetablePagination.vue'
 import VuetablePaginationDropDown from './components/VuetablePaginationDropdown.vue'
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
+import VuetablePaginationMixin from './components/VuetablePaginationMixin.vue'
+import VuetablePaginationInfoMixin from './components/VuetablePaginationInfoMixin.vue'
+
 
 function install(Vue){
   Vue.component("vuetable", Vuetable);
@@ -14,6 +17,8 @@ export {
   VuetablePagination,
   VuetablePaginationDropDown,
   VuetablePaginationInfo,
+  VuetablePaginationMixin,
+  VuetablePaginationInfoMixin,
   install
 };
 

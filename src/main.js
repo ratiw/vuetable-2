@@ -101,7 +101,7 @@ Vue.component('settings-modal', {
           <div v-if="vuetableFields" class="content">
             <div v-for="(field, idx) in vuetableFields" class="field">
               <div class="ui checkbox">
-                <input type="checkbox" v-model="field.visible" @change="toggleField(idx, $event)">
+                <input type="checkbox" :checked="field.visible" @change="toggleField(idx, $event)">
                 <label>{{ getFieldTitle(field) }}</label>
               </div>
             </div>
@@ -200,6 +200,7 @@ let tableColumns = [
   }
 ]
 
+/* eslint-disable no-new */
 let vm = new Vue({
   el: '#app',
   components: {
