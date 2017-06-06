@@ -429,6 +429,13 @@ export default {
         return
       }
 
+      if(! this.apiUrl) {
+        this.tableData = null;
+        this.tablePagination = null;
+        this.fireEvent('abort-load')
+        return;
+      }
+
       this.fireEvent('loading')
 
       this.httpOptions['params'] = this.getAllQueryParams()
@@ -938,6 +945,10 @@ export default {
     'apiUrl'  (newVal, oldVal) {
       if(this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
+    },
+    'data': function (newVal, oldVal) {
+      if (this.apiMode == false)
+        this.setData (newVal)
     }
   },
 }
