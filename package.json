@@ -1,6 +1,6 @@
 {
   "name": "vuetable-2",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "Datatable component for Vue 2.x",
   "main": "dist/vuetable-2.js",
   "license": "MIT",
