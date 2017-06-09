@@ -866,10 +866,15 @@ export default {
       })
     },
     callDataManager () {
-      if (this.dataManager === null) return
+      if (this.dataManager === null && this.data === null) return
 
-      this.normalizeSortOrder()
-      this.setData(this.dataManager(this.sortOrder, this.makePagination()))
+      if (Array.isArray(this.data)) {
+        console.log('data mode: array')
+        this.setData(this.data)
+      } else {
+        this.normalizeSortOrder()
+        this.setData(this.dataManager(this.sortOrder, this.makePagination()))
+      }
     },
     onRowClass (dataItem, index) {
       if (this.rowClassCallback !== '') {
