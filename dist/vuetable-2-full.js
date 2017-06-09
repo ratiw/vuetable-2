@@ -1,13 +1,5 @@
 /**
-<<<<<<< HEAD
  * vuetable-2 v1.6.4
-=======
-<<<<<<< HEAD
- * vuetable-2 v1.6.4
-=======
- * vuetable-2 v1.6.3
->>>>>>> 97bca95424028bdcd233250a14dc7bee210d2670
->>>>>>> d4bf8ec2e85ac291873b8a856ad62c42a3c71e64
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
