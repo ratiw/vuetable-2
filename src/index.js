@@ -4,7 +4,11 @@ import VuetablePaginationDropDown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import VuetablePaginationMixin from './components/VuetablePaginationMixin.vue'
 import VuetablePaginationInfoMixin from './components/VuetablePaginationInfoMixin.vue'
+import Promise from 'promise-polyfill'
 
+if (!window.Promise) {
+	window.Promise = Promise
+}
 
 function install(Vue){
   Vue.component("vuetable", Vuetable);
