@@ -1,6 +1,6 @@
 {
   "name": "vuetable-2",
-  "version": "1.6.3",
+  "version": "1.6.5",
   "description": "Datatable component for Vue 2.x",
   "main": "dist/vuetable-2.js",
   "license": "MIT",
@@ -91,6 +91,7 @@
     "optimize-css-assets-webpack-plugin": "^1.3.0",
     "ora": "^1.2.0",
     "phantomjs-prebuilt": "^2.1.3",
+    "promise-polyfill": "^6.0.2",
     "rimraf": "^2.6.0",
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",
