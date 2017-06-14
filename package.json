@@ -42,8 +42,8 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e"
   },
-  "dependencies": {
-    "axios": "^0.15.3"
+  "peerDependencies": {
+    "axios": "0.x"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
