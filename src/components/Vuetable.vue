@@ -279,6 +279,7 @@ export default {
   },
   mounted () {
     this.normalizeFields()
+    this.normalizeSortOrder()
     this.$nextTick(function() {
       this.fireEvent('initialized', this.tableFields)
     })
