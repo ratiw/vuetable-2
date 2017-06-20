@@ -246,6 +246,7 @@ export default {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
+          defaultIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
         }
@@ -395,7 +396,7 @@ export default {
     renderTitle (field) {
       let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
 
-      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
+      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasDefaultIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
         return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
       }
@@ -540,6 +541,9 @@ export default {
     isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
+    hasDefaultIcon (field) {
+      return this.isSortable(field) && this.css.defaultIcon != ''
+    },
     currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
         return false
@@ -615,7 +619,7 @@ export default {
       });
     },
     sortIcon (field) {
-      let cls = ''
+      let cls = this.css.defaultIcon
       let i = this.currentSortOrderPosition(field)
 
       if (i !== false) {
@@ -870,7 +874,6 @@ export default {
       if (this.dataManager === null && this.data === null) return
 
       if (Array.isArray(this.data)) {
-        console.log('data mode: array')
         this.setData(this.data)
       } else {
         this.normalizeSortOrder()

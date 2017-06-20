@@ -502,7 +502,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
+Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -642,7 +642,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
+Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1379,7 +1379,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
+Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1419,7 +1419,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
+Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1459,7 +1459,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
+Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1499,7 +1499,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
+Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2507,6 +2507,7 @@ exports.default = {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
+          defaultIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon'
         };
@@ -2656,7 +2657,7 @@ exports.default = {
     renderTitle: function renderTitle(field) {
       var title = typeof field.title === 'undefined' ? field.name.replace('.', ' ') : field.title;
 
-      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
+      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasDefaultIcon(field)) {
         var style = 'opacity:' + this.sortIconOpacity(field) + ';position:relative;float:right';
         return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], 'style="' + style + '"');
       }
@@ -2799,6 +2800,9 @@ exports.default = {
     isInCurrentSortGroup: function isInCurrentSortGroup(field) {
       return this.currentSortOrderPosition(field) !== false;
     },
+    hasDefaultIcon: function hasDefaultIcon(field) {
+      return this.isSortable(field) && this.css.defaultIcon != '';
+    },
     currentSortOrderPosition: function currentSortOrderPosition(field) {
       if (!this.isSortable(field)) {
         return false;
@@ -2869,7 +2873,7 @@ exports.default = {
       });
     },
     sortIcon: function sortIcon(field) {
-      var cls = '';
+      var cls = this.css.defaultIcon;
       var i = this.currentSortOrderPosition(field);
 
       if (i !== false) {
@@ -3105,7 +3109,6 @@ exports.default = {
       if (this.dataManager === null && this.data === null) return;
 
       if (Array.isArray(this.data)) {
-        console.log('data mode: array');
         this.setData(this.data);
       } else {
         this.normalizeSortOrder();

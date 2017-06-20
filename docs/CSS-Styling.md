@@ -11,6 +11,7 @@
   loadingClass: 'loading',
   ascendingIcon: 'blue chevron up icon',
   descendingIcon: 'blue chevron down icon',
+  defaultIcon: '',
   detailRowClass: 'vuetable-detail-row',
   handleIcon: 'grey sidebar icon',
 }
