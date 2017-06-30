@@ -662,6 +662,8 @@ export default {
 
       let args = field.callback.split('|')
       let func = args.shift()
+      
+      args = args.concat(item); //Add current row as the last argument to callback
 
       if (typeof this.$parent[func] === 'function') {
         let value = this.getObjectValue(item, field.name)
