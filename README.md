@@ -73,7 +73,7 @@ The `.use` from above will register all the components globally.
 ```javascript
 function install(Vue){
   Vue.component("vuetable", Vuetable);
-  Vue.component("vuetable-pagination", VueTablePaginationInfo);
+  Vue.component("vuetable-pagination", VueTablePagination);
   Vue.component("vuetable-pagination-dropdown", VueTablePaginationDropDown);
   Vue.component("vuetable-pagination-info", VueTablePaginationInfo);
 }
