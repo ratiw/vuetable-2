@@ -870,7 +870,6 @@ export default {
       if (this.dataManager === null && this.data === null) return
 
       if (Array.isArray(this.data)) {
-        console.log('data mode: array')
         this.setData(this.data)
       } else {
         this.normalizeSortOrder()
