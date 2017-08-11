@@ -367,7 +367,7 @@ export default {
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
-            link: field.link,
+            link: (field.link === undefined) ? '' : field.link,
           }
         }
         self.tableFields.push(obj)
@@ -656,9 +656,8 @@ export default {
       return opacity
     },
     applyLink (value, item, field) {
-      if (field.link) {
+      if (field.link && field.link.length) {
           let expr = /\{(.+)\}/
-          // let linkfield = /\{.+\}/g.exec(field.link)
           let linkField = expr.exec(field.link)[1]
           let link = field.link.replace('{' + linkField + '}', item[linkField])
           let result = '<a href="' + link + '">' + value + '</a>'
