@@ -164,7 +164,8 @@ let tableColumns = [
   {
     name: 'name',
     title: '<i class="book icon"></i> Full Name',
-    sortField: 'name'
+    sortField: 'name',
+    link: '/this_is_the_link_to/{id}'
   },
   {
     name: 'email',
@@ -190,7 +191,8 @@ let tableColumns = [
     sortField: 'gender',
     titleClass: 'center aligned',
     dataClass: 'center aligned',
-    callback: 'gender'
+    callback: 'gender',
+    link: '/this_is_the_other_link_to/{id}'
   },
   {
     name: '__component:custom-actions',

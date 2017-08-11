@@ -70,13 +70,13 @@
                 <td v-if="hasCallback(field)" :class="field.dataClass"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="callCallback(field, item)"
+                  v-html="applyLink(callCallback(field, item), item, field)"
                 >
                 </td>
                 <td v-else :class="field.dataClass"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="getObjectValue(item, field.name, '')"
+                  v-html="applyLink(getObjectValue(item, field.name, ''), item, field)"
                 >
                 </td>
               </template>
@@ -265,6 +265,10 @@ export default {
         return 'No Data Available'
       }
     },
+    link: {
+      type: String,
+      default: ''
+    },
   },
   data () {
     return {
@@ -328,7 +332,7 @@ export default {
       return this.minRows - this.tableData.length
     },
     isApiMode () {
-      return this.apiMode 
+      return this.apiMode
     },
     isDataMode () {
       return ! this.apiMode
@@ -363,6 +367,7 @@ export default {
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
+            link: field.link,
           }
         }
         self.tableFields.push(obj)
@@ -403,8 +408,8 @@ export default {
       return title
     },
     renderSequence (index) {
-      return this.tablePagination 
-        ? this.tablePagination.from + index 
+      return this.tablePagination
+        ? this.tablePagination.from + index
         : index
     },
     isSpecialField (fieldName) {
@@ -649,6 +654,17 @@ export default {
       let opacity = max - current * step
 
       return opacity
+    },
+    applyLink (value, item, field) {
+      if (field.link) {
+          let expr = /\{(.+)\}/
+          // let linkfield = /\{.+\}/g.exec(field.link)
+          let linkField = expr.exec(field.link)[1]
+          let link = field.link.replace('{' + linkField + '}', item[linkField])
+          let result = '<a href="' + link + '">' + value + '</a>'
+          return result
+      }
+      else return value
     },
     hasCallback (item) {
       return item.callback ? true : false
