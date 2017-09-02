@@ -246,7 +246,7 @@ export default {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
-          defaultIcon: '',
+          sortableIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
         }
@@ -328,7 +328,7 @@ export default {
       return this.minRows - this.tableData.length
     },
     isApiMode () {
-      return this.apiMode 
+      return this.apiMode
     },
     isDataMode () {
       return ! this.apiMode
@@ -395,7 +395,7 @@ export default {
     renderTitle (field) {
       let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
 
-      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasDefaultIcon(field)) {
+      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
         return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
       }
@@ -403,8 +403,8 @@ export default {
       return title
     },
     renderSequence (index) {
-      return this.tablePagination 
-        ? this.tablePagination.from + index 
+      return this.tablePagination
+        ? this.tablePagination.from + index
         : index
     },
     isSpecialField (fieldName) {
@@ -540,8 +540,8 @@ export default {
     isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
-    hasDefaultIcon (field) {
-      return this.isSortable(field) && this.css.defaultIcon != ''
+    hasSortableIcon (field) {
+      return this.isSortable(field) && this.css.sortableIcon != ''
     },
     currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
@@ -618,7 +618,7 @@ export default {
       });
     },
     sortIcon (field) {
-      let cls = this.css.defaultIcon
+      let cls = this.css.sortableIcon
       let i = this.currentSortOrderPosition(field)
 
       if (i !== false) {
