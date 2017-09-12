@@ -190,6 +190,10 @@ export default {
         return {}
       }
     },
+    httpFetch: {
+      type: Function,
+      default: null
+    },
     perPage: {
         type: Number,
         default () {
@@ -435,10 +439,15 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
+      this.fetch(this.apiUrl, this.httpOptions).then(
           success,
           failed
       ).catch(() => failed())
+    },
+    fetch (apiUrl, httpOptions) {
+      return this.httpFetch
+          ? this.httpFetch(apiUrl, httpOptions)
+          : axios[this.httpMethod](apiUrl, httpOptions)
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)

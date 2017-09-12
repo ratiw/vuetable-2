@@ -502,7 +502,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -642,7 +642,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1379,7 +1379,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/Vuetable.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1419,7 +1419,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePagination.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1459,7 +1459,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationDropdown.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1499,7 +1499,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/sukohi/Dropbox/xampp/htdocs/laravel54/public/vuetable-2/src/components/VuetablePaginationInfo.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2455,6 +2455,10 @@ exports.default = {
         return {};
       }
     },
+    httpFetch: {
+      type: Function,
+      default: null
+    },
     perPage: {
       type: Number,
       default: function _default() {
@@ -2507,7 +2511,7 @@ exports.default = {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
-          defaultIcon: '',
+          sortableIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon'
         };
@@ -2541,6 +2545,7 @@ exports.default = {
   },
   mounted: function mounted() {
     this.normalizeFields();
+    this.normalizeSortOrder();
     this.$nextTick(function () {
       this.fireEvent('initialized', this.tableFields);
     });
@@ -2657,7 +2662,7 @@ exports.default = {
     renderTitle: function renderTitle(field) {
       var title = typeof field.title === 'undefined' ? field.name.replace('.', ' ') : field.title;
 
-      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasDefaultIcon(field)) {
+      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         var style = 'opacity:' + this.sortIconOpacity(field) + ';position:relative;float:right';
         return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], 'style="' + style + '"');
       }
@@ -2699,9 +2704,12 @@ exports.default = {
 
       this.httpOptions['params'] = this.getAllQueryParams();
 
-      _axios2.default[this.httpMethod](this.apiUrl, this.httpOptions).then(success, failed).catch(function () {
+      this.fetch(this.apiUrl, this.httpOptions).then(success, failed).catch(function () {
         return failed();
       });
+    },
+    fetch: function fetch(apiUrl, httpOptions) {
+      return this.httpFetch ? this.httpFetch(apiUrl, httpOptions) : _axios2.default[this.httpMethod](apiUrl, httpOptions);
     },
     loadSuccess: function loadSuccess(response) {
       this.fireEvent('load-success', response);
@@ -2800,8 +2808,8 @@ exports.default = {
     isInCurrentSortGroup: function isInCurrentSortGroup(field) {
       return this.currentSortOrderPosition(field) !== false;
     },
-    hasDefaultIcon: function hasDefaultIcon(field) {
-      return this.isSortable(field) && this.css.defaultIcon != '';
+    hasSortableIcon: function hasSortableIcon(field) {
+      return this.isSortable(field) && this.css.sortableIcon != '';
     },
     currentSortOrderPosition: function currentSortOrderPosition(field) {
       if (!this.isSortable(field)) {
@@ -2873,7 +2881,7 @@ exports.default = {
       });
     },
     sortIcon: function sortIcon(field) {
-      var cls = this.css.defaultIcon;
+      var cls = this.css.sortableIcon;
       var i = this.currentSortOrderPosition(field);
 
       if (i !== false) {

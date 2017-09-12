@@ -3,6 +3,7 @@ import Vuetable from './components/Vuetable.vue'
 import VuetablePagination from './components/VuetablePagination.vue'
 import VuetablePaginationDropdown from './components/VuetablePaginationDropdown.vue'
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
+import axios from 'axios'
 
 let E_SERVER_ERROR = 'Error communicating with the server'
 
