@@ -96,6 +96,19 @@ You can even put the icon class in the title, see example below
 //
 ```
 
+_New feature (after v1.6.5)_
+You can also define `title` as a function that returns a string. Vuetable will use that returned string to render the title of the column.
+```javascript
+//.. example using Semantic UI icon class
+{
+  name: 'birthdate',
+  title: () => '<i class="orange birthday icon"></i> Birthdate'
+}
+//
+```
+
+This allow total flexibility and make it possible to make use of external i18n library.
+
 ### # titleClass
 
 The css class you would like to apply for the title of this field.
@@ -104,14 +117,14 @@ The css class you would like to apply for the title of this field.
 
 The css class you would like to apply for the data of this field.
 
-### # callback 
+### # callback
 
 The name of the callback function to be called to allow formatting of the value
 to be displayed. See [Callback](https://github.com/ratiw/vue-table/wiki/Callbacks) section for more info.
 
 ### # visible
 
-Whether this field should be visible or hidden when rendering the table. 
+Whether this field should be visible or hidden when rendering the table.
 
 ## Nested JSON Data
 If the JSON data structure contains nested objects, eg:
