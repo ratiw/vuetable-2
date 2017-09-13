@@ -1,7 +1,7 @@
 ## Vuetable - Events
 
-- [vuetable:initialized](#-vuetable:initialized)
-- [vuetable:pagination-data](#-vuetable:pagination-data)
+- [vuetable:initialized](#-vuetableinitialized)
+- [vuetable:pagination-data](#-vuetablepagination-data)
 - [vuetable:loading](#-vuetable:loading)
 - [vuetable:load-success](#-vuetable:load-success)
 - [vuetable:load-error](#-vuetable:load-error)
