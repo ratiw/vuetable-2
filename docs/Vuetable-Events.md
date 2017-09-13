@@ -1,20 +1,20 @@
 ## Vuetable - Events
 
-- [vuetable:initialized](#-vuetable:initialized)
-- [vuetable:pagination-data](#-vuetable:pagination-data)
-- [vuetable:loading](#-vuetable:loading)
-- [vuetable:load-success](#-vuetable:load-success)
-- [vuetable:load-error](#-vuetable:load-error)
-- [vuetable:loaded](#-vuetable:loaded)
-- [vuetable:row-changed](#-vuetable:row-changed)
-- [vuetable:row-clicked](#-vuetable:row-clicked)
-- [vuetable:row-dblclicked](#-vuetable:row-dblclicked)
-- [vuetable:cell-clicked](#-vuetable:cell-clicked)
-- [vuetable:cell-dblclicked](#-vuetable:cell-dblclicked)
-- [vuetable:detail-row-clicked](#-vuetable:detail-row-clicked)
-- [vuetable:checkbox-toggled](#-vuetable:checkbox-toggled)
-- [vuetable:checkbox-toggled-all](#-vuetable:checkbox-toggled-all)
-- [vuetable:data-reset](#-vuetable:data-reset)
+- [vuetable:initialized](#-vuetableinitialized)
+- [vuetable:pagination-data](#-vuetablepagination-data)
+- [vuetable:loading](#-vuetableloading)
+- [vuetable:load-success](#-vuetableload-success)
+- [vuetable:load-error](#-vuetableload-error)
+- [vuetable:loaded](#-vuetableloaded)
+- [vuetable:row-changed](#-vuetablerow-changed)
+- [vuetable:row-clicked](#-vuetablerow-clicked)
+- [vuetable:row-dblclicked](#-vuetablerow-dblclicked)
+- [vuetable:cell-clicked](#-vuetablecell-clicked)
+- [vuetable:cell-dblclicked](#-vuetablecell-dblclicked)
+- [vuetable:detail-row-clicked](#-vuetabledetail-row-clicked)
+- [vuetable:checkbox-toggled](#-vuetablecheckbox-toggled)
+- [vuetable:checkbox-toggled-all](#-vuetablecheckbox-toggled-all)
+- [vuetable:data-reset](#-vuetabledata-reset)
 
 ### # vuetable:initialized
 - payload:
@@ -65,7 +65,7 @@
 
   This event will be fired when Vuetable loops through the data during table row rendering. This will be useful if you want to do some processing with the data, e.g. summing up the values.
 
-  > __Important!__  
+  > __Important!__
   >  Please note that you MUST NOT change the pass-in data item or try to update any instance data during this event, or it will cause "indefinite update loop". The only way to work inside this event is to use the variable define outside of Vue.js instance
 
 
@@ -136,4 +136,4 @@
 - payload: _none_
 - description
 
-  This event will be fired as a result from calling `resetData` method to clear in `tableData` and `tablePagination`. 
+  This event will be fired as a result from calling `resetData` method to clear in `tableData` and `tablePagination`.
