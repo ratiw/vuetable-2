@@ -1,19 +1,19 @@
 # CSS Styling
 
-> __Note__  
+> __Note__
 > The name inside the square bracket is optional. It may or may not appear depending on the relevant condition
 
 # Vuetable
 
 ```javascript
 {
-  tableClass: 'ui blue selectable celled stackable attached table',
-  loadingClass: 'loading',
-  ascendingIcon: 'blue chevron up icon',
-  descendingIcon: 'blue chevron down icon',
-  defaultIcon: '',
-  detailRowClass: 'vuetable-detail-row',
-  handleIcon: 'grey sidebar icon',
+    tableClass:     'ui blue selectable celled stackable attached table',
+    loadingClass:   'loading',
+    ascendingIcon:  'blue chevron up icon',
+    descendingIcon: 'blue chevron down icon',
+    detailRowClass: 'vuetable-detail-row',
+    handleIcon:     'grey sidebar icon',
+    sortableIcon:   ''  // since v1.7
 }
 ```
 
