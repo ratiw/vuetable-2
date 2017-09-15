@@ -121,9 +121,12 @@ Vue.component('settings-modal', {
   },
   methods: {
     getFieldTitle (field) {
-      if (field.title !== '') return this.stripHTML(field.title)
+      if (typeof(field.title) === 'function') return field.title(true)
 
-      let title = ''
+      let title = field.title
+      if (title !== '') return this.stripHTML(title)
+
+      title = ''
       if (field.name.slice(0, 2) === '__') {
         title = field.name.indexOf(':') >= 0
           ? field.name.split(':')[1]
@@ -141,6 +144,11 @@ Vue.component('settings-modal', {
     }
   }
 })
+
+let lang = {
+  'nickname': 'Nickname',
+  'birthdate': 'Birthdate',
+}
 
 let tableColumns = [
   '__handle',
@@ -164,24 +172,32 @@ let tableColumns = [
   },
   {
     name: 'name',
-    title: '<i class="book icon"></i> Full Name',
+    title: () => '<i class="book icon"></i> Full Name',
     sortField: 'name'
   },
   {
     name: 'email',
-    title: '<i class="mail outline icon"></i> Email',
+    title: () => '<i class="mail outline icon"></i> Email',
     sortField: 'email',
     visible: true
   },
   {
     name: 'nickname',
-    title: '<i class="paw icon"></i> Nickname',
+    title: (nameOnly = false) => {
+      return nameOnly
+        ? lang['nickname']
+        : `<i class="paw icon"></i> ${lang['nickname']}`
+    },
     sortField: 'nickname',
     callback: 'allCap'
   },
   {
     name: 'birthdate',
-    title: '<i class="orange birthday icon"></i> Birthdate',
+    title: (nameOnly = false) => {
+      return nameOnly
+        ? lang['birthdate']
+        : `<i class="orange birthday icon"></i> ${lang['birthdate']}`
+    },
     sortField: 'birthdate',
     callback: 'formatDate|D/MM/Y'
   },
@@ -224,6 +240,7 @@ let vm = new Vue({
     paginationComponent: 'vuetable-pagination',
     perPage: 10,
     paginationInfoTemplate: 'Showing record: {from} to {to} from {total} item(s)',
+    lang: lang,
   },
   watch: {
     'perPage' (val, oldVal) {

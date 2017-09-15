@@ -397,8 +397,15 @@ export default {
 
       return this.titleCase(str)
     },
+    getTitle (field) {
+      if (typeof(field.title) === 'function') return field.title()
+
+      return typeof(field.title) === 'undefined'
+        ? field.name.replace('.', ' ')
+        : field.title
+    },
     renderTitle (field) {
-      let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
+      let title = this.getTitle(field)
 
       if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
