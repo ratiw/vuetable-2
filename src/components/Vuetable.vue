@@ -67,16 +67,10 @@
                 </td>
               </template>
               <template v-else>
-                <td v-if="hasCallback(field)" :class="field.dataClass"
+                <td :class="field.dataClass"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="callCallback(field, item)"
-                >
-                </td>
-                <td v-else :class="field.dataClass"
-                  @click="onCellClicked(item, field, $event)"
-                  @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="getObjectValue(item, field.name, '')"
+                  v-html="renderNormalField(field, item)"
                 >
                 </td>
               </template>
@@ -418,6 +412,11 @@ export default {
       return this.tablePagination
         ? this.tablePagination.from + index
         : index
+    },
+    renderNormalField (field, item) {
+      return this.hasCallback(field)
+        ? this.callCallback(field, item)
+        : this.getObjectValue(item, field.name, '')
     },
     isSpecialField (fieldName) {
       return fieldName.slice(0, 2) === '__'
