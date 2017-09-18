@@ -172,12 +172,12 @@ let tableColumns = [
   },
   {
     name: 'name',
-    title: () => '<i class="book icon"></i> Full Name',
+    title: '<i class="book icon"></i> Full Name',
     sortField: 'name'
   },
   {
     name: 'email',
-    title: () => '<i class="mail outline icon"></i> Email',
+    title: '<i class="mail outline icon"></i> Email',
     sortField: 'email',
     visible: true
   },
