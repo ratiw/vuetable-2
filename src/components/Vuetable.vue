@@ -113,6 +113,7 @@
 </template>
 
 <script>
+console.log("HOla mnudo");
 import axios from 'axios'
 
 export default {
@@ -278,6 +279,9 @@ export default {
     }
   },
   mounted () {
+
+    console.log("Hoal muno 456")
+
     this.normalizeFields()
     this.normalizeSortOrder()
     this.$nextTick(function() {
@@ -328,7 +332,7 @@ export default {
       return this.minRows - this.tableData.length
     },
     isApiMode () {
-      return this.apiMode 
+      return this.apiMode
     },
     isDataMode () {
       return ! this.apiMode
@@ -403,8 +407,8 @@ export default {
       return title
     },
     renderSequence (index) {
-      return this.tablePagination 
-        ? this.tablePagination.from + index 
+      return this.tablePagination
+        ? this.tablePagination.from + index
         : index
     },
     isSpecialField (fieldName) {
