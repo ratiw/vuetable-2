@@ -44,36 +44,36 @@
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   v-html="renderSequence(index)">
                 </td>
-                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]"
+                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   v-html="renderIconTag(['handle-icon', css.handleIcon])"
                 ></td>
-                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
+                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
                     :checked="rowSelected(item, field.name)">
                 </td>
-                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
+                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']">
                   <component :is="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></component>
                 </td>
-                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']">
                   <slot :name="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></slot>
                 </td>
               </template>
               <template v-else>
-                <td v-if="hasCallback(field)" :class="field.dataClass"
+                <td v-if="hasCallback(field)" :class="[field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   v-html="callCallback(field, item)"
                 >
                 </td>
-                <td v-else :class="field.dataClass"
+                <td v-else :class="[field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   v-html="getObjectValue(item, field.name, '')"
@@ -285,6 +285,7 @@ export default {
       currentPage: 1,
       selectedTo: [],
       visibleDetailRows: [],
+      axiosCancel: null,
     }
   },
   mounted () {
@@ -442,12 +443,26 @@ export default {
 
       this.fireEvent('loading')
 
+      // If has a previous "unfinished" request we cancel it
+      if (this.axiosCancel) {
+        this.axiosCancel();
+      }
+
       this.httpOptions['params'] = this.getAllQueryParams()
+      this.httpOptions['cancelToken'] = new axios.CancelToken((c) => {
+        this.axiosCancel = c;
+      });
 
       axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
           success,
           failed
-      ).catch(() => failed())
+      ).catch(() => {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled', thrown.message);
+        } else {
+          failed()
+        }
+      })
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)
