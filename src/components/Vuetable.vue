@@ -12,12 +12,12 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field), 'sorted': isInCurrentSortGroup(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field), 'sorted': isInCurrentSortGroup(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__sequence'"
@@ -30,7 +30,7 @@
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field), 'sorted': isInCurrentSortGroup(field)}]"
                 v-html="renderTitle(field)"
               ></th>
             </template>
@@ -44,36 +44,36 @@
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   v-html="renderSequence(index)">
                 </td>
-                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]"
+                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   v-html="renderIconTag(['handle-icon', css.handleIcon])"
                 ></td>
-                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
+                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
                     :checked="rowSelected(item, field.name)">
                 </td>
-                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
+                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']">
                   <component :is="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></component>
                 </td>
-                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']">
                   <slot :name="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></slot>
                 </td>
               </template>
               <template v-else>
-                <td v-if="hasCallback(field)" :class="field.dataClass"
+                <td v-if="hasCallback(field)" :class="[field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   v-html="callCallback(field, item)"
                 >
                 </td>
-                <td v-else :class="field.dataClass"
+                <td v-else :class="[field.dataClass, isInCurrentSortGroup(field) ? 'sorted' : '']"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   v-html="getObjectValue(item, field.name, '')"
@@ -208,6 +208,15 @@ export default {
         return false
       }
     },
+    /**
+     * Sometimes you want to have an icon even when is not sorted at all
+     */
+    noSortedIcon: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
     /*
      * physical key that will trigger multi-sort option
      * possible values: 'alt', 'ctrl', 'meta', 'shift'
@@ -246,6 +255,7 @@ export default {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
+          noSortedIcon: 'blue chevron up-down icon',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
         }
@@ -275,6 +285,7 @@ export default {
       currentPage: 1,
       selectedTo: [],
       visibleDetailRows: [],
+      axiosCancel: null,
     }
   },
   mounted () {
@@ -328,7 +339,7 @@ export default {
       return this.minRows - this.tableData.length
     },
     isApiMode () {
-      return this.apiMode 
+      return this.apiMode
     },
     isDataMode () {
       return ! this.apiMode
@@ -395,7 +406,7 @@ export default {
     renderTitle (field) {
       let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
 
-      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
+      if (title.length > 0 || (this.isInCurrentSortGroup(field) || this.noSortedIcon)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
         return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
       }
@@ -403,8 +414,8 @@ export default {
       return title
     },
     renderSequence (index) {
-      return this.tablePagination 
-        ? this.tablePagination.from + index 
+      return this.tablePagination
+        ? this.tablePagination.from + index
         : index
     },
     isSpecialField (fieldName) {
@@ -432,12 +443,26 @@ export default {
 
       this.fireEvent('loading')
 
+      // If has a previous "unfinished" request we cancel it
+      if (this.axiosCancel) {
+        this.axiosCancel();
+      }
+
       this.httpOptions['params'] = this.getAllQueryParams()
+      this.httpOptions['cancelToken'] = new axios.CancelToken((c) => {
+        this.axiosCancel = c;
+      });
 
       axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
           success,
           failed
-      ).catch(() => failed())
+      ).catch(() => {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled', thrown.message);
+        } else {
+          failed()
+        }
+      })
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)
@@ -620,6 +645,8 @@ export default {
 
       if (i !== false) {
         cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
+      } else {
+        cls = this.css.noSortedIcon
       }
 
       return cls;
