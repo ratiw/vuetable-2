@@ -12,12 +12,12 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field), 'sorted': isInCurrentSortGroup(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field), 'sorted': isInCurrentSortGroup(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__sequence'"
@@ -30,7 +30,7 @@
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field), 'sorted': isInCurrentSortGroup(field)}]"
                 v-html="renderTitle(field)"
               ></th>
             </template>
