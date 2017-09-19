@@ -113,7 +113,6 @@
 </template>
 
 <script>
-console.log("HOla mnudo");
 import axios from 'axios'
 
 export default {
@@ -209,6 +208,15 @@ export default {
         return false
       }
     },
+    /**
+     * Sometimes you want to have an icon even when is not sorted at all
+     */
+    noSortedIcon: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
     /*
      * physical key that will trigger multi-sort option
      * possible values: 'alt', 'ctrl', 'meta', 'shift'
@@ -247,6 +255,7 @@ export default {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
+          noSortedIcon: 'blue chevron up-down icon',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
         }
@@ -279,9 +288,6 @@ export default {
     }
   },
   mounted () {
-
-    console.log("Hoal muno 456")
-
     this.normalizeFields()
     this.normalizeSortOrder()
     this.$nextTick(function() {
@@ -399,7 +405,7 @@ export default {
     renderTitle (field) {
       let title = (typeof field.title === 'undefined') ? field.name.replace('.', ' ') : field.title
 
-      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
+      if (title.length > 0 || (this.isInCurrentSortGroup(field) || this.noSortedIcon)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
         return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
       }
@@ -624,6 +630,8 @@ export default {
 
       if (i !== false) {
         cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
+      } else {
+        cls = this.css.noSortedIcon
       }
 
       return cls;
