@@ -194,6 +194,12 @@ export default {
             return 10
         }
     },
+    initialPage: {
+      type: Number,
+      default () {
+        return 1
+      }
+    },
     sortOrder: {
       type: Array,
       default () {
@@ -271,7 +277,7 @@ export default {
       tableFields: [],
       tableData: null,
       tablePagination: null,
-      currentPage: 1,
+      currentPage: this.initialPage,
       selectedTo: [],
       visibleDetailRows: [],
     }

@@ -14,6 +14,7 @@
 - [http-fetch](#-http-fetch)
 - [http-options](#-http-options)
 - [http-method](#-http-method)
+- [initial-page](#-initial-page)
 - [load-on-start](#-load-on-start)
 - [min-rows](#-min-rows)
 - [multi-sort](#-multi-sort)
@@ -246,6 +247,14 @@
 - description
 
   The number of data to be requested per page.
+
+### # initial-page
+- works in `api-mode` only
+- type: _Number_
+- default: `1`
+- description
+
+  The initial page number of data to be requested on the first time.
 
 ### # css
 - type: _Object_
