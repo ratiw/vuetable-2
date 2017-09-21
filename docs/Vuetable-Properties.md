@@ -248,7 +248,7 @@
 
   The number of data to be requested per page.
 
-### # initial-page
+### # initial-page (since v1.7)
 - works in `api-mode` only
 - type: _Number_
 - default: `1`
