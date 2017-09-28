@@ -12,12 +12,12 @@
               </th>
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
-                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__sequence'"
@@ -30,7 +30,7 @@
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+                :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
               ></th>
             </template>
@@ -250,6 +250,8 @@ export default {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
+          ascendingClass: 'sorted-asc',
+          descendingClass: 'sorted-desc',
           sortableIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
@@ -638,6 +640,16 @@ export default {
         sortField: '',
         direction: 'asc'
       });
+    },
+    sortClass (field) {
+      let cls = ''
+      let i = this.currentSortOrderPosition(field)
+
+      if (i !== false) {
+        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingClass : this.css.descendingClass
+      }
+
+      return cls;
     },
     sortIcon (field) {
       let cls = this.css.sortableIcon
