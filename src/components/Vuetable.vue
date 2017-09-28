@@ -272,6 +272,10 @@ export default {
         return 'No Data Available'
       }
     },
+    showSortIcons: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {
@@ -411,7 +415,8 @@ export default {
 
       if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
-        return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
+        let iconTag = this.showSortIcons ? this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`) : ''
+        return title + ' ' + iconTag
       }
 
       return title
