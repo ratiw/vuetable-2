@@ -95,13 +95,39 @@ describe('Vuetable', () => {
         })
         expect(cmp.vm.tableFields[0].titleClass).toEqual('foo-bar')
         cmp.vm.$nextTick( () => {
-          console.log(cmp.html())
           let nodes = cmp.vm.$el.querySelectorAll('table thead tr th')
           expect(nodes[0].attributes.id.value).toEqual('_code')
           expect(nodes[0].classList.contains('foo-bar')).toEqual(true)
           expect(nodes[0].classList.contains('vuetable-th-code')).toEqual(true)
         })
       })
+
+      it('should use the given dataClass to render field data', () => {
+        let cmp = mount(Vuetable, {
+          attachToDocument: true,
+          propsData: {
+            fields: [
+              {
+                name: 'code',
+                dataClass: 'foo-baz'
+              }
+            ],
+            // simulate data mode to allow passing data in for testing
+            apiMode: false,
+            data: [
+              { code: 'MYCODE' }
+            ]
+          }
+        })
+
+        expect(cmp.vm.tableFields[0].dataClass).toEqual('foo-baz')
+        cmp.vm.$nextTick( () => {
+          let nodes = cmp.vm.$el.querySelectorAll('table tbody tr td')
+          console.log(cmp.html(), nodes)
+          expect(nodes[0].classList.contains('foo-baz')).toEqual(true)
+        })
+      })
+
     })
 
   })
