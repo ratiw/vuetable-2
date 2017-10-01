@@ -349,13 +349,12 @@ export default {
       }
 
       this.tableFields = []
-      let self = this
       let obj
-      this.fields.forEach(function(field, i) {
+      this.fields.forEach( (field, i) => {
         if (typeof (field) === 'string') {
           obj = {
             name: field,
-            title: self.setTitle(field),
+            title: this.setTitle(field),
             titleClass: '',
             dataClass: '',
             sortField: null,
@@ -365,7 +364,7 @@ export default {
         } else {
           obj = {
             name: field.name,
-            title: (field.title === undefined) ? self.setTitle(field.name) : field.title,
+            title: (field.title === undefined) ? this.setTitle(field.name) : field.title,
             titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             sortField: (field.sortField === undefined) ? null : field.sortField,
@@ -373,7 +372,7 @@ export default {
             visible: (field.visible === undefined) ? true : field.visible,
           }
         }
-        self.tableFields.push(obj)
+        this.tableFields.push(obj)
       })
     },
     setData (data) {
