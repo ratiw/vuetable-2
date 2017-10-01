@@ -283,6 +283,8 @@ export default {
     }
   },
   mounted () {
+    if (typeof(this.fields) === "undefined") return
+
     this.normalizeFields()
     this.normalizeSortOrder()
     this.$nextTick(function() {
@@ -356,6 +358,7 @@ export default {
             title: self.setTitle(field),
             titleClass: '',
             dataClass: '',
+            sortField: null,
             callback: null,
             visible: true,
           }
@@ -363,10 +366,10 @@ export default {
           obj = {
             name: field.name,
             title: (field.title === undefined) ? self.setTitle(field.name) : field.title,
-            sortField: field.sortField,
             titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
-            callback: (field.callback === undefined) ? '' : field.callback,
+            sortField: (field.sortField === undefined) ? null : field.sortField,
+            callback: (field.callback === undefined) ? null : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
           }
         }

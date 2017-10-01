@@ -107,7 +107,7 @@ describe('Properties', () => {
 
   describe('fields', () => {
     it('should create error when fields prop is not provided', () => {
-      sinon.stub(console, 'error')
+      sinon.stub(console, 'warn')
 
       const vm = new Vue({
         template: '<vuetable :silent="true"></vuetable>',
