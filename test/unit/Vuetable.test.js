@@ -66,14 +66,15 @@ describe('Vuetable', () => {
       })
 
       it('should correctly override field title when specified', () => {
+        let columns = [
+          {
+            name: 'code',
+            title: 'My Title'
+          },
+        ]
         let cmp = mount(Vuetable, {
           propsData: {
-            fields: [
-              {
-                name: 'code',
-                title: 'My Title'
-              }
-            ],
+            fields: columns,
           }
         })
 
@@ -82,6 +83,7 @@ describe('Vuetable', () => {
 
       it('should use the given titleClass to render field title', () => {
         let cmp = mount(Vuetable, {
+          attachToDocument: true,
           propsData: {
             fields: [
               {
@@ -91,10 +93,14 @@ describe('Vuetable', () => {
             ],
           }
         })
-        console.log(cmp.html())
         expect(cmp.vm.tableFields[0].titleClass).toEqual('foo-bar')
-        let nodes = cmp.vm.$el.querySelectorAll('table thead tr th')
-        // expect(nodes[0].attributes.id.value).toEqual('_code')
+        cmp.vm.$nextTick( () => {
+          console.log(cmp.html())
+          let nodes = cmp.vm.$el.querySelectorAll('table thead tr th')
+          expect(nodes[0].attributes.id.value).toEqual('_code')
+          expect(nodes[0].classList.contains('foo-bar')).toEqual(true)
+          expect(nodes[0].classList.contains('vuetable-th-code')).toEqual(true)
+        })
       })
     })
 
