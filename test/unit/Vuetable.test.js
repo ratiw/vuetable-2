@@ -8,9 +8,10 @@ describe('Vuetable', () => {
   //   cmp = shallow(Vuetable)
   // })
 
-  describe('Properties', () => {
-
-    describe('fields definition', () => {
+  describe('Fields Definition', () => {
+      // In order to test fields definition, we have to disable API mode,
+      // otherwise, Vuetable will attempt to call the API URL and result
+      // in error due to unresolved Promise
       let expectedResult = [
           {
             name: 'code',
@@ -36,6 +37,7 @@ describe('Vuetable', () => {
         let cmp = mount(Vuetable, {
           propsData: {
             fields: ['code', 'description'],
+            apiMode: false,
           }
         })
 
@@ -45,6 +47,7 @@ describe('Vuetable', () => {
       it('should parse array of object of fields definition correctly', () => {
         let cmp = mount(Vuetable, {
           propsData: {
+            apiMode: false,
             fields: [
               { name: 'code' },
               { name: 'description' }
@@ -55,9 +58,11 @@ describe('Vuetable', () => {
         expect(cmp.vm.tableFields).toEqual(expectedResult)
       })
 
+      // title
       it('should set default field title to capitalized name', () => {
         let cmp = mount(Vuetable, {
           propsData: {
+            apiMode: false,
             fields: ['code'],
           }
         })
@@ -65,7 +70,8 @@ describe('Vuetable', () => {
         expect(cmp.vm.tableFields[0].title).toEqual('Code')
       })
 
-      it('should correctly override field title when specified', () => {
+      // title
+      it('should correctly override field title when specified value', () => {
         let columns = [
           {
             name: 'code',
@@ -74,6 +80,7 @@ describe('Vuetable', () => {
         ]
         let cmp = mount(Vuetable, {
           propsData: {
+            apiMode: false,
             fields: columns,
           }
         })
@@ -81,10 +88,11 @@ describe('Vuetable', () => {
         expect(cmp.vm.tableFields[0].title).toEqual('My Title')
       })
 
-      it('should use the given titleClass to render field title', () => {
+      // titleClass
+      it('should use the given titleClass to render field title', (done) => {
         let cmp = mount(Vuetable, {
-          attachToDocument: true,
           propsData: {
+            apiMode: false,
             fields: [
               {
                 name: 'code',
@@ -99,13 +107,16 @@ describe('Vuetable', () => {
           expect(nodes[0].attributes.id.value).toEqual('_code')
           expect(nodes[0].classList.contains('foo-bar')).toEqual(true)
           expect(nodes[0].classList.contains('vuetable-th-code')).toEqual(true)
+          done()
         })
       })
 
-      it('should use the given dataClass to render field data', () => {
+      // dataClass
+      it('should use the given dataClass to render field data', (done) => {
         let cmp = mount(Vuetable, {
           attachToDocument: true,
           propsData: {
+            apiMode: false,
             fields: [
               {
                 name: 'code',
@@ -113,7 +124,6 @@ describe('Vuetable', () => {
               }
             ],
             // simulate data mode to allow passing data in for testing
-            apiMode: false,
             data: [
               { code: 'MYCODE' }
             ]
@@ -123,12 +133,88 @@ describe('Vuetable', () => {
         expect(cmp.vm.tableFields[0].dataClass).toEqual('foo-baz')
         cmp.vm.$nextTick( () => {
           let nodes = cmp.vm.$el.querySelectorAll('table tbody tr td')
-          console.log(cmp.html(), nodes)
           expect(nodes[0].classList.contains('foo-baz')).toEqual(true)
+          done()
         })
       })
 
-    })
+      // sortField - given
+      it('should set sortField to the given value if specified', () => {
+        let cmp = mount(Vuetable, {
+          propsData: {
+            apiMode: false,
+            fields: [
+              { name: 'code', sortField: 'aaa' }
+            ]
+          }
+        })
+
+        expect(cmp.vm.tableFields[0].sortField).toEqual('aaa')
+      })
+
+      // visible
+      it('should set visible to the given value when specified', () => {
+        let cmp = mount(Vuetable, {
+          propsData: {
+            apiMode: false,
+            fields: [
+              { name: 'code', visible: false }
+            ]
+          }
+        })
+
+        expect(cmp.vm.tableFields[0].visible).toEqual(false)
+      })
+
+      // define callback
+      it('should set callback to the given value when specified', () => {
+        let cmp = mount(Vuetable, {
+          propsData: {
+            apiMode: false,
+            fields: [
+              { name: 'code', callback: 'myCallback' }
+            ]
+          }
+        })
+
+        expect(cmp.vm.tableFields[0].callback).toEqual('myCallback')
+      })
+
+      // callback as a Function
+      it('should call the callback function to format the column value', (done) => {
+        let myCallback = (value) => {
+          return value.toUpperCase()
+        }
+        let cmp = mount(Vuetable, {
+          attachToDocument: true,
+          propsData: {
+            fields: [
+              {
+                name: 'code',
+                callback: myCallback
+              }
+            ],
+            // simulate data mode to allow passing data in for testing
+            apiMode: false,
+            data: [
+              { code: 'mycode' }
+            ]
+          }
+        })
+
+        expect(cmp.vm.tableFields[0].callback).toEqual(myCallback)
+        cmp.vm.$nextTick( () => {
+          let nodes = cmp.vm.$el.querySelectorAll('table tbody tr td')
+          expect(nodes[0].textContent).toEqual('MYCODE')
+          done()
+        })
+      })
+
+      // callback as a method in parent
+      // callback with additional param
+  })
+
+  describe('Properties', () => {
 
   })
 
