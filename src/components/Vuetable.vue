@@ -560,7 +560,8 @@ export default {
       return string.split(':')[1]
     },
     isSortable (field) {
-      return !(typeof field.sortField === 'undefined')
+      // return !(typeof field.sortField === 'undefined')
+      return field.sortField !== null
     },
     isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
