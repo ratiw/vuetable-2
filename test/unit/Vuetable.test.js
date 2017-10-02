@@ -1,5 +1,6 @@
+import Vue from 'vue'
 import { mount, shallow } from 'vue-test-utils'
-import Vuetable from '../../src/components/Vuetable.vue'
+import Vuetable from '@/components/Vuetable.vue'
 
 describe('Vuetable', () => {
   // let cmp
@@ -9,9 +10,11 @@ describe('Vuetable', () => {
   // })
 
   describe('Fields Definition', () => {
-      // In order to test fields definition, we have to disable API mode,
-      // otherwise, Vuetable will attempt to call the API URL and result
-      // in error due to unresolved Promise
+      // In order to test fields definition, we have to prevent Vuetable
+      // from loading the data; otherwise, Vuetable will attempt to call
+      // the API URL and result in error due to unresolved Promise.
+      // By setting "loadOnStart = false" will prevent Vuetable from
+      // calling loadData.
       let expectedResult = [
           {
             name: 'code',
@@ -37,7 +40,7 @@ describe('Vuetable', () => {
         let cmp = mount(Vuetable, {
           propsData: {
             fields: ['code', 'description'],
-            apiMode: false,
+            loadOnStart: false,
           }
         })
 
@@ -47,7 +50,7 @@ describe('Vuetable', () => {
       it('should parse array of object of fields definition correctly', () => {
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: [
               { name: 'code' },
               { name: 'description' }
@@ -62,7 +65,7 @@ describe('Vuetable', () => {
       it('should set default field title to capitalized name', () => {
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: ['code'],
           }
         })
@@ -80,7 +83,7 @@ describe('Vuetable', () => {
         ]
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: columns,
           }
         })
@@ -92,7 +95,7 @@ describe('Vuetable', () => {
       it('should use the given titleClass to render field title', (done) => {
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: [
               {
                 name: 'code',
@@ -116,6 +119,7 @@ describe('Vuetable', () => {
         let cmp = mount(Vuetable, {
           attachToDocument: true,
           propsData: {
+            // simulate data mode to allow passing data in for testing
             apiMode: false,
             fields: [
               {
@@ -123,7 +127,6 @@ describe('Vuetable', () => {
                 dataClass: 'foo-baz'
               }
             ],
-            // simulate data mode to allow passing data in for testing
             data: [
               { code: 'MYCODE' }
             ]
@@ -142,7 +145,7 @@ describe('Vuetable', () => {
       it('should set sortField to the given value if specified', () => {
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: [
               { name: 'code', sortField: 'aaa' }
             ]
@@ -156,7 +159,7 @@ describe('Vuetable', () => {
       it('should set visible to the given value when specified', () => {
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: [
               { name: 'code', visible: false }
             ]
@@ -170,7 +173,7 @@ describe('Vuetable', () => {
       it('should set callback to the given value when specified', () => {
         let cmp = mount(Vuetable, {
           propsData: {
-            apiMode: false,
+            loadOnStart: false,
             fields: [
               { name: 'code', callback: 'myCallback' }
             ]
@@ -186,7 +189,6 @@ describe('Vuetable', () => {
           return value.toUpperCase()
         }
         let cmp = mount(Vuetable, {
-          attachToDocument: true,
           propsData: {
             fields: [
               {
@@ -210,8 +212,96 @@ describe('Vuetable', () => {
         })
       })
 
+      // callback not found in parent
+      it('should return null if the specified callback name does not exist in the parent', (done) => {
+        const vm = new Vue({
+          template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false" :data="data"></vuetable>`,
+          components: { Vuetable },
+          data: {
+            columns: [
+              {
+                name: 'code',
+                callback: 'callbackInParent'
+              }
+            ],
+            data: [
+              { code: 'mycode' }
+            ]
+          },
+        }).$mount()
+
+        let cmp = vm.$refs.vuetable
+        expect(cmp.tableFields[0].callback).toEqual('callbackInParent')
+        vm.$nextTick( () => {
+          let nodes = cmp.$el.querySelectorAll('table tbody tr td')
+          expect(nodes[0].textContent).toEqual('null')
+          done()
+        })
+      })
+
       // callback as a method in parent
+      it('should call the callback in the parent instance if specified and available', (done) => {
+        const vm = new Vue({
+          template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false" :data="data"></vuetable>`,
+          components: { Vuetable },
+          data: {
+            columns: [
+              {
+                name: 'code',
+                callback: 'callbackInParent'
+              }
+            ],
+            data: [
+              { code: 'mycode' }
+            ]
+          },
+          methods: {
+            callbackInParent (value) {
+              return value.toUpperCase()
+            }
+          }
+        }).$mount()
+
+        let cmp = vm.$refs.vuetable
+        expect(cmp.tableFields[0].callback).toEqual('callbackInParent')
+        vm.$nextTick( () => {
+          let nodes = cmp.$el.querySelectorAll('table tbody tr td')
+          expect(nodes[0].textContent).toEqual('MYCODE')
+          done()
+        })
+      })
+
       // callback with additional param
+      it('should call the callback in the parent instance with additional param if specified', (done) => {
+        const vm = new Vue({
+          template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false" :data="data"></vuetable>`,
+          components: { Vuetable },
+          data: {
+            columns: [
+              {
+                name: 'code',
+                callback: 'callbackInParent|1234'
+              }
+            ],
+            data: [
+              { code: 'mycode' }
+            ]
+          },
+          methods: {
+            callbackInParent (value, param) {
+              return value.toUpperCase()+param
+            }
+          }
+        }).$mount()
+
+        let cmp = vm.$refs.vuetable
+        expect(cmp.tableFields[0].callback).toEqual('callbackInParent|1234')
+        vm.$nextTick( () => {
+          let nodes = cmp.$el.querySelectorAll('table tbody tr td')
+          expect(nodes[0].textContent).toEqual('MYCODE1234')
+          done()
+        })
+      })
   })
 
   describe('Properties', () => {
