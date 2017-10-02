@@ -285,6 +285,10 @@ export default {
   mounted () {
     if (typeof(this.fields) === "undefined") return
 
+    if (typeof(this.$http) === 'undefined') {
+      this.$http = axios
+    }
+
     this.normalizeFields()
     this.normalizeSortOrder()
     this.$nextTick(function() {
@@ -461,7 +465,7 @@ export default {
     fetch (apiUrl, httpOptions) {
       return this.httpFetch
           ? this.httpFetch(apiUrl, httpOptions)
-          : axios[this.httpMethod](apiUrl, httpOptions)
+          : this.$http[this.httpMethod](apiUrl, httpOptions)
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)
