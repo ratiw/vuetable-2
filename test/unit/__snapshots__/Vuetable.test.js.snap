@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Vuetable has same HTML structure for __handle special field 1`] = `
+<table class="vuetable ui blue selectable celled stackable attached table">
+    <thead>
+        <tr>
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <th class="vuetable-th-__handle"></th>
+            <th id="_code" class="vuetable-th-code">Code</th>
+        </tr>
+    </thead>
+    <tbody class="vuetable-body">
+        <tr item-index="0" render="true">
+            <!---->
+            <td class="vuetable-handle"><i class="handle-icon grey sidebar icon"></i></td>
+            <!---->
+            <!---->
+            <!---->
+            <td>foo</td>
+        </tr>
+        <!---->
+        <!---->
+        <!---->
+    </tbody>
+</table>
+`;
+
+exports[`Vuetable has same HTML structure for __sequence special field 1`] = `
+<table class="vuetable ui blue selectable celled stackable attached table">
+    <thead>
+        <tr>
+            <!---->
+            <!---->
+            <!---->
+            <th class="vuetable-th-sequence"></th>
+            <!---->
+            <th id="_code" class="vuetable-th-code">Code</th>
+        </tr>
+    </thead>
+    <tbody class="vuetable-body">
+        <tr item-index="0" render="true">
+            <td class="vuetable-sequence">0</td>
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <td>foo</td>
+        </tr>
+        <!---->
+        <!---->
+        <!---->
+    </tbody>
+</table>
+`;
+
+exports[`Vuetable has same basic HTML structure 1`] = `
+<table class="vuetable ui blue selectable celled stackable attached table">
+    <thead>
+        <tr>
+            <th id="_code" class="vuetable-th-code">Code</th>
+            <th id="_description" class="vuetable-th-description">Description</th>
+        </tr>
+    </thead>
+    <tbody class="vuetable-body">
+        <tr>
+            <td colspan="2" class="vuetable-empty-result">No Data Available</td>
+        </tr>
+    </tbody>
+</table>
+`;
