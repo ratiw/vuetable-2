@@ -2,7 +2,7 @@
 
 In Vuetable, each field can have an associated callback function that will allow you to format the value of the column for display.
 
-> __Note__  
+> __Note__
 > The name `callback` might be changed to `format` in the near future to make it really reflect what it does.
 
 You can define the callback function inside the field definition using the `callback` option by specifying either the name of the function to be called or the function reference.
@@ -42,6 +42,9 @@ new Vue({
 Vuetable will automatically pass the value of that field to the callback function. The callback function can then work on the value, and the value returned from the callback will be used to display to the user.
 
 In this case, if the `value` that gets passed to `gender` callback is `M`, it will return `Male`. Vuetable will display `Male` for this field instead of `M`.
+
+> __Note__
+> If the given callback name cannot be found in the parent instance, a **string** `null` will be returned instead.
 
 #### Passing Additional Parameters to Callback function
 Suppose you have a callback function to format the date value to be displayed in certain date format, but you also would like to be able to override that default date format as well. You can do so like this:
