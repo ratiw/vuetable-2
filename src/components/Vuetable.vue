@@ -699,7 +699,7 @@ export default {
           : this.$parent[func].call(this.$parent, value)
       }
 
-      return null
+      return 'null'
     },
     getObjectValue (object, path, defaultValue) {
       defaultValue = (typeof defaultValue === 'undefined') ? null : defaultValue
