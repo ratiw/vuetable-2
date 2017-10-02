@@ -107,7 +107,7 @@ The css class you would like to apply for the data of this field.
 ### # callback 
 
 The name of the callback function to be called to allow formatting of the value
-to be displayed. See [Callback](https://github.com/ratiw/vue-table/wiki/Callbacks) section for more info.
+to be displayed. See [Callback](Callbacks) section for more info.
 
 ### # visible
 
