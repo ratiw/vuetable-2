@@ -5,11 +5,6 @@ import Vuetable from '@/components/Vuetable.vue'
 Vue.config.productionTip = false
 
 describe('Vuetable', () => {
-  // let cmp
-
-  // beforeEach( () => {
-  //   cmp = shallow(Vuetable)
-  // })
 
   describe('Properties', () => {
     it('should have set the apiUrl correctly', () => {
