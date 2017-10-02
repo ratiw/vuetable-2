@@ -6,14 +6,14 @@ Vue.config.productionTip = false
 
 describe('data requests', () => {
   let VuetableWithMocks
-  let AxiosGetStub
+  let AxiosRequestStub
   let sandbox = sinon.sandbox.create()
 
   beforeEach(function() {
-    AxiosGetStub = sinon.stub().resolves({data: {data: [{name: 'john', description:'foo bar'}]}});
+    AxiosRequestStub = sinon.stub().resolves({data: {data: [{name: 'john', description:'foo bar'}]}});
     VuetableWithMocks = VuetableInjector({
        'axios': {
-         get: AxiosGetStub
+         request: AxiosRequestStub
        }
      })
 
@@ -34,7 +34,7 @@ describe('data requests', () => {
       }
     }).$mount()
 
-    expect(AxiosGetStub).to.have.been.calledWith('http://example.com/api/test/loadOnMount', {params: {page: 1, per_page: 10, sort: '' }})
+    expect(AxiosRequestStub).to.have.been.calledWith({method:'get', url:'http://example.com/api/test/loadOnMount', params: {page: 1, per_page: 10, sort: '' }})
   })
 
   it('should not loadData() when load-on-start set to false', () => {
@@ -49,7 +49,26 @@ describe('data requests', () => {
     }).$mount()
 
     expect(vm.$refs.vuetable.loadOnStart).to.equal.false
-    expect(AxiosGetStub).to.not.have.been.called
+    expect(AxiosRequestStub).to.not.have.been.called
+  })
+
+  it('should loadData() to the when given a post Method and HTTP options allowing data and header on mount', () => {
+    const vm = new Vue({
+      template: '<vuetable :silent="true" :fields="columns" :httpMethod="method" :httpOptions="options" api-url="http://example.com/api/test/loadOnMount"></vuetable>',
+      components: {'vuetable': VuetableWithMocks },
+      data: {
+        columns: [
+          'name', 'description'
+        ],
+        method: 'post',
+        options: {
+          data: {test: 1},
+          header: {Authorization: 'test'}
+        }
+      }
+    }).$mount()
+
+    expect(AxiosRequestStub).to.have.been.calledWith({method: 'post', url:'http://example.com/api/test/loadOnMount', params: {page: 1, per_page: 10, sort: '' }, header: {Authorization: 'test'}, data: {test: 1}})
   })
 
   it('should refresh the data if the api-url changes', done => {
@@ -64,6 +83,8 @@ describe('data requests', () => {
       }
     }).$mount()
 
+
+
     let refreshSpy = sandbox.spy(vm.$refs.vuetable, 'refresh')
 
     const newApiUrl = 'http://example.com/api/test/apiUrlChange';
@@ -71,7 +92,7 @@ describe('data requests', () => {
 
     vm.$nextTick().then(() => {
       expect(refreshSpy).to.have.been.called
-      expect(AxiosGetStub).to.have.been.calledWith('http://example.com/api/test/apiUrlChange', {params: {page: 1, per_page: 10, sort: ''}})
+      expect(AxiosRequestStub).to.have.been.calledWith({method: 'get', url: 'http://example.com/api/test/apiUrlChange', params: {page: 1, per_page: 10, sort: ''}})
     }).then(done, done)
   })
 
@@ -94,7 +115,7 @@ describe('data requests', () => {
 
     vm.$nextTick().then(() => {
       expect(refreshSpy).to.not.have.been.called
-      expect(AxiosGetStub).to.not.have.been.calledWith('http://example.com/api/test/noReactiveApiUrl', {params: {page: 1, per_page: 10, sort: ''}})
+      expect(AxiosRequestStub).to.not.have.been.calledWith('http://example.com/api/test/noReactiveApiUrl', {params: {page: 1, per_page: 10, sort: ''}})
     })
       .then(done, done)
   })

@@ -328,7 +328,7 @@ export default {
       return this.minRows - this.tableData.length
     },
     isApiMode () {
-      return this.apiMode 
+      return this.apiMode
     },
     isDataMode () {
       return ! this.apiMode
@@ -403,8 +403,8 @@ export default {
       return title
     },
     renderSequence (index) {
-      return this.tablePagination 
-        ? this.tablePagination.from + index 
+      return this.tablePagination
+        ? this.tablePagination.from + index
         : index
     },
     isSpecialField (fieldName) {
@@ -434,7 +434,11 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
+      let request = this.httpOptions
+      request.method = this.httpMethod
+      request.url = this.apiUrl
+
+      axios.request(request).then(
           success,
           failed
       ).catch(() => failed())
