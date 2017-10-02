@@ -70,7 +70,7 @@ Fields can be defined as simpl array of string, array of object, or the mix.
 ## Field options
 ### # name
 
-Name of the data field to be display.
+Name of the data field to be display. You can also specify the nested data object here, see below.
 
 ### # sortField
 
@@ -126,7 +126,7 @@ to be displayed. See [Callback](Callbacks) section for more info.
 
 Whether this field should be visible or hidden when rendering the table.
 
-## Nested JSON Data
+## Nested JSON Data support in `name` option
 If the JSON data structure contains nested objects, eg:
 ```json
 {
