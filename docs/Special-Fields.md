@@ -1,13 +1,13 @@
 ## Special Fields
 
-Special fields are predefined field for specific purpose and their names are always started with double underscore characters `__`. 
+Special fields are predefined field for specific purpose and their names are always started with double underscore characters `__`.
 
 Vuetable currently have the following special fields
 - [__sequence](#-__sequence)
 - [__handle](#-__handle)
 - [__checkbox](#-__checkbox)
-- [__component](#-__component)
-- [__slot](#-__slot)
+- [__component](#-__componentltnamegt)
+- [__slot](#-__slotltnamegt)
 
 You can see the usage of these special fields in the [Vuetable-2 Tutorial - Using special fields](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/lesson-11.md).
 
@@ -16,9 +16,9 @@ You can see the usage of these special fields in the [Vuetable-2 Tutorial - Usin
 If you would like to display the sequence number of the records based on the pagination information, you can do that using __sequence special field.
 
 > __Note__
-> __sequence special field only work in API Mode (`:api-mode="true"`) as it 
+> __sequence special field only work in API Mode (`:api-mode="true"`) as it
 > requires pagination information to work correctly.
- 
+
 The generated HTML output will be like this
 ```html
 <th class="vuetable-th-sequence">
@@ -81,7 +81,7 @@ The generated HTML output will be like this
 </td>
 ```
 
-See also: 
+See also:
 - [Row Identifier]()
 - [`selectedTo` prop]()
 - [`vuetable:checkbox-toggled` event]()
@@ -95,7 +95,7 @@ The `__component` special field allow you to create a component to handle the di
 
 Vuetable will pass 3 props to the component
 - `row-data` -- the data of the current row being rendered
-- `row-index` -- the current row index 
+- `row-index` -- the current row index
 - `row-field` -- the current `sortField` in field definition
 
 You can see a sample use of `__component` special field in the [Vuetable-2 Tutorial -- Using special fields](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/lesson-11.md)
@@ -120,7 +120,7 @@ The `__slot` special field allows you to use Vue's scoped slot inside Vuetable.
 
 Vuetable will pass 3 props to the slot
 - `row-data` -- the data of the current row being rendered
-- `row-index` -- the current row index 
+- `row-index` -- the current row index
 - `row-field` -- the current `sortField` in field definition
 
 You can see a sample use of `__slot` special field in the [Vuetable-2 Tutorial -- Using special fields](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/lesson-11.md)

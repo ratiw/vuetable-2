@@ -54,6 +54,63 @@ describe('Vuetable', () => {
     })
   })
 
+  it('has same HTML structure for __checkbox special field', () => {
+    const renderer = createRenderer()
+    const wrapper = shallow(Vuetable, {
+      propsData: {
+        fields: ['__checkbox', 'code'],
+        apiMode: false,
+        data: [
+          { code: 'foo' }
+        ]
+      }
+    })
+    renderer.renderToString(wrapper.vm, (err, str) => {
+      if (err) throw new Error(err)
+      expect(str).toMatchSnapshot()
+    })
+  })
+
+  it('has same HTML structure for __component special field', () => {
+    Vue.component('sample-component', {
+      template: `<div>Sample</div>`
+    })
+    const renderer = createRenderer()
+    const wrapper = shallow(Vuetable, {
+      propsData: {
+        fields: ['__component:sample-component', 'code'],
+        apiMode: false,
+        data: [
+          { code: 'foo' }
+        ]
+      }
+    })
+    renderer.renderToString(wrapper.vm, (err, str) => {
+      if (err) throw new Error(err)
+      expect(str).toMatchSnapshot()
+    })
+  })
+
+  it('has same HTML structure for __slot special fields', () => {
+    const renderer = createRenderer()
+    const wrapper = shallow(Vuetable, {
+      propsData: {
+        fields: ['__slot:sample-slot', 'code'],
+        apiMode: false,
+        data: [
+          { code: 'foo' }
+        ]
+      },
+      slots: {
+        'sample-slot': `<div />`
+      }
+    })
+    renderer.renderToString(wrapper.vm, (err, str) => {
+      if (err) throw new Error(err)
+      expect(str).toMatchSnapshot()
+    })
+  })
+
   describe('Properties', () => {
     it('should have set the apiUrl correctly', () => {
       let cmp = mount(Vuetable, {
