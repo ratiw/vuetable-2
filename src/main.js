@@ -151,15 +151,19 @@ let lang = {
 }
 
 let tableColumns = [
-  '__handle',
+  { name: '__handle',
+    width: '50px'
+  },
   {
     name: '__sequence',
     title: 'No.',
     titleClass: 'right aligned',
-    dataClass: 'right aligned'
+    dataClass: 'right aligned',
+    width: '50px'
   },
   {
     name: '__checkbox',
+    width: '30px',
     title: 'checkbox',
     titleClass: 'center aligned',
     dataClass: 'center aligned'
@@ -168,17 +172,22 @@ let tableColumns = [
     name: 'id',
     title: '<i class="unordered list icon"></i> Detail',
     dataClass: 'center aligned',
+    width: '100px',
     callback: 'showDetailRow'
+    
   },
   {
     name: 'name',
     title: '<i class="book icon"></i> Full Name',
-    sortField: 'name'
+    sortField: 'name',
+    width: '150px'
   },
   {
     name: 'email',
     title: '<i class="mail outline icon"></i> Email',
     sortField: 'email',
+    width: '200px',
+    dataClass: "vuetable-clip-text",
     visible: true
   },
   {
@@ -189,7 +198,8 @@ let tableColumns = [
         : `<i class="paw icon"></i> ${lang['nickname']}`
     },
     sortField: 'nickname',
-    callback: 'allCap'
+    callback: 'allCap',
+    width: '120px'
   },
   {
     name: 'birthdate',
@@ -199,6 +209,7 @@ let tableColumns = [
         : `<i class="orange birthday icon"></i> ${lang['birthdate']}`
     },
     sortField: 'birthdate',
+    width: '100px',
     callback: 'formatDate|D/MM/Y'
   },
   {
@@ -207,7 +218,8 @@ let tableColumns = [
     sortField: 'gender',
     titleClass: 'center aligned',
     dataClass: 'center aligned',
-    callback: 'gender'
+    callback: 'gender',
+    width: '100px',
   },
   {
     name: '__component:custom-actions',
@@ -231,6 +243,7 @@ let vm = new Vue({
     searchFor: '',
     moreParams: {},
     fields: tableColumns,
+    tableHeight: '500px',
     vuetableFields: false,
     sortOrder: [{
         field: 'name',
