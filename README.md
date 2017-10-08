@@ -11,6 +11,7 @@ npm install vue2-datepicker --save
 
 # Usage
 
+On vuetable definition declare searchField:true, type:3 types available: input | select | date. You can see the following example
 ```javascript
 data () {
       return {
