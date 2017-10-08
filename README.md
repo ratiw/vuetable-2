@@ -3,8 +3,7 @@
 
 # Dependencies
 
-First you have to install the datepicker dependency
-[a link](https://www.npmjs.com/package/vue2-datepicker)
+First you have to install the [datepicker dependency](https://www.npmjs.com/package/vue2-datepicker)
 
 ```shell
 npm install vue2-datepicker --save
