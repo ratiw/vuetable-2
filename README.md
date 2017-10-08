@@ -24,7 +24,7 @@ data () {
             type:'input'
           },         
           {
-            title: 'Παραλαβή',
+            title: 'status',
             name: 'forward_status_code',
             sortField: 'forward_status_code',
             callback: 'formatForward',
