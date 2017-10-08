@@ -1,6 +1,88 @@
 [![npm](https://img.shields.io/npm/v/vuetable-2.svg)](https://www.npmjs.com/package/vuetable-2)
 [![npm](https://img.shields.io/npm/l/vuetable-2.svg?maxAge=2592000)]()
 
+# Dependencies
+
+First you have to install the datepicker dependency
+
+```shell
+npm install vue2-datepicker --save
+```
+
+# Usage
+
+```javascript
+data () {
+      return {
+        fields: [
+          {
+            name: 'id',
+            title: 'ID',
+            titleClass: 'text-left',
+            dataClass: 'text-left',
+            searchField:true,
+            type:'input'
+          },         
+          {
+            title: 'Παραλαβή',
+            name: 'forward_status_code',
+            sortField: 'forward_status_code',
+            callback: 'formatForward',
+            searchField:true,
+            type:'select',
+            selectData:[{ text: 'OK', value: '200' }, { text: 'Error', value: '5' }]
+          },
+          {
+            name: 'date',
+            title: 'date range',
+            sortField: 'date',
+            titleClass: 'text-center',
+            dataClass: 'text-center',
+            callback: 'formatDate|DD-MM-YYYY',
+            searchField:true,
+            type:'date'
+          },
+         .
+         .
+         .
+         .
+    },
+```
+
+On server side you can do 
+
+```php
+
+if (!empty($request['filter']) )
+        {
+            $filters = json_decode($request['filter']);
+
+            foreach($filters as $column => $value)
+            {
+
+                if(Schema::hasColumn('receipt', $column)) {
+
+                    if(is_array($value))
+                    {
+                        $dt = new DateTime($value[0]);
+                        $min = $dt->format('Y-m-d 00:00:00');
+                        $dt = new DateTime($value[1]);
+                        $max = $dt->format('Y-m-d 23:59:59');
+                        $query->whereBetween($column, [$min, $max]);
+                    }
+                    else
+                    {
+                        $val = "%{$value}%";
+                        $query->where($column, 'like', $val);
+                    }
+
+
+
+                }
+
+            }
+        }
+   ```
 # Vuetable-2 - data table simplify!
 
 ### Vuetable-2 works with Vue 2.x, vuetable is for Vue 1.x
