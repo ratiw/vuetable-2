@@ -37,10 +37,25 @@
         </template>
       </tr>
       <tr v-if="isFiltered(fields)">
-        <template v-for="field in fields">
-          <template v-if="field.searchField">
+        <template v-for="field in fields">          
+		  <template v-if="field.type === 'input'">
             <th>
               <input class="searchFilter" v-model="searchFor[field.name]"  :placeholder="field.title" @keyup.enter="setFilter(field.name)" />
+            </th>
+          </template>
+		  <template v-else-if="field.type === 'date'">
+            <th>
+			<date-picker v-model="searchFor[field.name]" lang="en" range :shortcuts="shortcuts" v-on:input="setFilter(field.name)"></date-picker>
+            </th>
+          </template>
+		  <template v-else-if="field.type === 'select'">
+            <th>			
+			<select v-model="searchFor[field.name]" @change="setFilter(field.name)">
+			<option/>
+				<option v-for="option in field.selectData" v-bind:value="option.value">
+					{{ option.text }}
+				</option>
+			</select>
             </th>
           </template>
           <template v-else>
@@ -107,9 +122,12 @@
 <script>
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import DatePicker from 'vue2-datepicker'
 Vue.use(VueResource)
 
+
 export default {
+components: { DatePicker },
   props: {
     fields: {
       type: Array,
@@ -225,8 +243,41 @@ export default {
       selectedTo: [],
       visibleDetailRows: [],
       searchFor: {},
+	  datespicker: {},
       filter: null,
-      filterOn: null,
+      filterOn: null,	  
+        shortcuts: [
+          {
+            text: 'Today',
+            start: new Date(),
+            end: new Date()
+          },
+		  {
+            text: 'Yesterday',
+            start: new Date(new Date().setDate(new Date().getDate()-1)),
+            end: new Date(new Date().setDate(new Date().getDate()-1))
+          },
+		  {
+            text: 'Last 7 D',
+            start: new Date(new Date().setDate(new Date().getDate()-6)),
+            end: new Date()
+          },
+		  {
+            text: 'Last 30 D',
+            start: new Date(new Date().setDate(new Date().getDate()-29)),
+            end: new Date()
+          },
+		  {
+            text: 'This Month',
+            start: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+            end: new Date(new Date().getFullYear(), new Date().getMonth()+1, 0)
+          },
+		  {
+            text: 'Last Month',
+            start: new Date(new Date().getFullYear(), new Date().getMonth()-1, 1),
+            end: new Date(new Date().getFullYear(), new Date().getMonth(), 0)
+          }
+        ],
     }
   },
   created: function() {
@@ -269,6 +320,7 @@ export default {
             callback: null,
             visible: true,
             searchField: false,
+			type: '',			
           }
         } else {
           obj = {
@@ -280,6 +332,8 @@ export default {
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
             searchField: field.searchField,
+			type: field.type,
+			selectData: field.selectData
           }
         }
         Vue.set(self.fields, i, obj)
@@ -333,7 +387,7 @@ export default {
       for (const curentVar in this.searchFor) {
         if (this.searchFor[curentVar] !== '') {
           for (const n in data) {
-            data[n][curentVar] = this.highlight(this.searchFor[curentVar], data[n][curentVar]);
+            //data[n][curentVar] = this.highlight(this.searchFor[curentVar], data[n][curentVar]);
           }
         }
       }
@@ -758,17 +812,54 @@ export default {
         this.gotoPage(page)
       }
     },
-    setFilter(name) {
+	setFilter(name) {
       //delete others inputs
+	  /*
+      for (const curentVar in this.searchFor) {
+        console.log('curentvar: '+curentVar+' ,value: '+this.searchFor[curentVar]);
+		
+		if (curentVar !== name) {
+          this.searchFor[curentVar] = '';
+        }
+      }*/	  
+
+      this.filter = JSON.stringify(this.searchFor)
+	  console.log(this.filter)
+      //this.filterOn = name;
+
+      this.$nextTick(() => {
+        this.refresh();
+      });
+    },
+    setFilterDate(name) {
+      //delete others inputs
+	  /*
       for (const curentVar in this.searchFor) {
         if (curentVar !== name) {
           this.searchFor[curentVar] = '';
         }
       }
+	  */
+	  //correction of utc datetime
+	  var date = []
+	  var start_date = this.datespicker[name][0];
+	  var end_date = this.datespicker[name][1];	  
+	  var utcSDate = new Date(Date.UTC(start_date.getFullYear(), start_date.getMonth(), start_date.getDate(), start_date.getHours(), start_date.getMinutes()))
+	  var utcEDate = new Date(Date.UTC(end_date.getFullYear(), end_date.getMonth(), end_date.getDate(), end_date.getHours(), end_date.getMinutes()))
+	  this.searchFor[name][0] = utcSDate
+	  this.searchFor[name][1] = utcEDate
+	  
+	  
 
-      this.filter = this.searchFor[name];
+      this.filter =JSON.stringify(this.searchFor);
+	  alert(this.filter)
+	  /*
+	  if(this.searchFor[name] == '')
+	  {
+		this.filter = null
+	  }
       this.filterOn = name;
-
+	  */
       this.$nextTick(() => {
         this.refresh();
       });
@@ -808,10 +899,13 @@ export default {
         this.sortOrder.splice(1);
         this.loadData();
       }
-    }
-  },
+    }	
+  },   
 }
 </script>
+
+
+
 
 <style>
   [v-cloak] {
