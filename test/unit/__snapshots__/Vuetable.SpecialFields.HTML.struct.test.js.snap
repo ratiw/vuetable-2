@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Vuetable has same HTML structure for __checkbox special field 1`] = `
+exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structure for __checkbox special field 1`] = `
 <table class="vuetable ui blue selectable celled stackable attached table">
     <thead>
         <tr>
@@ -28,7 +28,7 @@ exports[`Vuetable has same HTML structure for __checkbox special field 1`] = `
 </table>
 `;
 
-exports[`Vuetable has same HTML structure for __component special field 1`] = `
+exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structure for __component special field 1`] = `
 <table class="vuetable ui blue selectable celled stackable attached table">
     <thead>
         <tr>
@@ -58,7 +58,7 @@ exports[`Vuetable has same HTML structure for __component special field 1`] = `
 </table>
 `;
 
-exports[`Vuetable has same HTML structure for __handle special field 1`] = `
+exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structure for __handle special field 1`] = `
 <table class="vuetable ui blue selectable celled stackable attached table">
     <thead>
         <tr>
@@ -86,7 +86,7 @@ exports[`Vuetable has same HTML structure for __handle special field 1`] = `
 </table>
 `;
 
-exports[`Vuetable has same HTML structure for __sequence special field 1`] = `
+exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structure for __sequence special field 1`] = `
 <table class="vuetable ui blue selectable celled stackable attached table">
     <thead>
         <tr>
@@ -114,7 +114,7 @@ exports[`Vuetable has same HTML structure for __sequence special field 1`] = `
 </table>
 `;
 
-exports[`Vuetable has same HTML structure for __slot special fields 1`] = `
+exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structure for __slot special fields 1`] = `
 <table class="vuetable ui blue selectable celled stackable attached table">
     <thead>
         <tr>
@@ -144,7 +144,7 @@ exports[`Vuetable has same HTML structure for __slot special fields 1`] = `
 </table>
 `;
 
-exports[`Vuetable has same basic HTML structure 1`] = `
+exports[`Vuetable - Special Fields - Basic HTML structure has same basic HTML structure 1`] = `
 <table class="vuetable ui blue selectable celled stackable attached table">
     <thead>
         <tr>

@@ -114,7 +114,8 @@
   ],
   "jest": {
     "moduleNameMapper": {
-      "^vue$": "vue/dist/vue.common.js"
+      "^vue$": "vue/dist/vue.common.js",
+      "@(.*)$": "<rootDir>/src/$1"
     },
     "moduleFileExtensions": [
       "js",

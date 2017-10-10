@@ -1,4 +1,8 @@
+jest.mock('axios', () => ({
+  get: jest.fn()
+}))
 import Vue from 'vue'
+import axios from 'axios'
 import { mount, shallow } from 'vue-test-utils'
 import { createRenderer } from 'vue-server-renderer'
 import Vuetable from '@/components/Vuetable.vue'
@@ -6,108 +10,60 @@ import Vuetable from '@/components/Vuetable.vue'
 Vue.config.productionTip = false
 
 describe('Vuetable', () => {
-  it('has same basic HTML structure', () => {
-    const renderer = createRenderer()
-    const wrapper = shallow(Vuetable, {
+  let wrapper
+
+  // beforeEach( async () => {
+  //   wrapper = shallow(Vuetable, {
+  //     propsData: {
+  //       fields: ['code', 'description'],
+  //       apiUrl: 'http://example.com/api/users',
+  //     }
+  //   })
+  //   jest.resetModules()
+  //   jest.clearAllMocks()
+  // })
+  let mockData = [
+    { code: '1111', description: 'zzzzz' },
+    { code: '5555', description: 'xxxxx' },
+    { code: '3333', description: 'yyyyy' }
+  ]
+
+  it('should call loadData by default', (done) => {
+    let mockedLoadData = jest.fn()
+    Vuetable.methods.loadData = mockedLoadData
+
+    wrapper = mount(Vuetable, {
       propsData: {
         fields: ['code', 'description'],
-        loadOnStart: false
       }
     })
-    renderer.renderToString(wrapper.vm, (err, str) => {
-      if (err) throw new Error(err)
-      expect(str).toMatchSnapshot()
-    })
+    jest.resetModules()
+    jest.clearAllMocks()
+
+    wrapper.vm.$nextTick( () => {
+      expect(mockedLoadData).toHaveBeenCalled()
+      done()
+     })
   })
 
-  it('has same HTML structure for __sequence special field', () => {
-    const renderer = createRenderer()
-    const wrapper = shallow(Vuetable, {
-      propsData: {
-        fields: ['__sequence', 'code'],
-        apiMode: false,
-        data: [
-          { code: 'foo' }
-        ]
-      }
-    })
-    renderer.renderToString(wrapper.vm, (err, str) => {
-      if (err) throw new Error(err)
-      expect(str).toMatchSnapshot()
-    })
-  })
+  it('should call user-defined httpFetch if defined', (done) => {
+    let mockedHttpFetch = jest.fn()
+    // Vuetable.vm.httpFetch = mockedHttpFetch
 
-  it('has same HTML structure for __handle special field', () => {
-    const renderer = createRenderer()
-    const wrapper = shallow(Vuetable, {
+    wrapper = mount(Vuetable, {
       propsData: {
-        fields: ['__handle', 'code'],
-        apiMode: false,
-        data: [
-          { code: 'foo' }
-        ]
-      }
-    })
-    renderer.renderToString(wrapper.vm, (err, str) => {
-      if (err) throw new Error(err)
-      expect(str).toMatchSnapshot()
-    })
-  })
-
-  it('has same HTML structure for __checkbox special field', () => {
-    const renderer = createRenderer()
-    const wrapper = shallow(Vuetable, {
-      propsData: {
-        fields: ['__checkbox', 'code'],
-        apiMode: false,
-        data: [
-          { code: 'foo' }
-        ]
-      }
-    })
-    renderer.renderToString(wrapper.vm, (err, str) => {
-      if (err) throw new Error(err)
-      expect(str).toMatchSnapshot()
-    })
-  })
-
-  it('has same HTML structure for __component special field', () => {
-    Vue.component('sample-component', {
-      template: `<div>Sample</div>`
-    })
-    const renderer = createRenderer()
-    const wrapper = shallow(Vuetable, {
-      propsData: {
-        fields: ['__component:sample-component', 'code'],
-        apiMode: false,
-        data: [
-          { code: 'foo' }
-        ]
-      }
-    })
-    renderer.renderToString(wrapper.vm, (err, str) => {
-      if (err) throw new Error(err)
-      expect(str).toMatchSnapshot()
-    })
-  })
-
-  it('has same HTML structure for __slot special fields', () => {
-    const renderer = createRenderer()
-    const wrapper = shallow(Vuetable, {
-      propsData: {
-        fields: ['__slot:sample-slot', 'code'],
-        apiMode: false,
-        data: [
-          { code: 'foo' }
-        ]
+        fields: ['code', 'description'],
+        apiUrl: 'http://example.com/api/users',
+        httpFetch: mockedHttpFetch
       },
-      slots: {
-        'sample-slot': `<div />`
-      }
     })
-    renderer.renderToString(wrapper.vm, (err, str) => {
-      if (err) throw new Error(err)
-      expect(str).toMatchSnapshot()
+    jest.resetModules()
+    jest.clearAllMocks()
+
+    wrapper.vm.$nextTick( () => {
+      // expect(wrapper.vm.apiUrl).toEqual('http://example.com/api/users')
+      expect(mockedHttpFetch).toBeCalled()
+      done()
     })
   })
 
