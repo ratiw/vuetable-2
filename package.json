@@ -74,6 +74,7 @@
     "isparta-loader": "^2.0.0",
     "jest": "21.2.1",
     "jest-serializer-vue": "0.2.0",
+    "jest-vue": "0.8.1",
     "jest-vue-preprocessor": "1.2.0",
     "json-loader": "^0.5.4",
     "lolex": "^1.5.2",
@@ -125,6 +126,7 @@
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
       ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue-preprocessor"
     },
+    "mapCoverage": true,
     "snapshotSerializers": [
       "<rootDir>/node_modules/jest-serializer-vue"
     ]

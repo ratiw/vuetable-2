@@ -13,7 +13,10 @@
   "comments": false,
   "env": {
     "test": {
-      "presets": ["env", "stage-2"],
+      "presets": [
+        ["env", { "targets": { "node": "current" }}],
+        "stage-2"
+      ],
       "plugins": [
         ["module-resolver", {
           "root": ["./src"],

@@ -150,9 +150,7 @@ export default {
     },
     dataManager: {
       type: Function,
-      default () {
-        return null
-      }
+      default: null
     },
     dataPath: {
         type: String,
@@ -310,6 +308,8 @@ export default {
       return this.detailRowComponent !== ''
     },
     countVisibleFields () {
+      if (!this.tableFields) return 0
+
       return this.tableFields.filter(function(field) {
         return field.visible
       }).length
@@ -900,7 +900,7 @@ export default {
       })
     },
     callDataManager () {
-      if (this.dataManager === null && this.data === null) return
+      if (! (this.dataManager && this.data) ) return
 
       if (Array.isArray(this.data)) {
         this.setData(this.data)

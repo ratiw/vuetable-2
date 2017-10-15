@@ -13,17 +13,9 @@ exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structur
         </tr>
     </thead>
     <tbody class="vuetable-body">
-        <tr item-index="0" render="true">
-            <!---->
-            <!---->
-            <td class="vuetable-checkboxes"><input type="checkbox"></td>
-            <!---->
-            <!---->
-            <td>foo</td>
+        <tr>
+            <td colspan="2" class="vuetable-empty-result">No Data Available</td>
         </tr>
-        <!---->
-        <!---->
-        <!---->
     </tbody>
 </table>
 `;
@@ -41,19 +33,9 @@ exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structur
         </tr>
     </thead>
     <tbody class="vuetable-body">
-        <tr item-index="0" render="true">
-            <!---->
-            <!---->
-            <!---->
-            <td class="vuetable-component">
-                <!---->
-            </td>
-            <!---->
-            <td>foo</td>
+        <tr>
+            <td colspan="2" class="vuetable-empty-result">No Data Available</td>
         </tr>
-        <!---->
-        <!---->
-        <!---->
     </tbody>
 </table>
 `;
@@ -71,17 +53,9 @@ exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structur
         </tr>
     </thead>
     <tbody class="vuetable-body">
-        <tr item-index="0" render="true">
-            <!---->
-            <td class="vuetable-handle"><i class="handle-icon grey sidebar icon"></i></td>
-            <!---->
-            <!---->
-            <!---->
-            <td>foo</td>
+        <tr>
+            <td colspan="2" class="vuetable-empty-result">No Data Available</td>
         </tr>
-        <!---->
-        <!---->
-        <!---->
     </tbody>
 </table>
 `;
@@ -99,17 +73,9 @@ exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structur
         </tr>
     </thead>
     <tbody class="vuetable-body">
-        <tr item-index="0" render="true">
-            <td class="vuetable-sequence">0</td>
-            <!---->
-            <!---->
-            <!---->
-            <!---->
-            <td>foo</td>
+        <tr>
+            <td colspan="2" class="vuetable-empty-result">No Data Available</td>
         </tr>
-        <!---->
-        <!---->
-        <!---->
     </tbody>
 </table>
 `;
@@ -127,19 +93,9 @@ exports[`Vuetable - Special Fields - Basic HTML structure has same HTML structur
         </tr>
     </thead>
     <tbody class="vuetable-body">
-        <tr item-index="0" render="true">
-            <!---->
-            <!---->
-            <!---->
-            <!---->
-            <td class="vuetable-slot">
-                <div></div>
-            </td>
-            <td>foo</td>
+        <tr>
+            <td colspan="2" class="vuetable-empty-result">No Data Available</td>
         </tr>
-        <!---->
-        <!---->
-        <!---->
     </tbody>
 </table>
 `;

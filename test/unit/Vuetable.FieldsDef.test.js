@@ -112,7 +112,7 @@ describe('Vuetable - Fields Definition', () => {
     // dataClass
     it('should use the given dataClass to render field data', (done) => {
       let cmp = mount(Vuetable, {
-        attachToDocument: true,
+        // attachToDocument: true,
         propsData: {
           // simulate data mode to allow passing data in for testing
           apiMode: false,
@@ -122,15 +122,17 @@ describe('Vuetable - Fields Definition', () => {
               dataClass: 'foo-baz'
             }
           ],
-          data: [
-            { code: 'MYCODE' }
-          ]
+          // data: [
+          //   { code: 'MYCODE' }
+          // ]
         }
       })
 
       expect(cmp.vm.tableFields[0].dataClass).toEqual('foo-baz')
+      cmp.vm.setData([{code: 'MYCODE'}])
       cmp.vm.$nextTick( () => {
         let nodes = cmp.vm.$el.querySelectorAll('table tbody tr td')
+        console.log('%%%%%%% ', cmp.html(), nodes)
         expect(nodes[0].classList.contains('foo-baz')).toEqual(true)
         done()
       })
@@ -193,13 +195,14 @@ describe('Vuetable - Fields Definition', () => {
           ],
           // simulate data mode to allow passing data in for testing
           apiMode: false,
-          data: [
-            { code: 'mycode' }
-          ]
+          // data: [
+          //   { code: 'mycode' }
+          // ]
         }
       })
 
       expect(cmp.vm.tableFields[0].callback).toEqual(myCallback)
+      cmp.vm.setData([{code: 'mycode'}])
       cmp.vm.$nextTick( () => {
         let nodes = cmp.vm.$el.querySelectorAll('table tbody tr td')
         expect(nodes[0].textContent).toEqual('MYCODE')
@@ -210,7 +213,7 @@ describe('Vuetable - Fields Definition', () => {
     // callback not found in parent
     it('should return null if the specified callback name does not exist in the parent', (done) => {
       const vm = new Vue({
-        template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false" :data="data"></vuetable>`,
+        template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false"></vuetable>`,
         components: { Vuetable },
         data: {
           columns: [
@@ -219,14 +222,15 @@ describe('Vuetable - Fields Definition', () => {
               callback: 'callbackInParent'
             }
           ],
-          data: [
-            { code: 'mycode' }
-          ]
+          // data: [
+          //   { code: 'mycode' }
+          // ]
         },
       }).$mount()
 
       let cmp = vm.$refs.vuetable
       expect(cmp.tableFields[0].callback).toEqual('callbackInParent')
+      cmp.vm.setData([{code: 'mycode'}])
       vm.$nextTick( () => {
         let nodes = cmp.$el.querySelectorAll('table tbody tr td')
         expect(nodes[0].textContent).toEqual('null')
@@ -237,7 +241,7 @@ describe('Vuetable - Fields Definition', () => {
     // callback as a method in parent
     it('should call the callback in the parent instance if specified and available', (done) => {
       const vm = new Vue({
-        template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false" :data="data"></vuetable>`,
+        template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false"></vuetable>`,
         components: { Vuetable },
         data: {
           columns: [
@@ -246,9 +250,9 @@ describe('Vuetable - Fields Definition', () => {
               callback: 'callbackInParent'
             }
           ],
-          data: [
-            { code: 'mycode' }
-          ]
+          // data: [
+          //   { code: 'mycode' }
+          // ]
         },
         methods: {
           callbackInParent (value) {
@@ -259,6 +263,7 @@ describe('Vuetable - Fields Definition', () => {
 
       let cmp = vm.$refs.vuetable
       expect(cmp.tableFields[0].callback).toEqual('callbackInParent')
+      cmp.vm.setData([{code: 'mycode'}])
       vm.$nextTick( () => {
         let nodes = cmp.$el.querySelectorAll('table tbody tr td')
         expect(nodes[0].textContent).toEqual('MYCODE')
@@ -269,7 +274,7 @@ describe('Vuetable - Fields Definition', () => {
     // callback with additional param
     it('should call the callback in the parent instance with additional param if specified', (done) => {
       const vm = new Vue({
-        template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false" :data="data"></vuetable>`,
+        template: `<vuetable ref="vuetable" :fields="columns" :api-mode="false"></vuetable>`,
         components: { Vuetable },
         data: {
           columns: [
@@ -278,9 +283,9 @@ describe('Vuetable - Fields Definition', () => {
               callback: 'callbackInParent|1234'
             }
           ],
-          data: [
-            { code: 'mycode' }
-          ]
+          // data: [
+          //   { code: 'mycode' }
+          // ]
         },
         methods: {
           callbackInParent (value, param) {
@@ -291,6 +296,7 @@ describe('Vuetable - Fields Definition', () => {
 
       let cmp = vm.$refs.vuetable
       expect(cmp.tableFields[0].callback).toEqual('callbackInParent|1234')
+      cmp.vm.setData([{code: 'mycode'}])
       vm.$nextTick( () => {
         let nodes = cmp.$el.querySelectorAll('table tbody tr td')
         expect(nodes[0].textContent).toEqual('MYCODE1234')
