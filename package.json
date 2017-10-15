@@ -74,6 +74,7 @@
     "isparta-loader": "^2.0.0",
     "jest": "21.2.1",
     "jest-serializer-vue": "0.2.0",
+    "jest-vue": "0.8.1",
     "jest-vue-preprocessor": "1.2.0",
     "json-loader": "^0.5.4",
     "lolex": "^1.5.2",
@@ -92,7 +93,7 @@
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "1.2.3",
     "vue-loader": "^12.1.0",
-    "vue-server-renderer": "2.4.4",
+    "vue-server-renderer": "^2.5.2",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.3.3",
     "vue-test-utils": "1.0.0-beta",
@@ -125,6 +126,7 @@
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
       ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue-preprocessor"
     },
+    "mapCoverage": true,
     "snapshotSerializers": [
       "<rootDir>/node_modules/jest-serializer-vue"
     ]

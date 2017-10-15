@@ -150,9 +150,7 @@ export default {
     },
     dataManager: {
       type: Function,
-      default () {
-        return null
-      }
+      default: null
     },
     dataPath: {
         type: String,
@@ -282,6 +280,13 @@ export default {
       visibleDetailRows: [],
     }
   },
+  created () {
+    this.normalizeFields()
+    this.normalizeSortOrder()
+    this.$nextTick(function() {
+      this.fireEvent('initialized', this.tableFields)
+    })
+  },
   mounted () {
     if (typeof(this.fields) === "undefined") return
 
@@ -289,16 +294,9 @@ export default {
       this.$http = axios
     }
 
-    this.normalizeFields()
-    this.normalizeSortOrder()
-    this.$nextTick(function() {
-      this.fireEvent('initialized', this.tableFields)
-
-      if (this.loadOnStart) {
-        this.loadData()
-      }
-    })
-
+    if (this.loadOnStart) {
+      this.loadData()
+    }
   },
   computed: {
     useDetailRow () {
@@ -310,6 +308,8 @@ export default {
       return this.detailRowComponent !== ''
     },
     countVisibleFields () {
+      if (!this.tableFields) return 0
+
       return this.tableFields.filter(function(field) {
         return field.visible
       }).length
@@ -402,14 +402,15 @@ export default {
         return ''
       }
 
-      return this.titleCase(str)
+      return this.titleCase(str.replace('.', ' '))
     },
     getTitle (field) {
       if (typeof(field.title) === 'function') return field.title()
 
-      return typeof(field.title) === 'undefined'
-        ? field.name.replace('.', ' ')
-        : field.title
+      // return typeof(field.title) === 'undefined'
+      //   ? field.name.replace('.', ' ')
+      //   : field.title
+      return field.title
     },
     renderTitle (field) {
       let title = this.getTitle(field)
@@ -900,7 +901,7 @@ export default {
       })
     },
     callDataManager () {
-      if (this.dataManager === null && this.data === null) return
+      if (! (this.dataManager && this.data) ) return
 
       if (Array.isArray(this.data)) {
         this.setData(this.data)

@@ -41,31 +41,31 @@ describe('Vuetable', () => {
     jest.clearAllMocks()
 
     wrapper.vm.$nextTick( () => {
-      expect(mockedLoadData).toHaveBeenCalled()
+      expect(mockedLoadData).toBeCalled()
       done()
      })
   })
 
-  it('should call user-defined httpFetch if defined', (done) => {
-    let mockedHttpFetch = jest.fn()
-    // Vuetable.vm.httpFetch = mockedHttpFetch
+  // it('should call user-defined httpFetch if defined', (done) => {
+  //   let mockedHttpFetch = jest.fn()
+  //   // Vuetable.vm.httpFetch = mockedHttpFetch
 
-    wrapper = mount(Vuetable, {
-      propsData: {
-        fields: ['code', 'description'],
-        apiUrl: 'http://example.com/api/users',
-        httpFetch: mockedHttpFetch
-      },
-    })
-    jest.resetModules()
-    jest.clearAllMocks()
+  //   wrapper = mount(Vuetable, {
+  //     propsData: {
+  //       fields: ['code', 'description'],
+  //       apiUrl: 'http://example.com/api/users',
+  //       httpFetch: mockedHttpFetch
+  //     },
+  //   })
+  //   jest.resetModules()
+  //   jest.clearAllMocks()
 
-    wrapper.vm.$nextTick( () => {
-      // expect(wrapper.vm.apiUrl).toEqual('http://example.com/api/users')
-      expect(mockedHttpFetch).toBeCalled()
-      done()
-    })
-  })
+  //   wrapper.vm.$nextTick( () => {
+  //     // expect(wrapper.vm.apiUrl).toEqual('http://example.com/api/users')
+  //     expect(mockedHttpFetch).toBeCalled()
+  //     done()
+  //   })
+  // })
 
   describe('Properties', () => {
     it('should have set the apiUrl correctly', () => {
