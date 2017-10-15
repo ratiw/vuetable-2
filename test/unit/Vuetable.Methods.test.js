@@ -125,11 +125,36 @@ describe('Vuetable - Methods', () => {
       })
     })
 
-    it('should return capitalized words', () => {
+    it('should capitalized words', () => {
       expect(cmp.vm.titleCase('hello')).toEqual('Hello')
       expect(cmp.vm.titleCase('hello world')).toEqual('Hello World')
       expect(cmp.vm.titleCase('hello_world')).toEqual('Hello_world')
       expect(cmp.vm.titleCase('hello.world')).toEqual('Hello.World')
+    })
+  })
+
+  describe('camelCase', () => {
+    let cmp
+
+    beforeEach( () => {
+      cmp = mount(Vuetable, {
+        propsData: {
+          fields: ['code'],
+          apiMode: false
+        }
+      })
+    })
+
+    it('should camelized snake case string with default _ as delimiter', () => {
+      expect(cmp.vm.camelCase('hello_world')).toEqual('helloWorld')
+      expect(cmp.vm.camelCase('how_are_you')).toEqual('howAreYou')
+      expect(cmp.vm.camelCase('HOW_ARE_YOU')).toEqual('howAreYou')
+    })
+
+    it('should camelized string with custom delimter', () => {
+      expect(cmp.vm.camelCase('hello world', ' ')).toEqual('helloWorld')
+      expect(cmp.vm.camelCase('how are you', ' ')).toEqual('howAreYou')
+      expect(cmp.vm.camelCase('HOW ARE YOU', ' ')).toEqual('howAreYou')
     })
   })
 })

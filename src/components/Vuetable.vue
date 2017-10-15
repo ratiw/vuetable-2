@@ -441,9 +441,10 @@ export default {
       })
     },
     camelCase (str, delimiter = '_') {
-      let self = this
-      return str.split(delimiter).map(function(item) {
-        return self.titleCase(item)
+      str = str.split(delimiter)
+      let first = str.shift()
+      return first.toLowerCase() + str.map( (item) => {
+        return this.titleCase(item)
       }).join('')
     },
     notIn (str, arr) {
