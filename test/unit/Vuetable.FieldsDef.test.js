@@ -278,9 +278,6 @@ describe('Vuetable - Fields Definition', () => {
               callback: 'callbackInParent|1234'
             }
           ],
-          // data: [
-          //   { code: 'mycode' }
-          // ]
         },
         methods: {
           callbackInParent (value, param) {
