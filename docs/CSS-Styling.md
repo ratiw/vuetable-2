@@ -7,13 +7,15 @@
 
 ```javascript
 {
-    tableClass:     'ui blue selectable celled stackable attached table',
-    loadingClass:   'loading',
-    ascendingIcon:  'blue chevron up icon',
-    descendingIcon: 'blue chevron down icon',
-    detailRowClass: 'vuetable-detail-row',
-    handleIcon:     'grey sidebar icon',
-    sortableIcon:   ''  // since v1.7
+  tableClass:     'ui blue selectable celled stackable attached table',
+  loadingClass:   'loading',
+  ascendingIcon:  'blue chevron up icon',
+  descendingIcon: 'blue chevron down icon',
+  detailRowClass: 'vuetable-detail-row',
+  handleIcon:     'grey sidebar icon',
+  sortableIcon:   '',  // since v1.7
+  ascendingClass: 'sorted-asc', // since v1.7
+  descendingClass: 'sorted-desc' // since v1.7
 }
 ```
 
