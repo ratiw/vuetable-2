@@ -215,6 +215,13 @@
 
   See also: [`visibleDetailRows`](#), and [`selectedTo`](#)
 
+### # show-sort-icons
+- type: _Boolean_
+- default: `true`
+- description
+
+  Tells Vuetable whether or not icons should be added to `th` elements whenever a given column is used to sort.
+
 ### # sort-order
 - works in `api-mode` only
 - type: _Array_
