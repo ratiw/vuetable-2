@@ -92,18 +92,12 @@
                 </td>
               </template>
               <template v-else>
-                <td v-if="hasCallback(field)" :class="field.dataClass"
+                <td :class="field.dataClass"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
-                      v-html="renderNormalField(field, item)"
-                    >
-                    </td>
-                    <td v-else :class="field.dataClass"
-                      @click="onCellClicked(item, field, $event)"
-                      @dblclick="onCellDoubleClicked(item, field, $event)"
-                      v-html="getObjectValue(item, field.name, '')"
-                    >
-                    </td>
+                  v-html="renderNormalField(field, item)"
+                >
+                </td>
                   </template>
                 </template>
               </template>
@@ -224,37 +218,37 @@
                 v-html="getObjectValue(item, field.name, '')"
               >
               </td>
+              </template>
             </template>
           </template>
+        </tr>
+        <template v-if="useDetailRow">
+          <tr v-if="isVisibleDetailRow(item[trackBy])"
+            @click="onDetailRowClick(item, $event)"
+            :class="[css.detailRowClass]"
+          >
+            <transition :name="detailRowTransition">
+              <td :colspan="countVisibleFields">
+                <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+              </td>
+            </transition>
+          </tr>
         </template>
-      </tr>
-      <template v-if="useDetailRow">
-        <tr v-if="isVisibleDetailRow(item[trackBy])"
-          @click="onDetailRowClick(item, $event)"
-          :class="[css.detailRowClass]"
-        >
-          <transition :name="detailRowTransition">
-            <td :colspan="countVisibleFields">
-              <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
-            </td>
-          </transition>
+      </template>
+      <template v-if="displayEmptyDataRow">
+        <tr>
+          <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
         </tr>
       </template>
-    </template>
-    <template v-if="displayEmptyDataRow">
-      <tr>
-        <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
-      </tr>
-    </template>
-    <template v-if="lessThanMinRows">
-      <tr v-for="i in blankRows" class="blank-row">
-        <template v-for="field in tableFields">
-          <td v-if="field.visible">&nbsp;</td>
-        </template>
-      </tr>
-    </template>
-  </tbody>
-</table>
+      <template v-if="lessThanMinRows">
+        <tr v-for="i in blankRows" class="blank-row">
+          <template v-for="field in tableFields">
+            <td v-if="field.visible">&nbsp;</td>
+          </template>
+        </tr>
+      </template>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -405,6 +399,8 @@ export default {
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
+          ascendingClass: 'sorted-asc',
+          descendingClass: 'sorted-desc',
           sortableIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
@@ -427,6 +423,10 @@ export default {
         return 'No Data Available'
       }
     },
+    showSortIcons: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {
@@ -503,7 +503,7 @@ export default {
       return this.minRows - this.tableData.length
     },
     isApiMode () {
-      return this.apiMode 
+      return this.apiMode
     },
     isDataMode () {
       return ! this.apiMode
@@ -600,8 +600,8 @@ export default {
       return title
     },
     renderSequence (index) {
-      return this.tablePagination 
-        ? this.tablePagination.from + index 
+      return this.tablePagination
+        ? this.tablePagination.from + index
         : index
     },
     renderNormalField (field, item) {
