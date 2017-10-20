@@ -225,7 +225,8 @@ let tableColumns = [
     name: '__component:custom-actions',
     title: 'Actions',
     titleClass: 'center aligned',
-    dataClass: 'center aligned'
+    dataClass: 'center aligned',
+    width: '150px'
   }
 ]
 
