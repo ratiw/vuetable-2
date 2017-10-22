@@ -44,6 +44,7 @@
             </template>
           </template>
         </template>
+        <th v-if="scrollVisible" :style="{width: scrollBarWidth}" class="vuetable-gutter-col"></th>
       </tr>
     </thead>
     </table>
@@ -437,12 +438,17 @@ export default {
       currentPage: this.initialPage,
       selectedTo: [],
       visibleDetailRows: [],
-      lastScrollPosition: 0
+      lastScrollPosition: 0,
+      scrollBarWidth: '17px', //chrome default
+      scrollVisible: false,
     }
   },
   mounted () {
     this.normalizeFields()
     this.normalizeSortOrder()
+    if (this.isFixedHeader) {
+      this.scrollBarWidth = this.getScrollBarWidth() + 'px';
+    }
     this.$nextTick(function() {
       this.fireEvent('initialized', this.tableFields)
     })
@@ -513,6 +519,32 @@ export default {
     }
   },
   methods: {
+    getScrollBarWidth () {
+      const outer = document.createElement('div');
+      const inner = document.createElement('div');
+
+      outer.style.visibility = 'hidden';
+      outer.style.width = '100px';
+
+      inner.style.width = '100%';
+
+
+      outer.appendChild(inner);
+      document.body.appendChild(outer);
+
+
+      const widthWithoutScrollbar = outer.offsetWidth;
+
+      outer.style.overflow = 'scroll';
+
+      const widthWithScrollbar = inner.offsetWidth;
+
+
+      document.body.removeChild(outer);
+
+
+      return (widthWithoutScrollbar - widthWithScrollbar);
+    },
     handleScroll (e) { //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
       let horizontal = e.currentTarget.scrollLeft;
       if (horizontal != this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
@@ -661,11 +693,27 @@ export default {
           + 'You can explicitly suppress this warning by setting pagination-path="".'
         )
       }
-
+      
       this.$nextTick(function() {
+        this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
+    },
+    fixHeader() {
+      if (!this.isFixedHeader) {
+        return;
+      }
+      
+      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
+      if (elem != null) {
+        if (elem.scrollHeight > elem.clientHeight) {
+          this.scrollVisible = true;
+        }
+        else {
+          this.scrollVisible = false;
+        }
+      }
     },
     loadFailed (response) {
       console.error('load-error', response)
@@ -1201,5 +1249,10 @@ export default {
   }
   .vuetable-fixed-layout {
     table-layout: fixed;
+  }
+  .vuetable-gutter-col {
+    padding: 0 !important;
+    border-left: none  !important;
+    border-right: none  !important;
   }
 </style>

@@ -244,7 +244,7 @@ let vm = new Vue({
     searchFor: '',
     moreParams: {},
     fields: tableColumns,
-    tableHeight: '500px',
+    tableHeight: '600px',
     vuetableFields: false,
     sortOrder: [{
         field: 'name',
