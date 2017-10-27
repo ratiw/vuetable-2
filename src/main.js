@@ -5,7 +5,11 @@ import VuetablePaginationDropdown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import axios from 'axios'
 
+import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
+
 let E_SERVER_ERROR = 'Error communicating with the server'
+
+Vue.component('custom-checkbox', VuetableColumnCheckbox)
 
 Vue.component('custom-actions', {
   template: [
@@ -151,13 +155,14 @@ let lang = {
 }
 
 let tableColumns = [
-  '__handle',
-  {
-    name: '__sequence',
-    title: 'No.',
-    titleClass: 'right aligned',
-    dataClass: 'right aligned'
-  },
+  '__component:custom-checkbox',
+  '__sequence',
+  // {
+  //   name: '__component:sequence',
+  //   title: 'No.',
+  //   titleClass: 'right aligned',
+  //   dataClass: 'right aligned'
+  // },
   {
     name: '__checkbox',
     title: 'checkbox',
