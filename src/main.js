@@ -214,12 +214,12 @@ let tableColumns = [
     dataClass: 'center aligned',
     callback: 'gender'
   },
-  {
-    name: '__component:custom-actions',
-    title: 'Actions',
-    titleClass: 'center aligned',
-    dataClass: 'center aligned'
-  }
+  // {
+  //   name: '__component:custom-actions',
+  //   title: 'Actions',
+  //   titleClass: 'center aligned',
+  //   dataClass: 'center aligned'
+  // }
 ]
 
 /* eslint-disable no-new */

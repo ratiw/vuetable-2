@@ -5,12 +5,7 @@
         <template v-for="field in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <th v-if="extractName(field.name) == '__checkbox'"
-                :class="headerClass('vuetable-th-checkbox-'+trackBy, field)">
-                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
-                  :checked="checkCheckboxesState(field.name)">
-              </th>
-              <th v-else-if="extractName(field.name) === '__component'"
+              <th v-if="extractName(field.name) === '__component'"
                 :class="headerClass('vuetable-th-component-'+extractArgs(field.name), field)"
                 @click="orderBy(field, $event)"
               >
@@ -27,8 +22,16 @@
                   :class="headerClass('vuetable-th-slot-'+extractArgs(field.name), field)"
                   v-html="renderTitle(field)"
               ></th>
-              <th v-else="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
-                  :class="headerClass('vuetable-th-'+field.name, field)" v-html="renderTitle(field)">
+              <th v-else
+                  :class="headerClass('vuetable-th-'+field.name, field)"
+              >
+                <component :is="field.name"
+                  :row-field="field"
+                  :is-header="true"
+                  :title="renderTitle(field)"
+                  :is-selected="checkCheckboxesState(field.name)"
+                  @vuetable-column="onColumnEvent"
+                ></component>
               </th>
             </template>
             <template v-else>
@@ -48,18 +51,7 @@
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__handle'"
-                  :class="bodyClass('vuetable-handle', field)"
-                  v-html="renderIconTag(['handle-icon', css.handleIcon])"
-                ></td>
-                <td v-else-if="extractName(field.name) == '__checkbox'"
-                  :class="bodyClass('vuetable-checkboxes', field)"
-                >
-                  <input type="checkbox"
-                    @change="toggleCheckbox(item, field.name, $event)"
-                    :checked="isSelectedRow(item[trackBy])">
-                </td>
-                <td v-else-if="extractName(field.name) === '__component'"
+                <td v-if="extractName(field.name) === '__component'"
                   :class="bodyClass('vuetable-component', field)"
                 >
                   <component :is="extractArgs(field.name)"
@@ -75,6 +67,16 @@
                   <slot :name="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></slot>
+                </td>
+                <td v-else
+                  :class="bodyClass('vuetable-component', field)"
+                >
+                  <component :is="extractArgs(field.name)"
+                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                    :is-selected="isSelectedRow(item[trackBy])"
+                    :css="css"
+                    @vuetable-column="onColumnEvent"
+                  ></component>
                 </td>
               </template>
               <template v-else>
