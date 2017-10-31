@@ -1,29 +1,15 @@
 <template>
-  <table :class="['vuetable', css.tableClass]">
+<div v-if="isFixedHeader">
+  <div class="vuetable-head-wrapper">
+    <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
       <tr>
         <template v-for="field in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <th v-if="extractName(field.name) === '__component'"
-                :class="headerClass('vuetable-th-component-'+extractArgs(field.name), field)"
+              <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
+                :style="{width: field.width}"
                 @click="orderBy(field, $event)"
-              >
-                <component :is="extractArgs(field.name)"
-                  :row-field="field"
-                  :is-header="true"
-                  :title="renderTitle(field)"
-                  :is-selected="checkCheckboxesState(field.name)"
-                  @vuetable-column="onColumnEvent"
-                ></component>
-              </th>
-              <th v-else-if="extractName(field.name) == '__slot'"
-                  @click="orderBy(field, $event)"
-                  :class="headerClass('vuetable-th-slot-'+extractArgs(field.name), field)"
-                  v-html="renderTitle(field)"
-              ></th>
-              <th v-else
-                  :class="headerClass('vuetable-th-'+field.name, field)"
               >
                 <component :is="field.name"
                   :row-field="field"
@@ -34,10 +20,147 @@
                 ></component>
               </th>
             </template>
+            <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+              <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
+                  :style="{width: field.width}"
+                  @click="orderBy(field, $event)"
+                  v-html="renderTitle(field)"
+              ></th>
+            </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
                 :class="headerClass('vuetable-th-'+field.name, field)"
+                :style="{width: field.width}"
+                v-html="renderTitle(field)"
+              ></th>
+            </template>
+          </template>
+        </template>
+        <th v-if="scrollVisible" :style="{width: scrollBarWidth}" class="vuetable-gutter-col"></th>
+      </tr>
+    </thead>
+    </table>
+  </div>
+  <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
+    <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
+      <colgroup>
+          <template v-for="field in tableFields">
+            <template v-if="field.visible">
+              <template>
+                <col
+                  :id="'_col_' + field.name"
+                  :style="{width: field.width}"
+                  :class="['vuetable-th-'+field.name, field.titleClass]"
+                ></col>
+              </template>
+            </template>
+          </template>
+      </colgroup>
+    <tbody v-cloak class="vuetable-body">
+      <template v-for="(item, index) in tableData">
+        <tr :item-index="index"
+          :class="onRowClass(item, index)"
+          :render="onRowChanged(item)"
+          @click="onRowClicked(item, $event)"
+          @dblclick="onRowDoubleClicked(item, $event)"
+          @mouseover="onMouseOver(item, $event)">
+          <template v-for="field in tableFields">
+            <template v-if="field.visible">
+              <template v-if="isSpecialField(field.name)">
+                <td :class="bodyClass('vuetable-component', field)"
+                  :style="{width: field.width}"
+                >
+                  <component :is="field.name"
+                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                    :is-selected="isSelectedRow(item[trackBy])"
+                    :css="css"
+                    @vuetable-column="onColumnEvent"
+                  ></component>
+                </td>
+              </template>
+              <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+                <td :class="bodyClass('vuetable-slot', field)"
+                  :style="{width: field.width}"
+                >
+                  <slot :name="field.name"
+                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                  ></slot>
+                </td>
+              </template>
+              <template v-else>
+                <td :class="bodyClass('', field)"
+                  :style="{width: field.width}"
+                  v-html="renderNormalField(field, item)"
+                  @click="onCellClicked(item, field, $event)"
+                  @dblclick="onCellDoubleClicked(item, field, $event)"
+                >
+                </td>
+              </template>
+            </template>
+          </template>
+        </tr>
+        <template v-if="useDetailRow">
+          <transition :name="detailRowTransition">
+            <tr v-if="isVisibleDetailRow(item[trackBy])"
+              @click="onDetailRowClick(item, $event)"
+              :class="[css.detailRowClass]"
+            >
+                <td :colspan="countVisibleFields">
+                  <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+                </td>
+            </tr>
+          </transition>
+        </template>
+      </template>
+      <template v-if="displayEmptyDataRow">
+        <tr>
+          <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
+        </tr>
+      </template>
+      <template v-if="lessThanMinRows">
+        <tr v-for="i in blankRows" class="blank-row">
+          <template v-for="field in tableFields">
+            <td v-if="field.visible">&nbsp;</td>
+          </template>
+        </tr>
+      </template>
+    </tbody>
+    </table>
+  </div>
+</div>
+<div v-else>
+  <table :class="['vuetable', css.tableClass]">
+    <thead>
+      <tr>
+        <template v-for="field in tableFields">
+          <template v-if="field.visible">
+            <template v-if="isSpecialField(field.name)">
+              <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
+                :style="{width: field.width}"
+                @click="orderBy(field, $event)"
+              >
+                <component :is="field.name"
+                  :row-field="field"
+                  :is-header="true"
+                  :title="renderTitle(field)"
+                  :is-selected="checkCheckboxesState(field.name)"
+                  @vuetable-column="onColumnEvent"
+                ></component>
+              </th>
+            </template>
+            <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+              <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
+                  :style="{width: field.width}"
+                  @click="orderBy(field, $event)"
+                  v-html="renderTitle(field)"
+              ></th>
+            </template>
+            <template v-else>
+              <th @click="orderBy(field, $event)"
+                :id="'_' + field.name"
+                :class="headerClass('vuetable-th-'+field.name, field)"
+                  :style="{width: field.width}"
                 v-html="renderTitle(field)"
               ></th>
             </template>
@@ -47,31 +170,19 @@
     </thead>
     <tbody v-cloak class="vuetable-body">
       <template v-for="(item, index) in tableData">
-        <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)" @mouseover="onMouseOver(item, $event)">
+        <tr :item-index="index"
+          :class="onRowClass(item, index)"
+          :render="onRowChanged(item)"
+          @click="onRowClicked(item, $event)"
+          @dblclick="onRowDoubleClicked(item, $event)"
+          @mouseover="onMouseOver(item, $event)">
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) === '__component'"
-                  :class="bodyClass('vuetable-component', field)"
+                <td :class="bodyClass('vuetable-component', field)"
+                  :style="{width: field.width}"
                 >
-                  <component :is="extractArgs(field.name)"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
-                    :is-selected="isSelectedRow(item[trackBy])"
-                    :css="css"
-                    @vuetable-column="onColumnEvent"
-                  ></component>
-                </td>
-                <td v-else-if="extractName(field.name) === '__slot'"
-                  :class="bodyClass('vuetable-slot', field)"
-                >
-                  <slot :name="extractArgs(field.name)"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
-                  ></slot>
-                </td>
-                <td v-else
-                  :class="bodyClass('vuetable-component', field)"
-                >
-                  <component :is="extractArgs(field.name)"
+                  <component :is="field.name"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                     :is-selected="isSelectedRow(item[trackBy])"
                     :css="css"
@@ -79,8 +190,18 @@
                   ></component>
                 </td>
               </template>
+              <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+                <td :class="bodyClass('vuetable-slot', field)"
+                  :style="{width: field.width}"
+                >
+                  <slot :name="field.name"
+                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                  ></slot>
+                </td>
+              </template>
               <template v-else>
-                <td :class="bodyClass(field)"
+                <td :class="bodyClass('', field)"
+                  :style="{width: field.width}"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   v-html="renderNormalField(field, item)"
@@ -105,7 +226,7 @@
       </template>
       <template v-if="displayEmptyDataRow">
         <tr>
-          <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
+          <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
         </tr>
       </template>
       <template v-if="lessThanMinRows">
@@ -117,18 +238,19 @@
       </template>
     </tbody>
   </table>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
-import VuetableColumnCheckbox from './VuetableColumnCheckbox.vue'
-import VuetableColumnHandle from './VuetableColumnHandle.vue'
-import VuetableColumnSequence from './VuetableColumnSequence.vue'
+import VuetableColumnCheckbox from './VuetableColumnCheckbox'
+import VuetableColumnHandle from './VuetableColumnHandle'
+import VuetableColumnSequence from './VuetableColumnSequence'
 
 export default {
   components: {
     '__checkbox': VuetableColumnCheckbox,
-    '__handle': VuetableColumnHandle,
+    '__handle'  : VuetableColumnHandle,
     '__sequence': VuetableColumnSequence,
   },
   props: {
@@ -233,6 +355,10 @@ export default {
         return false
       }
     },
+    tableHeight: {
+      type: String,
+      default: null
+    },
     /*
      * physical key that will trigger multi-sort option
      * possible values: 'alt', 'ctrl', 'meta', 'shift'
@@ -276,6 +402,8 @@ export default {
           sortableIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
+          tableBodyClass: 'vuetable-semantic-no-top vuetable-fixed-layout',
+          tableHeaderClass: 'vuetable-fixed-layout'
         }
       }
     },
@@ -307,17 +435,39 @@ export default {
       currentPage: this.initialPage,
       selectedTo: [],
       visibleDetailRows: [],
+      lastScrollPosition: 0,
+      scrollBarWidth: '17px', //chrome default
+      scrollVisible: false,
     }
   },
-  mounted () {
+  created() {
     this.normalizeFields()
     this.normalizeSortOrder()
+  },
+  mounted () {
+    if (this.isFixedHeader) {
+      this.scrollBarWidth = this.getScrollBarWidth() + 'px';
+      console.log('scrollbar width: ', this.scrollBarWidth)
+    }
     this.$nextTick(function() {
       this.fireEvent('initialized', this.tableFields)
     })
 
     if (this.loadOnStart) {
       this.loadData()
+    }
+    if (this.isFixedHeader) {
+      console.log('Fixed Header enabled')
+      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
+      if (elem != null) {
+        elem.addEventListener('scroll', this.handleScroll);
+      }
+    }
+  },
+  destroyed () {
+    let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
+    if (elem != null) {
+      elem.removeEventListener('scroll', this.handleScroll);
     }
   },
   computed: {
@@ -364,9 +514,41 @@ export default {
     },
     isDataMode () {
       return ! this.apiMode
+    },
+    isFixedHeader () {
+      return this.tableHeight != null
     }
   },
   methods: {
+    getScrollBarWidth () {
+      const outer = document.createElement('div');
+      const inner = document.createElement('div');
+
+      outer.style.visibility = 'hidden';
+      outer.style.width = '100px';
+
+      inner.style.width = '100%';
+
+      outer.appendChild(inner);
+      document.body.appendChild(outer);
+
+      const widthWithoutScrollbar = outer.offsetWidth;
+      outer.style.overflow = 'scroll';
+      const widthWithScrollbar = inner.offsetWidth;
+      document.body.removeChild(outer);
+
+      return (widthWithoutScrollbar - widthWithScrollbar);
+    },
+    handleScroll (e) { //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
+      let horizontal = e.currentTarget.scrollLeft;
+      if (horizontal != this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
+        let header = this.$el.getElementsByClassName('vuetable-head-wrapper')[0]
+        if (header != null) {
+          header.scrollLeft = horizontal;
+        }
+        this.lastScrollPosition = horizontal;
+      }
+    },
     headerClass (base, field) {
       return [
         base,
@@ -376,9 +558,7 @@ export default {
       ]
     },
     bodyClass (base, field) {
-      return typeof(field) === 'undefined'
-        ? ''
-        : [ base, field.dataClass ]
+      return [ base, field.dataClass ]
     },
     normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
@@ -387,13 +567,12 @@ export default {
       }
 
       this.tableFields = []
-      let self = this
       let obj
-      this.fields.forEach(function(field, i) {
+      this.fields.forEach( (field, i) => {
         if (typeof (field) === 'string') {
           obj = {
             name: field,
-            title: self.setTitle(field),
+            title: this.setTitle(field),
             titleClass: '',
             dataClass: '',
             callback: null,
@@ -402,7 +581,8 @@ export default {
         } else {
           obj = {
             name: field.name,
-            title: (field.title === undefined) ? self.setTitle(field.name) : field.title,
+            width: field.width,
+            title: (field.title === undefined) ? this.setTitle(field.name) : field.title,
             sortField: field.sortField,
             titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
@@ -410,11 +590,11 @@ export default {
             visible: (field.visible === undefined) ? true : field.visible,
           }
         }
-        self.tableFields.push(obj)
+        this.tableFields.push(obj)
       })
     },
     setData (data) {
-      this.apiMode = false
+      // this.apiMode = false
       if (Array.isArray(data)) {
         this.tableData = data
         return
@@ -425,7 +605,7 @@ export default {
       this.tableData = this.getObjectValue(data, this.dataPath, null)
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null)
 
-      this.$nextTick(function() {
+      this.$nextTick( () => {
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
@@ -455,11 +635,6 @@ export default {
 
       return title
     },
-    renderSequence (index) {
-      return this.tablePagination
-        ? this.tablePagination.from + index
-        : index
-    },
     renderNormalField (field, item) {
       return this.hasCallback(field)
         ? this.callCallback(field, item)
@@ -474,13 +649,7 @@ export default {
       })
     },
     camelCase (str, delimiter = '_') {
-      let self = this
-      return str.split(delimiter).map(function(item) {
-        return self.titleCase(item)
-      }).join('')
-    },
-    notIn (str, arr) {
-      return arr.indexOf(str) === -1
+      return str.split(delimiter).map( (item) => self.titleCase(item) ).join('')
     },
     loadData (success = this.loadSuccess, failed = this.loadFailed) {
       if (this.isDataMode) {
@@ -518,10 +687,26 @@ export default {
         )
       }
 
-      this.$nextTick(function() {
+      this.$nextTick( () => {
+        this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
+    },
+    fixHeader() {
+      if (!this.isFixedHeader) {
+        return;
+      }
+
+      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
+      if (elem != null) {
+        if (elem.scrollHeight > elem.clientHeight) {
+          this.scrollVisible = true;
+        }
+        else {
+          this.scrollVisible = false;
+        }
+      }
     },
     loadFailed (response) {
       console.error('load-error', response)
@@ -591,12 +776,6 @@ export default {
 
       return result;
     },
-    extractName (string) {
-      return string.split(':')[0].trim()
-    },
-    extractArgs (string) {
-      return string.split(':')[1]
-    },
     isSortable (field) {
       return !(typeof field.sortField === 'undefined')
     },
@@ -640,14 +819,14 @@ export default {
     multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
 
-      if(i === false) { //this field is not in the sort array yet
+      if (i === false) { //this field is not in the sort array yet
         this.sortOrder.push({
           field: field.name,
           sortField: field.sortField,
           direction: 'asc'
         });
       } else { //this field is in the sort array, now we change its state
-        if(this.sortOrder[i].direction === 'asc') {
+        if (this.sortOrder[i].direction === 'asc') {
           // switch direction
           this.sortOrder[i].direction = 'desc'
         } else {
@@ -732,7 +911,7 @@ export default {
     callCallback (field, item) {
       if ( ! this.hasCallback(field)) return
 
-      if(typeof(field.callback) == 'function') {
+      if (typeof(field.callback) === 'function') {
        return field.callback(this.getObjectValue(item, field.name))
       }
 
@@ -755,7 +934,7 @@ export default {
       let obj = object
       if (path.trim() != '') {
         let keys = path.split('.')
-        keys.forEach(function(key) {
+        keys.forEach( (key) => {
           if (obj !== null && typeof obj[key] !== 'undefined' && obj[key] !== null) {
             obj = obj[key]
           } else {
@@ -765,23 +944,6 @@ export default {
         })
       }
       return obj
-    },
-    toggleCheckbox (dataItem, fieldName, event) {
-      let isChecked = event.target.checked
-      let idColumn = this.trackBy
-
-      if (dataItem[idColumn] === undefined) {
-        this.warn('__checkbox field: The "'+this.trackBy+'" field does not exist! Make sure the field you specify in "track-by" prop does exist.')
-        return
-      }
-
-      let key = dataItem[idColumn]
-      if (isChecked) {
-        this.selectId(key)
-      } else {
-        this.unselectId(key)
-      }
-      this.$emit('vuetable:checkbox-toggled', isChecked, dataItem)
     },
     selectId (key) {
       if ( ! this.isSelectedRow(key)) {
@@ -796,69 +958,37 @@ export default {
     isSelectedRow (key) {
       return this.selectedTo.indexOf(key) >= 0
     },
-    // not needed anymore, use inline isSelectedRow instead
-    // rowSelected (dataItem, fieldName){
-    //   let idColumn = this.trackBy
-    //   let key = dataItem[idColumn]
-
-    //   return this.isSelectedRow(key)
-    // },
     checkCheckboxesState (fieldName) {
       if (! this.tableData) return
 
-      let self = this
       let idColumn = this.trackBy
-      let selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]'
+      let selector = 'th.vuetable-th-component-checkbox input[type=checkbox]'
       let els = document.querySelectorAll(selector)
 
-      //fixed:document.querySelectorAll return the typeof nodeList not array
-      if (els.forEach===undefined)
-        els.forEach=function(cb){
+      // fixed:document.querySelectorAll return the typeof nodeList not array
+      if (els.forEach === undefined)
+        els.forEach = function(cb){
           [].forEach.call(els, cb);
         }
 
       // count how many checkbox row in the current page has been checked
-      let selected = this.tableData.filter(function(item) {
-        return self.isSelectedRow(item[idColumn])
-      })
+      let selected = this.tableData.filter( (item) => this.isSelectedRow(item[idColumn]) )
 
       // count == 0, clear the checkbox
       if (selected.length <= 0) {
-        els.forEach(function(el) {
-          el.indeterminate = false
-        })
+        els.forEach( (el) => el.indeterminate = false )
         return false
       }
       // count > 0 and count < perPage, set checkbox state to 'indeterminate'
       else if (selected.length < this.perPage) {
-        els.forEach(function(el) {
-          el.indeterminate = true
-        })
+        els.forEach( (el) => el.indeterminate = true )
         return true
       }
       // count == perPage, set checkbox state to 'checked'
       else {
-        els.forEach(function(el) {
-          el.indeterminate = false
-        })
+        els.forEach( (el) => el.indeterminate = false )
         return true
       }
-    },
-    toggleAllCheckboxes (fieldName, event) {
-      let self = this
-      let isChecked = event.target.checked
-      let idColumn = this.trackBy
-
-      if (isChecked) {
-        this.tableData.forEach(function(dataItem) {
-          self.selectId(dataItem[idColumn])
-        })
-      } else {
-        this.tableData.forEach(function(dataItem) {
-          self.unselectId(dataItem[idColumn])
-        })
-      }
-      this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
     gotoPreviousPage () {
       if (this.currentPage > 1) {
@@ -939,7 +1069,7 @@ export default {
       }
     },
     normalizeSortOrder () {
-      this.sortOrder.forEach(function(item) {
+      this.sortOrder.forEach( (item) => {
         item.sortField = item.sortField || item.field
       })
     },
@@ -997,7 +1127,6 @@ export default {
       }
     },
     onCheckboxToggled (isChecked, fieldName, dataItem) {
-      console.log('****', isChecked, dataItem)
       let idColumn = this.trackBy
 
       if (dataItem[idColumn] === undefined) {
@@ -1059,8 +1188,8 @@ export default {
         this.loadData();
       }
     },
-    'apiUrl'  (newVal, oldVal) {
-      if(this.reactiveApiUrl && newVal !== oldVal)
+    'apiUrl' (newVal, oldVal) {
+      if (this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
     }
   },
@@ -1074,6 +1203,13 @@ export default {
   .vuetable th.sortable:hover {
     color: #2185d0;
     cursor: pointer;
+  }
+  .vuetable-body-wrapper {
+    position:relative;
+    overflow-y:auto;
+  }
+  .vuetable-head-wrapper {
+    overflow-x: hidden;
   }
   .vuetable-actions {
     width: 15%;
@@ -1089,5 +1225,23 @@ export default {
   }
   .vuetable-empty-result {
     text-align: center;
+  }
+  .vuetable-clip-text {
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+  }
+  .vuetable-semantic-no-top {
+    border-top:none !important;
+    margin-top:0 !important;
+  }
+  .vuetable-fixed-layout {
+    table-layout: fixed;
+  }
+  .vuetable-gutter-col {
+    padding: 0 !important;
+    border-left: none  !important;
+    border-right: none  !important;
   }
 </style>
