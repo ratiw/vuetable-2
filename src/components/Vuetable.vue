@@ -1,5 +1,5 @@
 <template>
-<div v-if="isFixedHeader">
+<div v-if="isFixedHeader" class="vuetable-wrapper">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
@@ -42,6 +42,7 @@
     </thead>
     </table>
   </div>
+
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
     <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
       <colgroup>
@@ -129,6 +130,7 @@
     </table>
   </div>
 </div>
+
 <div v-else>
   <table :class="['vuetable', css.tableClass]">
     <thead>
@@ -440,36 +442,6 @@ export default {
       scrollVisible: false,
     }
   },
-  created() {
-    this.normalizeFields()
-    this.normalizeSortOrder()
-  },
-  mounted () {
-    if (this.isFixedHeader) {
-      this.scrollBarWidth = this.getScrollBarWidth() + 'px';
-      console.log('scrollbar width: ', this.scrollBarWidth)
-    }
-    this.$nextTick(function() {
-      this.fireEvent('initialized', this.tableFields)
-    })
-
-    if (this.loadOnStart) {
-      this.loadData()
-    }
-    if (this.isFixedHeader) {
-      console.log('Fixed Header enabled')
-      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
-      if (elem != null) {
-        elem.addEventListener('scroll', this.handleScroll);
-      }
-    }
-  },
-  destroyed () {
-    let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
-    if (elem != null) {
-      elem.removeEventListener('scroll', this.handleScroll);
-    }
-  },
   computed: {
     useDetailRow () {
       if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
@@ -517,6 +489,35 @@ export default {
     },
     isFixedHeader () {
       return this.tableHeight != null
+    }
+  },
+  created() {
+    this.normalizeFields()
+    this.normalizeSortOrder()
+    this.$nextTick(function() {
+      this.fireEvent('initialized', this.tableFields)
+    })
+
+    if (this.loadOnStart) {
+      this.loadData()
+    }
+
+  },
+  mounted () {
+    if (this.isFixedHeader) {
+      this.scrollBarWidth = this.getScrollBarWidth() + 'px';
+      console.log('scrollbar width: ', this.scrollBarWidth)
+
+      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
+      if (elem != null) {
+        elem.addEventListener('scroll', this.handleScroll);
+      }
+    }
+  },
+  destroyed () {
+    let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
+    if (elem != null) {
+      elem.removeEventListener('scroll', this.handleScroll);
     }
   },
   methods: {
