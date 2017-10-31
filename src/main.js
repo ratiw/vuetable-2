@@ -176,7 +176,7 @@ let tableColumns = [
   {
     name: 'id',
     title: '<i class="unordered list icon"></i> Detail',
-    width: '100px',
+    width: '80px',
     dataClass: 'center aligned',
     callback: 'showDetailRow'
   },
@@ -224,12 +224,13 @@ let tableColumns = [
     dataClass: 'center aligned',
     callback: 'gender'
   },
-  // {
-  //   name: '__component:custom-actions',
-  //   title: 'Actions',
-  //   titleClass: 'center aligned',
-  //   dataClass: 'center aligned'
-  // }
+  {
+    name: 'custom-actions',
+    title: 'Actions',
+    width: '140px',
+    titleClass: 'center aligned',
+    dataClass: 'center aligned'
+  }
 ]
 
 /* eslint-disable no-new */
@@ -417,5 +418,9 @@ let vm = new Vue({
       this.$refs.paginationInfo.resetData()
       this.$refs.pagination.resetData()
     },
+    onActionClicked (action, data) {
+      console.log('slot actions: on-click', data.name)
+      sweetAlert(action, data.name)
+    }
   },
 })
