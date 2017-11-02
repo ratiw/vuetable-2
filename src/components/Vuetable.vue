@@ -3,42 +3,20 @@
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
-      <tr>
-        <template v-for="field in tableFields">
-          <template v-if="field.visible">
-            <template v-if="isSpecialField(field.name)">
-              <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
-                :style="{width: field.width}"
-                @click="orderBy(field, $event)"
-              >
-                <component :is="field.name"
-                  :row-field="field"
-                  :is-header="true"
-                  :title="renderTitle(field)"
-                  :is-selected="checkCheckboxesState(field.name)"
-                  @vuetable-column="onColumnEvent"
-                ></component>
-              </th>
-            </template>
-            <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
-              <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
-                  :style="{width: field.width}"
-                  @click="orderBy(field, $event)"
-                  v-html="renderTitle(field)"
-              ></th>
-            </template>
-            <template v-else>
-              <th @click="orderBy(field, $event)"
-                :id="'_' + field.name"
-                :class="headerClass('vuetable-th-'+field.name, field)"
-                :style="{width: field.width}"
-                v-html="renderTitle(field)"
-              ></th>
-            </template>
-          </template>
-        </template>
-        <th v-if="scrollVisible" :style="{width: scrollBarWidth}" class="vuetable-gutter-col"></th>
-      </tr>
+      <vuetable-row-header
+        :table-fields="tableFields"
+        :sort-order="sortOrder"
+        :order-by="orderBy"
+        :show-sort-icons="showSortIcons"
+        :css="css"
+        @vuetable-row:refresh="refresh"
+        @vuetable-row:add-sort-column="addSortColumn"
+        @vuetable-row:remove-sort-column="removeSortColumn"
+        @vuetable-row:set-sort-column-direction="setSortColumnDirection"
+        @vuetable-row:clear-sort-column="clearSortOrder"
+        @vuetable-row:toggle-row="onCheckboxToggled"
+        @vuetable-row:toggle-all-row="onCheckboxToggledAll"
+      ></vuetable-row-header>
     </thead>
     </table>
   </div>
@@ -134,41 +112,20 @@
 <div v-else>
   <table :class="['vuetable', css.tableClass]">
     <thead>
-      <tr>
-        <template v-for="field in tableFields">
-          <template v-if="field.visible">
-            <template v-if="isSpecialField(field.name)">
-              <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
-                :style="{width: field.width}"
-                @click="orderBy(field, $event)"
-              >
-                <component :is="field.name"
-                  :row-field="field"
-                  :is-header="true"
-                  :title="renderTitle(field)"
-                  :is-selected="checkCheckboxesState(field.name)"
-                  @vuetable-column="onColumnEvent"
-                ></component>
-              </th>
-            </template>
-            <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
-              <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
-                  :style="{width: field.width}"
-                  @click="orderBy(field, $event)"
-                  v-html="renderTitle(field)"
-              ></th>
-            </template>
-            <template v-else>
-              <th @click="orderBy(field, $event)"
-                :id="'_' + field.name"
-                :class="headerClass('vuetable-th-'+field.name, field)"
-                  :style="{width: field.width}"
-                v-html="renderTitle(field)"
-              ></th>
-            </template>
-          </template>
-        </template>
-      </tr>
+      <vuetable-row-header
+        :table-fields="tableFields"
+        :sort-order="sortOrder"
+        :order-by="orderBy"
+        :show-sort-icons="showSortIcons"
+        :css="css"
+        @vuetable-row:refresh="refresh"
+        @vuetable-row:add-sort-column="addSortColumn"
+        @vuetable-row:remove-sort-column="removeSortColumn"
+        @vuetable-row:set-sort-column-direction="setSortColumnDirection"
+        @vuetable-row:clear-sort-column="clearSortOrder"
+        @vuetable-row:toggle-row="onCheckboxToggled"
+        @vuetable-row:toggle-all-row="onCheckboxToggledAll"
+      ></vuetable-row-header>
     </thead>
     <tbody v-cloak class="vuetable-body">
       <template v-for="(item, index) in tableData">
@@ -245,12 +202,14 @@
 
 <script>
 import axios from 'axios'
+import VuetableRowHeader from './VuetableRowHeader'
 import VuetableColumnCheckbox from './VuetableColumnCheckbox'
 import VuetableColumnHandle from './VuetableColumnHandle'
 import VuetableColumnSequence from './VuetableColumnSequence'
 
 export default {
   components: {
+    VuetableRowHeader,
     '__checkbox': VuetableColumnCheckbox,
     '__handle'  : VuetableColumnHandle,
     '__sequence': VuetableColumnSequence,
@@ -817,28 +776,38 @@ export default {
       this.currentPage = 1    // reset page index
       this.loadData()
     },
+    addSortColumn (field, direction) {
+      this.sortOrder.push({
+        field: field.name,
+        sortField: field.sortField,
+        direction: 'asc'
+      });
+    },
+    removeSortColumn (index) {
+      this.sortOrder.splice(index, 1);
+    },
+    setSortColumnDirection (index, direction) {
+      this.sortOrder[index].direction = direction
+    },
     multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
 
       if (i === false) { //this field is not in the sort array yet
-        this.sortOrder.push({
-          field: field.name,
-          sortField: field.sortField,
-          direction: 'asc'
-        });
+        this.addSortColumn(field, 'asc')
       } else { //this field is in the sort array, now we change its state
         if (this.sortOrder[i].direction === 'asc') {
           // switch direction
-          this.sortOrder[i].direction = 'desc'
+          this.setSortColumnDirection(i, 'desc')
         } else {
-          //remove sort condition
-          this.sortOrder.splice(i, 1);
+          this.removeSortColumn(i)
         }
       }
     },
     singleColumnSort (field) {
       if (this.sortOrder.length === 0) {
-        this.clearSortOrder()
+        // this.clearSortOrder()
+        this.addSortColumn(field, 'asc')
+        return
       }
 
       this.sortOrder.splice(1); //removes additional columns
@@ -854,11 +823,12 @@ export default {
       this.sortOrder[0].sortField = field.sortField
     },
     clearSortOrder () {
-      this.sortOrder.push({
-        field: '',
-        sortField: '',
-        direction: 'asc'
-      });
+      // this.sortOrder.push({
+      //   field: '',
+      //   sortField: '',
+      //   direction: 'asc'
+      // });
+      this.sortOrder = []
     },
     sortClass (field) {
       let cls = ''
