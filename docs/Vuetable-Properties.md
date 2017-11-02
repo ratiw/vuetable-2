@@ -27,6 +27,7 @@
 - [render-icon](#-render-icon)
 - [row-class](#-row-class)
 - [sort-order](#-sort-order)
+- [table-height](#-table-height)
 - [track-by](#-track-by)
 
 ### # api-mode
@@ -374,3 +375,16 @@
 - description
 
   Template when there are no records in the table. Inserted into table cell `td`
+
+### # table-height
+- type: _String_
+- default: `null`
+- description
+
+  When set will enable Vuetable to generate Fixed Header table where if the table body's rows exceeding the specified table height, the table body will be scrollable but the table will stay fixed at the top.
+
+  The fixed header is another HTML table which contain only the header, so table with fixed header should specify width for each column in the [fields definition].
+
+  To disable fixed header, just set `table-height` prop to `null`.
+
+- see also: [Fixed Header](Fixed-Header)
