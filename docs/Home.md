@@ -1,6 +1,6 @@
 ## Vuetable-2 : datatable simplify!
 
-_Still A Work in Progress_ 
+_Still A Work in Progress_
 
 ### Table of Contents
 
@@ -15,6 +15,7 @@ _Still A Work in Progress_
 - [Data Transformation](Data-Transformation)
 - [Pagination](Pagination)
 - [Detail Row](Detail-Row)
+- [Fixed Header](Fixed-Header)
 - [CSS Styling](CSS-Styling)
 - [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/README.md)
 - [FAQ](FAQ)
