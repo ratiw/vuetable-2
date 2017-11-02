@@ -78,6 +78,17 @@ Vue.component('settings-modal', {
             <label>Multisort (use Alt+Click)</label>
           </div>
         </div>
+        <div class="inline fields">
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" checked="$parent.tableHeight" @change="setTableHeight($event)">
+              <label>Table Height</label>
+            </div>
+          </div>
+          <div class="field">
+            <input type="text" v-model="$parent.tableHeight">
+          </div>
+        </div>
         <div class="ui divider"></div>
         <div class="field">
           <label>Pagination:</label>
@@ -141,6 +152,14 @@ Vue.component('settings-modal', {
     toggleField (index, event) {
       console.log('toggleField: ', index, event.target.checked)
       this.$parent.$refs.vuetable.toggleField(index)
+    },
+    setTableHeight (event) {
+      if (event.target.checked) {
+        this.$parent.tableHeight = '600px'
+        return
+      }
+
+      this.$parent.tableHeight = null
     }
   }
 })
@@ -174,7 +193,7 @@ let tableColumns = [
     dataClass: 'center aligned',
     width: '100px',
     callback: 'showDetailRow'
-    
+
   },
   {
     name: 'name',
