@@ -11,8 +11,10 @@
 - [detail-row-component](#-detail-row-component)
 - [detail-row-transition](#-detail-row-transition)
 - [fields](#-fields)
+- [http-fetch](#-http-fetch)
 - [http-options](#-http-options)
 - [http-method](#-http-method)
+- [initial-page](#-initial-page)
 - [load-on-start](#-load-on-start)
 - [min-rows](#-min-rows)
 - [multi-sort](#-multi-sort)
@@ -25,6 +27,7 @@
 - [render-icon](#-render-icon)
 - [row-class](#-row-class)
 - [sort-order](#-sort-order)
+- [table-height](#-table-height)
 - [track-by](#-track-by)
 
 ### # api-mode
@@ -32,25 +35,25 @@
 - default: `true`
 - description
 
-  By default, Vuetable will load the data from and send the request to the API endpoint specified in `api-url`. If you prefer to 
-  supply your own data instead of automatically requesting the data from server, you have to set `api-mode` to `false`. Then, pass 
+  By default, Vuetable will load the data from and send the request to the API endpoint specified in `api-url`. If you prefer to
+  supply your own data instead of automatically requesting the data from server, you have to set `api-mode` to `false`. Then, pass
   the data via `data` prop.
 
   Please note that disabling `api-mode` (by setting it to `false`) will also **disable** pagination, sorting, and filtering functions.
 
-  > __Note__  
+  > __Note__
   > Setting `api-mode` to `false` is not recommended. It will not scale well when you have to handle a large dataset
-  > yourself instead of letting database manager handles it for you. 
+  > yourself instead of letting database manager handles it for you.
 
-### # api-url 
+### # api-url
 - works in `api-mode` only
 - type: _String_
 - default: `''` _(empty string)_
 - description
 
-  The URL of the api endpoint that Vuetable will interact with. If the API supports sorting, filtering, pagination of the data, 
+  The URL of the api endpoint that Vuetable will interact with. If the API supports sorting, filtering, pagination of the data,
   Vuetable can automatically append appropriate information to the server via query string.
-  
+
 ### # reactive-api-url
 - works in `api-mode` only
 - type: _Boolean_
@@ -74,10 +77,10 @@
 
   The data that Vuetable will be used to render the table when `api-mode` is set to `false`.
 
-  __New in v1.7__  
+  __New in v1.7__
   You can utilize the pagination functionality of Vuetable if the `data` you supplied is an object that has data structure as described in [Data Format](https://github.com/ratiw/vuetable-2/wiki/Data-Format-(JSON)).
 
-  > __Note__  
+  > __Note__
   > The prop only works when `api-mode` is `false`.
 
 ### # data-manager (v1.7)
@@ -87,7 +90,7 @@
 
   [TODO]
 
-  > __Note__  
+  > __Note__
   > The prop only works when `api-mode` is `false`.
 
 ### # data-path
@@ -95,10 +98,10 @@
 - type: _String_
 - default: `data`
 - description
-  
-  The path inside the data structure that actually contains the data. If the data is at the root of the structure, set 
+
+  The path inside the data structure that actually contains the data. If the data is at the root of the structure, set
   this prop to empty string, e.g. `data-path=""`.
-  
+
 ### # data-total (v1.7)
 - type: _Number_
 - default:
@@ -106,10 +109,10 @@
 
   [TODO]
 
-  > __Note__  
+  > __Note__
   > The prop only works when `api-mode` is `false`.
 
-### # pagination-path 
+### # pagination-path
 - works in `api-mode` only
 - type: _String_
 - default: `links.pagination`
@@ -118,7 +121,7 @@
   The pagination path inside the data structure that contains the pagination information. If the your data from the server
   does not have pagination information, you should set the prop to empty string, e.g. `pagination-path=""`, to suppress
   Vuetable warning.
-  
+
 ### # load-on-start
 - works in `api-mode` only
 - type: _Boolean_
@@ -126,7 +129,7 @@
 - required: _true_
 - description
 
-  Whether Vuetable should immediately load the data from the server. 
+  Whether Vuetable should immediately load the data from the server.
 
 ### # append-params
 - works in `api-mode` only
@@ -134,14 +137,14 @@
 - default: `{}` _(empty object)_
 - description
 
-  Additional parameters that Vuetable should append to the query string when requesting data from the server. 
-  
+  Additional parameters that Vuetable should append to the query string when requesting data from the server.
+
   See also: [Appending Other Parameters to the Query String](#)
 
 ### # query-params
 - works in `api-mode` only
 - type: _Object_
-- default: 
+- default:
   ```
   {
     sort: 'sort',
@@ -151,10 +154,33 @@
   ```
 - description
 
-  The text to be used as keys in query string that will be sent to the server. If your API endpoint uses different keys, you can 
+  The text to be used as keys in query string that will be sent to the server. If your API endpoint uses different keys, you can
   specified them via this prop.
-  
+
   See also: [Sorting, Paging, and Page Sizing of Data](#)
+
+### # http-fetch (v1.7)
+- works in `api-mode` only
+- type: _Function_
+- default: `null`
+- description:
+
+  Allow specifying external http request function to fetch the data via AJAX. If `null`, Vuetable will fallback to using `axios` internally.
+
+  If specified, Vuetable will call the given function passing `apiUrl` and already constructed `httpOptions` to the function.
+
+  Vuetable would expect the given function to make an AJAX call to the `apiUrl` with the `httpOptions` and return a [_Promise_](https://developer.mozilla.org/th/docs/Web/JavaScript/Reference/Global_Objects/Promise). Vuetable would then handle the success or failure of the AJAX call after the Promise has been resolved.
+
+  See `loadData` and `fetch` methods in `Vuetable.vue` source code if you're confused.
+
+  Here's an example using `vue-resource`
+  ```javascript
+    //...
+    myFetch(apiUrl, httpOptions) {
+      return Vue.$http.get(apiUrl, httpOptions)
+    },
+    //...
+  ```
 
 ### # http-options
 - works in `api-mode` only
@@ -178,17 +204,24 @@
 - default: `id`
 - description
 
-  The key that uses to unqiuely identified each row in the data array to help track the state of detail row and checkbox 
+  The key that uses to unqiuely identified each row in the data array to help track the state of detail row and checkbox
   features of Vuetable. This is necessary for the detail row and checkbox features to function correctly.
-  
+
   For detail row feature, whenever the user click to expand the detail row, Vuetable will insert the `id` of that row into
   its internal array (`visibleDetailRows`). And when that detail row is hidden, the `id` of that detail row is removed from
   the array.
-  
-  For checkbox feature, when the user select (checked) a row, Vuetable will insert the `id` of the row into its internal 
+
+  For checkbox feature, when the user select (checked) a row, Vuetable will insert the `id` of the row into its internal
   array (`selectedTo`). And when that row is unselected (unchecked), the `id` of that row is removed from the array.
-  
+
   See also: [`visibleDetailRows`](#), and [`selectedTo`](#)
+
+### # show-sort-icons
+- type: _Boolean_
+- default: `true`
+- description
+
+  Tells Vuetable whether or not icons should be added to `th` elements whenever a given column is used to sort.
 
 ### # sort-order
 - works in `api-mode` only
@@ -223,17 +256,26 @@
 
   The number of data to be requested per page.
 
+### # initial-page (since v1.7)
+- works in `api-mode` only
+- type: _Number_
+- default: `1`
+- description
+
+  The initial page number of data to be requested on the first time.
+
 ### # css
 - type: _Object_
-- default: 
+- default:
   ```
   {
-    tableClass: 'ui blue selectable celled stackable attached table',
-    loadingClass: 'loading',
-    ascendingIcon: 'blue chevron up icon',
+    tableClass:     'ui blue selectable celled stackable attached table',
+    loadingClass:   'loading',
+    ascendingIcon:  'blue chevron up icon',
     descendingIcon: 'blue chevron down icon',
     detailRowClass: 'vuetable-detail-row',
-    sortHandleIcon: 'grey sidebar icon'
+    handleIcon: 'grey sidebar icon',
+    sortableIcon:   ''  // since v1.7
   }
   ```
 - description
@@ -280,11 +322,11 @@
 - description
 
   The minimum number of rows that should be displayed when rendering the table.
-  
-  If the number of row available is less than the number specified in `min-rows` prop, Vuetable will render empty table rows to 
+
+  If the number of row available is less than the number specified in `min-rows` prop, Vuetable will render empty table rows to
   satisfy that minimum rows.
 
-  > __Note__  
+  > __Note__
   > The prop only works when `api-mode` is `false`.
 
 ### # row-class
@@ -292,10 +334,10 @@
 - default: `''` _(empty string)_
 - description
 
-  The CSS class name that will be applied to each table row. 
-  
+  The CSS class name that will be applied to each table row.
+
   If `row-class` prop refers to a method, Vuetable will automatically call the given method on each row, passing the row data and row index to it. Vuetable will then use the returned string from the given method as CSS class for that row.
-  
+
   Here is the example on using a method to return the row class for styling.
   ```vue
   <template>
@@ -333,3 +375,16 @@
 - description
 
   Template when there are no records in the table. Inserted into table cell `td`
+
+### # table-height
+- type: _String_
+- default: `null`
+- description
+
+  When set will enable Vuetable to generate Fixed Header table where if the table body's rows exceeding the specified table height, the table body will be scrollable but the table will stay fixed at the top.
+
+  The fixed header is another HTML table which contain only the header, so table with fixed header should specify width for each column in the [fields definition].
+
+  To disable fixed header, just set `table-height` prop to `null`.
+
+- see also: [Fixed Header](Fixed-Header)

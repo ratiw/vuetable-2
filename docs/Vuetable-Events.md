@@ -65,7 +65,7 @@
 
   This event will be fired when Vuetable loops through the data during table row rendering. This will be useful if you want to do some processing with the data, e.g. summing up the values.
 
-  > __Important!__  
+  > __Important!__
   >  Please note that you MUST NOT change the pass-in data item or try to update any instance data during this event, or it will cause "indefinite update loop". The only way to work inside this event is to use the variable define outside of Vue.js instance
 
 
@@ -136,4 +136,4 @@
 - payload: _none_
 - description
 
-  This event will be fired as a result from calling `resetData` method to clear in `tableData` and `tablePagination`. 
+  This event will be fired as a result from calling `resetData` method to clear in `tableData` and `tablePagination`.

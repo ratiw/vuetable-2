@@ -74,7 +74,7 @@ The `.use` from above will register all the components globally.
 ```javascript
 function install(Vue){
   Vue.component("vuetable", Vuetable);
-  Vue.component("vuetable-pagination", VueTablePaginationInfo);
+  Vue.component("vuetable-pagination", VueTablePagination);
   Vue.component("vuetable-pagination-dropdown", VueTablePaginationDropDown);
   Vue.component("vuetable-pagination-info", VueTablePaginationInfo);
 }
@@ -92,10 +92,10 @@ VueTablePaginationDropdown: VueTable.VueTablePaginationDropdown
 # Contributions
 Any contribution to the code (via pull request would be nice) or any part of the documentation and any idea and/or suggestion are very welcome.
 
-> __Note__    
-> For any bug fix, the PR should be forked from the `master` branch. And for any suggestion or additional feature, the PR should be forked from the `develop` branch, where it can be integrated and rolled out in the next release.  
+> __Note__
+> For any bug fix, the PR should be forked from the `master` branch. And for any suggestion or additional feature, the PR should be forked from the `develop` branch, where it can be integrated and rolled out in the next release.
 >
-> If you are not sure, please ask by openning a new issue. 
+> If you are not sure, please ask by openning a new issue.
 
 However, please do not feel bad if your pull requests or contributions do not get merged or implemented into Vuetable.
 

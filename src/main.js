@@ -3,6 +3,7 @@ import Vuetable from './components/Vuetable.vue'
 import VuetablePagination from './components/VuetablePagination.vue'
 import VuetablePaginationDropdown from './components/VuetablePaginationDropdown.vue'
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
+import axios from 'axios'
 
 let E_SERVER_ERROR = 'Error communicating with the server'
 
@@ -120,9 +121,12 @@ Vue.component('settings-modal', {
   },
   methods: {
     getFieldTitle (field) {
-      if (field.title !== '') return this.stripHTML(field.title)
+      if (typeof(field.title) === 'function') return field.title(true)
 
-      let title = ''
+      let title = field.title
+      if (title !== '') return this.stripHTML(title)
+
+      title = ''
       if (field.name.slice(0, 2) === '__') {
         title = field.name.indexOf(':') >= 0
           ? field.name.split(':')[1]
@@ -141,16 +145,25 @@ Vue.component('settings-modal', {
   }
 })
 
+let lang = {
+  'nickname': 'Nickname',
+  'birthdate': 'Birthdate',
+}
+
 let tableColumns = [
-  '__handle',
+  { name: '__handle',
+    width: '50px'
+  },
   {
     name: '__sequence',
     title: 'No.',
     titleClass: 'right aligned',
-    dataClass: 'right aligned'
+    dataClass: 'right aligned',
+    width: '50px'
   },
   {
     name: '__checkbox',
+    width: '30px',
     title: 'checkbox',
     titleClass: 'center aligned',
     dataClass: 'center aligned'
@@ -159,29 +172,44 @@ let tableColumns = [
     name: 'id',
     title: '<i class="unordered list icon"></i> Detail',
     dataClass: 'center aligned',
+    width: '100px',
     callback: 'showDetailRow'
+    
   },
   {
     name: 'name',
     title: '<i class="book icon"></i> Full Name',
-    sortField: 'name'
+    sortField: 'name',
+    width: '150px'
   },
   {
     name: 'email',
     title: '<i class="mail outline icon"></i> Email',
     sortField: 'email',
+    width: '200px',
+    dataClass: "vuetable-clip-text",
     visible: true
   },
   {
     name: 'nickname',
-    title: '<i class="paw icon"></i> Nickname',
+    title: (nameOnly = false) => {
+      return nameOnly
+        ? lang['nickname']
+        : `<i class="paw icon"></i> ${lang['nickname']}`
+    },
     sortField: 'nickname',
-    callback: 'allCap'
+    callback: 'allCap',
+    width: '120px'
   },
   {
     name: 'birthdate',
-    title: '<i class="orange birthday icon"></i> Birthdate',
+    title: (nameOnly = false) => {
+      return nameOnly
+        ? lang['birthdate']
+        : `<i class="orange birthday icon"></i> ${lang['birthdate']}`
+    },
     sortField: 'birthdate',
+    width: '100px',
     callback: 'formatDate|D/MM/Y'
   },
   {
@@ -190,13 +218,15 @@ let tableColumns = [
     sortField: 'gender',
     titleClass: 'center aligned',
     dataClass: 'center aligned',
-    callback: 'gender'
+    callback: 'gender',
+    width: '100px',
   },
   {
     name: '__component:custom-actions',
     title: 'Actions',
     titleClass: 'center aligned',
-    dataClass: 'center aligned'
+    dataClass: 'center aligned',
+    width: '150px'
   }
 ]
 
@@ -214,6 +244,7 @@ let vm = new Vue({
     searchFor: '',
     moreParams: {},
     fields: tableColumns,
+    tableHeight: '600px',
     vuetableFields: false,
     sortOrder: [{
         field: 'name',
@@ -223,6 +254,7 @@ let vm = new Vue({
     paginationComponent: 'vuetable-pagination',
     perPage: 10,
     paginationInfoTemplate: 'Showing record: {from} to {to} from {total} item(s)',
+    lang: lang,
   },
   watch: {
     'perPage' (val, oldVal) {

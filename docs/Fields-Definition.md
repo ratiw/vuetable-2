@@ -68,11 +68,24 @@ Fields can be defined as simpl array of string, array of object, or the mix.
   ```
 
 ## Field options
+
+Available options
+- [name](#-name)
+- [sortField](#-sortField)
+- [title](#-title)
+- [titleClass](#-titleClass)
+- [dataClass](#-dataClass)
+- [callback](#-callback)
+- [visible](#-visible)
+- [width](#-width)
+
 ### # name
+- type: _String_
 
 Name of the data field to be display.
 
 ### # sortField
+- type: _String_
 
 Usually, it will be the same as `name` option. But you can specify different value if
 you use different field name when querying data on the serve side, e.g. firstname.
@@ -82,6 +95,7 @@ clickable icon after the field title. `vuetable` will also make a new request to
 with the `sort=<sortField>` query string appended.
 
 ### # title
+- type: [_String_, _Function_]
 
 If you would like to specify the title yourself, you can put it in here. Otherwise, `vuetable`
 will use the `name` option instead.
@@ -96,22 +110,45 @@ You can even put the icon class in the title, see example below
 //
 ```
 
+_New feature (after v1.6.5)_
+You can also define `title` as a function that returns a string. Vuetable will use that returned string to render the title of the column.
+```javascript
+//.. example using Semantic UI icon class
+{
+  name: 'birthdate',
+  title: () => '<i class="orange birthday icon"></i> Birthdate'
+}
+//
+```
+
+This allow total flexibility and make it possible to make use of external i18n library.
+
 ### # titleClass
+- type: _String_
 
 The css class you would like to apply for the title of this field.
 
 ### # dataClass
+- type: _String_
 
 The css class you would like to apply for the data of this field.
 
-### # callback 
+### # callback
+- type: [_String_, _Function_]
 
 The name of the callback function to be called to allow formatting of the value
 to be displayed. See [Callback](Callbacks) section for more info.
 
 ### # visible
+- type: _Boolean_
 
-Whether this field should be visible or hidden when rendering the table. 
+Whether this field should be visible or hidden when rendering the table.
+
+### # width _(since v1.7)_
+- type: _String_
+
+Specify the width of the column as string, e.g. `600px`. See [Fixed Header](Fixed-Header) section for more info.
+
 
 ## Nested JSON Data
 If the JSON data structure contains nested objects, eg:
