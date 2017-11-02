@@ -11,6 +11,7 @@
     - [Data Transformation](Data-Transformation)
     - [Pagination](Pagination)
     - [Detail Row](Detail-Row)
+    - [Fixed Header](Fixed-Header)
     - [CSS Styling](CSS-Styling)
     - [Tutorial](https://github.com/ratiw/vuetable-2-tutorial/wiki)
     - [FAQ](FAQ)
