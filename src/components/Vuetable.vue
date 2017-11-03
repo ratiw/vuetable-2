@@ -347,6 +347,34 @@ export default {
     }
   },
   methods: {
+    newField (field) {
+      let defaultField = {
+        name: '',
+        // title:
+        // this allow the code to detect undefined title
+        // and replace it with capitalized name instead
+        titleClass: '',
+        dataClass: '',
+        sortField: null,
+        callback: null,
+        visible: true,
+        width: null,
+      }
+
+      if (typeof(field) === 'string') {
+        return Object.assign({}, defaultField, {
+          name: field,
+          title: this.makeTitle(field),
+        })
+      }
+
+      let obj = Object.assign({}, defaultField, field)
+      if (obj.title === undefined) {
+        obj.title = this.makeTitle(obj.name)
+      }
+      return obj
+    },
+
     normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
         this.warn('You need to provide "fields" prop.')
@@ -354,32 +382,12 @@ export default {
       }
 
       this.tableFields = []
-      let obj
+
       this.fields.forEach( (field, i) => {
-        if (typeof (field) === 'string') {
-          obj = {
-            name: field,
-            title: this.setTitle(field),
-            titleClass: '',
-            dataClass: '',
-            sortField: null,
-            callback: null,
-            visible: true,
-          }
-        } else {
-          obj = {
-            name: field.name,
-            title: (field.title === undefined) ? this.setTitle(field.name) : field.title,
-            titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
-            dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
-            sortField: (field.sortField === undefined) ? null : field.sortField,
-            callback: (field.callback === undefined) ? null : field.callback,
-            visible: (field.visible === undefined) ? true : field.visible,
-          }
-        }
-        this.tableFields.push(obj)
+        this.tableFields.push(this.newField(field))
       })
     },
+
     setData (data) {
       this.apiMode = false
       if (Array.isArray(data)) {
@@ -397,23 +405,20 @@ export default {
         this.fireEvent('loaded')
       })
     },
-    setTitle (str) {
+    makeTitle (str) {
       if (this.isSpecialField(str)) {
         return ''
       }
 
       return this.titleCase(str.replace('.', ' '))
     },
-    getTitle (field) {
+    getFieldTitle (field) {
       if (typeof(field.title) === 'function') return field.title()
 
-      // return typeof(field.title) === 'undefined'
-      //   ? field.name.replace('.', ' ')
-      //   : field.title
       return field.title
     },
     renderTitle (field) {
-      let title = this.getTitle(field)
+      let title = this.getFieldTitle(field)
 
       if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`

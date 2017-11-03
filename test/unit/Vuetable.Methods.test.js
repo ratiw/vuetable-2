@@ -6,19 +6,15 @@ Vue.config.productionTip = false
 
 describe('Vuetable - Methods', () => {
 
-  describe('normalizeFields', () => {
-    let cmp
+  describe.only('normalizeFields', () => {
 
-    beforeEach( () => {
-      cmp = mount(Vuetable, {
+    it('parses basic array of fields definition correctly', () => {
+      let cmp = mount(Vuetable, {
         propsData: {
           fields: ['code'],
           apiMode: false
         }
       })
-    })
-
-    it('parses basic array of fields definition correctly', () => {
       expect(cmp.vm.tableFields.length).toEqual(1)
       expect(cmp.vm.tableFields[0]).toEqual({
         name: 'code',
@@ -28,9 +24,64 @@ describe('Vuetable - Methods', () => {
         sortField: null,
         callback: null,
         visible: true,
+        width: null,
       })
     })
 
+    it('parses array of field definition object correctly', () => {
+      let cmp = mount(Vuetable, {
+        propsData: {
+          fields: [
+            { name: 'code', title: 'Product Code' },
+            { name: 'description' },
+          ],
+          apiMode: false
+        }
+      })
+      expect(cmp.vm.tableFields.length).toEqual(2)
+      expect(cmp.vm.tableFields[0].name).toEqual('code')
+      expect(cmp.vm.tableFields[0].title).toEqual('Product Code')
+      expect(cmp.vm.tableFields[1].name).toEqual('description')
+      expect(cmp.vm.tableFields[1].title).toEqual('Description')
+    })
+
+    it('parses a mix of fields definition correctly', () => {
+      let cmp = mount(Vuetable, {
+        propsData: {
+          fields: [
+            { name: 'code', title: 'Product Code' },
+            'description'
+          ],
+          apiMode: false
+        }
+      })
+      expect(cmp.vm.tableFields.length).toEqual(2)
+      expect(cmp.vm.tableFields[0].name).toEqual('code')
+      expect(cmp.vm.tableFields[0].title).toEqual('Product Code')
+      expect(cmp.vm.tableFields[1].name).toEqual('description')
+      expect(cmp.vm.tableFields[1].title).toEqual('Description')
+    })
+
+    it('also copies other additional options into field definition', () => {
+      let cmp = mount(Vuetable, {
+        propsData: {
+          fields: [
+            { name: 'code', title: 'Product Code', options: {} },
+            { name: 'description', foo: 'bar', baz: () => 'bee' },
+          ],
+          apiMode: false
+        }
+      })
+      expect(cmp.vm.tableFields.length).toEqual(2)
+      expect(cmp.vm.tableFields[0].name).toEqual('code')
+      expect(cmp.vm.tableFields[0].title).toEqual('Product Code')
+      expect(typeof(cmp.vm.tableFields[0].options)).toEqual('object')
+      expect(cmp.vm.tableFields[1].name).toEqual('description')
+      expect(cmp.vm.tableFields[1].title).toEqual('Description')
+      expect(cmp.vm.tableFields[1].foo).toEqual('bar')
+      expect(typeof(cmp.vm.tableFields[1].baz)).toEqual('function')
+      expect(cmp.vm.tableFields[1].baz()).toEqual('bee')
+    })
   })
 
   describe('setTitle', () => {
