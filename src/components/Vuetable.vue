@@ -480,6 +480,7 @@ export default {
     }
   },
   methods: {
+
     getScrollBarWidth () {
       const outer = document.createElement('div');
       const inner = document.createElement('div');
@@ -499,6 +500,7 @@ export default {
 
       return (widthWithoutScrollbar - widthWithScrollbar);
     },
+
     handleScroll (e) { //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
       let horizontal = e.currentTarget.scrollLeft;
       if (horizontal != this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
@@ -509,6 +511,7 @@ export default {
         this.lastScrollPosition = horizontal;
       }
     },
+
     headerClass (base, field) {
       return [
         base,
@@ -517,9 +520,39 @@ export default {
         {'sortable': this.isSortable(field)}
       ]
     },
+
     bodyClass (base, field) {
       return [ base, field.dataClass ]
     },
+
+    newField (field) {
+      let defaultField = {
+        name: '',
+        // title:
+        // this allow the code to detect undefined title
+        // and replace it with capitalized name instead
+        titleClass: '',
+        dataClass: '',
+        sortField: null,
+        callback: null,
+        visible: true,
+        width: null,
+      }
+
+      if (typeof(field) === 'string') {
+        return Object.assign({}, defaultField, {
+          name: field,
+          title: this.makeTitle(field),
+        })
+      }
+
+      let obj = Object.assign({}, defaultField, field)
+      if (obj.title === undefined) {
+        obj.title = this.makeTitle(obj.name)
+      }
+      return obj
+    },
+
     normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
         this.warn('You need to provide "fields" prop.')
@@ -527,32 +560,12 @@ export default {
       }
 
       this.tableFields = []
-      let obj
+
       this.fields.forEach( (field, i) => {
-        if (typeof (field) === 'string') {
-          obj = {
-            name: field,
-            title: this.setTitle(field),
-            titleClass: '',
-            dataClass: '',
-            callback: null,
-            visible: true,
-          }
-        } else {
-          obj = {
-            name: field.name,
-            width: field.width,
-            title: (field.title === undefined) ? this.setTitle(field.name) : field.title,
-            sortField: field.sortField,
-            titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
-            dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
-            callback: (field.callback === undefined) ? '' : field.callback,
-            visible: (field.visible === undefined) ? true : field.visible,
-          }
-        }
-        this.tableFields.push(obj)
+        this.tableFields.push(this.newField(field))
       })
     },
+
     setData (data) {
       // this.apiMode = false
       if (Array.isArray(data)) {
@@ -570,22 +583,25 @@ export default {
         this.fireEvent('loaded')
       })
     },
-    setTitle (str) {
+
+    makeTitle (str) {
       if (this.isSpecialField(str)) {
         return ''
       }
 
       return this.titleCase(str)
     },
-    getTitle (field) {
+
+    getFieldTitle (field) {
       if (typeof(field.title) === 'function') return field.title()
 
       return typeof(field.title) === 'undefined'
         ? field.name.replace('.', ' ')
         : field.title
     },
+
     renderTitle (field) {
-      let title = this.getTitle(field)
+      let title = this.getFieldTitle(field)
 
       if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
@@ -595,22 +611,27 @@ export default {
 
       return title
     },
+
     renderNormalField (field, item) {
       return this.hasCallback(field)
         ? this.callCallback(field, item)
         : this.getObjectValue(item, field.name, '')
     },
+
     isSpecialField (fieldName) {
       return fieldName.slice(0, 2) === '__'
     },
+
     titleCase (str) {
       return str.replace(/\w+/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
       })
     },
+
     camelCase (str, delimiter = '_') {
       return str.split(delimiter).map( (item) => self.titleCase(item) ).join('')
     },
+
     loadData (success = this.loadSuccess, failed = this.loadFailed) {
       if (this.isDataMode) {
         this.callDataManager()
@@ -626,11 +647,13 @@ export default {
           failed
       ).catch(() => failed())
     },
+
     fetch (apiUrl, httpOptions) {
       return this.httpFetch
           ? this.httpFetch(apiUrl, httpOptions)
           : axios[this.httpMethod](apiUrl, httpOptions)
     },
+
     loadSuccess (response) {
       this.fireEvent('load-success', response)
 
@@ -653,6 +676,7 @@ export default {
         this.fireEvent('loaded')
       })
     },
+
     fixHeader() {
       if (!this.isFixedHeader) {
         return;
@@ -668,11 +692,13 @@ export default {
         }
       }
     },
+
     loadFailed (response) {
       console.error('load-error', response)
       this.fireEvent('load-error', response)
       this.fireEvent('loaded')
     },
+
     transform (data) {
       let func = 'transform'
 
@@ -682,9 +708,11 @@ export default {
 
       return data
     },
+
     parentFunctionExists (func) {
       return (func !== '' && typeof this.$parent[func] === 'function')
     },
+
     callParentFunction (func, args, defaultValue = null) {
       if (this.parentFunctionExists(func)) {
         return this.$parent[func].call(this.$parent, args)
@@ -692,14 +720,17 @@ export default {
 
       return defaultValue
     },
+
     fireEvent (eventName, args) {
       this.$emit(this.eventPrefix + eventName, args)
     },
+
     warn (msg) {
       if (!this.silent) {
         console.warn(msg)
       }
     },
+
     getAllQueryParams () {
       let params = {}
       params[this.queryParams.sort] = this.getSortParam()
@@ -712,6 +743,7 @@ export default {
 
       return params
     },
+
     getSortParam () {
       if (!this.sortOrder || this.sortOrder.field == '') {
         return ''
@@ -723,6 +755,7 @@ export default {
 
       return this.getDefaultSortParam()
     },
+
     getDefaultSortParam () {
       let result = '';
 
@@ -736,15 +769,19 @@ export default {
 
       return result;
     },
+
     isSortable (field) {
       return !(typeof field.sortField === 'undefined')
     },
+
     isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
+
     hasSortableIcon (field) {
       return this.isSortable(field) && this.css.sortableIcon != ''
     },
+
     currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
         return false
@@ -758,9 +795,11 @@ export default {
 
       return false;
     },
+
     fieldIsInSortOrderPosition (field, i) {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
     },
+
     orderBy (field, event) {
       if ( ! this.isSortable(field) ) return
 
@@ -776,6 +815,7 @@ export default {
       this.currentPage = 1    // reset page index
       this.loadData()
     },
+
     addSortColumn (field, direction) {
       this.sortOrder.push({
         field: field.name,
@@ -783,12 +823,15 @@ export default {
         direction: 'asc'
       });
     },
+
     removeSortColumn (index) {
       this.sortOrder.splice(index, 1);
     },
+
     setSortColumnDirection (index, direction) {
       this.sortOrder[index].direction = direction
     },
+
     multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
 
@@ -803,6 +846,7 @@ export default {
         }
       }
     },
+
     singleColumnSort (field) {
       if (this.sortOrder.length === 0) {
         // this.clearSortOrder()
@@ -822,6 +866,7 @@ export default {
       this.sortOrder[0].field = field.name
       this.sortOrder[0].sortField = field.sortField
     },
+
     clearSortOrder () {
       // this.sortOrder.push({
       //   field: '',
@@ -840,6 +885,7 @@ export default {
 
       return cls;
     },
+
     sortIcon (field) {
       let cls = this.css.sortableIcon
       let i = this.currentSortOrderPosition(field)
@@ -850,6 +896,7 @@ export default {
 
       return cls;
     },
+
     sortIconOpacity (field) {
       /*
        * fields with stronger precedence have darker color
@@ -876,9 +923,11 @@ export default {
 
       return opacity
     },
+
     hasCallback (item) {
       return item.callback ? true : false
     },
+
     callCallback (field, item) {
       if ( ! this.hasCallback(field)) return
 
@@ -899,6 +948,7 @@ export default {
 
       return null
     },
+
     getObjectValue (object, path, defaultValue) {
       defaultValue = (typeof defaultValue === 'undefined') ? null : defaultValue
 
@@ -916,19 +966,23 @@ export default {
       }
       return obj
     },
+
     selectId (key) {
       if ( ! this.isSelectedRow(key)) {
         this.selectedTo.push(key)
       }
     },
+
     unselectId (key) {
       this.selectedTo = this.selectedTo.filter(function(item) {
         return item !== key
       })
     },
+
     isSelectedRow (key) {
       return this.selectedTo.indexOf(key) >= 0
     },
+
     checkCheckboxesState (fieldName) {
       if (! this.tableData) return
 
@@ -961,32 +1015,38 @@ export default {
         return true
       }
     },
+
     gotoPreviousPage () {
       if (this.currentPage > 1) {
         this.currentPage--
         this.loadData()
       }
     },
+
     gotoNextPage () {
       if (this.currentPage < this.tablePagination.last_page) {
         this.currentPage++
         this.loadData()
       }
     },
+
     gotoPage (page) {
       if (page != this.currentPage && (page > 0 && page <= this.tablePagination.last_page)) {
         this.currentPage = page
         this.loadData()
       }
     },
+
     isVisibleDetailRow (rowId) {
       return this.visibleDetailRows.indexOf( rowId ) >= 0
     },
+
     showDetailRow (rowId) {
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId)
       }
     },
+
     hideDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.splice(
@@ -995,6 +1055,7 @@ export default {
         )
       }
     },
+
     toggleDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.hideDetailRow(rowId)
@@ -1002,26 +1063,31 @@ export default {
         this.showDetailRow(rowId)
       }
     },
+
     showField (index) {
       if (index < 0 || index > this.tableFields.length) return
 
       this.tableFields[index].visible = true
     },
+
     hideField (index) {
       if (index < 0 || index > this.tableFields.length) return
 
       this.tableFields[index].visible = false
     },
+
     toggleField (index) {
       if (index < 0 || index > this.tableFields.length) return
 
       this.tableFields[index].visible = ! this.tableFields[index].visible
     },
+
     renderIconTag (classes, options = '') {
       return typeof(this.css.renderIcon) === 'undefined'
         ? `<i class="${classes.join(' ')}" ${options}></i>`
         : this.css.renderIcon(classes, options)
     },
+
     makePagination (total = null, perPage = null, currentPage = null) {
       let pagination = {}
       total = total === null ? this.dataTotal : total
@@ -1039,11 +1105,13 @@ export default {
         'to': Math.min(currentPage * perPage, total)
       }
     },
+
     normalizeSortOrder () {
       this.sortOrder.forEach( (item) => {
         item.sortField = item.sortField || item.field
       })
     },
+
     callDataManager () {
       if (this.dataManager === null && this.data === null) return
 
@@ -1054,6 +1122,7 @@ export default {
         this.setData(this.dataManager(this.sortOrder, this.makePagination()))
       }
     },
+
     onRowClass (dataItem, index) {
       if (this.rowClassCallback !== '') {
         this.warn('"row-class-callback" prop is deprecated, please use "row-class" prop instead.')
@@ -1066,29 +1135,37 @@ export default {
 
       return this.rowClass
     },
+
     onRowChanged (dataItem) {
       this.fireEvent('row-changed', dataItem)
       return true
     },
+
     onRowClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
       return true
     },
+
     onRowDoubleClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)
     },
+
     onDetailRowClick (dataItem, event) {
       this.$emit(this.eventPrefix + 'detail-row-clicked', dataItem, event)
     },
+
     onCellClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-clicked', dataItem, field, event)
     },
+
     onCellDoubleClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
     },
+
     onMouseOver (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-mouseover', dataItem, event)
     },
+
     onColumnEvent (type, payload) {
       console.log('vuetable-column: ', type, payload)
       if (type === 'checkbox-toggled') {
@@ -1097,6 +1174,7 @@ export default {
         this.onCheckboxToggledAll(payload.isChecked, payload.field)
       }
     },
+
     onCheckboxToggled (isChecked, fieldName, dataItem) {
       let idColumn = this.trackBy
 
@@ -1113,6 +1191,7 @@ export default {
       }
       this.$emit('vuetable:checkbox-toggled', isChecked, fieldName)
     },
+
     onCheckboxToggledAll (isChecked, fieldName) {
       let idColumn = this.trackBy
 
@@ -1127,6 +1206,7 @@ export default {
       }
       this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
+
     /*
      * API for externals
      */
@@ -1139,19 +1219,23 @@ export default {
         this.gotoPage(page)
       }
     },
+
     reload () {
       this.loadData()
     },
+
     refresh () {
       this.currentPage = 1
       this.loadData()
     },
+
     resetData () {
       this.tableData = null
       this.tablePagination = null
       this.fireEvent('data-reset')
     },
   }, // end: methods
+
   watch: {
     'multiSort' (newVal, oldVal) {
       if (newVal === false && this.sortOrder.length > 1) {
@@ -1159,6 +1243,7 @@ export default {
         this.loadData();
       }
     },
+
     'apiUrl' (newVal, oldVal) {
       if (this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
