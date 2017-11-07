@@ -83,7 +83,7 @@
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
                   <component :is="extractArgs(field.name)"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                    :row-data="item" :row-index="index" :row-field="field.sortField" :properties="field.properties"
                   ></component>
                 </td>
                 <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
@@ -574,6 +574,7 @@ export default {
             dataClass: '',
             callback: null,
             visible: true,
+            properties: {},
           }
         } else {
           obj = {
@@ -585,6 +586,7 @@ export default {
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
+            properties: (field.properties === undefined) ? {} : field.properties,
           }
         }
         self.tableFields.push(obj)
