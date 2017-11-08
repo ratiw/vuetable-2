@@ -985,6 +985,9 @@ export default {
     'apiUrl'  (newVal, oldVal) {
       if(this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
+    },
+    'data' (newVal, oldVal) {
+      this.setData(newVal)
     }
   },
 }
