@@ -601,7 +601,9 @@ export default {
       }
 
       this.currentPage = 1    // reset page index
-      this.loadData()
+      if (this.apiMode) {
+        this.loadData()
+      }
     },
     multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
