@@ -253,7 +253,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axiosAux from 'axios'
 
 export default {
   props: {
@@ -444,6 +444,9 @@ export default {
     }
   },
   mounted () {
+    if (!window.axios) {
+      window.axios = axiosAux;
+    }
     this.normalizeFields()
     this.normalizeSortOrder()
     if (this.isFixedHeader) {
