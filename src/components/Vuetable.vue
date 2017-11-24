@@ -1,15 +1,15 @@
 <template>
-<div v-if="isFixedHeader" class="vuetable-wrapper">
+<div class="vuetable-wrapper">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
-      <slot name="header">
-        <vuetable-row-header
+      <template v-for="header in headerRows">
+        <component :is="header"
           :table-fields="tableFields"
           :sort-order="sortOrder"
-          :order-by="orderBy"
           :show-sort-icons="showSortIcons"
           :css="css"
+          @vuetable-row:order-by="orderBy"
           @vuetable-row:refresh="refresh"
           @vuetable-row:add-sort-column="addSortColumn"
           @vuetable-row:remove-sort-column="removeSortColumn"
@@ -17,8 +17,8 @@
           @vuetable-row:clear-sort-column="clearSortOrder"
           @vuetable-row:toggle-row="onCheckboxToggled"
           @vuetable-row:toggle-all-row="onCheckboxToggledAll"
-        ></vuetable-row-header>
-      </slot>
+        ></component>
+      </template>
     </thead>
     </table>
   </div>
@@ -109,98 +109,6 @@
     </tbody>
     </table>
   </div>
-</div>
-
-<div v-else>
-  <table :class="['vuetable', css.tableClass]">
-    <thead>
-      <slot name="header">
-        <vuetable-row-header
-          :table-fields="tableFields"
-          :sort-order="sortOrder"
-          :order-by="orderBy"
-          :show-sort-icons="showSortIcons"
-          :css="css"
-          @vuetable-row:refresh="refresh"
-          @vuetable-row:add-sort-column="addSortColumn"
-          @vuetable-row:remove-sort-column="removeSortColumn"
-          @vuetable-row:set-sort-column-direction="setSortColumnDirection"
-          @vuetable-row:clear-sort-column="clearSortOrder"
-          @vuetable-row:toggle-row="onCheckboxToggled"
-          @vuetable-row:toggle-all-row="onCheckboxToggledAll"
-        ></vuetable-row-header>
-      </slot>
-    </thead>
-    <tbody v-cloak class="vuetable-body">
-      <template v-for="(item, index) in tableData">
-        <tr :item-index="index"
-          :class="onRowClass(item, index)"
-          :render="onRowChanged(item)"
-          @click="onRowClicked(item, $event)"
-          @dblclick="onRowDoubleClicked(item, $event)"
-          @mouseover="onMouseOver(item, $event)">
-          <template v-for="field in tableFields">
-            <template v-if="field.visible">
-              <template v-if="isSpecialField(field.name)">
-                <td :class="bodyClass('vuetable-component', field)"
-                  :style="{width: field.width}"
-                >
-                  <component :is="field.name"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
-                    :is-selected="isSelectedRow(item[trackBy])"
-                    :css="css"
-                    @vuetable-column="onColumnEvent"
-                  ></component>
-                </td>
-              </template>
-              <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
-                <td :class="bodyClass('vuetable-slot', field)"
-                  :style="{width: field.width}"
-                >
-                  <slot :name="field.name"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
-                  ></slot>
-                </td>
-              </template>
-              <template v-else>
-                <td :class="bodyClass('', field)"
-                  :style="{width: field.width}"
-                  @click="onCellClicked(item, field, $event)"
-                  @dblclick="onCellDoubleClicked(item, field, $event)"
-                  v-html="renderNormalField(field, item)"
-                >
-                </td>
-              </template>
-            </template>
-          </template>
-        </tr>
-        <template v-if="useDetailRow">
-          <transition :name="detailRowTransition">
-            <tr v-if="isVisibleDetailRow(item[trackBy])"
-              @click="onDetailRowClick(item, $event)"
-              :class="[css.detailRowClass]"
-            >
-                <td :colspan="countVisibleFields">
-                  <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
-                </td>
-            </tr>
-          </transition>
-        </template>
-      </template>
-      <template v-if="displayEmptyDataRow">
-        <tr>
-          <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
-        </tr>
-      </template>
-      <template v-if="lessThanMinRows">
-        <tr v-for="i in blankRows" class="blank-row">
-          <template v-for="field in tableFields">
-            <td v-if="field.visible">&nbsp;</td>
-          </template>
-        </tr>
-      </template>
-    </tbody>
-  </table>
 </div>
 </template>
 
@@ -389,6 +297,12 @@ export default {
     showSortIcons: {
       type: Boolean,
       default: true
+    },
+    headerRows: {
+      type: Array,
+      default() {
+        return ['VuetableRowHeader']
+      }
     }
   },
   data () {
@@ -516,15 +430,6 @@ export default {
       }
     },
 
-    headerClass (base, field) {
-      return [
-        base,
-        field.titleClass || '',
-        this.sortClass(field),
-        {'sortable': this.isSortable(field)}
-      ]
-    },
-
     bodyClass (base, field) {
       return [ base, field.dataClass ]
     },
@@ -602,18 +507,6 @@ export default {
       return typeof(field.title) === 'undefined'
         ? field.name.replace('.', ' ')
         : field.title
-    },
-
-    renderTitle (field) {
-      let title = this.getFieldTitle(field)
-
-      if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
-        let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
-        let iconTag = this.showSortIcons ? this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`) : ''
-        return title + ' ' + iconTag
-      }
-
-      return title
     },
 
     renderNormalField (field, item) {
@@ -764,7 +657,7 @@ export default {
       let result = '';
 
       for (let i = 0; i < this.sortOrder.length; i++) {
-        let fieldName = (typeof this.sortOrder[i].sortField === 'undefined')
+        let fieldName = this.isSortable(this.sortOrder[i])
           ? this.sortOrder[i].field
           : this.sortOrder[i].sortField;
 
@@ -775,15 +668,7 @@ export default {
     },
 
     isSortable (field) {
-      return !(typeof field.sortField === 'undefined')
-    },
-
-    isInCurrentSortGroup (field) {
-      return this.currentSortOrderPosition(field) !== false;
-    },
-
-    hasSortableIcon (field) {
-      return this.isSortable(field) && this.css.sortableIcon != ''
+      return !(typeof field.sortField === 'undefined') && field.sortField
     },
 
     currentSortOrderPosition (field) {
@@ -872,60 +757,7 @@ export default {
     },
 
     clearSortOrder () {
-      // this.sortOrder.push({
-      //   field: '',
-      //   sortField: '',
-      //   direction: 'asc'
-      // });
       this.sortOrder = []
-    },
-    sortClass (field) {
-      let cls = ''
-      let i = this.currentSortOrderPosition(field)
-
-      if (i !== false) {
-        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingClass : this.css.descendingClass
-      }
-
-      return cls;
-    },
-
-    sortIcon (field) {
-      let cls = this.css.sortableIcon
-      let i = this.currentSortOrderPosition(field)
-
-      if (i !== false) {
-        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
-      }
-
-      return cls;
-    },
-
-    sortIconOpacity (field) {
-      /*
-       * fields with stronger precedence have darker color
-       *
-       * if there are few fields, we go down by 0.3
-       * ex. 2 fields are selected: 1.0, 0.7
-       *
-       * if there are more we go down evenly on the given spectrum
-       * ex. 6 fields are selected: 1.0, 0.86, 0.72, 0.58, 0.44, 0.3
-       */
-      let max = 1.0,
-          min = 0.3,
-          step = 0.3
-
-      let count = this.sortOrder.length;
-      let current = this.currentSortOrderPosition(field)
-
-
-      if(max - count * step < min) {
-        step = (max - min) / (count-1)
-      }
-
-      let opacity = max - current * step
-
-      return opacity
     },
 
     hasCallback (item) {
@@ -1084,12 +916,6 @@ export default {
       if (index < 0 || index > this.tableFields.length) return
 
       this.tableFields[index].visible = ! this.tableFields[index].visible
-    },
-
-    renderIconTag (classes, options = '') {
-      return typeof(this.css.renderIcon) === 'undefined'
-        ? `<i class="${classes.join(' ')}" ${options}></i>`
-        : this.css.renderIcon(classes, options)
     },
 
     makePagination (total = null, perPage = null, currentPage = null) {

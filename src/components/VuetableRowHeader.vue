@@ -5,7 +5,7 @@
         <template v-if="isSpecialField(field.name)">
           <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
             :style="{width: field.width}"
-            @click="orderBy(field, $event)"
+            @click="onColumnClicked(field, $event)"
           >
             <component :is="field.name"
               :row-field="field"
@@ -19,12 +19,12 @@
         <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
           <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
               :style="{width: field.width}"
-              @click="orderBy(field, $event)"
+              @click="onColumnClicked(field, $event)"
               v-html="renderTitle(field)"
           ></th>
         </template>
         <template v-else>
-          <th @click="orderBy(field, $event)"
+          <th @click="onColumnClicked(field, $event)"
             :id="'_' + field.name"
             :class="headerClass('vuetable-th-'+field.name, field)"
             :style="{width: field.width}"
@@ -55,10 +55,6 @@ export default {
       type: Array,
       required: true,
     },
-    orderBy: {
-      type: Function,
-      required: true
-    },
     showSortIcons: {
       type: Boolean,
       required: true
@@ -72,6 +68,7 @@ export default {
     isSpecialField (fieldName) {
       return fieldName.slice(0, 2) === '__'
     },
+
     headerClass (base, field) {
       return [
         base,
@@ -80,6 +77,7 @@ export default {
         {'sortable': this.isSortable(field)}
       ]
     },
+
     sortClass (field) {
       let cls = ''
       let i = this.currentSortOrderPosition(field)
@@ -90,6 +88,7 @@ export default {
 
       return cls;
     },
+
     sortIcon (field) {
       let cls = this.css.sortableIcon
       let i = this.currentSortOrderPosition(field)
@@ -100,15 +99,19 @@ export default {
 
       return cls;
     },
+
     isSortable (field) {
-      return !(typeof field.sortField === 'undefined')
+      return !(typeof field.sortField === 'undefined') && field.sortField
     },
+
     isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
+
     hasSortableIcon (field) {
       return this.isSortable(field) && this.css.sortableIcon != ''
     },
+
     currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
         return false
@@ -122,9 +125,11 @@ export default {
 
       return false;
     },
+
     fieldIsInSortOrderPosition (field, i) {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField
     },
+
     renderTitle (field) {
       let title = this.getTitle(field)
 
@@ -136,6 +141,7 @@ export default {
 
       return title
     },
+
     getTitle (field) {
       if (typeof(field.title) === 'function') return field.title()
 
@@ -143,9 +149,11 @@ export default {
         ? field.name.replace('.', ' ')
         : field.title
     },
+
     hasSortableIcon (field) {
       return this.isSortable(field) && this.css.sortableIcon != ''
     },
+
     sortIconOpacity (field) {
       /*
        * fields with stronger precedence have darker color
@@ -172,11 +180,13 @@ export default {
 
       return opacity
     },
+
     renderIconTag (classes, options = '') {
       return typeof(this.css.renderIcon) === 'undefined'
         ? `<i class="${classes.join(' ')}" ${options}></i>`
         : this.css.renderIcon(classes, options)
     },
+
     checkCheckboxesState (fieldName) {
       if (! this.tableData) return
 
@@ -209,6 +219,7 @@ export default {
         return true
       }
     },
+
     onColumnHeaderEvent (type, payload) {
       console.log('vuetable-column: ', type, payload)
       if (type === 'checkbox-toggled') {
@@ -218,6 +229,9 @@ export default {
       }
     },
 
+    onColumnClicked (field, event) {
+      this.$emit('vuetable-row:order-by', field, event)
+    }
   }
 }
 </script>
