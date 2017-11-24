@@ -3,20 +3,22 @@
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
-      <vuetable-row-header
-        :table-fields="tableFields"
-        :sort-order="sortOrder"
-        :order-by="orderBy"
-        :show-sort-icons="showSortIcons"
-        :css="css"
-        @vuetable-row:refresh="refresh"
-        @vuetable-row:add-sort-column="addSortColumn"
-        @vuetable-row:remove-sort-column="removeSortColumn"
-        @vuetable-row:set-sort-column-direction="setSortColumnDirection"
-        @vuetable-row:clear-sort-column="clearSortOrder"
-        @vuetable-row:toggle-row="onCheckboxToggled"
-        @vuetable-row:toggle-all-row="onCheckboxToggledAll"
-      ></vuetable-row-header>
+      <slot name="header">
+        <vuetable-row-header
+          :table-fields="tableFields"
+          :sort-order="sortOrder"
+          :order-by="orderBy"
+          :show-sort-icons="showSortIcons"
+          :css="css"
+          @vuetable-row:refresh="refresh"
+          @vuetable-row:add-sort-column="addSortColumn"
+          @vuetable-row:remove-sort-column="removeSortColumn"
+          @vuetable-row:set-sort-column-direction="setSortColumnDirection"
+          @vuetable-row:clear-sort-column="clearSortOrder"
+          @vuetable-row:toggle-row="onCheckboxToggled"
+          @vuetable-row:toggle-all-row="onCheckboxToggledAll"
+        ></vuetable-row-header>
+      </slot>
     </thead>
     </table>
   </div>
@@ -112,20 +114,22 @@
 <div v-else>
   <table :class="['vuetable', css.tableClass]">
     <thead>
-      <vuetable-row-header
-        :table-fields="tableFields"
-        :sort-order="sortOrder"
-        :order-by="orderBy"
-        :show-sort-icons="showSortIcons"
-        :css="css"
-        @vuetable-row:refresh="refresh"
-        @vuetable-row:add-sort-column="addSortColumn"
-        @vuetable-row:remove-sort-column="removeSortColumn"
-        @vuetable-row:set-sort-column-direction="setSortColumnDirection"
-        @vuetable-row:clear-sort-column="clearSortOrder"
-        @vuetable-row:toggle-row="onCheckboxToggled"
-        @vuetable-row:toggle-all-row="onCheckboxToggledAll"
-      ></vuetable-row-header>
+      <slot name="header">
+        <vuetable-row-header
+          :table-fields="tableFields"
+          :sort-order="sortOrder"
+          :order-by="orderBy"
+          :show-sort-icons="showSortIcons"
+          :css="css"
+          @vuetable-row:refresh="refresh"
+          @vuetable-row:add-sort-column="addSortColumn"
+          @vuetable-row:remove-sort-column="removeSortColumn"
+          @vuetable-row:set-sort-column-direction="setSortColumnDirection"
+          @vuetable-row:clear-sort-column="clearSortOrder"
+          @vuetable-row:toggle-row="onCheckboxToggled"
+          @vuetable-row:toggle-all-row="onCheckboxToggledAll"
+        ></vuetable-row-header>
+      </slot>
     </thead>
     <tbody v-cloak class="vuetable-body">
       <template v-for="(item, index) in tableData">
