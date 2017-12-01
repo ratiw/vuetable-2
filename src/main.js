@@ -6,10 +6,14 @@ import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import axios from 'axios'
 
 import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
+import VuetableColumnHandle from './components/VuetableColumnHandle'
+import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
+
+Vue.component('__checkbox', VuetableColumnCheckbox)
+Vue.component('__handle', VuetableColumnHandle)
+Vue.component('__sequence', VuetableColumnSequence)
 
 let E_SERVER_ERROR = 'Error communicating with the server'
-
-Vue.component('custom-checkbox', VuetableColumnCheckbox)
 
 Vue.component('custom-actions', {
   template: [
@@ -421,6 +425,13 @@ let vm = new Vue({
     onActionClicked (action, data) {
       console.log('slot actions: on-click', data.name)
       sweetAlert(action, data.name)
-    }
+    },
+    onColumnEvent (type, payload, vuetable) {
+      if (type === 'checkbox-toggled') {
+        vuetable.onCheckboxToggled(payload.isChecked, payload.field, payload.dataItem)
+      } else if (type === 'checkbox-toggled-all') {
+        vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
+      }
+    },
   },
 })

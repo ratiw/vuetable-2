@@ -115,16 +115,10 @@
 <script>
 import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
-import VuetableColumnCheckbox from './VuetableColumnCheckbox'
-import VuetableColumnHandle from './VuetableColumnHandle'
-import VuetableColumnSequence from './VuetableColumnSequence'
 
 export default {
   components: {
     VuetableRowHeader,
-    '__checkbox': VuetableColumnCheckbox,
-    '__handle'  : VuetableColumnHandle,
-    '__sequence': VuetableColumnSequence,
   },
   props: {
     fields: {
@@ -997,12 +991,8 @@ export default {
     },
 
     onColumnEvent (type, payload) {
-      console.log('vuetable-column: ', type, payload)
-      if (type === 'checkbox-toggled') {
-        this.onCheckboxToggled(payload.isChecked, payload.field, payload.dataItem)
-      } else if (type === 'checkbox-toggled-all') {
-        this.onCheckboxToggledAll(payload.isChecked, payload.field)
-      }
+      console.log('--> onColumnEvent: ', type)
+      this.$emit('vuetable-column', type, payload, this)
     },
 
     onCheckboxToggled (isChecked, fieldName, dataItem) {
