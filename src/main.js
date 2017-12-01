@@ -182,7 +182,15 @@ let tableColumns = [
     title: '<i class="unordered list icon"></i> Detail',
     width: '80px',
     dataClass: 'center aligned',
-    callback: 'showDetailRow'
+    formatter: (value, vuetable) => {
+      let icon = vuetable.isVisibleDetailRow(value) ? 'down' : 'right'
+      return [
+        '<a class="show-detail-row">',
+            '<i class="chevron circle ' + icon + ' icon"></i>',
+        '</a>'
+      ].join('')
+    },
+
   },
   {
     name: 'name',
@@ -206,7 +214,10 @@ let tableColumns = [
     },
     sortField: 'nickname',
     width: '120px',
-    callback: 'allCap'
+    formatter: (value) => {
+      return value.toUpperCase()
+    },
+
   },
   {
     name: 'birthdate',
@@ -217,7 +228,11 @@ let tableColumns = [
     },
     width: '100px',
     sortField: 'birthdate',
-    callback: 'formatDate|D/MM/Y'
+    formatter: (value) => {
+      if (value === null) return ''
+      return moment(value, 'YYYY-MM-DD').format('D MMM YYYY')
+    },
+
   },
   {
     name: 'gender',
@@ -226,7 +241,11 @@ let tableColumns = [
     width: '100px',
     titleClass: 'center aligned',
     dataClass: 'center aligned',
-    callback: 'gender'
+    formatter: (value) => {
+      return value === 'M'
+        ? '<span class="ui teal label"><i class="male icon"></i>Male</span>'
+        : '<span class="ui pink label"><i class="female icon"></i>Female</span>'
+    },
   },
   {
     name: 'custom-actions',
@@ -320,27 +339,6 @@ let vm = new Vue({
     },
     hideLoader () {
       this.loading = ''
-    },
-    allCap (value) {
-      return value.toUpperCase()
-    },
-    formatDate (value, fmt) {
-      if (value === null) return ''
-      fmt = (typeof(fmt) === 'undefined') ? 'D MMM YYYY' : fmt
-      return moment(value, 'YYYY-MM-DD').format(fmt)
-    },
-    gender (value) {
-      return value === 'M'
-        ? '<span class="ui teal label"><i class="male icon"></i>Male</span>'
-        : '<span class="ui pink label"><i class="female icon"></i>Female</span>'
-    },
-    showDetailRow (value) {
-      let icon = this.$refs.vuetable.isVisibleDetailRow(value) ? 'down' : 'right'
-      return [
-        '<a class="show-detail-row">',
-            '<i class="chevron circle ' + icon + ' icon"></i>',
-        '</a>'
-      ].join('')
     },
     setFilter () {
       this.moreParams = {

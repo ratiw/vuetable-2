@@ -235,11 +235,6 @@ export default {
       type: String,
       default: 'alt'
     },
-    /* deprecated */
-    rowClassCallback: {
-      type: [String, Function],
-      default: ''
-    },
     rowClass: {
       type: [String, Function],
       default: ''
@@ -413,9 +408,12 @@ export default {
       return (widthWithoutScrollbar - widthWithScrollbar);
     },
 
-    handleScroll (e) { //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
+    //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
+    handleScroll (e) {
       let horizontal = e.currentTarget.scrollLeft;
-      if (horizontal != this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
+
+      //don't modify header scroll if we are scrolling vertically
+      if (horizontal != this.lastScrollPosition) {
         let header = this.$el.getElementsByClassName('vuetable-head-wrapper')[0]
         if (header != null) {
           header.scrollLeft = horizontal;
@@ -437,7 +435,7 @@ export default {
         titleClass: '',
         dataClass: '',
         sortField: null,
-        callback: null,
+        formatter: null,
         visible: true,
         width: null,
       }
@@ -504,8 +502,8 @@ export default {
     },
 
     renderNormalField (field, item) {
-      return this.hasCallback(field)
-        ? this.callCallback(field, item)
+      return this.hasFormatter(field)
+        ? this.callFormatter(field, item)
         : this.getObjectValue(item, field.name, '')
     },
 
@@ -602,14 +600,6 @@ export default {
 
     parentFunctionExists (func) {
       return (func !== '' && typeof this.$parent[func] === 'function')
-    },
-
-    callParentFunction (func, args, defaultValue = null) {
-      if (this.parentFunctionExists(func)) {
-        return this.$parent[func].call(this.$parent, args)
-      }
-
-      return defaultValue
     },
 
     fireEvent (eventName, args) {
@@ -754,29 +744,22 @@ export default {
       this.sortOrder = []
     },
 
-    hasCallback (item) {
-      return item.callback ? true : false
+    hasFormatter (item) {
+      return item.formatter ? true : false
     },
 
-    callCallback (field, item) {
-      if ( ! this.hasCallback(field)) return
+    callFormatter (field, item) {
+      if ( ! this.hasFormatter(field)) return
 
-      if (typeof(field.callback) === 'function') {
-       return field.callback(this.getObjectValue(item, field.name))
+      if (typeof(field.formatter) !== 'function') {
+        this.warn('Field formatter must be a function')
       }
 
-      let args = field.callback.split('|')
-      let func = args.shift()
-
-      if (typeof this.$parent[func] === 'function') {
-        let value = this.getObjectValue(item, field.name)
-
-        return (args.length > 0)
-          ? this.$parent[func].apply(this.$parent, [value].concat(args))
-          : this.$parent[func].call(this.$parent, value)
+      if (typeof(field.formatter) === 'function') {
+       return field.formatter(this.getObjectValue(item, field.name), this)
       }
 
-      return null
+      // return null
     },
 
     getObjectValue (object, path, defaultValue) {
@@ -948,11 +931,6 @@ export default {
     },
 
     onRowClass (dataItem, index) {
-      if (this.rowClassCallback !== '') {
-        this.warn('"row-class-callback" prop is deprecated, please use "row-class" prop instead.')
-        return
-      }
-
       if (typeof(this.rowClass) === 'function') {
         return this.rowClass(dataItem, index)
       }
