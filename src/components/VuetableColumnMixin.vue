@@ -9,7 +9,7 @@ export default {
       type: Number
     },
     rowField: {
-      type: [Object, String]
+      type: Object
     },
     isHeader: {
       type: Boolean,

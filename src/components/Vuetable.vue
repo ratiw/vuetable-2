@@ -53,7 +53,7 @@
                   :style="{width: field.width}"
                 >
                   <component :is="field.name"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                    :row-data="item" :row-index="index" :row-field="field"
                     :is-selected="isSelectedRow(item[trackBy])"
                     :css="css"
                     @vuetable-column="onColumnEvent"
@@ -65,7 +65,7 @@
                   :style="{width: field.width}"
                 >
                   <slot :name="field.name"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                    :row-data="item" :row-index="index" :row-field="field"
                   ></slot>
                 </td>
               </template>
