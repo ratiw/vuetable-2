@@ -292,6 +292,10 @@ export default {
       default() {
         return ['VuetableRowHeader']
       }
+    },
+    transform: {
+      type: Function,
+      default: null
     }
   },
   data () {
@@ -546,7 +550,7 @@ export default {
     loadSuccess (response) {
       this.fireEvent('load-success', response)
 
-      let body = this.transform(response.data)
+      let body = this.transform ? this.transform(response.data) : response.data
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
@@ -586,20 +590,6 @@ export default {
       console.error('load-error', response)
       this.fireEvent('load-error', response)
       this.fireEvent('loaded')
-    },
-
-    transform (data) {
-      let func = 'transform'
-
-      if (this.parentFunctionExists(func)) {
-          return this.$parent[func].call(this.$parent, data)
-      }
-
-      return data
-    },
-
-    parentFunctionExists (func) {
-      return (func !== '' && typeof this.$parent[func] === 'function')
     },
 
     fireEvent (eventName, args) {
@@ -969,7 +959,6 @@ export default {
     },
 
     onColumnEvent (type, payload) {
-      console.log('--> onColumnEvent: ', type)
       this.$emit('vuetable-column', type, payload, this)
     },
 
