@@ -83,7 +83,7 @@
                 </td>
                 <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
                   <component :is="extractArgs(field.name)"
-                    :row-data="item" :row-index="index" :row-field="field.sortField"
+                    :row-data="item" :row-index="index" :row-field="field.sortField" :custom-args="extractCustomArgs(field.name)"
                   ></component>
                 </td>
                 <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
@@ -197,7 +197,7 @@
               </td>
               <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
                 <component :is="extractArgs(field.name)"
-                  :row-data="item" :row-index="index" :row-field="field.sortField"
+                  :row-data="item" :row-index="index" :row-field="field.sortField" :custom-args="extractCustomArgs(field.name)"
                 ></component>
               </td>
               <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
@@ -788,6 +788,16 @@ export default {
     },
     extractArgs (string) {
       return string.split(':')[1]
+    },
+    extractCustomArgs (string) {
+      string = string.split(':')
+      string = string.slice(2)
+      if (string.length == 0) return ''
+      if (string.charAt(0) == '{')
+        return JSON.parse(string)
+      if (string.indexOf(',') != -1)
+        return string.split(',')
+      return string
     },
     isSortable (field) {
       return !(typeof field.sortField === 'undefined')
