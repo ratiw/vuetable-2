@@ -265,6 +265,7 @@ let vm = new Vue({
     fields: tableColumns,
     tableHeight: '600px',
     vuetableFields: false,
+    splitSortOrder: false,
     sortOrder: [{
         field: 'name',
         direction: 'asc',
