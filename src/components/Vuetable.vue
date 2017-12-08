@@ -3,22 +3,13 @@
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
-      <template v-for="header in headerRows">
-        <component :is="header"
-          :table-fields="tableFields"
-          :sort-order="sortOrder"
-          :show-sort-icons="showSortIcons"
-          :css="css"
-          @vuetable-row:order-by="orderBy"
-          @vuetable-row:refresh="refresh"
-          @vuetable-row:add-sort-column="addSortColumn"
-          @vuetable-row:remove-sort-column="removeSortColumn"
-          @vuetable-row:set-sort-column-direction="setSortColumnDirection"
-          @vuetable-row:clear-sort-column="clearSortOrder"
-          @vuetable-row:toggle-row="onCheckboxToggled"
-          @vuetable-row:toggle-all-row="onCheckboxToggledAll"
-        ></component>
-      </template>
+      <slot name="tableHeader">
+        <template v-for="header in headerRows">
+          <component :is="header"
+            @vuetable-row="onRowEvent"
+          ></component>
+        </template>
+      </slot>
     </thead>
     </table>
   </div>
@@ -960,6 +951,10 @@ export default {
 
     onColumnEvent (type, payload) {
       this.$emit('vuetable-column', type, payload, this)
+    },
+
+    onRowEvent (type, payload) {
+      this.$emit('vuetable-row', type, payload, this)
     },
 
     onCheckboxToggled (isChecked, fieldName, dataItem) {

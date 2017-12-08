@@ -46,23 +46,19 @@ export default {
     '__handle'  : VuetableColumnHandle,
     '__sequence': VuetableColumnSequence,
   },
-  props: {
-    tableFields: {
-      type: Array,
-      required: true
+  computed: {
+    tableFields () {
+      return this.$parent.tableFields
     },
-    sortOrder: {
-      type: Array,
-      required: true,
+    sortOrder() {
+      return this.$parent.sortOrder
     },
-    showSortIcons: {
-      type: Boolean,
-      required: true
+    showSortIcons() {
+      return this.$parent.showSortIcons
     },
-    css: {
-      type: Object,
-      required: true
-    }
+    css() {
+      return this.$parent.css
+    },
   },
   methods: {
     isSpecialField (fieldName) {
@@ -221,16 +217,18 @@ export default {
     },
 
     onColumnHeaderEvent (type, payload) {
-      console.log('vuetable-column: ', type, payload)
+      console.log('vuetable-row: ', type, payload)
       if (type === 'checkbox-toggled') {
-        this.$emit('vuetable-row:toggle-row', payload.isChecked, payload.field, payload.dataItem)
+        // this.$emit('vuetable-row', 'toggle-row', payload.isChecked, payload.field, payload.dataItem)
+        this.$emit('vuetable-row', 'toggle-row', payload)
       } else if (type === 'checkbox-toggled-all') {
-        this.$emit('vuetable-row:toggle-all-row', payload.isChecked, payload.field)
+        // this.$emit('vuetable-row', 'toggle-all-row', payload.isChecked, payload.field)
+        this.$emit('vuetable-row', 'toggle-all-row', payload)
       }
     },
 
     onColumnClicked (field, event) {
-      this.$emit('vuetable-row:order-by', field, event)
+      this.$emit('vuetable-row', 'order-by', {field, event})
     }
   }
 }

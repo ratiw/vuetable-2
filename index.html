@@ -117,6 +117,7 @@
                       @vuetable:initialized="onInitialized"
                       @vuetable:data-reset="onDataReset"
                       @vuetable-column="onColumnEvent"
+                      @vuetable-row="onRowEvent"
                     >
                       <div slot="custom-actions" slot-scope="props">
                         <button class="ui red button" @click="onActionClicked('view-item', props.rowData)"><i class="zoom icon"></i></button>

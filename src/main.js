@@ -5,6 +5,7 @@ import VuetablePaginationDropdown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import axios from 'axios'
 
+import VuetableRowHeader from './components/VuetableRowHeader.vue'
 import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
 import VuetableColumnHandle from './components/VuetableColumnHandle'
 import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
@@ -264,6 +265,7 @@ let vm = new Vue({
     VuetablePagination,
     VuetablePaginationDropdown,
     VuetablePaginationInfo,
+    VuetableRowHeader,
   },
   data: {
     loading: '',
@@ -431,5 +433,34 @@ let vm = new Vue({
         vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
       }
     },
+    onRowEvent (type, payload, vuetable) {
+      console.log('onRowEvent:', type, payload)
+      switch (type) {
+        case 'order-by':
+          vuetable.orderBy(payload.field, payload.event)
+          break
+        case 'refresh':
+          vuetable.refresh()
+          break
+        case 'add-sort-column':
+          vuetable.addSortColumn(payload.field, payload.direction)
+          break
+        case 'remove-sort-column':
+          vuetable.removeSortColumn(payload.index)
+          break
+        case 'set-sort-column':
+          vuetable.setSortColumnDirection(payload.index, payload.direction)
+          break
+        case 'clear-sort-column':
+          vuetable.clearSortOrder()
+          break
+        case 'toggle-row':
+          vuetable.onCheckboxToggled(payload.isChecked, payload.field, payload.dataItem)
+          break
+        case 'toggle-all-row':
+          vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
+          break;
+      }
+    }
   },
 })
