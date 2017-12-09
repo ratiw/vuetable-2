@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v1.7.0
+ * vuetable-2 v1.7.1
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -2779,7 +2779,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.httpOptions['params'] = this.getAllQueryParams();
 
-      this.fetch(this.apiUrl, this.httpOptions).then(success, failed).catch(function () {
+      return this.fetch(this.apiUrl, this.httpOptions).then(success, failed).catch(function () {
         return failed();
       });
     },
@@ -2929,7 +2929,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       this.currentPage = 1;
-      this.loadData();
+      if (this.apiMode) {
+        this.loadData();
+      }
     },
     multiColumnSort: function multiColumnSort(field) {
       var i = this.currentSortOrderPosition(field);
@@ -3246,6 +3248,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     onCellDoubleClicked: function onCellDoubleClicked(dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event);
     },
+    onCellRightClicked: function onCellRightClicked(dataItem, field, event) {
+      this.$emit(this.eventPrefix + 'cell-rightclicked', dataItem, field, event);
+    },
     changePage: function changePage(page) {
       if (page === 'prev') {
         this.gotoPreviousPage();
@@ -3256,11 +3261,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     reload: function reload() {
-      this.loadData();
+      return this.loadData();
     },
     refresh: function refresh() {
       this.currentPage = 1;
-      this.loadData();
+      return this.loadData();
     },
     resetData: function resetData() {
       this.tableData = null;
@@ -3277,6 +3282,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     'apiUrl': function apiUrl(newVal, oldVal) {
       if (this.reactiveApiUrl && newVal !== oldVal) this.refresh();
+    },
+    'data': function data(newVal, oldVal) {
+      this.setData(newVal);
     }
   }
 });
@@ -4121,6 +4129,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           },
           "dblclick": function($event) {
             _vm.onCellDoubleClicked(item, field, $event)
+          },
+          "contextmenu": function($event) {
+            _vm.onCellRightClicked(item, field, $event)
           }
         }
       })]] : _vm._e()]
