@@ -55,7 +55,7 @@
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template>
-                <col 
+                <col
                   :id="'_col_' + field.name"
                   :style="{width: field.width}"
                   :class="['vuetable-th-'+field.name, field.titleClass]"
@@ -96,6 +96,7 @@
                 <td :class="field.dataClass"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
+                  @contextmenu="onCellRightClicked(item, field, $event)"
                   v-html="renderNormalField(field, item)"
                 >
                 </td>
@@ -134,7 +135,7 @@
   </div>
 </div>
 <table v-else :class="['vuetable', css.tableClass]"> <!-- no fixed header - regular table -->
-  <thead> 
+  <thead>
     <tr>
       <template v-for="field in tableFields">
         <template v-if="field.visible">
@@ -554,7 +555,7 @@ export default {
         }
         this.lastScrollPosition = horizontal;
       }
-      
+
     },
     normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
@@ -693,7 +694,7 @@ export default {
           + 'You can explicitly suppress this warning by setting pagination-path="".'
         )
       }
-      
+
       this.$nextTick(function() {
         this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
@@ -704,7 +705,7 @@ export default {
       if (!this.isFixedHeader) {
         return;
       }
-      
+
       let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
       if (elem != null) {
         if (elem.scrollHeight > elem.clientHeight) {
@@ -1166,6 +1167,9 @@ export default {
     },
     onCellDoubleClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
+    },
+    onCellRightClicked (dataItem, field, event) {
+      this.$emit(this.eventPrefix + 'cell-rightclicked', dataItem, field, event)
     },
     /*
      * API for externals
