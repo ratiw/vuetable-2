@@ -828,7 +828,9 @@ export default {
       }
 
       this.currentPage = 1    // reset page index
-      this.loadData()
+      if (this.apiMode) {
+        this.loadData()
+      }
     },
     multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
@@ -1206,6 +1208,9 @@ export default {
     'apiUrl'  (newVal, oldVal) {
       if(this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
+    },
+    'data' (newVal, oldVal) {
+      this.setData(newVal)
     }
   },
 }
