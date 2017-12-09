@@ -669,7 +669,7 @@ export default {
 
       this.httpOptions['params'] = this.getAllQueryParams()
 
-      this.fetch(this.apiUrl, this.httpOptions).then(
+      return this.fetch(this.apiUrl, this.httpOptions).then(
           success,
           failed
       ).catch(() => failed())
@@ -1184,11 +1184,11 @@ export default {
       }
     },
     reload () {
-      this.loadData()
+      return this.loadData()
     },
     refresh () {
       this.currentPage = 1
-      this.loadData()
+      return this.loadData()
     },
     resetData () {
       this.tableData = null
