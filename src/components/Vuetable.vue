@@ -347,6 +347,12 @@ export default {
         return 1
       }
     },
+    splitSortOrder: {
+      type: Boolean,
+      default () {
+        return false
+      }
+    },
     sortOrder: {
       type: Array,
       default () {
@@ -750,6 +756,13 @@ export default {
     },
     getAllQueryParams () {
       let params = {}
+      if (!this.splitSortOrder) {
+        params[this.queryParams.sort] = this.getSortParam()
+      }
+      if (this.splitSortOrder){
+        params[this.queryParams.sort] = this.getSplitSortParam()
+        params[this.queryParams.order] = this.getSplitOrderParam()
+      }
       params[this.queryParams.sort] = this.getSortParam()
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
@@ -784,6 +797,27 @@ export default {
 
       return result;
     },
+    getSplitSortParam () {
+      if (!this.sortOrder || this.sortOrder.field == '') {
+        return ''
+      }
+      let fieldName = (typeof this.sortOrder[0].sortField === 'undefined')
+          ? this.sortOrder[0].field
+          : this.sortOrder[0].sortField
+      console.log('GET SPLIT SORT PARAM: ', fieldName)
+      return fieldName
+    },
+    getSplitOrderParam () {
+      if (!this.sortOrder || this.sortOrder.field == '') {
+        return ''
+      }
+      let fieldName = (typeof this.sortOrder[0].sortField === 'undefined')
+          ? this.sortOrder[0].field
+          : this.sortOrder[0].sortField
+      console.log('GET SPLIT ORDER PARAM: ', this.sortOrder[0].direction + (1 < this.sortOrder.length ? ',' : ''))
+      return this.sortOrder[0].direction + (1 < this.sortOrder.length ? ',' : '')
+    },
+
     extractName (string) {
       return string.split(':')[0].trim()
     },
