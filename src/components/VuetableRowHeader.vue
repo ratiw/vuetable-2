@@ -36,6 +36,7 @@
         </template>
       </template>
     </template>
+    <th v-if="scrollVisible" :style="{width: scrollBarWidth}" class="vuetable-gutter-col"></th>
   </tr>
 </template>
 <script>
@@ -58,6 +59,12 @@ export default {
     },
     showSortIcons() {
       return this.$parent.showSortIcons
+    },
+    scrollVisible() {
+      return this.$parent.scrollVisible
+    },
+    scrollBarWidth() {
+      return this.$parent.scrollBarWidth
     },
     css() {
       return this.$parent.css
@@ -236,3 +243,11 @@ export default {
   }
 }
 </script>
+
+<style>
+  .vuetable-gutter-col {
+    padding: 0 !important;
+    border-left: none  !important;
+    border-right: none  !important;
+  }
+</style>

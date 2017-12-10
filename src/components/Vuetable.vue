@@ -1088,9 +1088,4 @@ export default {
   .vuetable-fixed-layout {
     table-layout: fixed;
   }
-  .vuetable-gutter-col {
-    padding: 0 !important;
-    border-left: none  !important;
-    border-right: none  !important;
-  }
 </style>
