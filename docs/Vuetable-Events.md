@@ -11,6 +11,7 @@
 - [vuetable:row-dblclicked](#-vuetablerow-dblclicked)
 - [vuetable:cell-clicked](#-vuetablecell-clicked)
 - [vuetable:cell-dblclicked](#-vuetablecell-dblclicked)
+- [vuetable:cell-rightclicked](#-vuetablecell-rightclicked)
 - [vuetable:detail-row-clicked](#-vuetabledetail-row-clicked)
 - [vuetable:checkbox-toggled](#-vuetablecheckbox-toggled)
 - [vuetable:checkbox-toggled-all](#-vuetablecheckbox-toggled-all)
@@ -108,6 +109,15 @@
 - description
 
   This event will be fired when a cell in the table body has been double-clicked.
+
+### # vuetable:cell-rightclicked
+- payload:
+  - dataItem: _Object_ -- the current data item
+  - field: _Object_ -- the field object that causes this event
+  - event: _Event_ -- the MouseObject event
+- description
+
+  This event will be fired when a cell in the table body has been right-clicked.
 
 ### # vuetable:detail-row-clicked
 - payload:

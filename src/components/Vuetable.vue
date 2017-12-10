@@ -38,6 +38,23 @@
         </template>
       </tr>
     </thead>
+    </table>
+  </div>
+  <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
+    <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
+      <colgroup>
+          <template v-for="field in tableFields">
+            <template v-if="field.visible">
+              <template>
+                <col
+                  :id="'_col_' + field.name"
+                  :style="{width: field.width}"
+                  :class="['vuetable-th-'+field.name, field.titleClass]"
+                ></col>
+              </template>
+            </template>
+          </template>
+      </colgroup>
     <tbody v-cloak class="vuetable-body">
       <template v-for="(item, index) in tableData">
         <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
@@ -79,6 +96,130 @@
                   v-html="getObjectValue(item, field.name, '')"
                 >
                 </td>
+                  @contextmenu="onCellRightClicked(item, field, $event)"
+                  v-html="renderNormalField(field, item)"
+                >
+                </td>
+                  </template>
+                </template>
+              </template>
+            </tr>
+            <template v-if="useDetailRow">
+              <tr v-if="isVisibleDetailRow(item[trackBy])"
+                @click="onDetailRowClick(item, $event)"
+                :class="[css.detailRowClass]"
+              >
+                <transition :name="detailRowTransition">
+                  <td :colspan="countVisibleFields">
+                    <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+                  </td>
+                </transition>
+              </tr>
+            </template>
+          </template>
+          <template v-if="displayEmptyDataRow">
+            <tr>
+              <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
+            </tr>
+          </template>
+          <template v-if="lessThanMinRows">
+            <tr v-for="i in blankRows" class="blank-row">
+              <template v-for="field in tableFields">
+                <td v-if="field.visible">&nbsp;</td>
+              </template>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<table v-else :class="['vuetable', css.tableClass]"> <!-- no fixed header - regular table -->
+  <thead>
+    <tr>
+      <template v-for="field in tableFields">
+        <template v-if="field.visible">
+          <template v-if="isSpecialField(field.name)">
+            <th v-if="extractName(field.name) == '__checkbox'"
+              :style="{width: field.width}"
+              :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]">
+              <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
+                :checked="checkCheckboxesState(field.name)">
+            </th>
+            <th v-if="extractName(field.name) == '__component'"
+                @click="orderBy(field, $event)"
+                :style="{width: field.width}"
+                :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                v-html="renderTitle(field)"
+            ></th>
+            <th v-if="extractName(field.name) == '__slot'"
+                @click="orderBy(field, $event)"
+                :style="{width: field.width}"
+                :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                v-html="renderTitle(field)"
+            ></th>
+            <th v-if="extractName(field.name) == '__sequence'"
+                :style="{width: field.width}"
+                :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
+            </th>
+            <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
+                :style="{width: field.width}"
+                :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="renderTitle(field)">
+            </th>
+          </template>
+          <template v-else>
+            <th @click="orderBy(field, $event)"
+              :id="'_' + field.name"
+              :style="{width: field.width}"
+              :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+              v-html="renderTitle(field)"
+            ></th>
+          </template>
+        </template>
+      </template>
+    </tr>
+  </thead>
+  <tbody v-cloak class="vuetable-body">
+    <template v-for="(item, index) in tableData">
+      <tr @dblclick="onRowDoubleClicked(item, $event)" :item-index="index" @click="onRowClicked(item, $event)" :render="onRowChanged(item)" :class="onRowClass(item, index)">
+        <template v-for="field in tableFields">
+          <template v-if="field.visible">
+            <template v-if="isSpecialField(field.name)">
+              <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+                v-html="renderSequence(index)">
+              </td>
+              <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]"
+                v-html="renderIconTag(['handle-icon', css.handleIcon])"
+              ></td>
+              <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
+                <input type="checkbox"
+                  @change="toggleCheckbox(item, field.name, $event)"
+                  :checked="rowSelected(item, field.name)">
+              </td>
+              <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
+                <component :is="extractArgs(field.name)"
+                  :row-data="item" :row-index="index" :row-field="field.sortField"
+                ></component>
+              </td>
+              <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                <slot :name="extractArgs(field.name)"
+                  :row-data="item" :row-index="index" :row-field="field.sortField"
+                ></slot>
+              </td>
+            </template>
+            <template v-else>
+              <td v-if="hasCallback(field)" :class="field.dataClass"
+                @click="onCellClicked(item, field, $event)"
+                @dblclick="onCellDoubleClicked(item, field, $event)"
+                v-html="callCallback(field, item)"
+              >
+              </td>
+              <td v-else :class="field.dataClass"
+                @click="onCellClicked(item, field, $event)"
+                @dblclick="onCellDoubleClicked(item, field, $event)"
+                v-html="getObjectValue(item, field.name, '')"
+              >
+              </td>
               </template>
             </template>
           </template>
@@ -334,6 +475,43 @@ export default {
     }
   },
   methods: {
+    getScrollBarWidth () {
+      const outer = document.createElement('div');
+      const inner = document.createElement('div');
+
+      outer.style.visibility = 'hidden';
+      outer.style.width = '100px';
+
+      inner.style.width = '100%';
+
+
+      outer.appendChild(inner);
+      document.body.appendChild(outer);
+
+
+      const widthWithoutScrollbar = outer.offsetWidth;
+
+      outer.style.overflow = 'scroll';
+
+      const widthWithScrollbar = inner.offsetWidth;
+
+
+      document.body.removeChild(outer);
+
+
+      return (widthWithoutScrollbar - widthWithScrollbar);
+    },
+    handleScroll (e) { //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
+      let horizontal = e.currentTarget.scrollLeft;
+      if (horizontal != this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
+        let header = this.$el.getElementsByClassName('vuetable-head-wrapper')[0]
+        if (header != null) {
+          header.scrollLeft = horizontal;
+        }
+        this.lastScrollPosition = horizontal;
+      }
+
+    },
     normalizeFields () {
       if (typeof(this.fields) === 'undefined') {
         this.warn('You need to provide "fields" prop.')
@@ -441,6 +619,7 @@ export default {
       this.httpOptions['params'] = this.getAllQueryParams()
 
       axios[this.httpMethod](this.apiUrl, this.httpOptions).then(
+      return this.fetch(this.apiUrl, this.httpOptions).then(
           success,
           failed
       ).catch(() => failed())
@@ -465,6 +644,21 @@ export default {
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
+    },
+    fixHeader() {
+      if (!this.isFixedHeader) {
+        return;
+      }
+
+      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
+      if (elem != null) {
+        if (elem.scrollHeight > elem.clientHeight) {
+          this.scrollVisible = true;
+        }
+        else {
+          this.scrollVisible = false;
+        }
+      }
     },
     loadFailed (response) {
       console.error('load-error', response)
@@ -575,7 +769,9 @@ export default {
       }
 
       this.currentPage = 1    // reset page index
-      this.loadData()
+      if (this.apiMode) {
+        this.loadData()
+      }
     },
     multiColumnSort (field) {
       let i = this.currentSortOrderPosition(field);
@@ -915,6 +1111,9 @@ export default {
     onCellDoubleClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
     },
+    onCellRightClicked (dataItem, field, event) {
+      this.$emit(this.eventPrefix + 'cell-rightclicked', dataItem, field, event)
+    },
     /*
      * API for externals
      */
@@ -928,11 +1127,11 @@ export default {
       }
     },
     reload () {
-      this.loadData()
+      return this.loadData()
     },
     refresh () {
       this.currentPage = 1
-      this.loadData()
+      return this.loadData()
     },
     resetData () {
       this.tableData = null
@@ -950,6 +1149,9 @@ export default {
     'apiUrl'  (newVal, oldVal) {
       if(this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
+    },
+    'data' (newVal, oldVal) {
+      this.setData(newVal)
     }
   },
 }
