@@ -387,6 +387,9 @@ let vm = new Vue({
     onCellDoubleClicked (data, field, event) {
       console.log('cellDoubleClicked:', field.name)
     },
+    onCellRightClicked (data, field, event) {
+      console.log('cellRightClicked:', field.name)
+    },
     onLoadSuccess (response) {
       // set pagination data to pagination-info component
       this.$refs.paginationInfo.setPaginationData(response.data)

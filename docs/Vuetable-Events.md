@@ -11,6 +11,7 @@
 - [vuetable:row-dblclicked](#-vuetablerow-dblclicked)
 - [vuetable:cell-clicked](#-vuetablecell-clicked)
 - [vuetable:cell-dblclicked](#-vuetablecell-dblclicked)
+- [vuetable:cell-rightclicked](#-vuetablecell-rightclicked)
 - [vuetable:detail-row-clicked](#-vuetabledetail-row-clicked)
 - [vuetable:checkbox-toggled](#-vuetablecheckbox-toggled)
 - [vuetable:checkbox-toggled-all](#-vuetablecheckbox-toggled-all)
@@ -88,6 +89,15 @@
   This event will be fired when the user "double-clicked" on any column in the row. You can use the pass-in event object to target the DOM element that you want to manipulate. The pass-in data item argument is the actual data that Vuetable received from the server and it is reactived. Which means if you changed its value, the data displayed in the table will also be changed.
 
   > Changing the pass-in data in this event will not cause "indefinite update loop" However, the change only affects the current displaying data. It does not change anything on the server side.
+
+### # vuetable:cell-rightclicked
+- payload:
+  - dataItem: _Object_ -- the current data item
+  - field: _Object_ -- the field object that causes this event
+  - event: _Event_ -- the MouseObject event
+- description
+
+  This event will be fired when a cell in the table body has been right-clicked.
 
 ### # vuetable:cell-clicked
 - payload:

@@ -66,6 +66,7 @@
                   v-html="renderNormalField(field, item)"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
+                  @contextmenu="onCellRightClicked(item, field, $event)"
                 >
                 </td>
               </template>
@@ -943,6 +944,10 @@ export default {
 
     onCellDoubleClicked (dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
+    },
+
+    onCellRightClicked (dataItem, field, event) {
+      this.$emit(this.eventPrefix + 'cell-rightclicked', dataItem, field, event)
     },
 
     onMouseOver (dataItem, event) {
