@@ -1,9 +1,10 @@
 <template>
   <tr>
-    <template v-for="field in tableFields">
+    <template v-for="(field, fieldIndex) in tableFields">
       <template v-if="field.visible">
         <template v-if="isSpecialField(field.name)">
           <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
+            :key="fieldIndex"
             :style="{width: field.width}"
             @click="onColumnClicked(field, $event)"
           >
@@ -18,6 +19,7 @@
         </template>
         <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
           <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
+              :key="fieldIndex"
               :style="{width: field.width}"
               @click="onColumnClicked(field, $event)"
               v-html="renderTitle(field)"
@@ -25,6 +27,7 @@
         </template>
         <template v-else>
           <th @click="onColumnClicked(field, $event)"
+            :key="fieldIndex"
             :id="'_' + field.name"
             :class="headerClass('vuetable-th-'+field.name, field)"
             :style="{width: field.width}"
