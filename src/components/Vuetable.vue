@@ -17,10 +17,10 @@
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
     <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
       <colgroup>
-          <template v-for="(field, idx) in tableFields">
+          <template v-for="(field, fieldIndex) in tableFields">
             <template v-if="field.visible">
               <template>
-                <col :key="idx"
+                <col :key="fieldIndex"
                   :id="'_col_' + field.name"
                   :style="{width: field.width}"
                   :class="['vuetable-th-'+field.name, field.titleClass]"
