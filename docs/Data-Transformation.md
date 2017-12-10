@@ -28,7 +28,7 @@ new Vue({
       transformed.mydata = []
 
       for (var i=0; i < data.length; i++) {
-        transformed.data.push({
+        transformed.mydata.push({
           id: data[i].id,
           fullname: data[i].name,
           email: data[i].email
