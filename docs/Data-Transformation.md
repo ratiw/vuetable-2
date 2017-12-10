@@ -34,6 +34,7 @@ new Vue({
           email: data[i].email
         })
       }
+      return transformed
     }
   }    
 })
