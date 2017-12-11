@@ -6,6 +6,7 @@ import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import axios from 'axios'
 
 import VuetableRowHeader from './components/VuetableRowHeader.vue'
+import VuetableRowFilter from './components/VuetableRowFilter.vue'
 import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
 import VuetableColumnHandle from './components/VuetableColumnHandle'
 import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
@@ -198,13 +199,15 @@ let tableColumns = [
     title: '<i class="book icon"></i> Full Name',
     sortField: 'name',
     width: '150px',
+    filterable: true,
   },
   {
     name: 'email',
     title: '<i class="mail outline icon"></i> Email',
     sortField: 'email',
     width: '200px',
-    visible: true
+    visible: true,
+    filterable: true,
   },
   {
     name: 'nickname',
@@ -218,7 +221,7 @@ let tableColumns = [
     formatter: (value) => {
       return value.toUpperCase()
     },
-
+    filterable: true,
   },
   {
     name: 'birthdate',
@@ -233,7 +236,7 @@ let tableColumns = [
       if (value === null) return ''
       return moment(value, 'YYYY-MM-DD').format('D MMM YYYY')
     },
-
+    filterable: true,
   },
   {
     name: 'gender',
@@ -247,6 +250,7 @@ let tableColumns = [
         ? '<span class="ui teal label"><i class="male icon"></i>Male</span>'
         : '<span class="ui pink label"><i class="female icon"></i>Female</span>'
     },
+    filterable: true,
   },
   {
     name: 'custom-actions',
@@ -266,6 +270,7 @@ let vm = new Vue({
     VuetablePaginationDropdown,
     VuetablePaginationInfo,
     VuetableRowHeader,
+    VuetableRowFilter,
   },
   data: {
     loading: '',
@@ -274,6 +279,7 @@ let vm = new Vue({
     fields: tableColumns,
     tableHeight: '600px',
     vuetableFields: false,
+    headerRows: [VuetableRowHeader, VuetableRowFilter],
     sortOrder: [{
         field: 'name',
         direction: 'asc',
@@ -343,9 +349,7 @@ let vm = new Vue({
       this.loading = ''
     },
     setFilter () {
-      this.moreParams = {
-        'filter': this.searchFor
-      }
+      this.moreParams.filter = this.searchFor
       this.$nextTick(function() {
         this.$refs.vuetable.refresh()
       })
@@ -436,8 +440,9 @@ let vm = new Vue({
         vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
       }
     },
-    onRowEvent (type, payload, vuetable) {
+    onRowEvent (type, payload) {
       console.log('onRowEvent:', type, payload)
+      let vuetable = this.$refs.vuetable
       switch (type) {
         case 'order-by':
           vuetable.orderBy(payload.field, payload.event)
@@ -463,6 +468,11 @@ let vm = new Vue({
         case 'toggle-all-row':
           vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
           break;
+        case 'filter':
+          vuetable.
+          break;
+        default:
+          console.log('Unhandled event: ', type, payload)
       }
     }
   },

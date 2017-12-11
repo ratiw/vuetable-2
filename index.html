@@ -109,6 +109,7 @@
                       detail-row-component="my-detail-row"
                       detail-row-transition="expand"
                       :row-class="rowClassCB"
+                      :header-rows="headerRows"
                       @vuetable:pagination-data="onPaginationData"
                       @vuetable:load-success="onLoadSuccess"
                       @vuetable:loading="showLoader"
@@ -119,6 +120,17 @@
                       @vuetable-column="onColumnEvent"
                       @vuetable-row="onRowEvent"
                     >
+                      <template slot="tableHeader">
+                        <vuetable-row-header @vuetable-row="onRowEvent"></vuetable-row-header>
+                        <vuetable-row-filter @vuetable-row="onRowEvent"></vuetable-row-filter>
+                        <template>
+                          <tr>
+                            <th colspan="4"></th>
+                            <th colspan="">AA BB CC DD</th>
+                            <th></th>
+                          </tr>
+                        </template>
+                      </template>
                       <div slot="custom-actions" slot-scope="props">
                         <button class="ui red button" @click="onActionClicked('view-item', props.rowData)"><i class="zoom icon"></i></button>
                         <button class="ui blue button" @click="onActionClicked('edit-item', props.rowData)"><i class="edit icon"></i></button>

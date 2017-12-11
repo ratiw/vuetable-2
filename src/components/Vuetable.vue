@@ -4,8 +4,8 @@
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
       <slot name="tableHeader">
-        <template v-for="header in headerRows">
-          <component :is="header" :key="header"
+        <template v-for="(header, headerIndex) in headerRows">
+          <component :is="header" :key="headerIndex"
             @vuetable-row="onRowEvent"
           ></component>
         </template>
