@@ -288,6 +288,10 @@ export default {
     transform: {
       type: Function,
       default: null
+    },
+    sortParams: {
+      type: Function,
+      default: null
     }
   },
   data () {
@@ -612,8 +616,8 @@ export default {
         return ''
       }
 
-      if (typeof this.$parent['getSortParam'] == 'function') {
-        return this.$parent['getSortParam'].call(this.$parent, this.sortOrder)
+      if (typeof this.sortParams === 'function') {
+        return this.sortParams(this.sortOrder)
       }
 
       return this.getDefaultSortParam()
