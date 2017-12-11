@@ -163,7 +163,9 @@ let lang = {
 let tableColumns = [
   {
     name: '__handle',
-    width: '30px'
+    titleClass: 'center aligned',
+    dataClass: 'center aligned',
+    width: '40px'
   },
   {
     name: '__sequence',

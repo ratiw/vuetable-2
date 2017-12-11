@@ -1,5 +1,5 @@
 <template>
-<div class="vuetable-wrapper">
+<div :class="css.tableWrapper">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
@@ -247,7 +247,10 @@ export default {
       type: Object,
       default () {
         return {
-          tableClass: 'ui blue selectable celled stackable attached table',
+          tableWrapper: 'ui basic container',
+          tableHeaderClass: 'fixed',
+          tableBodyClass: 'vuetable-semantic-no-top fixed',
+          tableClass: 'ui blue selectable celled table',
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
@@ -256,8 +259,6 @@ export default {
           sortableIcon: '',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
-          tableBodyClass: 'vuetable-semantic-no-top vuetable-fixed-layout',
-          tableHeaderClass: 'vuetable-fixed-layout'
         }
       }
     },
@@ -1057,12 +1058,20 @@ export default {
     color: #2185d0;
     cursor: pointer;
   }
+  .vuetable-head-wrapper {
+    overflow-x: hidden;
+  }
+  .vuetable-head-wrapper table.vuetable {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
   .vuetable-body-wrapper {
     position:relative;
     overflow-y:auto;
   }
-  .vuetable-head-wrapper {
-    overflow-x: hidden;
+  .vuetable-body-wrapper table.vuetable {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
   }
   .vuetable-actions {
     width: 15%;
@@ -1079,17 +1088,8 @@ export default {
   .vuetable-empty-result {
     text-align: center;
   }
-  .vuetable-clip-text {
-    white-space: pre-wrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: block;
-  }
   .vuetable-semantic-no-top {
     border-top:none !important;
     margin-top:0 !important;
-  }
-  .vuetable-fixed-layout {
-    table-layout: fixed;
   }
 </style>
