@@ -751,6 +751,7 @@ export default {
     getAllQueryParams () {
       let params = {}
       params[this.queryParams.sort] = this.getSortParam()
+      params[this.queryParams.order] = this.getSortOrderParam()
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
 
