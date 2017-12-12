@@ -165,7 +165,7 @@ export default {
         default: 'links.pagination'
     },
     queryParams: {
-      type: Object,
+      type: [Object, Function],
       default () {
         return {
           sort: 'sort',
@@ -530,7 +530,7 @@ export default {
 
       this.fireEvent('loading')
 
-      this.httpOptions['params'] = this.getAllQueryParams()
+      this.httpOptions['params'] = this.getAppendParams( this.getAllQueryParams() )
 
       return this.fetch(this.apiUrl, this.httpOptions).then(
           success,
@@ -601,13 +601,15 @@ export default {
 
     getAllQueryParams () {
       let params = {}
+
+      if (typeof(this.queryParams) === 'function') {
+        params = this.queryParams(this.sortOrder, this.currentPage, this.perPage)
+        return typeof(params) !== 'object' ? {} : params
+      }
+
       params[this.queryParams.sort] = this.getSortParam()
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
-
-      for (let x in this.appendParams) {
-        params[x] = this.appendParams[x]
-      }
 
       return params
     },
@@ -636,6 +638,14 @@ export default {
       }
 
       return result;
+    },
+
+    getAppendParams (params) {
+      for (let x in this.appendParams) {
+        params[x] = this.appendParams[x]
+      }
+
+      return params
     },
 
     isSortable (field) {
@@ -1042,7 +1052,7 @@ export default {
       if (this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
     },
-    
+
     'data' (newVal, oldVal) {
       this.setData(newVal)
     }
