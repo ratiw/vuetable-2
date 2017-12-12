@@ -751,6 +751,7 @@ export default {
     getAllQueryParams () {
       let params = {}
       params[this.queryParams.sort] = this.getSortParam()
+      params[this.queryParams.order] = this.getSortOrderParam()
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
 
@@ -784,6 +785,31 @@ export default {
 
       return result;
     },
+    getSortOrderParam () {
+      if (!this.sortOrder || this.sortOrder.field == '') {
+        return ''
+      }
+
+      if (typeof this.$parent['getSortOrderParam'] == 'function') {
+        return this.$parent['getSortOrderParam'].call(this.$parent, this.sortOrder)
+      }
+
+      return this.getDefaultSortOrderParam()
+    },
+    getDefaultSortOrderParam () {
+      let result = '';
+
+      for (let i = 0; i < this.sortOrder.length; i++) {
+        let direction = (typeof this.sortOrder[i].direction === 'undefined')
+          ? 'asc'
+          : this.sortOrder[i].direction;
+
+        result += direction + ((i+1) < this.sortOrder.length ? ',' : '');
+      }
+
+      return result;
+    },
+	
     extractName (string) {
       return string.split(':')[0].trim()
     },
