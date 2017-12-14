@@ -211,12 +211,14 @@
               <td v-if="hasCallback(field)" :class="field.dataClass"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
+                @contextmenu="onCellRightClicked(item, field, $event)"
                 v-html="callCallback(field, item)"
               >
               </td>
               <td v-else :class="field.dataClass"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
+                @contextmenu="onCellRightClicked(item, field, $event)"
                 v-html="getObjectValue(item, field.name, '')"
               >
               </td>
