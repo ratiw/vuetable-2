@@ -293,11 +293,22 @@ export default {
     sortParams: {
       type: Function,
       default: null
+    },
+    fieldPrefix: {
+      type: String,
+      default() {
+        return '__'
+      }
+    },
+    eventPrefix: {
+      type: String,
+      default() {
+        return 'vuetable:'
+      }
     }
   },
   data () {
     return {
-      eventPrefix: 'vuetable:',
       tableFields: [],
       tableData: null,
       tablePagination: null,
@@ -509,7 +520,7 @@ export default {
     },
 
     isSpecialField (fieldName) {
-      return fieldName.slice(0, 2) === '__'
+      return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
     },
 
     titleCase (str) {
@@ -983,7 +994,7 @@ export default {
       let idColumn = this.trackBy
 
       if (dataItem[idColumn] === undefined) {
-        this.warn('__checkbox field: The "'+this.trackBy+'" field does not exist! Make sure the field you specify in "track-by" prop does exist.')
+        this.warn('checkbox field: The "'+this.trackBy+'" field does not exist! Make sure the field you specify in "track-by" prop does exist.')
         return
       }
 
