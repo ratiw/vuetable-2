@@ -3,7 +3,7 @@
     <template v-for="(field, fieldIndex) in tableFields">
       <template v-if="field.visible">
         <template v-if="isSpecialField(field.name)">
-          <th :class="headerClass('vuetable-th-component-'+field.name.slice(2), field)"
+          <th :class="headerClass('vuetable-th-component-'+stripPrefix(field.name), field)"
             :key="fieldIndex"
             :style="{width: field.width}"
             @click="onColumnClicked(field, $event)"
@@ -46,9 +46,9 @@ import VuetableColumnSequence from './VuetableColumnSequence'
 
 export default {
   components: {
-    '__checkbox': VuetableColumnCheckbox,
-    '__handle'  : VuetableColumnHandle,
-    '__sequence': VuetableColumnSequence,
+    'vuetable-checkbox': VuetableColumnCheckbox, 
+    'vuetable-handle'  : VuetableColumnHandle,
+    'vuetable-sequence': VuetableColumnSequence,
   },
   computed: {
     tableFields () {
@@ -69,10 +69,17 @@ export default {
     css() {
       return this.$parent.css
     },
+    fieldPrefix() {
+      return this.$parent.fieldPrefix
+    }
   },
   methods: {
     isSpecialField (fieldName) {
-      return fieldName.slice(0, 2) === '__'
+      return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
+    },
+
+    stripPrefix (name) {
+      return name.slice(0, this.fieldPrefix.length)
     },
 
     headerClass (base, field) {

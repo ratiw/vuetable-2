@@ -5,15 +5,13 @@ import VuetablePaginationDropdown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import axios from 'axios'
 
-import VuetableRowHeader from './components/VuetableRowHeader.vue'
-import VuetableRowFilter from './components/VuetableRowFilter.vue'
 import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
 import VuetableColumnHandle from './components/VuetableColumnHandle'
 import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
 
-Vue.component('__checkbox', VuetableColumnCheckbox)
-Vue.component('__handle', VuetableColumnHandle)
-Vue.component('__sequence', VuetableColumnSequence)
+Vue.component('vuetable-checkbox', VuetableColumnCheckbox)
+Vue.component('vuetable-handle', VuetableColumnHandle)
+Vue.component('vuetable-sequence', VuetableColumnSequence)
 
 let E_SERVER_ERROR = 'Error communicating with the server'
 
@@ -124,7 +122,7 @@ Vue.component('settings-modal', {
       </div>
     </div>
   `,
-  props: ['vuetableFields'],
+  props: ['vuetableFields', 'fieldPrefix'],
   data () {
     return {
     }
@@ -137,10 +135,10 @@ Vue.component('settings-modal', {
       if (title !== '') return this.stripHTML(title)
 
       title = ''
-      if (field.name.slice(0, 2) === '__') {
+      if (field.name.slice(0, 2) === this.fieldPrefix) {
         title = field.name.indexOf(':') >= 0
           ? field.name.split(':')[1]
-          : field.name.replace('__', '')
+          : field.name.replace(this.fieldPrefix, '')
       }
 
       return title
@@ -162,20 +160,18 @@ let lang = {
 
 let tableColumns = [
   {
-    name: '__handle',
-    titleClass: 'center aligned',
-    dataClass: 'center aligned',
+    name: 'vuetable-handle',
     width: '40px'
   },
   {
-    name: '__sequence',
+    name: 'vuetable-sequence',
     title: 'No.',
     width: '50px',
     titleClass: 'right aligned',
     dataClass: 'right aligned'
   },
   {
-    name: '__checkbox',
+    name: 'vuetable-checkbox',
     title: 'checkbox',
     width: '30px',
     titleClass: 'center aligned',
@@ -271,8 +267,6 @@ let vm = new Vue({
     VuetablePagination,
     VuetablePaginationDropdown,
     VuetablePaginationInfo,
-    VuetableRowHeader,
-    VuetableRowFilter,
   },
   data: {
     loading: '',
@@ -281,7 +275,7 @@ let vm = new Vue({
     fields: tableColumns,
     tableHeight: '600px',
     vuetableFields: false,
-    headerRows: [VuetableRowHeader, VuetableRowFilter],
+    fieldPrefix: 'vuetable-',
     sortOrder: [{
         field: 'name',
         direction: 'asc',
@@ -386,7 +380,7 @@ let vm = new Vue({
     },
     onCellClicked (data, field, event) {
       console.log('cellClicked', field.name)
-      if (field.name !== '__actions') {
+      if (field.name !== this.fieldPrefix+'actions') {
         this.$refs.vuetable.toggleDetailRow(data.id)
       }
     },
