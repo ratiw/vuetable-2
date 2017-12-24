@@ -163,10 +163,6 @@ export default {
         : field.title
     },
 
-    hasSortableIcon (field) {
-      return this.isSortable(field) && this.css.sortableIcon != ''
-    },
-
     sortIconOpacity (field) {
       /*
        * fields with stronger precedence have darker color
