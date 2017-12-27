@@ -3521,7 +3521,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       this.currentPage = 1;
-      if (this.apiMode) {
+      if (this.apiMode || this.dataManager) {
         this.loadData();
       }
     },
@@ -5503,16 +5503,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       })]] : _vm._e()]
-    })], 2), _vm._v(" "), (_vm.useDetailRow) ? [(_vm.isVisibleDetailRow(item[_vm.trackBy])) ? _c('tr', {
+    })], 2), _vm._v(" "), (_vm.useDetailRow) ? [_c('transition', {
+      attrs: {
+        "name": _vm.detailRowTransition
+      }
+    }, [(_vm.isVisibleDetailRow(item[_vm.trackBy])) ? _c('tr', {
       class: [_vm.css.detailRowClass],
       on: {
         "click": function($event) {
           _vm.onDetailRowClick(item, $event)
         }
-      }
-    }, [_c('transition', {
-      attrs: {
-        "name": _vm.detailRowTransition
       }
     }, [_c('td', {
       attrs: {
@@ -5524,7 +5524,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "row-data": item,
         "row-index": index
       }
-    })], 1)])], 1) : _vm._e()] : _vm._e()]
+    })], 1)]) : _vm._e()])] : _vm._e()]
   }), _vm._v(" "), (_vm.displayEmptyDataRow) ? [_c('tr', [_c('td', {
     staticClass: "vuetable-empty-result",
     attrs: {
