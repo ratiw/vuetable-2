@@ -109,6 +109,7 @@ import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
 
 export default {
+  name: 'Vuetable',
   components: {
     VuetableRowHeader,
   },
