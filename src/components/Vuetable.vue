@@ -694,7 +694,7 @@ export default {
       }
 
       this.currentPage = 1    // reset page index
-      if (this.apiMode) {
+      if (this.apiMode || this.dataManager) {
         this.loadData()
       }
     },
