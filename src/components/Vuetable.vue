@@ -375,13 +375,12 @@ export default {
     this.$nextTick(function() {
       this.fireEvent('initialized', this.tableFields)
     })
-
+  },
+  mounted () {
     if (this.loadOnStart) {
       this.loadData()
     }
 
-  },
-  mounted () {
     if (this.isFixedHeader) {
       this.scrollBarWidth = this.getScrollBarWidth() + 'px';
       console.log('scrollbar width: ', this.scrollBarWidth)
@@ -458,7 +457,7 @@ export default {
           title: this.makeTitle(field),
         })
       }
-
+      
       let obj = Object.assign({}, defaultField, field)
       if (obj.title === undefined) {
         obj.title = this.makeTitle(obj.name)
