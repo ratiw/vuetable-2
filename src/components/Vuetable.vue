@@ -934,10 +934,16 @@ export default {
 
       if (Array.isArray(this.data)) {
         this.setData(this.data)
-      } else {
+      } else if (this.isObject(this.data)) {
         this.normalizeSortOrder()
         this.setData(this.dataManager(this.sortOrder, this.makePagination()))
+      } else {
+        console.error('The "data" prop only supports an array of data, or an object containing the data.')
       }
+    },
+
+    isObject (unknown) {
+      return typeof(unknown) === "object" && unknown !== null
     },
 
     onRowClass (dataItem, index) {
