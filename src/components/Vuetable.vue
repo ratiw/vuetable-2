@@ -491,6 +491,7 @@ export default {
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null)
 
       this.$nextTick( () => {
+        this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
