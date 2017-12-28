@@ -479,7 +479,6 @@ export default {
     },
 
     setData (data) {
-      // this.apiMode = false
       if (Array.isArray(data)) {
         this.tableData = data
         return
