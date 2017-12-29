@@ -24,7 +24,7 @@
                   :id="'_col_' + field.name"
                   :style="{width: field.width}"
                   :class="['vuetable-th-'+field.name, field.titleClass]"
-                ></col>
+                />
               </template>
             </template>
           </template>
