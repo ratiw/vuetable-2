@@ -1081,6 +1081,9 @@ export default {
   [v-cloak] {
     display: none;
   }
+  table.vuetable {
+    table-layout: fixed;
+  }
   .vuetable th.sortable:hover {
     color: #2185d0;
     cursor: pointer;
