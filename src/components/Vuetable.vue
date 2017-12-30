@@ -3,7 +3,7 @@
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
-      <slot name="tableHeader">
+      <slot name="tableHeader" :fields="tableFields">
         <template v-for="(header, headerIndex) in headerRows">
           <component :is="header" :key="headerIndex"
             @vuetable-row="onRowEvent"
@@ -110,9 +110,11 @@ import VuetableRowHeader from './VuetableRowHeader'
 
 export default {
   name: 'Vuetable',
+
   components: {
     VuetableRowHeader,
   },
+
   props: {
     fields: {
       type: Array,
@@ -308,6 +310,7 @@ export default {
       }
     }
   },
+
   data () {
     return {
       tableFields: [],
@@ -321,6 +324,7 @@ export default {
       scrollVisible: false,
     }
   },
+
   computed: {
     useDetailRow () {
       if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
@@ -370,6 +374,7 @@ export default {
       return this.tableHeight != null
     }
   },
+
   created() {
     this.normalizeFields()
     this.normalizeSortOrder()
@@ -377,6 +382,7 @@ export default {
       this.fireEvent('initialized', this.tableFields)
     })
   },
+
   mounted () {
     if (this.loadOnStart) {
       this.loadData()
@@ -392,12 +398,37 @@ export default {
       }
     }
   },
+
   destroyed () {
     let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
     if (elem != null) {
       elem.removeEventListener('scroll', this.handleScroll);
     }
   },
+
+  watch: {
+    multiSort (newVal, oldVal) {
+      if (newVal === false && this.sortOrder.length > 1) {
+        this.sortOrder.splice(1);
+        this.loadData();
+      }
+    },
+
+    apiUrl (newVal, oldVal) {
+      if (this.reactiveApiUrl && newVal !== oldVal)
+        this.refresh()
+    },
+
+    data (newVal, oldVal) {
+      this.setData(newVal)
+    },
+
+    tableHeight (newVal, oldVal) {
+      console.log('tableHeight changed!!!')
+      this.checkScrollbarVisibility()
+    },
+  },
+  
   methods: {
 
     getScrollBarWidth () {
@@ -491,7 +522,7 @@ export default {
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null)
 
       this.$nextTick( () => {
-        this.fixHeader()
+        this.checkScrollbarVisibility()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
@@ -572,25 +603,27 @@ export default {
       }
 
       this.$nextTick( () => {
-        this.fixHeader()
+        this.checkScrollbarVisibility()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
     },
 
-    fixHeader() {
+    checkScrollbarVisibility() {
       if (!this.isFixedHeader) {
         return;
       }
 
       let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
       if (elem != null) {
-        if (elem.scrollHeight > elem.clientHeight) {
-          this.scrollVisible = true;
-        }
-        else {
-          this.scrollVisible = false;
-        }
+        this.$nextTick( () => {
+          if (elem.scrollHeight > elem.clientHeight) {
+            this.scrollVisible = true;
+          }
+          else {
+            this.scrollVisible = false;
+          }
+        })
       }
     },
 
@@ -1056,24 +1089,6 @@ export default {
       this.fireEvent('data-reset')
     },
   }, // end: methods
-
-  watch: {
-    'multiSort' (newVal, oldVal) {
-      if (newVal === false && this.sortOrder.length > 1) {
-        this.sortOrder.splice(1);
-        this.loadData();
-      }
-    },
-
-    'apiUrl' (newVal, oldVal) {
-      if (this.reactiveApiUrl && newVal !== oldVal)
-        this.refresh()
-    },
-
-    'data' (newVal, oldVal) {
-      this.setData(newVal)
-    }
-  },
 }
 </script>
 
