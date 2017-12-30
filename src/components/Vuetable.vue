@@ -335,7 +335,7 @@ export default {
       return this.detailRowComponent !== ''
     },
     countVisibleFields () {
-      return this.tableFields.filter(function(field) {
+      return this.tableFields.filter( (field) => {
         return field.visible
       }).length
     },
@@ -378,7 +378,7 @@ export default {
   created() {
     this.normalizeFields()
     this.normalizeSortOrder()
-    this.$nextTick(function() {
+    this.$nextTick( () => {
       this.fireEvent('initialized', this.tableFields)
     })
   },
@@ -555,7 +555,7 @@ export default {
     },
 
     titleCase (str) {
-      return str.replace(/\w+/g, function(txt) {
+      return str.replace(/\w+/g, (txt) => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
       })
     },
@@ -830,7 +830,7 @@ export default {
     },
 
     unselectId (key) {
-      this.selectedTo = this.selectedTo.filter(function(item) {
+      this.selectedTo = this.selectedTo.filter( (item) => {
         return item !== key
       })
     },
@@ -848,7 +848,7 @@ export default {
 
       // fixed:document.querySelectorAll return the typeof nodeList not array
       if (els.forEach === undefined)
-        els.forEach = function(cb){
+        els.forEach = (cb) => {
           [].forEach.call(els, cb);
         }
 
