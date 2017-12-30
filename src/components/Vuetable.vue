@@ -390,7 +390,6 @@ export default {
 
     if (this.isFixedHeader) {
       this.scrollBarWidth = this.getScrollBarWidth() + 'px';
-      console.log('scrollbar width: ', this.scrollBarWidth)
 
       let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
       if (elem != null) {
@@ -424,7 +423,6 @@ export default {
     },
 
     tableHeight (newVal, oldVal) {
-      console.log('tableHeight changed!!!')
       this.checkScrollbarVisibility()
     },
   },
