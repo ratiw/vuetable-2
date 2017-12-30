@@ -73,6 +73,7 @@ export default {
       return this.$parent.fieldPrefix
     }
   },
+
   methods: {
     isSpecialField (fieldName) {
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
