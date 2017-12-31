@@ -4,7 +4,9 @@ import VuetablePaginationDropDown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import VuetablePaginationMixin from './components/VuetablePaginationMixin.vue'
 import VuetablePaginationInfoMixin from './components/VuetablePaginationInfoMixin.vue'
+import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
 import VuetableColumnHandle from './components/VuetableColumnHandle.vue'
+import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
 import Promise from 'promise-polyfill'
 
 if (!window.Promise) {
@@ -16,7 +18,9 @@ function install(Vue){
   Vue.component("vuetable-pagination", VuetablePagination);
   Vue.component("vuetable-pagination-dropdown", VuetablePaginationDropDown);
   Vue.component("vuetable-pagination-info", VuetablePaginationInfo);
-  Vue.component("__handle", VuetableColumnHandle)
+  Vue.component("vuetable-checkbox", VuetableColumnCheckbox)
+  Vue.component("vuetable-handle", VuetableColumnHandle)
+  Vue.component("vuetable-sequence", VuetableColumnSequence)
 }
 export {
   Vuetable,
@@ -25,7 +29,9 @@ export {
   VuetablePaginationInfo,
   VuetablePaginationMixin,
   VuetablePaginationInfoMixin,
+  VuetableColumnCheckbox,
   VuetableColumnHandle,
+  VuetableColumnSequence,
   install
 };
 
