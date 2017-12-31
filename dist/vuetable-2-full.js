@@ -668,7 +668,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -992,7 +992,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableColumnMixin.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1031,7 +1031,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -2284,7 +2284,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2324,7 +2324,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2364,7 +2364,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2404,7 +2404,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -3290,9 +3290,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'Vuetable',
+
   components: {
     VuetableRowHeader: __WEBPACK_IMPORTED_MODULE_3__VuetableRowHeader___default.a
   },
+
   props: {
     fields: {
       type: Array,
@@ -3484,6 +3487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     }
   },
+
   data: function data() {
     return {
       tableFields: [],
@@ -3497,6 +3501,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       scrollVisible: false
     };
   },
+
 
   computed: {
     useDetailRow: function useDetailRow() {
@@ -3547,11 +3552,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.tableHeight != null;
     }
   },
+
   created: function created() {
+    var _this = this;
+
     this.normalizeFields();
     this.normalizeSortOrder();
     this.$nextTick(function () {
-      this.fireEvent('initialized', this.tableFields);
+      _this.fireEvent('initialized', _this.tableFields);
     });
   },
   mounted: function mounted() {
@@ -3561,7 +3569,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     if (this.isFixedHeader) {
       this.scrollBarWidth = this.getScrollBarWidth() + 'px';
-      console.log('scrollbar width: ', this.scrollBarWidth);
 
       var elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
       if (elem != null) {
@@ -3573,6 +3580,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
     if (elem != null) {
       elem.removeEventListener('scroll', this.handleScroll);
+    }
+  },
+
+
+  watch: {
+    multiSort: function multiSort(newVal, oldVal) {
+      if (newVal === false && this.sortOrder.length > 1) {
+        this.sortOrder.splice(1);
+        this.loadData();
+      }
+    },
+    apiUrl: function apiUrl(newVal, oldVal) {
+      if (this.reactiveApiUrl && newVal !== oldVal) this.refresh();
+    },
+    data: function data(newVal, oldVal) {
+      this.setData(newVal);
+    },
+    tableHeight: function tableHeight(newVal, oldVal) {
+      this.checkScrollbarVisibility();
     }
   },
 
@@ -3636,7 +3662,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return obj;
     },
     normalizeFields: function normalizeFields() {
-      var _this = this;
+      var _this2 = this;
 
       if (typeof this.fields === 'undefined') {
         this.warn('You need to provide "fields" prop.');
@@ -3646,11 +3672,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.tableFields = [];
 
       this.fields.forEach(function (field, i) {
-        _this.tableFields.push(_this.newField(field));
+        _this2.tableFields.push(_this2.newField(field));
       });
     },
     setData: function setData(data) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (Array.isArray(data)) {
         this.tableData = data;
@@ -3663,8 +3689,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null);
 
       this.$nextTick(function () {
-        _this2.fireEvent('pagination-data', _this2.tablePagination);
-        _this2.fireEvent('loaded');
+        _this3.checkScrollbarVisibility();
+        _this3.fireEvent('pagination-data', _this3.tablePagination);
+        _this3.fireEvent('loaded');
       });
     },
     makeTitle: function makeTitle(str) {
@@ -3718,7 +3745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.httpFetch ? this.httpFetch(apiUrl, httpOptions) : __WEBPACK_IMPORTED_MODULE_2_axios___default.a[this.httpMethod](apiUrl, httpOptions);
     },
     loadSuccess: function loadSuccess(response) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.fireEvent('load-success', response);
 
@@ -3732,23 +3759,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       this.$nextTick(function () {
-        _this3.fixHeader();
-        _this3.fireEvent('pagination-data', _this3.tablePagination);
-        _this3.fireEvent('loaded');
+        _this4.checkScrollbarVisibility();
+        _this4.fireEvent('pagination-data', _this4.tablePagination);
+        _this4.fireEvent('loaded');
       });
     },
-    fixHeader: function fixHeader() {
+    checkScrollbarVisibility: function checkScrollbarVisibility() {
+      var _this5 = this;
+
       if (!this.isFixedHeader) {
         return;
       }
 
       var elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
       if (elem != null) {
-        if (elem.scrollHeight > elem.clientHeight) {
-          this.scrollVisible = true;
-        } else {
-          this.scrollVisible = false;
-        }
+        this.$nextTick(function () {
+          if (elem.scrollHeight > elem.clientHeight) {
+            _this5.scrollVisible = true;
+          } else {
+            _this5.scrollVisible = false;
+          }
+        });
       }
     },
     loadFailed: function loadFailed(response) {
@@ -3932,7 +3963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.selectedTo.indexOf(key) >= 0;
     },
     checkCheckboxesState: function checkCheckboxesState(fieldName) {
-      var _this4 = this;
+      var _this6 = this;
 
       if (!this.tableData) return;
 
@@ -3945,7 +3976,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       };
 
       var selected = this.tableData.filter(function (item) {
-        return _this4.isSelectedRow(item[idColumn]);
+        return _this6.isSelectedRow(item[idColumn]);
       });
 
       if (selected.length <= 0) {
@@ -4115,17 +4146,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$emit('vuetable:checkbox-toggled', isChecked, fieldName);
     },
     onCheckboxToggledAll: function onCheckboxToggledAll(isChecked, fieldName) {
-      var _this5 = this;
+      var _this7 = this;
 
       var idColumn = this.trackBy;
 
       if (isChecked) {
         this.tableData.forEach(function (dataItem) {
-          _this5.selectId(dataItem[idColumn]);
+          _this7.selectId(dataItem[idColumn]);
         });
       } else {
         this.tableData.forEach(function (dataItem) {
-          _this5.unselectId(dataItem[idColumn]);
+          _this7.unselectId(dataItem[idColumn]);
         });
       }
       this.$emit('vuetable:checkbox-toggled-all', isChecked);
@@ -4151,23 +4182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.tablePagination = null;
       this.fireEvent('data-reset');
     }
-  },
-
-  watch: {
-    'multiSort': function multiSort(newVal, oldVal) {
-      if (newVal === false && this.sortOrder.length > 1) {
-        this.sortOrder.splice(1);
-        this.loadData();
-      }
-    },
-    'apiUrl': function apiUrl(newVal, oldVal) {
-      if (this.reactiveApiUrl && newVal !== oldVal) this.refresh();
-    },
-    'data': function data(newVal, oldVal) {
-      this.setData(newVal);
-    }
-  }
-});
+  } });
 
 /***/ }),
 /* 76 */
@@ -4540,6 +4555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.$parent.fieldPrefix;
     }
   },
+
   methods: {
     isSpecialField: function isSpecialField(fieldName) {
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix;
@@ -5525,7 +5541,7 @@ exports = module.exports = __webpack_require__(49)(false);
 
 
 // module
-exports.push([module.i, "\n[v-cloak][data-v-5cc42bfc] {\n  display: none;\n}\n.vuetable th.sortable[data-v-5cc42bfc]:hover {\n  color: #2185d0;\n  cursor: pointer;\n}\n.vuetable-head-wrapper[data-v-5cc42bfc] {\n  overflow-x: hidden;\n}\n.vuetable-head-wrapper table.vuetable[data-v-5cc42bfc] {\n  border-bottom-left-radius: 0px;\n  border-bottom-right-radius: 0px;\n}\n.vuetable-body-wrapper[data-v-5cc42bfc] {\n  position:relative;\n  overflow-y:auto;\n}\n.vuetable-body-wrapper table.vuetable[data-v-5cc42bfc] {\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px;\n}\n.vuetable-actions[data-v-5cc42bfc] {\n  width: 15%;\n  padding: 12px 0px;\n  text-align: center;\n}\n.vuetable-pagination[data-v-5cc42bfc] {\n  background: #f9fafb !important;\n}\n.vuetable-pagination-info[data-v-5cc42bfc] {\n  margin-top: auto;\n  margin-bottom: auto;\n}\n.vuetable-empty-result[data-v-5cc42bfc] {\n  text-align: center;\n}\n.vuetable-semantic-no-top[data-v-5cc42bfc] {\n  border-top:none !important;\n  margin-top:0 !important;\n}\n", ""]);
+exports.push([module.i, "\n[v-cloak][data-v-5cc42bfc] {\n  display: none;\n}\ntable.vuetable[data-v-5cc42bfc] {\n  table-layout: fixed;\n}\n.vuetable th.sortable[data-v-5cc42bfc]:hover {\n  color: #2185d0;\n  cursor: pointer;\n}\n.vuetable-head-wrapper[data-v-5cc42bfc] {\n  overflow-x: hidden;\n}\n.vuetable-head-wrapper table.vuetable[data-v-5cc42bfc] {\n  border-bottom-left-radius: 0px;\n  border-bottom-right-radius: 0px;\n}\n.vuetable-body-wrapper[data-v-5cc42bfc] {\n  position:relative;\n  overflow-y:auto;\n}\n.vuetable-body-wrapper table.vuetable[data-v-5cc42bfc] {\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px;\n}\n.vuetable-actions[data-v-5cc42bfc] {\n  width: 15%;\n  padding: 12px 0px;\n  text-align: center;\n}\n.vuetable-pagination[data-v-5cc42bfc] {\n  background: #f9fafb !important;\n}\n.vuetable-pagination-info[data-v-5cc42bfc] {\n  margin-top: auto;\n  margin-bottom: auto;\n}\n.vuetable-empty-result[data-v-5cc42bfc] {\n  text-align: center;\n}\n.vuetable-semantic-no-top[data-v-5cc42bfc] {\n  border-top:none !important;\n  margin-top:0 !important;\n}\n", ""]);
 
 // exports
 
@@ -5813,7 +5829,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableColumnCheckbox.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnCheckbox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableColumnCheckbox.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5853,7 +5869,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableColumnHandle.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnHandle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableColumnHandle.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5893,7 +5909,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableColumnSequence.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnSequence.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableColumnSequence.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5937,7 +5953,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableRowHeader.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableRowHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableRowHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -6073,7 +6089,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "vuetable-row": _vm.onRowEvent
       }
     })]
-  })])], 2)])]), _vm._v(" "), _c('div', {
+  })], {
+    fields: _vm.tableFields
+  })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "vuetable-body-wrapper",
     style: ({
       height: _vm.tableHeight
@@ -6284,8 +6302,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [(_vm.css.icons.next != '') ? _c('i', {
     class: [_vm.css.icons.prev]
-  }) : _c('span', [_vm._v(" ‹")])]), _vm._v(" "), (_vm.notEnoughPages) ? [_vm._l((_vm.totalPage), function(n) {
+  }) : _c('span', [_vm._v(" ‹")])]), _vm._v(" "), (_vm.notEnoughPages) ? [_vm._l((_vm.totalPage), function(n, idx) {
     return [_c('a', {
+      key: idx,
       class: [_vm.css.pageClass, _vm.isCurrentPage(n) ? _vm.css.activeClass : ''],
       domProps: {
         "innerHTML": _vm._s(n)
@@ -6296,8 +6315,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })]
-  })] : [_vm._l((_vm.windowSize), function(n) {
+  })] : [_vm._l((_vm.windowSize), function(n, idx) {
     return [_c('a', {
+      key: idx,
       class: [_vm.css.pageClass, _vm.isCurrentPage(_vm.windowStart + n - 1) ? _vm.css.activeClass : ''],
       domProps: {
         "innerHTML": _vm._s(_vm.windowStart + n - 1)
