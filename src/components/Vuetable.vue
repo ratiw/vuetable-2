@@ -300,7 +300,7 @@ export default {
     fieldPrefix: {
       type: String,
       default() {
-        return '__'
+        return 'vuetable-'
       }
     },
     eventPrefix: {
