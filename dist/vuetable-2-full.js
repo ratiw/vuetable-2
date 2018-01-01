@@ -3450,10 +3450,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return null;
       }
     },
-    dataTotal: {
-      type: Number,
-      default: 0
-    },
     dataManager: {
       type: Function,
       default: function _default() {
@@ -4175,7 +4171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var currentPage = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
       var pagination = {};
-      total = total === null ? this.dataTotal : total;
+      total = total === null ? 0 : total;
       perPage = perPage === null ? this.perPage : perPage;
       currentPage = currentPage === null ? this.currentPage : currentPage;
 
