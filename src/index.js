@@ -7,6 +7,7 @@ import VuetablePaginationInfoMixin from './components/VuetablePaginationInfoMixi
 import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
 import VuetableColumnHandle from './components/VuetableColumnHandle.vue'
 import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
+import VuetableRowHeader from './components/VuetableRowHeader.vue'
 import Promise from 'promise-polyfill'
 
 if (!window.Promise) {
@@ -21,6 +22,7 @@ function install(Vue){
   Vue.component("vuetable-checkbox", VuetableColumnCheckbox)
   Vue.component("vuetable-handle", VuetableColumnHandle)
   Vue.component("vuetable-sequence", VuetableColumnSequence)
+  Vue.component("vuetable-row-header", VuetableRowHeader)
 }
 export {
   Vuetable,
@@ -32,6 +34,7 @@ export {
   VuetableColumnCheckbox,
   VuetableColumnHandle,
   VuetableColumnSequence,
+  VuetableRowHeader,
   install
 };
 
