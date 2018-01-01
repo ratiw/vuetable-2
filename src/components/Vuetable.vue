@@ -149,10 +149,6 @@ export default {
         return null
       }
     },
-    dataTotal: {
-      type: Number,
-      default: 0
-    },
     dataManager: {
       type: Function,
       default () {
@@ -938,7 +934,7 @@ export default {
 
     makePagination (total = null, perPage = null, currentPage = null) {
       let pagination = {}
-      total = total === null ? this.dataTotal : total
+      total = total === null ? 0 : total
       perPage = perPage === null ? this.perPage : perPage
       currentPage = currentPage === null ? this.currentPage : currentPage
 
