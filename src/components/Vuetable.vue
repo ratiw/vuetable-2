@@ -16,13 +16,13 @@
               <th v-if="extractName(field.name) == '__component'"
                   @click="orderBy(field, $event)"
                     :style="{width: field.width}"
-                  :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__slot'"
                   @click="orderBy(field, $event)"
                     :style="{width: field.width}"
-                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                  :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                   v-html="renderTitle(field)"
               ></th>
               <th v-if="extractName(field.name) == '__sequence'"
@@ -38,7 +38,7 @@
               <th @click="orderBy(field, $event)"
                 :id="'_' + field.name"
                   :style="{width: field.width}"
-                :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+                :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
               ></th>
             </template>
@@ -105,16 +105,16 @@
               </template>
             </tr>
             <template v-if="useDetailRow">
-              <tr v-if="isVisibleDetailRow(item[trackBy])"
-                @click="onDetailRowClick(item, $event)"
-                :class="[css.detailRowClass]"
-              >
-                <transition :name="detailRowTransition">
-                  <td :colspan="countVisibleFields">
-                    <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
-                  </td>
-                </transition>
-              </tr>
+              <transition :name="detailRowTransition">
+                <tr v-if="isVisibleDetailRow(item[trackBy])"
+                  @click="onDetailRowClick(item, $event)"
+                  :class="[css.detailRowClass]"
+                >
+                    <td :colspan="countVisibleFields">
+                      <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+                    </td>
+                </tr>
+              </transition>
             </template>
           </template>
           <template v-if="displayEmptyDataRow">
@@ -211,12 +211,14 @@
               <td v-if="hasCallback(field)" :class="field.dataClass"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
+                @contextmenu="onCellRightClicked(item, field, $event)"
                 v-html="callCallback(field, item)"
               >
               </td>
               <td v-else :class="field.dataClass"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
+                @contextmenu="onCellRightClicked(item, field, $event)"
                 v-html="getObjectValue(item, field.name, '')"
               >
               </td>
@@ -310,7 +312,7 @@ export default {
         default: 'links.pagination'
     },
     queryParams: {
-      type: Object,
+      type: [Object, Function],
       default () {
         return {
           sort: 'sort',
@@ -592,7 +594,7 @@ export default {
       })
     },
     setData (data) {
-      this.apiMode = false
+      // this.apiMode = false
       if (Array.isArray(data)) {
         this.tableData = data
         return
@@ -627,7 +629,8 @@ export default {
 
       if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
-        return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`)
+        let iconTag = this.showSortIcons ? this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`) : ''
+        return title + ' ' + iconTag
       }
 
       return title
@@ -667,7 +670,7 @@ export default {
 
       this.fireEvent('loading')
 
-      this.httpOptions['params'] = this.getAllQueryParams()
+      this.httpOptions['params'] = this.getAppendParams( this.getAllQueryParams() )
 
       return this.fetch(this.apiUrl, this.httpOptions).then(
           success,
@@ -750,13 +753,15 @@ export default {
     },
     getAllQueryParams () {
       let params = {}
+
+      if (typeof(this.queryParams) === 'function') {
+        params = this.queryParams(this.sortOrder, this.currentPage, this.perPage)
+        return typeof(params) !== 'object' ? {} : params
+      }
+
       params[this.queryParams.sort] = this.getSortParam()
       params[this.queryParams.page] = this.currentPage
       params[this.queryParams.perPage] = this.perPage
-
-      for (let x in this.appendParams) {
-        params[x] = this.appendParams[x]
-      }
 
       return params
     },
@@ -783,6 +788,13 @@ export default {
       }
 
       return result;
+    },
+    getAppendParams (params) {
+      for (let x in this.appendParams) {
+        params[x] = this.appendParams[x]
+      }
+
+      return params
     },
     extractName (string) {
       return string.split(':')[0].trim()
@@ -828,7 +840,7 @@ export default {
       }
 
       this.currentPage = 1    // reset page index
-      if (this.apiMode) {
+      if (this.apiMode || this.dataManager) {
         this.loadData()
       }
     },
@@ -874,6 +886,16 @@ export default {
         sortField: '',
         direction: 'asc'
       });
+    },
+    sortClass (field) {
+      let cls = ''
+      let i = this.currentSortOrderPosition(field)
+
+      if (i !== false) {
+        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingClass : this.css.descendingClass
+      }
+
+      return cls
     },
     sortIcon (field) {
       let cls = this.css.sortableIcon

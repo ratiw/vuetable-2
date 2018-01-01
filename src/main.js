@@ -261,7 +261,7 @@ let vm = new Vue({
   data: {
     loading: '',
     searchFor: '',
-    moreParams: {},
+    moreParams: { aa: 1111, bb: 222 },
     fields: tableColumns,
     tableHeight: '600px',
     vuetableFields: false,
@@ -355,9 +355,7 @@ let vm = new Vue({
       ].join('')
     },
     setFilter () {
-      this.moreParams = {
-        'filter': this.searchFor
-      }
+      this.moreParams['filter'] = this.searchFor
       this.$nextTick(function() {
         this.$refs.vuetable.refresh()
       })
@@ -389,6 +387,14 @@ let vm = new Vue({
     },
     rowClassCB (data, index) {
       return (index % 2) === 0 ? 'odd' : 'even'
+    },
+    queryParams (sortOrder, currentPage, perPage) {
+      return {
+        'sort': sortOrder[0].field + '|' + sortOrder[0].direction,
+        'order': sortOrder[0].direction,
+        'page': currentPage,
+        'per_page': perPage
+      }
     },
     onCellClicked (data, field, event) {
       console.log('cellClicked', field.name)

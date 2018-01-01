@@ -1,6 +1,6 @@
 {
   "name": "vuetable-2",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Datatable component for Vue 2.x",
   "main": "dist/vuetable-2.js",
   "license": "MIT",
@@ -34,7 +34,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "build": "node build/build.js && npm run bundle",
     "bundle:min": "cross-env MINIFY=true webpack --progress --config build/webpack.build.config.js",
     "bundle:full": "cross-env MINIFY=false webpack --progress --config build/webpack.build.config.js",
     "bundle": "npm run bundle:min && npm run bundle:full",
