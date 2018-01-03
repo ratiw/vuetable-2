@@ -213,7 +213,7 @@ export default {
 
       // fixed:document.querySelectorAll return the typeof nodeList not array
       if (els.forEach === undefined)
-        els.forEach = function(cb){
+        els.forEach = (cb) => {
           [].forEach.call(els, cb);
         }
 
