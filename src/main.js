@@ -9,9 +9,9 @@ import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
 import VuetableColumnHandle from './components/VuetableColumnHandle'
 import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
 
-Vue.component('vuetable-checkbox', VuetableColumnCheckbox)
-Vue.component('vuetable-handle', VuetableColumnHandle)
-Vue.component('vuetable-sequence', VuetableColumnSequence)
+Vue.component('vuetable-column-checkbox', VuetableColumnCheckbox)
+Vue.component('vuetable-column-handle', VuetableColumnHandle)
+Vue.component('vuetable-column-sequence', VuetableColumnSequence)
 
 let E_SERVER_ERROR = 'Error communicating with the server'
 
@@ -160,18 +160,18 @@ let lang = {
 
 let tableColumns = [
   {
-    name: 'vuetable-handle',
+    name: '__handle',
     width: '40px'
   },
   {
-    name: 'vuetable-sequence',
+    name: '__sequence',
     title: 'No.',
     width: '50px',
     titleClass: 'right aligned',
     dataClass: 'right aligned'
   },
   {
-    name: 'vuetable-checkbox',
+    name: '__checkbox',
     title: 'checkbox',
     width: '30px',
     titleClass: 'center aligned',
