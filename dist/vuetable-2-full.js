@@ -4126,40 +4126,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     isSelectedRow: function isSelectedRow(key) {
       return this.selectedTo.indexOf(key) >= 0;
     },
-    checkCheckboxesState: function checkCheckboxesState(fieldName) {
-      var _this6 = this;
-
-      if (!this.tableData) return;
-
-      var idColumn = this.trackBy;
-      var selector = 'th.vuetable-th-component-checkbox input[type=checkbox]';
-      var els = document.querySelectorAll(selector);
-
-      if (els.forEach === undefined) els.forEach = function (cb) {
-        [].forEach.call(els, cb);
-      };
-
-      var selected = this.tableData.filter(function (item) {
-        return _this6.isSelectedRow(item[idColumn]);
-      });
-
-      if (selected.length <= 0) {
-        els.forEach(function (el) {
-          return el.indeterminate = false;
-        });
-        return false;
-      } else if (selected.length < this.perPage) {
-          els.forEach(function (el) {
-            return el.indeterminate = true;
-          });
-          return true;
-        } else {
-            els.forEach(function (el) {
-              return el.indeterminate = false;
-            });
-            return true;
-          }
-    },
     gotoPreviousPage: function gotoPreviousPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
@@ -4310,17 +4276,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$emit('vuetable:checkbox-toggled', isChecked, fieldName);
     },
     onCheckboxToggledAll: function onCheckboxToggledAll(isChecked, fieldName) {
-      var _this7 = this;
+      var _this6 = this;
 
       var idColumn = this.trackBy;
 
       if (isChecked) {
         this.tableData.forEach(function (dataItem) {
-          _this7.selectId(dataItem[idColumn]);
+          _this6.selectId(dataItem[idColumn]);
         });
       } else {
         this.tableData.forEach(function (dataItem) {
-          _this7.unselectId(dataItem[idColumn]);
+          _this6.unselectId(dataItem[idColumn]);
         });
       }
       this.$emit('vuetable:checkbox-toggled-all', isChecked);
