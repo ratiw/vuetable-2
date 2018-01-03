@@ -109,7 +109,6 @@
                       detail-row-component="my-detail-row"
                       detail-row-transition="expand"
                       :row-class="rowClassCB"
-                      field-prefix="vuetable-"
                       @vuetable:pagination-data="onPaginationData"
                       @vuetable:load-success="onLoadSuccess"
                       @vuetable:loading="showLoader"
@@ -120,7 +119,7 @@
                       @vuetable-column="onColumnEvent"
                       @vuetable-row="onRowEvent"
                     >
-                      <div slot="custom-actions" slot-scope="props">
+                      <div slot="slot-actions" slot-scope="props">
                         <button class="ui red button" @click="onActionClicked('view-item', props.rowData)"><i class="zoom icon"></i></button>
                         <button class="ui blue button" @click="onActionClicked('edit-item', props.rowData)"><i class="edit icon"></i></button>
                         <button class="ui green button" @click="onActionClicked('delete-item', props.rowData)"><i class="delete icon"></i></button>

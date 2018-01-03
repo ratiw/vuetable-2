@@ -3637,7 +3637,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fieldPrefix: {
       type: String,
       default: function _default() {
-        return 'vuetable-';
+        return 'vuetable-column-';
       }
     },
     eventPrefix: {
@@ -3796,6 +3796,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     bodyClass: function bodyClass(base, field) {
       return [base, field.dataClass];
     },
+    normalizeFields: function normalizeFields() {
+      var _this2 = this;
+
+      if (typeof this.fields === 'undefined') {
+        this.warn('You need to provide "fields" prop.');
+        return;
+      }
+
+      this.tableFields = [];
+
+      this.fields.forEach(function (field, i) {
+        _this2.tableFields.push(_this2.newField(field));
+      });
+    },
     newField: function newField(field) {
       var defaultField = {
         name: '',
@@ -3810,30 +3824,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       if (typeof field === 'string') {
         return __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()({}, defaultField, {
-          name: field,
+          name: this.normalizeFieldName(field),
           title: this.makeTitle(field)
         });
       }
 
       var obj = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_object_assign___default()({}, defaultField, field);
+      obj.name = this.normalizeFieldName(obj.name);
       if (obj.title === undefined) {
         obj.title = this.makeTitle(obj.name);
       }
       return obj;
     },
-    normalizeFields: function normalizeFields() {
-      var _this2 = this;
-
-      if (typeof this.fields === 'undefined') {
-        this.warn('You need to provide "fields" prop.');
-        return;
-      }
-
-      this.tableFields = [];
-
-      this.fields.forEach(function (field, i) {
-        _this2.tableFields.push(_this2.newField(field));
-      });
+    normalizeFieldName: function normalizeFieldName(fieldName) {
+      return fieldName.replace('__', this.fieldPrefix);
     },
     setData: function setData(data) {
       var _this3 = this;
@@ -4688,10 +4692,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'vuetable-checkbox': __WEBPACK_IMPORTED_MODULE_0__VuetableColumnCheckbox___default.a,
-    'vuetable-handle': __WEBPACK_IMPORTED_MODULE_1__VuetableColumnHandle___default.a,
-    'vuetable-sequence': __WEBPACK_IMPORTED_MODULE_2__VuetableColumnSequence___default.a
+    'vuetable-column-checkbox': __WEBPACK_IMPORTED_MODULE_0__VuetableColumnCheckbox___default.a,
+    'vuetable-column-handle': __WEBPACK_IMPORTED_MODULE_1__VuetableColumnHandle___default.a,
+    'vuetable-column-sequence': __WEBPACK_IMPORTED_MODULE_2__VuetableColumnSequence___default.a
   },
+
   computed: {
     tableFields: function tableFields() {
       return this.$parent.tableFields;
@@ -4916,9 +4921,9 @@ function install(Vue) {
   Vue.component("vuetable-pagination", __WEBPACK_IMPORTED_MODULE_1__components_VuetablePagination_vue___default.a);
   Vue.component("vuetable-pagination-dropdown", __WEBPACK_IMPORTED_MODULE_2__components_VuetablePaginationDropdown_vue___default.a);
   Vue.component("vuetable-pagination-info", __WEBPACK_IMPORTED_MODULE_3__components_VuetablePaginationInfo_vue___default.a);
-  Vue.component("vuetable-checkbox", __WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue___default.a);
-  Vue.component("vuetable-handle", __WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue___default.a);
-  Vue.component("vuetable-sequence", __WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue___default.a);
+  Vue.component("vuetable-column-checkbox", __WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue___default.a);
+  Vue.component("vuetable-column-handle", __WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue___default.a);
+  Vue.component("vuetable-column-sequence", __WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue___default.a);
   Vue.component("vuetable-row-header", __WEBPACK_IMPORTED_MODULE_9__components_VuetableRowHeader_vue___default.a);
 }
 

@@ -251,7 +251,7 @@ let tableColumns = [
     filterable: true,
   },
   {
-    name: 'custom-actions',
+    name: 'slot-actions',
     title: 'Actions',
     width: '140px',
     titleClass: 'center aligned',

@@ -296,7 +296,7 @@ export default {
     fieldPrefix: {
       type: String,
       default() {
-        return 'vuetable-'
+        return 'vuetable-column-'
       }
     },
     eventPrefix: {
@@ -463,6 +463,19 @@ export default {
       return [ base, field.dataClass ]
     },
 
+    normalizeFields () {
+      if (typeof(this.fields) === 'undefined') {
+        this.warn('You need to provide "fields" prop.')
+        return
+      }
+
+      this.tableFields = []
+
+      this.fields.forEach( (field, i) => {
+        this.tableFields.push(this.newField(field))
+      })
+    },
+
     newField (field) {
       let defaultField = {
         name: '',
@@ -479,29 +492,21 @@ export default {
 
       if (typeof(field) === 'string') {
         return Object.assign({}, defaultField, {
-          name: field,
+          name: this.normalizeFieldName(field),
           title: this.makeTitle(field),
         })
       }
       
       let obj = Object.assign({}, defaultField, field)
+      obj.name = this.normalizeFieldName(obj.name)
       if (obj.title === undefined) {
         obj.title = this.makeTitle(obj.name)
       }
       return obj
     },
 
-    normalizeFields () {
-      if (typeof(this.fields) === 'undefined') {
-        this.warn('You need to provide "fields" prop.')
-        return
-      }
-
-      this.tableFields = []
-
-      this.fields.forEach( (field, i) => {
-        this.tableFields.push(this.newField(field))
-      })
+    normalizeFieldName (fieldName) {
+      return fieldName.replace('__', this.fieldPrefix)
     },
 
     setData (data) {

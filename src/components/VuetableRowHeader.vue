@@ -46,32 +46,39 @@ import VuetableColumnSequence from './VuetableColumnSequence'
 
 export default {
   components: {
-    'vuetable-checkbox': VuetableColumnCheckbox, 
-    'vuetable-handle'  : VuetableColumnHandle,
-    'vuetable-sequence': VuetableColumnSequence,
+    'vuetable-column-checkbox': VuetableColumnCheckbox, 
+    'vuetable-column-handle'  : VuetableColumnHandle,
+    'vuetable-column-sequence': VuetableColumnSequence,
   },
+
   computed: {
     tableFields () {
       return this.$parent.tableFields
     },
+
     sortOrder() {
       return this.$parent.sortOrder
     },
+
     showSortIcons() {
       return this.$parent.showSortIcons
     },
+
     scrollVisible() {
       return this.$parent.scrollVisible
     },
+
     scrollBarWidth() {
       return this.$parent.scrollBarWidth
     },
+
     css() {
       return this.$parent.css
     },
+
     fieldPrefix() {
       return this.$parent.fieldPrefix
-    }
+    },
   },
 
   methods: {
