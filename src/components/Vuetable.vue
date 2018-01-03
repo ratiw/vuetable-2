@@ -838,39 +838,6 @@ export default {
       return this.selectedTo.indexOf(key) >= 0
     },
 
-    checkCheckboxesState (fieldName) {
-      if (! this.tableData) return
-
-      let idColumn = this.trackBy
-      let selector = 'th.vuetable-th-component-checkbox input[type=checkbox]'
-      let els = document.querySelectorAll(selector)
-
-      // fixed:document.querySelectorAll return the typeof nodeList not array
-      if (els.forEach === undefined)
-        els.forEach = (cb) => {
-          [].forEach.call(els, cb);
-        }
-
-      // count how many checkbox row in the current page has been checked
-      let selected = this.tableData.filter( (item) => this.isSelectedRow(item[idColumn]) )
-
-      // count == 0, clear the checkbox
-      if (selected.length <= 0) {
-        els.forEach( (el) => el.indeterminate = false )
-        return false
-      }
-      // count > 0 and count < perPage, set checkbox state to 'indeterminate'
-      else if (selected.length < this.perPage) {
-        els.forEach( (el) => el.indeterminate = true )
-        return true
-      }
-      // count == perPage, set checkbox state to 'checked'
-      else {
-        els.forEach( (el) => el.indeterminate = false )
-        return true
-      }
-    },
-
     gotoPreviousPage () {
       if (this.currentPage > 1) {
         this.currentPage--
