@@ -668,7 +668,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -992,7 +992,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnMixin.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1002,9 +1002,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-694b43ce", Component.options)
+    hotAPI.createRecord("data-v-33b355c9", Component.options)
   } else {
-    hotAPI.reload("data-v-694b43ce", Component.options)
+    hotAPI.reload("data-v-33b355c9", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -1031,9 +1031,9 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnCheckbox.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldCheckbox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] VuetableColumnCheckbox.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] VuetableFieldCheckbox.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1042,9 +1042,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-678abd5b", Component.options)
+    hotAPI.createRecord("data-v-70ca67ab", Component.options)
   } else {
-    hotAPI.reload("data-v-678abd5b", Component.options)
+    hotAPI.reload("data-v-70ca67ab", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -1063,7 +1063,7 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(81),
   /* template */
-  __webpack_require__(130),
+  __webpack_require__(134),
   /* styles */
   null,
   /* scopeId */
@@ -1071,9 +1071,9 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnHandle.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldHandle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] VuetableColumnHandle.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] VuetableFieldHandle.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1082,9 +1082,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-20907540", Component.options)
+    hotAPI.createRecord("data-v-795318e0", Component.options)
   } else {
-    hotAPI.reload("data-v-20907540", Component.options)
+    hotAPI.reload("data-v-795318e0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -1111,9 +1111,9 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableColumnSequence.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldSequence.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] VuetableColumnSequence.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] VuetableFieldSequence.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1122,9 +1122,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0b942b4e", Component.options)
+    hotAPI.createRecord("data-v-037594a9", Component.options)
   } else {
-    hotAPI.reload("data-v-0b942b4e", Component.options)
+    hotAPI.reload("data-v-037594a9", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -1151,7 +1151,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1194,7 +1194,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableRowHeader.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableRowHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableRowHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2440,7 +2440,7 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(79),
   /* template */
-  __webpack_require__(132),
+  __webpack_require__(131),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -2448,7 +2448,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2480,7 +2480,7 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(84),
   /* template */
-  __webpack_require__(134),
+  __webpack_require__(132),
   /* styles */
   null,
   /* scopeId */
@@ -2488,7 +2488,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2520,7 +2520,7 @@ var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(85),
   /* template */
-  __webpack_require__(131),
+  __webpack_require__(130),
   /* styles */
   null,
   /* scopeId */
@@ -2528,7 +2528,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2568,7 +2568,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -3505,7 +3505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       default: 'data'
     },
     paginationPath: {
-      type: [String],
+      type: String,
       default: 'links.pagination'
     },
     queryParams: {
@@ -3637,7 +3637,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fieldPrefix: {
       type: String,
       default: function _default() {
-        return 'vuetable-column-';
+        return 'vuetable-field-';
       }
     },
     eventPrefix: {
@@ -4253,11 +4253,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     onMouseOver: function onMouseOver(dataItem, event) {
       this.$emit(this.eventPrefix + 'row-mouseover', dataItem, event);
     },
-    onColumnEvent: function onColumnEvent(type, payload) {
-      this.$emit('vuetable-column', type, payload, this);
+    onFieldEvent: function onFieldEvent(type, payload) {
+      this.$emit('vuetable-field', type, payload, this);
     },
-    onRowEvent: function onRowEvent(type, payload) {
-      this.$emit('vuetable-row', type, payload, this);
+    onHeaderEvent: function onHeaderEvent(type, payload) {
+      this.$emit('vuetable-header', type, payload, this);
     },
     onCheckboxToggled: function onCheckboxToggled(isChecked, fieldName, dataItem) {
       var idColumn = this.trackBy;
@@ -4320,27 +4320,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue__);
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'vuetable-column-checkbox',
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue___default.a],
+  name: 'vuetable-field-checkbox',
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default.a],
   methods: {
     toggleCheckbox: function toggleCheckbox(dataItem, event) {
       var isChecked = event.target.checked;
 
-      this.$emit('vuetable-column', 'checkbox-toggled', {
+      this.$emit('vuetable-field', 'checkbox-toggled', {
         isChecked: isChecked, field: this.rowField, dataItem: dataItem
       });
     },
     toggleAllCheckbox: function toggleAllCheckbox(field, event) {
       var isChecked = event.target.checked;
 
-      this.$emit('vuetable-column', 'checkbox-toggled-all', {
+      this.$emit('vuetable-field', 'checkbox-toggled-all', {
         isChecked: isChecked, field: field
       });
     }
@@ -4353,15 +4353,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue__);
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'vuetable-column-handle',
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue___default.a],
+  name: 'vuetable-field-handle',
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default.a],
   methods: {
     renderIconTag: function renderIconTag(classes) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -4415,15 +4415,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue__);
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'vuetable-column-sequence',
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableColumnMixin_vue___default.a],
+  name: 'vuetable-field-sequence',
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default.a],
   methods: {
     renderSequence: function renderSequence() {
       return this.$parent.tablePagination ? this.$parent.tablePagination.from + this.rowIndex : this.rowIndex;
@@ -4644,12 +4644,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnCheckbox__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableColumnCheckbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableColumnCheckbox__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__VuetableColumnHandle__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__VuetableColumnHandle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__VuetableColumnHandle__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__VuetableColumnSequence__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__VuetableColumnSequence___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__VuetableColumnSequence__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldCheckbox__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__VuetableFieldCheckbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__VuetableFieldCheckbox__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__VuetableFieldHandle__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__VuetableFieldHandle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__VuetableFieldHandle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__VuetableFieldSequence__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__VuetableFieldSequence___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__VuetableFieldSequence__);
 
 
 
@@ -4658,9 +4658,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'vuetable-column-checkbox': __WEBPACK_IMPORTED_MODULE_0__VuetableColumnCheckbox___default.a,
-    'vuetable-column-handle': __WEBPACK_IMPORTED_MODULE_1__VuetableColumnHandle___default.a,
-    'vuetable-column-sequence': __WEBPACK_IMPORTED_MODULE_2__VuetableColumnSequence___default.a
+    'vuetable-field-checkbox': __WEBPACK_IMPORTED_MODULE_0__VuetableFieldCheckbox___default.a,
+    'vuetable-field-handle': __WEBPACK_IMPORTED_MODULE_1__VuetableFieldHandle___default.a,
+    'vuetable-field-sequence': __WEBPACK_IMPORTED_MODULE_2__VuetableFieldSequence___default.a
   },
 
   computed: {
@@ -4814,15 +4814,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           }
     },
     onColumnHeaderEvent: function onColumnHeaderEvent(type, payload) {
-      console.log('vuetable-row: ', type, payload);
+      console.log('vuetable-header: ', type, payload);
       if (type === 'checkbox-toggled') {
-        this.$emit('vuetable-row', 'toggle-row', payload);
+        this.$emit('vuetable-header', 'toggle-row', payload);
       } else if (type === 'checkbox-toggled-all') {
-        this.$emit('vuetable-row', 'toggle-all-row', payload);
+        this.$emit('vuetable-header', 'toggle-all-rows', payload);
       }
     },
-    onColumnClicked: function onColumnClicked(field, event) {
-      this.$emit('vuetable-row', 'order-by', { field: field, event: event });
+    onColumnHeaderClicked: function onColumnHeaderClicked(field, event) {
+      this.$emit('vuetable-header', 'order-by', { field: field, event: event });
     }
   }
 });
@@ -4846,12 +4846,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_VuetablePaginationMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_VuetablePaginationMixin_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_VuetablePaginationInfoMixin_vue__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_VuetablePaginationInfoMixin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_VuetablePaginationInfoMixin_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_VuetableFieldCheckbox_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_VuetableFieldCheckbox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_VuetableFieldCheckbox_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_VuetableFieldHandle_vue__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_VuetableFieldHandle_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_VuetableFieldHandle_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_VuetableFieldSequence_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_VuetableFieldSequence_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_VuetableFieldSequence_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_VuetableRowHeader_vue__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_VuetableRowHeader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_VuetableRowHeader_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_promise_polyfill__ = __webpack_require__(56);
@@ -4862,9 +4862,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetablePaginationInfo", function() { return __WEBPACK_IMPORTED_MODULE_3__components_VuetablePaginationInfo_vue___default.a; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetablePaginationMixin", function() { return __WEBPACK_IMPORTED_MODULE_4__components_VuetablePaginationMixin_vue___default.a; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetablePaginationInfoMixin", function() { return __WEBPACK_IMPORTED_MODULE_5__components_VuetablePaginationInfoMixin_vue___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableColumnCheckbox", function() { return __WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableColumnHandle", function() { return __WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue___default.a; });
-/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableColumnSequence", function() { return __WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableFieldCheckbox", function() { return __WEBPACK_IMPORTED_MODULE_6__components_VuetableFieldCheckbox_vue___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableFieldHandle", function() { return __WEBPACK_IMPORTED_MODULE_7__components_VuetableFieldHandle_vue___default.a; });
+/* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableFieldSequence", function() { return __WEBPACK_IMPORTED_MODULE_8__components_VuetableFieldSequence_vue___default.a; });
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "VuetableRowHeader", function() { return __WEBPACK_IMPORTED_MODULE_9__components_VuetableRowHeader_vue___default.a; });
 
 
@@ -4887,9 +4887,9 @@ function install(Vue) {
   Vue.component("vuetable-pagination", __WEBPACK_IMPORTED_MODULE_1__components_VuetablePagination_vue___default.a);
   Vue.component("vuetable-pagination-dropdown", __WEBPACK_IMPORTED_MODULE_2__components_VuetablePaginationDropdown_vue___default.a);
   Vue.component("vuetable-pagination-info", __WEBPACK_IMPORTED_MODULE_3__components_VuetablePaginationInfo_vue___default.a);
-  Vue.component("vuetable-column-checkbox", __WEBPACK_IMPORTED_MODULE_6__components_VuetableColumnCheckbox_vue___default.a);
-  Vue.component("vuetable-column-handle", __WEBPACK_IMPORTED_MODULE_7__components_VuetableColumnHandle_vue___default.a);
-  Vue.component("vuetable-column-sequence", __WEBPACK_IMPORTED_MODULE_8__components_VuetableColumnSequence_vue___default.a);
+  Vue.component("vuetable-field-checkbox", __WEBPACK_IMPORTED_MODULE_6__components_VuetableFieldCheckbox_vue___default.a);
+  Vue.component("vuetable-field-handle", __WEBPACK_IMPORTED_MODULE_7__components_VuetableFieldHandle_vue___default.a);
+  Vue.component("vuetable-field-sequence", __WEBPACK_IMPORTED_MODULE_8__components_VuetableFieldSequence_vue___default.a);
   Vue.component("vuetable-row-header", __WEBPACK_IMPORTED_MODULE_9__components_VuetableRowHeader_vue___default.a);
 }
 
@@ -5978,35 +5978,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-0b942b4e", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-037594a9", module.exports)
   }
 }
 
 /***/ }),
 /* 130 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.isHeader) ? _c('span', {
-    domProps: {
-      "innerHTML": _vm._s(_vm.title)
-    }
-  }) : _c('span', {
-    domProps: {
-      "innerHTML": _vm._s(_vm.renderIconTag(['handle-icon', _vm.css.handleIcon]))
-    }
-  })
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-20907540", module.exports)
-  }
-}
-
-/***/ }),
-/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6058,7 +6035,7 @@ if (false) {
 }
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6073,7 +6050,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: headerIndex,
       tag: "component",
       on: {
-        "vuetable-row": _vm.onRowEvent
+        "vuetable-header": _vm.onHeaderEvent
       }
     })]
   })], {
@@ -6136,7 +6113,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "css": _vm.css
         },
         on: {
-          "vuetable-column": _vm.onColumnEvent
+          "vuetable-field": _vm.onFieldEvent
         }
       })], 1)] : (typeof _vm.$scopedSlots[field.name] !== 'undefined') ? [_c('td', {
         key: fieldIndex,
@@ -6220,46 +6197,7 @@ if (false) {
 }
 
 /***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.isHeader) ? _c('input', {
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": _vm.isSelected
-    },
-    on: {
-      "change": function($event) {
-        _vm.toggleAllCheckbox(_vm.rowField, $event)
-      }
-    }
-  }) : _c('input', {
-    attrs: {
-      "type": "checkbox"
-    },
-    domProps: {
-      "checked": _vm.isSelected
-    },
-    on: {
-      "change": function($event) {
-        _vm.toggleCheckbox(_vm.rowData, $event)
-      }
-    }
-  })
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-678abd5b", module.exports)
-  }
-}
-
-/***/ }),
-/* 134 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -6344,6 +6282,68 @@ if (false) {
 }
 
 /***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.isHeader) ? _c('input', {
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": _vm.isSelected
+    },
+    on: {
+      "change": function($event) {
+        _vm.toggleAllCheckbox(_vm.rowField, $event)
+      }
+    }
+  }) : _c('input', {
+    attrs: {
+      "type": "checkbox"
+    },
+    domProps: {
+      "checked": _vm.isSelected
+    },
+    on: {
+      "change": function($event) {
+        _vm.toggleCheckbox(_vm.rowData, $event)
+      }
+    }
+  })
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-70ca67ab", module.exports)
+  }
+}
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.isHeader) ? _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.title)
+    }
+  }) : _c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.renderIconTag(['handle-icon', _vm.css.handleIcon]))
+    }
+  })
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-795318e0", module.exports)
+  }
+}
+
+/***/ }),
 /* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6357,7 +6357,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }),
       on: {
         "click": function($event) {
-          _vm.onColumnClicked(field, $event)
+          _vm.onColumnHeaderClicked(field, $event)
         }
       }
     }, [_c(field.name, {
@@ -6369,7 +6369,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "is-selected": _vm.checkCheckboxesState(field.name)
       },
       on: {
-        "vuetable-column": _vm.onColumnHeaderEvent
+        "vuetable-field": _vm.onColumnHeaderEvent
       }
     })], 1)] : (typeof _vm.$scopedSlots[field.name] !== 'undefined') ? [_c('th', {
       key: fieldIndex,
@@ -6382,7 +6382,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.onColumnClicked(field, $event)
+          _vm.onColumnHeaderClicked(field, $event)
         }
       }
     })] : [_c('th', {
@@ -6399,7 +6399,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.onColumnClicked(field, $event)
+          _vm.onColumnHeaderClicked(field, $event)
         }
       }
     })]] : _vm._e()]
