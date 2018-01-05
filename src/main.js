@@ -461,7 +461,7 @@ let vm = new Vue({
         case 'toggle-row':
           vuetable.onCheckboxToggled(payload.isChecked, payload.field, payload.dataItem)
           break
-        case 'toggle-all-row':
+        case 'toggle-all-rows':
           vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
           break;
         case 'filter':

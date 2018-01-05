@@ -240,9 +240,9 @@ export default {
     onColumnHeaderEvent (type, payload) {
       console.log('vuetable-header: ', type, payload)
       if (type === 'checkbox-toggled') {
-        this.$emit('vuetable-header', 'toggle-header', payload)
+        this.$emit('vuetable-header', 'toggle-row', payload)
       } else if (type === 'checkbox-toggled-all') {
-        this.$emit('vuetable-header', 'toggle-all-header', payload)
+        this.$emit('vuetable-header', 'toggle-all-rows', payload)
       }
     },
 
