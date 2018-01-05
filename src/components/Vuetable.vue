@@ -6,7 +6,7 @@
       <slot name="tableHeader" :fields="tableFields">
         <template v-for="(header, headerIndex) in headerRows">
           <component :is="header" :key="headerIndex"
-            @vuetable-row="onRowEvent"
+            @vuetable-header="onHeaderEvent"
           ></component>
         </template>
       </slot>
@@ -47,7 +47,7 @@
                     :row-data="item" :row-index="itemIndex" :row-field="field"
                     :is-selected="isSelectedRow(item[trackBy])"
                     :css="css"
-                    @vuetable-column="onColumnEvent"
+                    @vuetable-field="onFieldEvent"
                   ></component>
                 </td>
               </template>
@@ -160,7 +160,7 @@ export default {
         default: 'data'
     },
     paginationPath: {
-        type: [String],
+        type: String,
         default: 'links.pagination'
     },
     queryParams: {
@@ -296,7 +296,7 @@ export default {
     fieldPrefix: {
       type: String,
       default() {
-        return 'vuetable-column-'
+        return 'vuetable-field-'
       }
     },
     eventPrefix: {
@@ -987,12 +987,12 @@ export default {
       this.$emit(this.eventPrefix + 'row-mouseover', dataItem, event)
     },
 
-    onColumnEvent (type, payload) {
-      this.$emit('vuetable-column', type, payload, this)
+    onFieldEvent (type, payload) {
+      this.$emit('vuetable-field', type, payload, this)
     },
 
-    onRowEvent (type, payload) {
-      this.$emit('vuetable-row', type, payload, this)
+    onHeaderEvent (type, payload) {
+      this.$emit('vuetable-header', type, payload, this)
     },
 
     onCheckboxToggled (isChecked, fieldName, dataItem) {

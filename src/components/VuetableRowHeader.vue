@@ -6,14 +6,14 @@
           <th :class="headerClass('vuetable-th-component-'+stripPrefix(field.name), field)"
             :key="fieldIndex"
             :style="{width: field.width}"
-            @click="onColumnClicked(field, $event)"
+            @click="onColumnHeaderClicked(field, $event)"
           >
             <component :is="field.name"
               :row-field="field"
               :is-header="true"
               :title="renderTitle(field)"
               :is-selected="checkCheckboxesState(field.name)"
-              @vuetable-column="onColumnHeaderEvent"
+              @vuetable-field="onColumnHeaderEvent"
             ></component>
           </th>
         </template>
@@ -21,12 +21,12 @@
           <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
               :key="fieldIndex"
               :style="{width: field.width}"
-              @click="onColumnClicked(field, $event)"
+              @click="onColumnHeaderClicked(field, $event)"
               v-html="renderTitle(field)"
           ></th>
         </template>
         <template v-else>
-          <th @click="onColumnClicked(field, $event)"
+          <th @click="onColumnHeaderClicked(field, $event)"
             :key="fieldIndex"
             :id="'_' + field.name"
             :class="headerClass('vuetable-th-'+field.name, field)"
@@ -40,15 +40,15 @@
   </tr>
 </template>
 <script>
-import VuetableColumnCheckbox from './VuetableColumnCheckbox'
-import VuetableColumnHandle from './VuetableColumnHandle'
-import VuetableColumnSequence from './VuetableColumnSequence'
+import VuetableFieldCheckbox from './VuetableFieldCheckbox'
+import VuetableFieldHandle from './VuetableFieldHandle'
+import VuetableFieldSequence from './VuetableFieldSequence'
 
 export default {
   components: {
-    'vuetable-column-checkbox': VuetableColumnCheckbox, 
-    'vuetable-column-handle'  : VuetableColumnHandle,
-    'vuetable-column-sequence': VuetableColumnSequence,
+    'vuetable-field-checkbox': VuetableFieldCheckbox, 
+    'vuetable-field-handle'  : VuetableFieldHandle,
+    'vuetable-field-sequence': VuetableFieldSequence,
   },
 
   computed: {
@@ -238,18 +238,16 @@ export default {
     },
 
     onColumnHeaderEvent (type, payload) {
-      console.log('vuetable-row: ', type, payload)
+      console.log('vuetable-header: ', type, payload)
       if (type === 'checkbox-toggled') {
-        // this.$emit('vuetable-row', 'toggle-row', payload.isChecked, payload.field, payload.dataItem)
-        this.$emit('vuetable-row', 'toggle-row', payload)
+        this.$emit('vuetable-header', 'toggle-header', payload)
       } else if (type === 'checkbox-toggled-all') {
-        // this.$emit('vuetable-row', 'toggle-all-row', payload.isChecked, payload.field)
-        this.$emit('vuetable-row', 'toggle-all-row', payload)
+        this.$emit('vuetable-header', 'toggle-all-header', payload)
       }
     },
 
-    onColumnClicked (field, event) {
-      this.$emit('vuetable-row', 'order-by', {field, event})
+    onColumnHeaderClicked (field, event) {
+      this.$emit('vuetable-header', 'order-by', {field, event})
     }
   }
 }

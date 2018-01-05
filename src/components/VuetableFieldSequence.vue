@@ -4,11 +4,11 @@
 </template>
 
 <script>
-import VuetableColumnMixin from './VuetableColumnMixin.vue'
+import VuetableFieldMixin from './VuetableFieldMixin.vue'
 
 export default {
-  name: 'vuetable-column-sequence',
-  mixins: [VuetableColumnMixin],
+  name: 'vuetable-field-sequence',
+  mixins: [VuetableFieldMixin],
   methods: {
     renderSequence() {
       return this.$parent.tablePagination
