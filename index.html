@@ -116,8 +116,8 @@
                       @vuetable:cell-clicked="onCellClicked"
                       @vuetable:initialized="onInitialized"
                       @vuetable:data-reset="onDataReset"
-                      @vuetable-column="onColumnEvent"
-                      @vuetable-row="onRowEvent"
+                      @vuetable-field="onFieldEvent"
+                      @vuetable-header="onHeaderEvent"
                     >
                       <div slot="slot-actions" slot-scope="props">
                         <button class="ui red button" @click="onActionClicked('view-item', props.rowData)"><i class="zoom icon"></i></button>

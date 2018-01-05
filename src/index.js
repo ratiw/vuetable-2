@@ -4,9 +4,9 @@ import VuetablePaginationDropDown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import VuetablePaginationMixin from './components/VuetablePaginationMixin.vue'
 import VuetablePaginationInfoMixin from './components/VuetablePaginationInfoMixin.vue'
-import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
-import VuetableColumnHandle from './components/VuetableColumnHandle.vue'
-import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
+import VuetableFieldCheckbox from './components/VuetableFieldCheckbox.vue'
+import VuetableFieldHandle from './components/VuetableFieldHandle.vue'
+import VuetableFieldSequence from './components/VuetableFieldSequence.vue'
 import VuetableRowHeader from './components/VuetableRowHeader.vue'
 import Promise from 'promise-polyfill'
 
@@ -19,9 +19,9 @@ function install(Vue){
   Vue.component("vuetable-pagination", VuetablePagination);
   Vue.component("vuetable-pagination-dropdown", VuetablePaginationDropDown);
   Vue.component("vuetable-pagination-info", VuetablePaginationInfo);
-  Vue.component("vuetable-column-checkbox", VuetableColumnCheckbox)
-  Vue.component("vuetable-column-handle", VuetableColumnHandle)
-  Vue.component("vuetable-column-sequence", VuetableColumnSequence)
+  Vue.component("vuetable-field-checkbox", VuetableFieldCheckbox)
+  Vue.component("vuetable-field-handle", VuetableFieldHandle)
+  Vue.component("vuetable-field-sequence", VuetableFieldSequence)
   Vue.component("vuetable-row-header", VuetableRowHeader)
 }
 export {
@@ -31,9 +31,9 @@ export {
   VuetablePaginationInfo,
   VuetablePaginationMixin,
   VuetablePaginationInfoMixin,
-  VuetableColumnCheckbox,
-  VuetableColumnHandle,
-  VuetableColumnSequence,
+  VuetableFieldCheckbox,
+  VuetableFieldHandle,
+  VuetableFieldSequence,
   VuetableRowHeader,
   install
 };

@@ -9,23 +9,23 @@
   >
 </template>
 <script>
-import VuetableColumnMixin from './VuetableColumnMixin.vue'
+import VuetableFieldMixin from './VuetableFieldMixin.vue'
 
 export default {
-  name: 'vuetable-column-checkbox',
-  mixins: [VuetableColumnMixin],
+  name: 'vuetable-field-checkbox',
+  mixins: [VuetableFieldMixin],
   methods: {
     toggleCheckbox(dataItem, event) {
       let isChecked = event.target.checked
 
-      this.$emit('vuetable-column', 'checkbox-toggled', {
+      this.$emit('vuetable-field', 'checkbox-toggled', {
         isChecked, field: this.rowField, dataItem,
       })
     },
     toggleAllCheckbox(field, event) {
       let isChecked = event.target.checked
 
-      this.$emit('vuetable-column', 'checkbox-toggled-all', {
+      this.$emit('vuetable-field', 'checkbox-toggled-all', {
         isChecked, field
       })
     }

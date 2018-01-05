@@ -5,13 +5,13 @@ import VuetablePaginationDropdown from './components/VuetablePaginationDropdown.
 import VuetablePaginationInfo from './components/VuetablePaginationInfo.vue'
 import axios from 'axios'
 
-import VuetableColumnCheckbox from './components/VuetableColumnCheckbox.vue'
-import VuetableColumnHandle from './components/VuetableColumnHandle'
-import VuetableColumnSequence from './components/VuetableColumnSequence.vue'
+import VuetableFieldCheckbox from './components/VuetableFieldCheckbox.vue'
+import VuetableFieldHandle from './components/VuetableFieldHandle'
+import VuetableFieldSequence from './components/VuetableFieldSequence.vue'
 
-Vue.component('vuetable-column-checkbox', VuetableColumnCheckbox)
-Vue.component('vuetable-column-handle', VuetableColumnHandle)
-Vue.component('vuetable-column-sequence', VuetableColumnSequence)
+Vue.component('vuetable-field-checkbox', VuetableFieldCheckbox)
+Vue.component('vuetable-field-handle', VuetableFieldHandle)
+Vue.component('vuetable-field-sequence', VuetableFieldSequence)
 
 let E_SERVER_ERROR = 'Error communicating with the server'
 
@@ -158,7 +158,7 @@ let lang = {
   'birthdate': 'Birthdate',
 }
 
-let tableColumns = [
+let dataFields = [
   {
     name: '__handle',
     width: '40px'
@@ -272,7 +272,7 @@ let vm = new Vue({
     loading: '',
     searchFor: '',
     moreParams: {},
-    fields: tableColumns,
+    fields: dataFields,
     tableHeight: '600px',
     vuetableFields: false,
     fieldPrefix: 'vuetable-',
@@ -429,15 +429,15 @@ let vm = new Vue({
       console.log('slot actions: on-click', data.name)
       sweetAlert(action, data.name)
     },
-    onColumnEvent (type, payload, vuetable) {
+    onFieldEvent (type, payload, vuetable) {
       if (type === 'checkbox-toggled') {
         vuetable.onCheckboxToggled(payload.isChecked, payload.field, payload.dataItem)
       } else if (type === 'checkbox-toggled-all') {
         vuetable.onCheckboxToggledAll(payload.isChecked, payload.field)
       }
     },
-    onRowEvent (type, payload) {
-      console.log('onRowEvent:', type, payload)
+    onHeaderEvent (type, payload) {
+      console.log('onHeaderEvent:', type, payload)
       let vuetable = this.$refs.vuetable
       switch (type) {
         case 'order-by':

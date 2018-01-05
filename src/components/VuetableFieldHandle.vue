@@ -4,11 +4,11 @@
 </template>
 
 <script>
-import VuetableColumnMixin from './VuetableColumnMixin.vue'
+import VuetableFieldMixin from './VuetableFieldMixin.vue'
 
 export default {
-  name: 'vuetable-column-handle',
-  mixins: [VuetableColumnMixin],
+  name: 'vuetable-field-handle',
+  mixins: [VuetableFieldMixin],
   methods: {
     renderIconTag(classes, options = '') {
       return typeof(this.css.renderIcon) === 'undefined'
