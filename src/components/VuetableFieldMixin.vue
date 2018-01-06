@@ -19,10 +19,10 @@ export default {
       type: String,
       default: ''
     },
-    css: {
-      type: Object,
-      default: () => {}
-    },
+    // css: {
+    //   type: Object,
+    //   default: () => {}
+    // },
     vuetable: {
       type: Object,
       default: () => null

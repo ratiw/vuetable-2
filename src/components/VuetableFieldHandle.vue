@@ -8,7 +8,15 @@ import VuetableFieldMixin from './VuetableFieldMixin.vue'
 
 export default {
   name: 'vuetable-field-handle',
+
   mixins: [VuetableFieldMixin],
+
+  computed: {
+    css() {
+      return this.vuetable.css
+    }
+  },
+
   methods: {
     renderIconTag(classes, options = '') {
       return typeof(this.css.renderIcon) === 'undefined'
