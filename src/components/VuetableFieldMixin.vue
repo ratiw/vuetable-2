@@ -19,13 +19,9 @@ export default {
       type: String,
       default: ''
     },
-    // css: {
-    //   type: Object,
-    //   default: () => {}
-    // },
     vuetable: {
       type: Object,
-      default: () => null
+      default: null
     }
   }
 }
