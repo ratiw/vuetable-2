@@ -15,10 +15,6 @@ export default {
       type: Boolean,
       default: false
     },
-    isSelected: {
-      type: Boolean,
-      default: false
-    },
     title: {
       type: String,
       default: ''
@@ -26,6 +22,10 @@ export default {
     css: {
       type: Object,
       default: () => {}
+    },
+    vuetable: {
+      type: Object,
+      default: () => null
     }
   }
 }

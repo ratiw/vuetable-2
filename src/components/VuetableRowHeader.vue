@@ -6,14 +6,14 @@
           <th :class="headerClass('vuetable-th-component-'+stripPrefix(field.name), field)"
             :key="fieldIndex"
             :style="{width: field.width}"
-            @click="onColumnHeaderClicked(field, $event)"
+            @click="onColumnHeaderClicked($event)"
           >
             <component :is="field.name"
               :row-field="field"
               :is-header="true"
               :title="renderTitle(field)"
-              :is-selected="checkCheckboxesState(field.name)"
-              @vuetable-field="onColumnHeaderEvent"
+              :vuetable="vuetable"
+              @vuetable-field="onFieldEvent"
             ></component>
           </th>
         </template>
@@ -79,6 +79,10 @@ export default {
     fieldPrefix() {
       return this.$parent.fieldPrefix
     },
+
+    vuetable() {
+      return this.$parent
+    }
   },
 
   methods: {
@@ -87,7 +91,7 @@ export default {
     },
 
     stripPrefix (name) {
-      return name.slice(0, this.fieldPrefix.length)
+      return name.replace(this.fieldPrefix, '')
     },
 
     headerClass (base, field) {
@@ -204,44 +208,8 @@ export default {
         : this.css.renderIcon(classes, options)
     },
 
-    checkCheckboxesState (fieldName) {
-      if (! this.tableData) return
-
-      let idColumn = this.trackBy
-      let selector = 'th.vuetable-th-component-checkbox input[type=checkbox]'
-      let els = document.querySelectorAll(selector)
-
-      // fixed:document.querySelectorAll return the typeof nodeList not array
-      if (els.forEach === undefined)
-        els.forEach = (cb) => {
-          [].forEach.call(els, cb);
-        }
-
-      // count how many checkbox row in the current page has been checked
-      let selected = this.tableData.filter( (item) => this.isSelectedRow(item[idColumn]) )
-
-      // count == 0, clear the checkbox
-      if (selected.length <= 0) {
-        els.forEach( (el) => el.indeterminate = false )
-        return false
-      }
-      // count > 0 and count < perPage, set checkbox state to 'indeterminate'
-      else if (selected.length < this.perPage) {
-        els.forEach( (el) => el.indeterminate = true )
-        return true
-      }
-      // count == perPage, set checkbox state to 'checked'
-      else {
-        els.forEach( (el) => el.indeterminate = false )
-        return true
-      }
-    },
-
-    onColumnHeaderEvent (type, payload) {
-      console.log('vuetable-header: ', type, payload)
-      if (type === 'checkbox-toggled') {
-        this.$emit('vuetable-header', 'toggle-row', payload)
-      } else if (type === 'checkbox-toggled-all') {
+    onFieldEvent (type, payload) {
+      if (type === 'checkbox-toggled-all') {
         this.$emit('vuetable-header', 'toggle-all-rows', payload)
       }
     },

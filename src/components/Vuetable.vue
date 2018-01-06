@@ -47,6 +47,7 @@
                     :row-data="item" :row-index="itemIndex" :row-field="field"
                     :is-selected="isSelectedRow(item[trackBy])"
                     :css="css"
+                    :vuetable="vuetable"
                     @vuetable-field="onFieldEvent"
                   ></component>
                 </td>
@@ -368,6 +369,9 @@ export default {
     },
     isFixedHeader () {
       return this.tableHeight != null
+    },
+    vuetable () {
+      return this
     }
   },
 
@@ -1009,10 +1013,11 @@ export default {
       } else {
         this.unselectId(key)
       }
+
       this.$emit('vuetable:checkbox-toggled', isChecked, fieldName)
     },
 
-    onCheckboxToggledAll (isChecked, fieldName) {
+    onCheckboxToggledAll (isChecked) {
       let idColumn = this.trackBy
 
       if (isChecked) {
@@ -1024,6 +1029,7 @@ export default {
           this.unselectId(dataItem[idColumn])
         })
       }
+      
       this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
 
