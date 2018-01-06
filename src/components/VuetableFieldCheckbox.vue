@@ -30,6 +30,8 @@ export default {
     },
 
     isAllItemsInCurrentPageSelected() {
+      if (! this.vuetable.tableData) return 
+      
       let idColumn = this.vuetable.trackBy
       let selected = this.vuetable.tableData.filter( (item) => this.vuetable.isSelectedRow(item[idColumn]) )
 
