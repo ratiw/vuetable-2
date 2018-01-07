@@ -39,7 +39,7 @@
           @mouseover="onMouseOver(item, $event)">
           <template v-for="(field, fieldIndex) in tableFields">
             <template v-if="field.visible">
-              <template v-if="isSpecialField(field.name)">
+              <template v-if="isFieldComponent(field.name)">
                 <td :class="bodyClass('vuetable-component', field)" :key="fieldIndex"
                   :style="{width: field.width}"
                 >
@@ -532,7 +532,7 @@ export default {
     },
 
     makeTitle (str) {
-      if (this.isSpecialField(str)) {
+      if (this.isFieldComponent(str)) {
         return ''
       }
 
@@ -553,8 +553,9 @@ export default {
         : this.getObjectValue(item, field.name, '')
     },
 
-    isSpecialField (fieldName) {
+    isFieldComponent (fieldName) {
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
+        || fieldName.slice(0, 2) === '__'
     },
 
     titleCase (str) {
