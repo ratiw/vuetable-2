@@ -3710,6 +3710,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     isFixedHeader: function isFixedHeader() {
       return this.tableHeight != null;
+    },
+    vuetable: function vuetable() {
+      return this;
     }
   },
 
@@ -3859,7 +3862,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     makeTitle: function makeTitle(str) {
-      if (this.isSpecialField(str)) {
+      if (this.isFieldComponent(str)) {
         return '';
       }
 
@@ -3873,8 +3876,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     renderNormalField: function renderNormalField(field, item) {
       return this.hasFormatter(field) ? this.callFormatter(field, item) : this.getObjectValue(item, field.name, '');
     },
-    isSpecialField: function isSpecialField(fieldName) {
-      return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix;
+    isFieldComponent: function isFieldComponent(fieldName) {
+      return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix || fieldName.slice(0, 2) === '__';
     },
     titleCase: function titleCase(str) {
       return str.replace(/\w+/g, function (txt) {
@@ -4273,9 +4276,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       } else {
         this.unselectId(key);
       }
+
       this.$emit('vuetable:checkbox-toggled', isChecked, fieldName);
     },
-    onCheckboxToggledAll: function onCheckboxToggledAll(isChecked, fieldName) {
+    onCheckboxToggledAll: function onCheckboxToggledAll(isChecked) {
       var _this6 = this;
 
       var idColumn = this.trackBy;
@@ -4289,6 +4293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this6.unselectId(dataItem[idColumn]);
         });
       }
+
       this.$emit('vuetable:checkbox-toggled-all', isChecked);
     },
     changePage: function changePage(page) {
@@ -4328,21 +4333,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'vuetable-field-checkbox',
+
   mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default.a],
+
   methods: {
     toggleCheckbox: function toggleCheckbox(dataItem, event) {
-      var isChecked = event.target.checked;
-
-      this.$emit('vuetable-field', 'checkbox-toggled', {
-        isChecked: isChecked, field: this.rowField, dataItem: dataItem
-      });
+      this.vuetable.onCheckboxToggled(event.target.checked, this.rowField.name, dataItem);
     },
     toggleAllCheckbox: function toggleAllCheckbox(field, event) {
-      var isChecked = event.target.checked;
+      this.vuetable.onCheckboxToggledAll(event.target.checked);
+    },
+    isSelected: function isSelected(rowData) {
+      return this.vuetable.isSelectedRow(rowData[this.vuetable.trackBy]);
+    },
+    isAllItemsInCurrentPageSelected: function isAllItemsInCurrentPageSelected() {
+      var _this = this;
 
-      this.$emit('vuetable-field', 'checkbox-toggled-all', {
-        isChecked: isChecked, field: field
+      if (!this.vuetable.tableData) return;
+
+      var idColumn = this.vuetable.trackBy;
+      var selected = this.vuetable.tableData.filter(function (item) {
+        return _this.vuetable.isSelectedRow(item[idColumn]);
       });
+
+      if (selected.length <= 0) {
+        this.$el.indeterminate = false;
+        return false;
+      } else if (selected.length < this.vuetable.perPage) {
+          this.$el.indeterminate = true;
+          return true;
+        } else {
+            this.$el.indeterminate = false;
+            return true;
+          }
     }
   }
 });
@@ -4361,7 +4384,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'vuetable-field-handle',
+
   mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default.a],
+
+  computed: {
+    css: function css() {
+      return this.vuetable.css;
+    }
+  },
+
   methods: {
     renderIconTag: function renderIconTag(classes) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -4394,17 +4425,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type: Boolean,
       default: false
     },
-    isSelected: {
-      type: Boolean,
-      default: false
-    },
     title: {
       type: String,
       default: ''
     },
-    css: {
+    vuetable: {
       type: Object,
-      default: function _default() {}
+      default: null
     }
   }
 });
@@ -4423,10 +4450,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'vuetable-field-sequence',
+
   mixins: [__WEBPACK_IMPORTED_MODULE_0__VuetableFieldMixin_vue___default.a],
+
   methods: {
     renderSequence: function renderSequence() {
-      return this.$parent.tablePagination ? this.$parent.tablePagination.from + this.rowIndex : this.rowIndex;
+      return this.vuetable.tablePagination ? this.vuetable.tablePagination.from + this.rowIndex : this.rowIndex;
     }
   }
 });
@@ -4684,6 +4713,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     fieldPrefix: function fieldPrefix() {
       return this.$parent.fieldPrefix;
+    },
+    vuetable: function vuetable() {
+      return this.$parent;
     }
   },
 
@@ -4692,7 +4724,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix;
     },
     stripPrefix: function stripPrefix(name) {
-      return name.slice(0, this.fieldPrefix.length);
+      return name.replace(this.fieldPrefix, '');
     },
     headerClass: function headerClass(base, field) {
       return [base, field.titleClass || '', this.sortClass(field), { 'sortable': this.isSortable(field) }];
@@ -4779,45 +4811,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return typeof this.css.renderIcon === 'undefined' ? '<i class="' + classes.join(' ') + '" ' + options + '></i>' : this.css.renderIcon(classes, options);
     },
-    checkCheckboxesState: function checkCheckboxesState(fieldName) {
-      var _this = this;
-
-      if (!this.tableData) return;
-
-      var idColumn = this.trackBy;
-      var selector = 'th.vuetable-th-component-checkbox input[type=checkbox]';
-      var els = document.querySelectorAll(selector);
-
-      if (els.forEach === undefined) els.forEach = function (cb) {
-        [].forEach.call(els, cb);
-      };
-
-      var selected = this.tableData.filter(function (item) {
-        return _this.isSelectedRow(item[idColumn]);
-      });
-
-      if (selected.length <= 0) {
-        els.forEach(function (el) {
-          return el.indeterminate = false;
-        });
-        return false;
-      } else if (selected.length < this.perPage) {
-          els.forEach(function (el) {
-            return el.indeterminate = true;
-          });
-          return true;
-        } else {
-            els.forEach(function (el) {
-              return el.indeterminate = false;
-            });
-            return true;
-          }
-    },
-    onColumnHeaderEvent: function onColumnHeaderEvent(type, payload) {
-      console.log('vuetable-header: ', type, payload);
-      if (type === 'checkbox-toggled') {
-        this.$emit('vuetable-header', 'toggle-row', payload);
-      } else if (type === 'checkbox-toggled-all') {
+    onFieldEvent: function onFieldEvent(type, payload) {
+      if (type === 'checkbox-toggled-all') {
         this.$emit('vuetable-header', 'toggle-all-rows', payload);
       }
     },
@@ -6097,7 +6092,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._l((_vm.tableFields), function(field, fieldIndex) {
-      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [_c('td', {
+      return [(field.visible) ? [(_vm.isFieldComponent(field.name)) ? [_c('td', {
         key: fieldIndex,
         class: _vm.bodyClass('vuetable-component', field),
         style: ({
@@ -6110,7 +6105,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "row-index": itemIndex,
           "row-field": field,
           "is-selected": _vm.isSelectedRow(item[_vm.trackBy]),
-          "css": _vm.css
+          "css": _vm.css,
+          "vuetable": _vm.vuetable
         },
         on: {
           "vuetable-field": _vm.onFieldEvent
@@ -6291,7 +6287,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "checkbox"
     },
     domProps: {
-      "checked": _vm.isSelected
+      "checked": _vm.isAllItemsInCurrentPageSelected()
     },
     on: {
       "change": function($event) {
@@ -6303,7 +6299,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "checkbox"
     },
     domProps: {
-      "checked": _vm.isSelected
+      "checked": _vm.isSelected(_vm.rowData)
     },
     on: {
       "change": function($event) {
@@ -6357,7 +6353,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }),
       on: {
         "click": function($event) {
-          _vm.onColumnHeaderClicked(field, $event)
+          _vm.onColumnHeaderClicked($event)
         }
       }
     }, [_c(field.name, {
@@ -6366,10 +6362,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "row-field": field,
         "is-header": true,
         "title": _vm.renderTitle(field),
-        "is-selected": _vm.checkCheckboxesState(field.name)
+        "vuetable": _vm.vuetable
       },
       on: {
-        "vuetable-field": _vm.onColumnHeaderEvent
+        "vuetable-field": _vm.onFieldEvent
       }
     })], 1)] : (typeof _vm.$scopedSlots[field.name] !== 'undefined') ? [_c('th', {
       key: fieldIndex,
