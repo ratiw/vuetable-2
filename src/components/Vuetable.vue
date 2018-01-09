@@ -82,7 +82,10 @@
               :class="[css.detailRowClass]"
             >
                 <td :colspan="countVisibleFields">
-                  <component :is="detailRowComponent" :row-data="item" :row-index="itemIndex"></component>
+                  <component :is="detailRowComponent" 
+                    :row-data="item" 
+                    :row-index="itemIndex"
+                  ></component>
                 </td>
             </tr>
           </transition>
@@ -90,7 +93,10 @@
       </template>
       <template v-if="displayEmptyDataRow">
         <tr>
-          <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
+          <td :colspan="countVisibleFields" 
+            class="vuetable-empty-result" 
+            v-html="noDataTemplate"
+          ></td>
         </tr>
       </template>
       <template v-if="lessThanMinRows">
