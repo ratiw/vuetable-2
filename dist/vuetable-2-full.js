@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.2
+ * vuetable-2 v2.0.0-alpha.3
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -6106,8 +6106,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "row-data": item,
           "row-index": itemIndex,
           "row-field": field,
-          "is-selected": _vm.isSelectedRow(item[_vm.trackBy]),
-          "css": _vm.css,
           "vuetable": _vm.vuetable
         },
         on: {
