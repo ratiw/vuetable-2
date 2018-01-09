@@ -29,6 +29,9 @@
             </template>
           </template>
       </colgroup>
+    <tfoot>
+      <slot name="tableFooter" :fields="tableFields"></slot>
+    </tfoot>
     <tbody v-cloak class="vuetable-body">
       <template v-for="(item, itemIndex) in tableData">
         <tr :item-index="itemIndex" :key="itemIndex"
