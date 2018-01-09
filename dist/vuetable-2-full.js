@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.1
+ * vuetable-2 v2.0.0-alpha.2
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -3590,7 +3590,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           tableWrapper: 'ui basic container',
           tableHeaderClass: 'fixed',
           tableBodyClass: 'vuetable-semantic-no-top fixed',
-          tableClass: 'ui blue selectable celled table',
+          tableClass: 'ui blue selectable unstackable celled table',
           loadingClass: 'loading',
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
@@ -6070,6 +6070,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       })]
     ] : _vm._e()]
+  })], 2), _vm._v(" "), _c('tfoot', [_vm._t("tableFooter", null, {
+    fields: _vm.tableFields
   })], 2), _vm._v(" "), _c('tbody', {
     staticClass: "vuetable-body"
   }, [_vm._l((_vm.tableData), function(item, itemIndex) {
@@ -6182,7 +6184,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         key: fieldIndex
       }, [_vm._v(" ")]) : _vm._e()]
     })], 2)
-  }) : _vm._e()], 2)])])])
+  }) : _vm._e()], 2)], 1)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
