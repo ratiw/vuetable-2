@@ -48,8 +48,6 @@
                 >
                   <component :is="field.name"
                     :row-data="item" :row-index="itemIndex" :row-field="field"
-                    :is-selected="isSelectedRow(item[trackBy])"
-                    :css="css"
                     :vuetable="vuetable"
                     @vuetable-field="onFieldEvent"
                   ></component>
