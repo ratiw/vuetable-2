@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.3
+ * vuetable-2 v2.0.0-alpha.4
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -4811,13 +4811,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return typeof this.css.renderIcon === 'undefined' ? '<i class="' + classes.join(' ') + '" ' + options + '></i>' : this.css.renderIcon(classes, options);
     },
-    onFieldEvent: function onFieldEvent(type, payload) {
-      if (type === 'checkbox-toggled-all') {
-        this.$emit('vuetable-header', 'toggle-all-rows', payload);
-      }
-    },
     onColumnHeaderClicked: function onColumnHeaderClicked(field, event) {
-      this.$emit('vuetable-header', 'order-by', { field: field, event: event });
+      this.vuetable.orderBy(field, event);
     }
   }
 });
@@ -6363,9 +6358,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "is-header": true,
         "title": _vm.renderTitle(field),
         "vuetable": _vm.vuetable
-      },
-      on: {
-        "vuetable-field": _vm.onFieldEvent
       }
     })], 1)] : (typeof _vm.$scopedSlots[field.name] !== 'undefined') ? [_c('th', {
       key: fieldIndex,
