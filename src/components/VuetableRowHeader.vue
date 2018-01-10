@@ -13,7 +13,6 @@
               :is-header="true"
               :title="renderTitle(field)"
               :vuetable="vuetable"
-              @vuetable-field="onFieldEvent"
             ></component>
           </th>
         </template>
@@ -206,12 +205,6 @@ export default {
       return typeof(this.css.renderIcon) === 'undefined'
         ? `<i class="${classes.join(' ')}" ${options}></i>`
         : this.css.renderIcon(classes, options)
-    },
-
-    onFieldEvent (type, payload) {
-      if (type === 'checkbox-toggled-all') {
-        this.$emit('vuetable-header', 'toggle-all-rows', payload)
-      }
     },
 
     onColumnHeaderClicked (field, event) {
