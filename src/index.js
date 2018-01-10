@@ -14,7 +14,7 @@ if (!window.Promise) {
 	window.Promise = Promise
 }
 
-function install(Vue){
+function install(Vue) {
   Vue.component("vuetable", Vuetable);
   Vue.component("vuetable-pagination", VuetablePagination);
   Vue.component("vuetable-pagination-dropdown", VuetablePaginationDropDown);

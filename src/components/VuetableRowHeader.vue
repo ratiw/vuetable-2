@@ -215,7 +215,7 @@ export default {
     },
 
     onColumnHeaderClicked (field, event) {
-      this.$emit('vuetable-header', 'order-by', {field, event})
+      this.vuetable.orderBy(field, event)
     }
   }
 }
