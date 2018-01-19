@@ -2,7 +2,7 @@
   <tr>
     <template v-for="(field, fieldIndex) in tableFields">
       <template v-if="field.visible">
-        <template v-if="isSpecialField(field.name)">
+        <template v-if="vuetable.isFieldComponent(field.name)">
           <th :class="headerClass('vuetable-th-component-'+stripPrefix(field.name), field)"
             :key="fieldIndex"
             :style="{width: field.width}"
@@ -16,7 +16,7 @@
             ></component>
           </th>
         </template>
-        <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+        <template v-else-if="vuetable.isFieldSlot(field.name)">
           <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
               :key="fieldIndex"
               :style="{width: field.width}"
@@ -85,10 +85,6 @@ export default {
   },
 
   methods: {
-    isSpecialField (fieldName) {
-      return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
-    },
-
     stripPrefix (name) {
       return name.replace(this.fieldPrefix, '')
     },
