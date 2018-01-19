@@ -471,7 +471,7 @@ export default {
     },
 
     bodyClass (base, field) {
-      return [ base, field.dataClass ]
+      return [ base, 'vuetable-td-'+field.name, field.dataClass ]
     },
 
     normalizeFields () {
