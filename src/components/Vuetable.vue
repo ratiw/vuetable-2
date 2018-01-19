@@ -53,7 +53,7 @@
                   ></component>
                 </td>
               </template>
-              <template v-else-if="typeof $scopedSlots[field.name] !== 'undefined'">
+              <template v-else-if="isFieldSlot(field.name)">
                 <td :class="bodyClass('vuetable-slot', field)" :key="fieldIndex"
                   :style="{width: field.width}"
                 >
@@ -563,6 +563,10 @@ export default {
     isFieldComponent (fieldName) {
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
         || fieldName.slice(0, 2) === '__'
+    },
+
+    isFieldSlot (fieldName) {
+      return typeof this.$scopedSlots[fieldName] !== 'undefined'
     },
 
     titleCase (str) {
