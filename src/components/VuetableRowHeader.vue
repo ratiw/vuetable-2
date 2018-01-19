@@ -21,8 +21,14 @@
               :key="fieldIndex"
               :style="{width: field.width}"
               @click="onColumnHeaderClicked(field, $event)"
-              v-html="renderTitle(field)"
-          ></th>
+          >
+            <slot :name="field.name"
+              :row-field="field"
+              :is-header="true"
+              :title="renderTitle(field)"
+              :vuetable="vuetable"
+            ></slot>
+          </th>
         </template>
         <template v-else>
           <th @click="onColumnHeaderClicked(field, $event)"
