@@ -1,12 +1,20 @@
 <template>
-  <input v-if="isHeader" type="checkbox"
-    @change="toggleAllCheckbox(rowField, $event)"
-    :checked="isAllItemsInCurrentPageSelected()"
+  <th v-if="isHeader"
+    class="vuetable-th-component-checkbox"
   >
-  <input v-else type="checkbox"
-    @change="toggleCheckbox(rowData, $event)"
-    :checked="isSelected(rowData)"
+    <input type="checkbox"
+      @change="toggleAllCheckbox(rowField, $event)"
+      :checked="isAllItemsInCurrentPageSelected()"
+    >
+  </th>
+  <td v-else
+    class="vuetable-td-component-checkbox"
   >
+    <input type="checkbox"
+      @change="toggleCheckbox(rowData, $event)"
+      :checked="isSelected(rowData)"
+    >
+  </td>
 </template>
 <script>
 import VuetableFieldCheckboxMixin from './VuetableFieldCheckboxMixin.vue'

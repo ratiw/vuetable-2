@@ -43,15 +43,14 @@
           <template v-for="(field, fieldIndex) in tableFields">
             <template v-if="field.visible">
               <template v-if="isFieldComponent(field.name)">
-                <td :class="bodyClass('vuetable-component', field)" :key="fieldIndex"
+                <component :is="field.name"
+                  :row-data="item" :row-index="itemIndex" :row-field="field"
+                  :vuetable="vuetable"
+                  :key="fieldIndex"
+                  :class="bodyClass('vuetable-component', field)" 
                   :style="{width: field.width}"
-                >
-                  <component :is="field.name"
-                    :row-data="item" :row-index="itemIndex" :row-field="field"
-                    :vuetable="vuetable"
-                    @vuetable-field="onFieldEvent"
-                  ></component>
-                </td>
+                  @vuetable-field="onFieldEvent"
+                ></component>
               </template>
               <template v-else-if="isFieldSlot(field.name)">
                 <td :class="bodyClass('vuetable-slot', field)" :key="fieldIndex"
@@ -63,7 +62,7 @@
                 </td>
               </template>
               <template v-else>
-                <td :class="bodyClass('', field)" :key="fieldIndex"
+                <td :class="bodyClass('vuetable-td-'+field.name, field)" :key="fieldIndex"
                   :style="{width: field.width}"
                   v-html="renderNormalField(field, item)"
                   @click="onCellClicked(item, field, $event)"
@@ -471,7 +470,7 @@ export default {
     },
 
     bodyClass (base, field) {
-      return [ base, 'vuetable-td-'+field.name, field.dataClass ]
+      return [ base, field.dataClass ]
     },
 
     normalizeFields () {

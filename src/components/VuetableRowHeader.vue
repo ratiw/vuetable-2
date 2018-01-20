@@ -1,20 +1,18 @@
 <template>
   <tr>
-    <template v-for="(field, fieldIndex) in tableFields">
+    <template v-for="(field, fieldIndex) in vuetable.tableFields">
       <template v-if="field.visible">
         <template v-if="vuetable.isFieldComponent(field.name)">
-          <th :class="headerClass('vuetable-th-component-'+stripPrefix(field.name), field)"
+          <component :is="field.name"
+            :row-field="field"
+            :is-header="true"
+            :title="renderTitle(field)"
+            :vuetable="vuetable"
             :key="fieldIndex"
+            :class="headerClass('vuetable-component', field)"
             :style="{width: field.width}"
             @click="onColumnHeaderClicked($event)"
-          >
-            <component :is="field.name"
-              :row-field="field"
-              :is-header="true"
-              :title="renderTitle(field)"
-              :vuetable="vuetable"
-            ></component>
-          </th>
+          ></component>
         </template>
         <template v-else-if="vuetable.isFieldSlot(field.name)">
           <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
@@ -41,7 +39,7 @@
         </template>
       </template>
     </template>
-    <th v-if="scrollVisible" :style="{width: scrollBarWidth}" class="vuetable-gutter-col"></th>
+    <th v-if="vuetable.scrollVisible" :style="{width: vuetable.scrollBarWidth}" class="vuetable-gutter-col"></th>
   </tr>
 </template>
 <script>
@@ -57,32 +55,12 @@ export default {
   },
 
   computed: {
-    tableFields () {
-      return this.$parent.tableFields
-    },
-
     sortOrder() {
       return this.$parent.sortOrder
     },
 
-    showSortIcons() {
-      return this.$parent.showSortIcons
-    },
-
-    scrollVisible() {
-      return this.$parent.scrollVisible
-    },
-
-    scrollBarWidth() {
-      return this.$parent.scrollBarWidth
-    },
-
     css() {
       return this.$parent.css
-    },
-
-    fieldPrefix() {
-      return this.$parent.fieldPrefix
     },
 
     vuetable() {
@@ -92,7 +70,7 @@ export default {
 
   methods: {
     stripPrefix (name) {
-      return name.replace(this.fieldPrefix, '')
+      return name.replace(this.vuetable.fieldPrefix, '')
     },
 
     headerClass (base, field) {
@@ -100,7 +78,7 @@ export default {
         base,
         field.titleClass || '',
         this.sortClass(field),
-        {'sortable': this.isSortable(field)}
+        {'sortable': this.vuetable.isSortable(field)}
       ]
     },
 
@@ -126,20 +104,16 @@ export default {
       return cls;
     },
 
-    isSortable (field) {
-      return !(typeof field.sortField === 'undefined') && field.sortField
-    },
-
     isInCurrentSortGroup (field) {
       return this.currentSortOrderPosition(field) !== false;
     },
 
     hasSortableIcon (field) {
-      return this.isSortable(field) && this.css.sortableIcon != ''
+      return this.vuetable.isSortable(field) && this.css.sortableIcon != ''
     },
 
     currentSortOrderPosition (field) {
-      if ( ! this.isSortable(field)) {
+      if ( ! this.vuetable.isSortable(field)) {
         return false
       }
 
@@ -161,7 +135,7 @@ export default {
 
       if (title.length > 0 && this.isInCurrentSortGroup(field) || this.hasSortableIcon(field)) {
         let style = `opacity:${this.sortIconOpacity(field)};position:relative;float:right`
-        let iconTag = this.showSortIcons ? this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`) : ''
+        let iconTag = this.vuetable.showSortIcons ? this.renderIconTag(['sort-icon', this.sortIcon(field)], `style="${style}"`) : ''
         return title + ' ' + iconTag
       }
 

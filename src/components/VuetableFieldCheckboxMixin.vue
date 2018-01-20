@@ -21,21 +21,22 @@ export default {
       if (! this.vuetable.tableData) return 
       
       let idColumn = this.vuetable.trackBy
+      let checkbox = this.$el.querySelector('input[type=checkbox]')
       let selected = this.vuetable.tableData.filter( (item) => this.vuetable.isSelectedRow(item[idColumn]) )
 
       // count == 0, clear the checkbox
       if (selected.length <= 0) {
-        this.$el.indeterminate = false
+        checkbox.indeterminate = false
         return false
       }
       // count > 0 and count < perPage, set checkbox state to 'indeterminate'
       else if (selected.length < this.vuetable.perPage) {
-        this.$el.indeterminate = true
+        checkbox.indeterminate = true
         return true
       }
       // count == perPage, set checkbox state to 'checked'
       else {
-        this.$el.indeterminate = false
+        checkbox.indeterminate = false
         return true
       }            
     }
