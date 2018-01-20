@@ -1,6 +1,12 @@
 <template>
-  <span v-if="isHeader" v-html="title"></span>
-  <span v-else v-html="renderIconTag(['handle-icon', css.handleIcon])"></span>
+  <th v-if="isHeader" 
+    class="vuetable-th-component-handle"
+    v-html="title"
+  ></th>
+  <td v-else 
+    class="vuetable-td-component-handle"
+    v-html="renderIconTag(['handle-icon', css.handleIcon])"
+  ></td>
 </template>
 
 <script>
