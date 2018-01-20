@@ -70,30 +70,30 @@
           <template v-for="field in tableFields">
             <template v-if="field.visible">
               <template v-if="isSpecialField(field.name)">
-                <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+                <td v-if="extractName(field.name) == '__sequence'" :class="getDataClass(field, item, ['vuetable-sequence'])"
                   v-html="renderSequence(index)">
                 </td>
-                <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]"
+                <td v-if="extractName(field.name) == '__handle'" :class="getDataClass(field, item, ['vuetable-handle'])"
                   v-html="renderIconTag(['handle-icon', css.handleIcon])"
                 ></td>
-                <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
+                <td v-if="extractName(field.name) == '__checkbox'" :class="getDataClass(field, item, ['vuetable-checkboxes'])">
                   <input type="checkbox"
                     @change="toggleCheckbox(item, field.name, $event)"
                     :checked="rowSelected(item, field.name)">
                 </td>
-                <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
+                <td v-if="extractName(field.name) === '__component'" :class="getDataClass(field, item, ['vuetable-component'])">
                   <component :is="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></component>
                 </td>
-                <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+                <td v-if="extractName(field.name) === '__slot'" :class="getDataClass(field, item, ['vuetable-slot'])">
                   <slot :name="extractArgs(field.name)"
                     :row-data="item" :row-index="index" :row-field="field.sortField"
                   ></slot>
                 </td>
               </template>
               <template v-else>
-                <td :class="field.dataClass"
+                <td :class="getDataClass(field, item)"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   @contextmenu="onCellRightClicked(item, field, $event)"
@@ -185,37 +185,37 @@
         <template v-for="field in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <td v-if="extractName(field.name) == '__sequence'" :class="['vuetable-sequence', field.dataClass]"
+              <td v-if="extractName(field.name) == '__sequence'" :class="getDataClass(field, item, ['vuetable-sequence'])"
                 v-html="renderSequence(index)">
               </td>
-              <td v-if="extractName(field.name) == '__handle'" :class="['vuetable-handle', field.dataClass]"
+              <td v-if="extractName(field.name) == '__handle'" :class="getDataClass(field, item, ['vuetable-handle'])"
                 v-html="renderIconTag(['handle-icon', css.handleIcon])"
               ></td>
-              <td v-if="extractName(field.name) == '__checkbox'" :class="['vuetable-checkboxes', field.dataClass]">
+              <td v-if="extractName(field.name) == '__checkbox'" :class="getDataClass(field, item, ['vuetable-checkboxes'])">
                 <input type="checkbox"
                   @change="toggleCheckbox(item, field.name, $event)"
                   :checked="rowSelected(item, field.name)">
               </td>
-              <td v-if="extractName(field.name) === '__component'" :class="['vuetable-component', field.dataClass]">
+              <td v-if="extractName(field.name) === '__component'" :class="getDataClass(field, item, ['vuetable-component'])">
                 <component :is="extractArgs(field.name)"
                   :row-data="item" :row-index="index" :row-field="field.sortField"
                 ></component>
               </td>
-              <td v-if="extractName(field.name) === '__slot'" :class="['vuetable-slot', field.dataClass]">
+              <td v-if="extractName(field.name) === '__slot'" :class="getDataClass(field, item, ['vuetable-slot'])">
                 <slot :name="extractArgs(field.name)"
                   :row-data="item" :row-index="index" :row-field="field.sortField"
                 ></slot>
               </td>
             </template>
             <template v-else>
-              <td v-if="hasCallback(field)" :class="field.dataClass"
+              <td v-if="hasCallback(field)" :class="getDataClass(field, item)"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
                 @contextmenu="onCellRightClicked(item, field, $event)"
                 v-html="callCallback(field, item)"
               >
               </td>
-              <td v-else :class="field.dataClass"
+              <td v-else :class="getDataClass(field, item)"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
                 @contextmenu="onCellRightClicked(item, field, $event)"
@@ -661,6 +661,23 @@ export default {
     },
     notIn (str, arr) {
       return arr.indexOf(str) === -1
+    },
+    getDataClass (field, item, addClasses = []) {
+      let result = (addClasses && addClasses.length) ? addClasses.join(' ') : '';
+      if (typeof field.dataClass === 'function') {
+        const custom = field.dataClass(item, field);
+        if (custom) {
+          result += ' ';
+          if (typeof custom.join === 'function') {
+            result += custom.join(' ');
+          } else {
+            result += custom;
+          }
+        }
+      } else if (field.dataClass) {
+        result += ' ' + field.dataClass;
+      }
+      return result;
     },
     loadData (success = this.loadSuccess, failed = this.loadFailed) {
       if (this.isDataMode) {
