@@ -18,15 +18,9 @@
           <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
               :key="fieldIndex"
               :style="{width: field.width}"
+              v-html="renderTitle(field)"
               @click="onColumnHeaderClicked(field, $event)"
-          >
-            <slot :name="field.name"
-              :row-field="field"
-              :is-header="true"
-              :title="renderTitle(field)"
-              :vuetable="vuetable"
-            ></slot>
-          </th>
+          ></th>
         </template>
         <template v-else>
           <th @click="onColumnHeaderClicked(field, $event)"
