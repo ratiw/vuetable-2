@@ -199,6 +199,11 @@ let tableColumns = [
     name: 'name',
     title: '<i class="book icon"></i> Full Name',
     sortField: 'name',
+    dataClass: (item) => {
+      return item.gender === 'M'
+          ? 'custom-class-gender-male'
+          : 'custom-class-gender-female';
+    },
     width: '150px'
   },
   {
