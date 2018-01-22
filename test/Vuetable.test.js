@@ -2,6 +2,20 @@ import Vue from 'vue'
 import { shallow } from '@vue/test-utils'
 import Vuetable from '../src/components/Vuetable.vue'
 
+beforeAll( () => {
+  // const consoleMock = jest.spyOn(global.console, 'error')
+  global.console.error = jest.fn( msg => {
+    return msg
+  })
+})
+
+afterAll( () => {
+  // consoleMock.mockReset()
+  // consoleMock.mockRestore()
+  global.console.error.mockReset()
+  global.console.error.mockRestore()
+})
+
 describe('Vuetable - Fields Definition', () => {
 
   const expectedResult = [
@@ -145,7 +159,6 @@ describe('Vuetable - Fields Definition', () => {
 
     expect(wrapper.vm.tableFields[0].dataClass).toEqual('foo-baz')
     expect(wrapper.vm.tableData.length).toEqual(1)
-    console.log(wrapper.vm.tableData)
 
     Vue.config.errorHandler = done
     Vue.nextTick( () => {
@@ -201,5 +214,34 @@ describe('Vuetable - Fields Definition', () => {
       }
     })
     
+    expect(wrapper.vm.tableFields[0].formatter).toBe(null)
+    expect(console.error).toBeCalledWith('code field formatter must be a function')
+  })
+
+  it('should call the formatter function to format the column value', (done) => {
+    let myFormatter = (value) => {
+      return value.toUpperCase()
+    }
+
+    let wrapper = shallow(Vuetable, {
+      propsData: {
+        apiMode: false,
+        fields: [
+          { name: 'code', formatter: myFormatter }
+        ],
+        data: [
+          { code: 'mycode' }
+        ]
+      }
+    })
+
+    expect(wrapper.vm.tableFields[0].formatter).toEqual(myFormatter)
+
+    Vue.config.errorHandler = done
+    Vue.nextTick( () => {
+      let nodes = wrapper.vm.$el.querySelectorAll('tbody tr td.vuetable-td-code')
+      expect(nodes[0].textContent).toBe('MYCODE')
+      done()
+    })
   })
 })
