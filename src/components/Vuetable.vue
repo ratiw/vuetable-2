@@ -546,15 +546,13 @@ export default {
         return ''
       }
 
-      return this.titleCase(str)
+      return this.titleCase(str.replace('.', ' '))
     },
 
     getFieldTitle (field) {
       if (typeof(field.title) === 'function') return field.title()
 
-      return typeof(field.title) === 'undefined'
-        ? field.name.replace('.', ' ')
-        : field.title
+      return field.title
     },
 
     renderNormalField (field, item) {
