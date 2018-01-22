@@ -9,13 +9,13 @@
             :title="renderTitle(field)"
             :vuetable="vuetable"
             :key="fieldIndex"
-            :class="headerClass('vuetable-component', field)"
+            :class="headerClass('vuetable-th-component', field)"
             :style="{width: field.width}"
             @click="onColumnHeaderClicked($event)"
           ></component>
         </template>
         <template v-else-if="vuetable.isFieldSlot(field.name)">
-          <th :class="headerClass('vuetable-th-slot-'+field.name, field)"
+          <th :class="headerClass('vuetable-th-slot', field)"
               :key="fieldIndex"
               :style="{width: field.width}"
               v-html="renderTitle(field)"
@@ -26,7 +26,7 @@
           <th @click="onColumnHeaderClicked(field, $event)"
             :key="fieldIndex"
             :id="'_' + field.name"
-            :class="headerClass('vuetable-th-'+field.name, field)"
+            :class="headerClass('vuetable-th', field)"
             :style="{width: field.width}"
             v-html="renderTitle(field)"
           ></th>
@@ -69,11 +69,17 @@ export default {
 
     headerClass (base, field) {
       return [
-        base,
+        base + '-' + this.toSnakeCase(field.name),
         field.titleClass || '',
         this.sortClass(field),
         {'sortable': this.vuetable.isSortable(field)}
       ]
+    },
+
+    toSnakeCase (str) {
+      return str.replace(/([A-Z])/g, (chr) => "_"+chr.toLowerCase())
+        .replace(' ', '_')
+        .replace('.', '_')
     },
 
     sortClass (field) {
