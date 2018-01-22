@@ -802,21 +802,17 @@ export default {
     },
 
     hasFormatter (item) {
-      return item.formatter ? true : false
+      return typeof(item.formatter) === 'function'
     },
 
     callFormatter (field, item) {
-      if ( ! this.hasFormatter(field)) return
-
-      if (typeof(field.formatter) !== 'function') {
+      if ( ! this.hasFormatter(field)) {
         this.warn('Field formatter must be a function')
       }
 
       if (typeof(field.formatter) === 'function') {
        return field.formatter(this.getObjectValue(item, field.name), this)
       }
-
-      // return null
     },
 
     getObjectValue (object, path, defaultValue) {
