@@ -512,6 +512,9 @@ export default {
       if (obj.title === undefined) {
         obj.title = this.makeTitle(obj.name)
       }
+      if (typeof(obj.formatter) !== 'function') {
+        obj.formatter = null
+      }
       return obj
     },
 
