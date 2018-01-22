@@ -512,6 +512,10 @@ export default {
       if (obj.title === undefined) {
         obj.title = this.makeTitle(obj.name)
       }
+      if (obj.formatter !== null && typeof(obj.formatter) !== 'function') {
+        console.error(obj.name + ' field formatter must be a function')
+        obj.formatter = null
+      }
       return obj
     },
 
@@ -802,21 +806,15 @@ export default {
     },
 
     hasFormatter (item) {
-      return item.formatter ? true : false
+      return typeof(item.formatter) === 'function'
     },
 
     callFormatter (field, item) {
-      if ( ! this.hasFormatter(field)) return
-
-      if (typeof(field.formatter) !== 'function') {
-        this.warn('Field formatter must be a function')
-      }
+      if ( ! this.hasFormatter(field)) return 
 
       if (typeof(field.formatter) === 'function') {
        return field.formatter(this.getObjectValue(item, field.name), this)
       }
-
-      // return null
     },
 
     getObjectValue (object, path, defaultValue) {
