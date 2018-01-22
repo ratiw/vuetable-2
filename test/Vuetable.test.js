@@ -1,17 +1,14 @@
 import Vue from 'vue'
 import { shallow } from '@vue/test-utils'
-import Vuetable from '../src/components/Vuetable.vue'
+import Vuetable from '@/components/Vuetable.vue'
 
 beforeAll( () => {
-  // const consoleMock = jest.spyOn(global.console, 'error')
   global.console.error = jest.fn( msg => {
     return msg
   })
 })
 
 afterAll( () => {
-  // consoleMock.mockReset()
-  // consoleMock.mockRestore()
   global.console.error.mockReset()
   global.console.error.mockRestore()
 })
@@ -243,5 +240,21 @@ describe('Vuetable - Fields Definition', () => {
       expect(nodes[0].textContent).toBe('MYCODE')
       done()
     })
+  })
+
+  /**
+   * width option
+   */
+  it('should set width to the given value when specified', () => {
+    let wrapper = shallow(Vuetable, {
+      propsData: {
+        loadOnStart: false,
+        fields: [
+          { name: 'code', width: '100px' }
+        ]
+      }
+    })
+    
+    expect(wrapper.vm.tableFields[0].width).toEqual('100px')
   })
 })

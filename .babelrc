@@ -8,7 +8,15 @@
   "env": {
     "test": {
       "presets": ["env", "stage-2"],
-      "plugins": [ "istanbul" ]
+      "plugins": [ 
+        "istanbul",
+        ["module-resolver", {
+          "root": ["./src"],
+          "alias": {
+            "@": "./src"
+          }
+        }]
+      ]
     }
   }
 }
