@@ -127,10 +127,10 @@ describe('Vuetable - Fields Definition', () => {
     })
 
     expect(wrapper.vm.tableFields[0].titleClass).toEqual('foo-bar')
-    let nodes = wrapper.vm.$el.querySelectorAll('col')
-    expect(nodes[0].attributes.id.value).toEqual('_col_code')
-    expect(nodes[0].classList.contains('foo-bar')).toBe(true)
-    expect(nodes[0].classList.contains('vuetable-th-code')).toBe(true)
+    let el = wrapper.findAll('col').at(0)
+    expect(el.attributes().id).toEqual('_col_code')
+    expect(el.classes()).toContain('foo-bar')
+    expect(el.classes()).toContain('vuetable-th-code')
   })
 
   /**
@@ -159,9 +159,10 @@ describe('Vuetable - Fields Definition', () => {
 
     Vue.config.errorHandler = done
     Vue.nextTick( () => {
-      let nodes = wrapper.vm.$el.querySelectorAll('tbody tr td')
-      expect(nodes[0].classList.contains('vuetable-td-code')).toBe(true)
-      expect(nodes[0].classList.contains('foo-baz')).toBe(true)
+      let el = wrapper.findAll('tbody tr td').at(0)
+      console.log(el.classes())
+      expect(el.classes()).toContain('vuetable-td-code')
+      expect(el.classes()).toContain('foo-baz')
       done()
     })
   })
@@ -236,8 +237,7 @@ describe('Vuetable - Fields Definition', () => {
 
     Vue.config.errorHandler = done
     Vue.nextTick( () => {
-      let nodes = wrapper.vm.$el.querySelectorAll('tbody tr td.vuetable-td-code')
-      expect(nodes[0].textContent).toBe('MYCODE')
+      expect(wrapper.find('tbody tr td.vuetable-td-code').text()).toBe('MYCODE')
       done()
     })
   })
