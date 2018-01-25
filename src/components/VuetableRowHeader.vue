@@ -77,7 +77,7 @@ export default {
     },
 
     toSnakeCase (str) {
-      return str.replace(/([A-Z])/g, (chr) => "_"+chr.toLowerCase())
+      return typeof(str) === 'string' && str.replace(/([A-Z])/g, (chr) => "_"+chr.toLowerCase())
         .replace(' ', '_')
         .replace('.', '_')
     },

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { shallow } from '@vue/test-utils'
 import Vuetable from '@/components/Vuetable.vue'
+import SampleComponent from '@/components/VuetableFieldHandle.vue'
 
 beforeAll( () => {
   global.console.error = jest.fn( msg => {
@@ -70,6 +71,14 @@ describe('Vuetable - Fields Definition', () => {
     ])
 
     expect(wrapper.vm.tableFields).toEqual(expectedResult)
+  })
+
+  it('should accept (VueComponent) Object in "name" option', () => {
+    let wrapper = shallowVuetable([
+      { name: SampleComponent }
+    ])
+
+    expect(wrapper.vm.tableFields[0].name instanceof Object).toBe(true)
   })
 
   /**
