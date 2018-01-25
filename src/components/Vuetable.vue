@@ -520,7 +520,9 @@ export default {
     },
 
     normalizeFieldName (fieldName) {
-      return fieldName.replace('__', this.fieldPrefix)
+      if (fieldName instanceof Object) return fieldName
+      
+      return typeof(fieldName) === 'string' && fieldName.replace('__', this.fieldPrefix)
     },
 
     setData (data) {
@@ -562,6 +564,10 @@ export default {
     },
 
     isFieldComponent (fieldName) {
+      if (fieldName instanceof Object) {
+        return true
+      }
+
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix
         || fieldName.slice(0, 2) === '__'
     },
