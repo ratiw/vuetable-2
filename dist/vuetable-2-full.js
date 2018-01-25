@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.6
+ * vuetable-2 v2.0.0-alpha.7
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -3884,7 +3884,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return obj;
     },
     normalizeFieldName: function normalizeFieldName(fieldName) {
-      return fieldName.replace('__', this.fieldPrefix);
+      if (fieldName instanceof Object) return fieldName;
+
+      return typeof fieldName === 'string' && fieldName.replace('__', this.fieldPrefix);
     },
     setData: function setData(data) {
       var _this3 = this;
@@ -3910,17 +3912,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return '';
       }
 
-      return this.titleCase(str);
+      return this.titleCase(str.replace('.', ' '));
     },
     getFieldTitle: function getFieldTitle(field) {
       if (typeof field.title === 'function') return field.title();
 
-      return typeof field.title === 'undefined' ? field.name.replace('.', ' ') : field.title;
+      return field.title;
     },
     renderNormalField: function renderNormalField(field, item) {
       return this.hasFormatter(field) ? this.callFormatter(field, item) : this.getObjectValue(item, field.name, '');
     },
     isFieldComponent: function isFieldComponent(fieldName) {
+      if (fieldName instanceof Object) {
+        return true;
+      }
+
       return fieldName.slice(0, this.fieldPrefix.length) === this.fieldPrefix || fieldName.slice(0, 2) === '__';
     },
     isFieldSlot: function isFieldSlot(fieldName) {
@@ -4768,7 +4774,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return name.replace(this.vuetable.fieldPrefix, '');
     },
     headerClass: function headerClass(base, field) {
-      return [base, field.titleClass || '', this.sortClass(field), { 'sortable': this.vuetable.isSortable(field) }];
+      return [base + '-' + this.toSnakeCase(field.name), field.titleClass || '', this.sortClass(field), { 'sortable': this.vuetable.isSortable(field) }];
+    },
+    toSnakeCase: function toSnakeCase(str) {
+      return typeof str === 'string' && str.replace(/([A-Z])/g, function (chr) {
+        return "_" + chr.toLowerCase();
+      }).replace(' ', '_').replace('.', '_');
     },
     sortClass: function sortClass(field) {
       var cls = '';
@@ -6452,7 +6463,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return [(field.visible) ? [(_vm.vuetable.isFieldComponent(field.name)) ? [_c(field.name, {
       key: fieldIndex,
       tag: "component",
-      class: _vm.headerClass('vuetable-component', field),
+      class: _vm.headerClass('vuetable-th-component', field),
       style: ({
         width: field.width
       }),
@@ -6469,7 +6480,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })] : (_vm.vuetable.isFieldSlot(field.name)) ? [_c('th', {
       key: fieldIndex,
-      class: _vm.headerClass('vuetable-th-slot-' + field.name, field),
+      class: _vm.headerClass('vuetable-th-slot', field),
       style: ({
         width: field.width
       }),
@@ -6483,7 +6494,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })] : [_c('th', {
       key: fieldIndex,
-      class: _vm.headerClass('vuetable-th-' + field.name, field),
+      class: _vm.headerClass('vuetable-th', field),
       style: ({
         width: field.width
       }),
