@@ -3,19 +3,19 @@ import { shallow } from '@vue/test-utils'
 import Vuetable from '@/components/Vuetable.vue'
 import SampleComponent from '@/components/VuetableFieldHandle.vue'
 
-beforeAll( () => {
-  global.console.error = jest.fn( msg => {
-    return msg
-  })
-})
-
-afterAll( () => {
-  global.console.error.mockReset()
-  global.console.error.mockRestore()
-})
-
 describe('Vuetable - Fields Definition', () => {
 
+  beforeAll( () => {
+    global.console.error = jest.fn( msg => {
+      return msg
+    })
+  })
+  
+  afterAll( () => {
+    global.console.error.mockReset()
+    global.console.error.mockRestore()
+  })
+  
   const expectedResult = [
     {
       name: 'code',

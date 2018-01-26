@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.7
+ * vuetable-2 v2.0.0-alpha.8
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -3612,7 +3612,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       default: ''
     },
     detailRowComponent: {
-      type: String,
+      type: [String, Object],
       default: ''
     },
     detailRowTransition: {
@@ -3705,12 +3705,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     useDetailRow: function useDetailRow() {
-      if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
-        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!');
-        return false;
-      }
+      if (!this.dataIsAvailable) return false;
 
       return this.detailRowComponent !== '';
+    },
+    dataIsAvailable: function dataIsAvailable() {
+      if (!this.tableData) return false;
+
+      return this.tableData.length > 0;
+    },
+    hasRowIdentifier: function hasRowIdentifier() {
+      return this.dataIsAvailable && typeof this.tableData[0][this.trackBy] !== 'undefined';
     },
     countVisibleFields: function countVisibleFields() {
       return this.tableFields.filter(function (field) {
@@ -3891,6 +3896,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     setData: function setData(data) {
       var _this3 = this;
 
+      this.checkIfRowIdentifierExists();
+
       if (Array.isArray(data)) {
         this.tableData = data;
         return;
@@ -3906,6 +3913,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.fireEvent('pagination-data', _this3.tablePagination);
         _this3.fireEvent('loaded');
       });
+    },
+    checkIfRowIdentifierExists: function checkIfRowIdentifierExists() {
+      if (!this.hasRowIdentifier) {
+        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!');
+        return false;
+      }
     },
     makeTitle: function makeTitle(str) {
       if (this.isFieldComponent(str)) {
@@ -4265,8 +4278,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       } else if (this.isObject(this.data)) {
         this.normalizeSortOrder();
         this.setData(this.dataManager(this.sortOrder, this.makePagination()));
-      } else {
-        console.error('The "data" prop only supports an array of data, or an object containing the data.');
       }
     },
     isObject: function isObject(unknown) {

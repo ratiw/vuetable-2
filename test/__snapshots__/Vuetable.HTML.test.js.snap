@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Vuetable - HTML structure renders HTML table 1`] = `
+<div
+  class="ui basic container"
+>
+  <div
+    class="vuetable-head-wrapper"
+  >
+    <table
+      class="vuetable ui blue selectable unstackable celled table fixed"
+    >
+      <thead>
+        <tr>
+          <th
+            class="vuetable-th-code"
+            id="_code"
+          >
+            Code
+          </th>
+          <th
+            class="vuetable-th-description"
+            id="_description"
+          >
+            Description
+          </th>
+           
+          <!---->
+        </tr>
+      </thead>
+    </table>
+  </div>
+   
+  <div
+    class="vuetable-body-wrapper"
+  >
+    <table
+      class="vuetable ui blue selectable unstackable celled table vuetable-semantic-no-top fixed"
+    >
+      <colgroup>
+        <col
+          class="vuetable-th-code"
+          id="_col_code"
+        />
+        <col
+          class="vuetable-th-description"
+          id="_col_description"
+        />
+      </colgroup>
+       
+      <tfoot />
+       
+      <tbody
+        class="vuetable-body"
+      >
+         
+        <tr>
+          <td
+            class="vuetable-empty-result"
+            colspan="2"
+          >
+            No Data Available
+          </td>
+        </tr>
+         
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
