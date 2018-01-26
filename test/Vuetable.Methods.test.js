@@ -96,13 +96,99 @@ describe('Vuetable - Methods', () => {
 
   describe('setData', () => {
 
-    it('emits loading and loaded events', () => {
+    it('emits loading and loaded events (Data mode)', () => {
       let wrapper = shallowVuetable(['code'])
       wrapper.vm.setData([{code: 'AAA'}])
 
       let emitted = wrapper.emitted()
       expect(emitted).toHaveProperty('vuetable:loading')
       expect(emitted).toHaveProperty('vuetable:loaded')
+    })
+  })
+
+  describe('normalizeFieldName', () => {
+    let dummyComponent = Vue.component('dummy', {
+      template: `<div></div>`
+    })
+
+    let wrapper = shallowVuetable([
+      'code',
+      '__checkbox',
+      { name: dummyComponent },
+    ])
+
+    it('returns string name if the field is normal string', () => {
+      expect(wrapper.vm.tableFields[0].name).toEqual('code')
+    })
+
+    it('returns expanded string name if it is field component', () => {
+      expect(wrapper.vm.tableFields[1].name).toEqual(wrapper.vm.fieldPrefix + 'checkbox')
+    })
+
+    it('returns the Object if field name is an Object', () => {
+      expect(wrapper.vm.tableFields[2].name).toBe(dummyComponent)
+    })
+  })
+
+  describe('isFieldComponent', () => {
+    let wrapper = shallowVuetable(['code'])
+    
+    it('returns true if given name is of type Object (VueComponent)', () => {
+      expect(wrapper.vm.isFieldComponent(Object)).toBe(true)
+    })
+
+    it('returns true if it starts with field-prefix', () => {
+      expect(wrapper.vm.isFieldComponent(wrapper.vm.fieldPrefix)).toBe(true)
+    })
+
+    it('returns true if it begins with __ char', () => {
+      expect(wrapper.vm.isFieldComponent('__name')).toBe(true)
+    })
+
+    it('returns false in other cases', () => {
+      expect(wrapper.vm.isFieldComponent('name')).toBe(false)
+      expect(wrapper.vm.isFieldComponent('_name')).toBe(false)
+    })
+  })
+
+  describe('makeTitle', () => {
+    let dummyComponent = Vue.component('dummy', {
+      template: `<div />`
+    })
+
+    let wrapper = shallowVuetable()
+
+    it('returns empty string if the given name is field component', () => {
+      expect(wrapper.vm.makeTitle(dummyComponent)).toBe('')
+      expect(wrapper.vm.makeTitle('__checkbox')).toBe('')
+    })
+
+    it('returns string replacing . with space', () => {
+      expect(wrapper.vm.makeTitle('Hello.World')).toEqual('Hello World')
+    })
+
+    it('returns capitalized string', () => {
+      expect(wrapper.vm.makeTitle('hello')).toEqual('Hello')
+      expect(wrapper.vm.makeTitle('hello world')).toEqual('Hello World')
+      expect(wrapper.vm.makeTitle('hello.world')).toEqual('Hello World')
+    })
+  })
+
+  describe('getFieldTitle', () => {
+    let wrapper = shallowVuetable([
+      'code',
+      { 
+        name: 'description', 
+        title: () => 'DUMMY'
+      }
+    ])
+
+    it('returns predefined field title', () => {
+      expect(wrapper.vm.getFieldTitle(wrapper.vm.tableFields[0])).toEqual('Code')
+    })
+
+    it('calls field title function if it is defined as Funcation', () => {
+      expect(wrapper.vm.getFieldTitle(wrapper.vm.tableFields[1])).toEqual('DUMMY')
     })
   })
 })
