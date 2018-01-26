@@ -335,7 +335,9 @@ export default {
       return this.detailRowComponent !== ''
     },
     dataIsAvailable () {
-      return this.tableData && this.tableData.length > 0
+      if ( ! this.tableData) return false
+
+      return this.tableData.length > 0
     },
     hasRowIdentifier () {
       return this.dataIsAvailable && typeof(this.tableData[0][this.trackBy]) !== 'undefined'
