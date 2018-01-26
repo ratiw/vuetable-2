@@ -330,12 +330,15 @@ export default {
 
   computed: {
     useDetailRow () {
-      if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
-        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!')
-        return false
-      }
+      if ( ! this.dataIsAvailable) return false
 
       return this.detailRowComponent !== ''
+    },
+    dataIsAvailable () {
+      return this.tableData && this.tableData.length > 0
+    },
+    hasRowIdentifier () {
+      return this.dataIsAvailable && typeof(this.tableData[0][this.trackBy]) !== 'undefined'
     },
     countVisibleFields () {
       return this.tableFields.filter( (field) => {
@@ -526,6 +529,8 @@ export default {
     },
 
     setData (data) {
+      this.checkIfRowIdentifierExists()
+
       if (Array.isArray(data)) {
         this.tableData = data
         return
@@ -541,6 +546,13 @@ export default {
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
+    },
+
+    checkIfRowIdentifierExists () {
+      if ( ! this.hasRowIdentifier) {
+        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!')
+        return false
+      }
     },
 
     makeTitle (str) {
@@ -954,8 +966,6 @@ export default {
       } else if (this.isObject(this.data)) {
         this.normalizeSortOrder()
         this.setData(this.dataManager(this.sortOrder, this.makePagination()))
-      } else {
-        console.error('The "data" prop only supports an array of data, or an object containing the data.')
       }
     },
 
