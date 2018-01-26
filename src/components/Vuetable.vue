@@ -552,7 +552,7 @@ export default {
 
     checkIfRowIdentifierExists () {
       if ( ! this.hasRowIdentifier) {
-        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!')
+        this.warn('Invalid unique row identifier in your data! Use "track-by" prop to specify.')
         return false
       }
     },
