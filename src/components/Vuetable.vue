@@ -238,7 +238,7 @@ export default {
       default: ''
     },
     detailRowComponent: {
-      type: String,
+      type: [String, Object],
       default: ''
     },
     detailRowTransition: {
