@@ -640,6 +640,7 @@ export default {
       }
 
       this.$nextTick( () => {
+        this.checkIfRowIdentifierExists()
         this.checkScrollbarVisibility()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
