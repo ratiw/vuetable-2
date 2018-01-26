@@ -555,6 +555,8 @@ export default {
         this.warn('Invalid unique row identifier in your data! Use "track-by" prop to specify.')
         return false
       }
+
+      return true
     },
 
     makeTitle (str) {
