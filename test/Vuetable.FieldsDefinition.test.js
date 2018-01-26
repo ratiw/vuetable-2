@@ -9,11 +9,16 @@ describe('Vuetable - Fields Definition', () => {
     global.console.error = jest.fn( msg => {
       return msg
     })
+    global.console.warn = jest.fn( msg => {
+      return msg
+    })
   })
   
   afterAll( () => {
     global.console.error.mockReset()
     global.console.error.mockRestore()
+    global.console.warn.mockReset()
+    global.console.warn.mockRestore()
   })
   
   const expectedResult = [

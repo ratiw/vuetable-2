@@ -3,7 +3,6 @@ import { mount, shallow } from '@vue/test-utils'
 import Vuetable from '@/components/Vuetable.vue'
 
 describe('Vuetable - Computed properties', () => {
-  let spy
 
   beforeAll( () => {
     global.console.warn = jest.fn( msg => {

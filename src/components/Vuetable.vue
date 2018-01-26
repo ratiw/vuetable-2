@@ -533,12 +533,13 @@ export default {
     setData (data) {
       this.checkIfRowIdentifierExists()
 
+      this.fireEvent('loading')
+
       if (Array.isArray(data)) {
         this.tableData = data
+        this.fireEvent('loaded')
         return
       }
-
-      this.fireEvent('loading')
 
       this.tableData = this.getObjectValue(data, this.dataPath, null)
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null)
