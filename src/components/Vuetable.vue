@@ -689,7 +689,7 @@ export default {
 
       if (typeof(this.queryParams) === 'function') {
         params = this.queryParams(this.sortOrder, this.currentPage, this.perPage)
-        return typeof(params) !== 'object' ? {} : params
+        return typeof(params) === 'object' ? params : {}
       }
 
       params[this.queryParams.sort] = this.getSortParam()
@@ -734,7 +734,7 @@ export default {
     },
 
     isSortable (field) {
-      return !(typeof field.sortField === 'undefined') && field.sortField
+      return field.sortField !== null
     },
 
     currentSortOrderPosition (field) {
