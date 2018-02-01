@@ -100,38 +100,37 @@
                   v-html="renderNormalField(field, item)"
                 >
                 </td>
-                  </template>
-                </template>
               </template>
-            </tr>
-            <template v-if="useDetailRow">
-              <transition :name="detailRowTransition">
-                <tr v-if="isVisibleDetailRow(item[trackBy])"
-                  @click="onDetailRowClick(item, $event)"
-                  :class="[css.detailRowClass]"
-                >
-                    <td :colspan="countVisibleFields">
-                      <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
-                    </td>
-                </tr>
-              </transition>
             </template>
           </template>
-          <template v-if="displayEmptyDataRow">
-            <tr>
-              <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
+        </tr>
+        <template v-if="useDetailRow">
+          <transition :name="detailRowTransition">
+            <tr v-if="isVisibleDetailRow(item[trackBy])"
+              @click="onDetailRowClick(item, $event)"
+              :class="[css.detailRowClass]"
+            >
+                <td :colspan="countVisibleFields">
+                  <component :is="detailRowComponent" :row-data="item" :row-index="index"></component>
+                </td>
             </tr>
+          </transition>
+        </template>
+      </template>
+      <template v-if="displayEmptyDataRow">
+        <tr>
+          <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
+        </tr>
+      </template>
+      <template v-if="lessThanMinRows">
+        <tr v-for="i in blankRows" class="blank-row">
+          <template v-for="field in tableFields">
+            <td v-if="field.visible">&nbsp;</td>
           </template>
-          <template v-if="lessThanMinRows">
-            <tr v-for="i in blankRows" class="blank-row">
-              <template v-for="field in tableFields">
-                <td v-if="field.visible">&nbsp;</td>
-              </template>
-            </tr>
-          </template>
-        </tbody>
-      </table>
-    </div>
+        </tr>
+      </template>
+    </tbody>
+    </table>
   </div>
 </div>
 <table v-else :class="['vuetable', css.tableClass]"> <!-- no fixed header - regular table -->
