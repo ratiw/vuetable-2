@@ -148,29 +148,29 @@
             <th v-if="extractName(field.name) == '__component'"
                 @click="orderBy(field, $event)"
                 :style="{width: field.width}"
-                :class="['vuetable-th-component-'+trackBy, field.titleClass, {'sortable': isSortable(field)}]"
+                :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
             ></th>
             <th v-if="extractName(field.name) == '__slot'"
                 @click="orderBy(field, $event)"
                 :style="{width: field.width}"
-                :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, {'sortable': isSortable(field)}]"
+                :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
             ></th>
             <th v-if="extractName(field.name) == '__sequence'"
                 :style="{width: field.width}"
-                :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
+                :class="['vuetable-th-sequence', field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)">
             </th>
             <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
                 :style="{width: field.width}"
-                :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="renderTitle(field)">
+                :class="['vuetable-th-'+field.name, field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)">
             </th>
           </template>
           <template v-else>
             <th @click="orderBy(field, $event)"
               :id="'_' + field.name"
               :style="{width: field.width}"
-              :class="['vuetable-th-'+field.name, field.titleClass,  {'sortable': isSortable(field)}]"
+              :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field),  {'sortable': isSortable(field)}]"
               v-html="renderTitle(field)"
             ></th>
           </template>
