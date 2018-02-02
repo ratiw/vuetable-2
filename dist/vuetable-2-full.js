@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v1.7.3
+ * vuetable-2 v1.7.4
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -657,7 +657,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationMixin.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -948,7 +948,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1959,7 +1959,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/Vuetable.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1999,7 +1999,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePagination.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2039,7 +2039,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationDropdown.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2079,7 +2079,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfo.vue"
+Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5768,10 +5768,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })], 1)]) : _vm._e()])] : _vm._e()]
   }), _vm._v(" "), (_vm.displayEmptyDataRow) ? [_c('tr', [_c('td', {
-    directives: [{
-      name: "htm",
-      rawName: "v-htm"
-    }],
     staticClass: "vuetable-empty-result",
     attrs: {
       "colspan": _vm.countVisibleFields
