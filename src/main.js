@@ -388,14 +388,17 @@ let vm = new Vue({
     rowClassCB (data, index) {
       return (index % 2) === 0 ? 'odd' : 'even'
     },
-    queryParams (sortOrder, currentPage, perPage) {
-      return {
-        'sort': sortOrder[0].field + '|' + sortOrder[0].direction,
-        'order': sortOrder[0].direction,
-        'page': currentPage,
-        'per_page': perPage
-      }
-    },
+    /*
+     * Example of defining queryParams as a function
+     */
+    // queryParams (sortOrder, currentPage, perPage) {
+    //   return {
+    //     'sort': sortOrder[0].field + '|' + sortOrder[0].direction,
+    //     'order': sortOrder[0].direction,
+    //     'page': currentPage,
+    //     'per_page': perPage
+    //   }
+    // },
     onCellClicked (data, field, event) {
       console.log('cellClicked', field.name)
       if (field.name !== '__actions') {
