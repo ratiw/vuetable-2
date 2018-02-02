@@ -2,58 +2,59 @@
 <div :class="css.tableWrapper">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
-    <thead>
-      <slot name="tableHeader" :fields="tableFields">
-        <template v-for="(header, headerIndex) in headerRows">
-          <component :is="header" :key="headerIndex"
-            @vuetable-header="onHeaderEvent"
-          ></component>
-        </template>
-      </slot>
-    </thead>
+      <thead>
+        <slot name="tableHeader" :fields="tableFields">
+          <template v-for="(header, headerIndex) in headerRows">
+            <component :is="header" :key="headerIndex"
+              @vuetable-header="onHeaderEvent"
+            ></component>
+          </template>
+        </slot>
+      </thead>
     </table>
   </div>
 
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
     <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
-      <colgroup>
-          <template v-for="(field, fieldIndex) in tableFields">
-            <template v-if="field.visible">
-              <template>
-                <col :key="fieldIndex"
-                  :id="'_col_' + field.name"
-                  :style="{width: field.width}"
-                  :class="['vuetable-th-'+field.name, field.titleClass]"
-                />
-              </template>
-            </template>
-          </template>
-      </colgroup>
+    <colgroup>
+      <template v-for="(field, fieldIndex) in tableFields">
+        <template v-if="field.visible">
+          <col :key="fieldIndex"
+            :id="'_col_' + field.name"
+            :style="{width: field.width}"
+            :class="['vuetable-th-'+field.name, field.titleClass]"
+          />
+        </template>
+      </template>
+    </colgroup>
     <tfoot>
       <slot name="tableFooter" :fields="tableFields"></slot>
     </tfoot>
     <tbody v-cloak class="vuetable-body">
       <template v-for="(item, itemIndex) in tableData">
-        <tr :item-index="itemIndex" :key="itemIndex"
+        <tr :item-index="itemIndex" 
+          :key="itemIndex"
           :class="onRowClass(item, itemIndex)"
           :render="onRowChanged(item)"
           @click="onRowClicked(item, $event)"
           @dblclick="onRowDoubleClicked(item, $event)"
-          @mouseover="onMouseOver(item, $event)">
+          @mouseover="onMouseOver(item, $event)"
+        >
           <template v-for="(field, fieldIndex) in tableFields">
             <template v-if="field.visible">
               <template v-if="isFieldComponent(field.name)">
                 <component :is="field.name"
+                  :key="fieldIndex"
                   :row-data="item" :row-index="itemIndex" :row-field="field"
                   :vuetable="vuetable"
-                  :key="fieldIndex"
                   :class="bodyClass('vuetable-component', field)" 
                   :style="{width: field.width}"
                   @vuetable-field="onFieldEvent"
                 ></component>
               </template>
               <template v-else-if="isFieldSlot(field.name)">
-                <td :class="bodyClass('vuetable-slot', field)" :key="fieldIndex"
+                <td :class="bodyClass('vuetable-slot', field)" 
+                  :key="fieldIndex"
                   :style="{width: field.width}"
                 >
                   <slot :name="field.name"
@@ -62,14 +63,14 @@
                 </td>
               </template>
               <template v-else>
-                <td :class="bodyClass('vuetable-td-'+field.name, field)" :key="fieldIndex"
+                <td :class="bodyClass('vuetable-td-'+field.name, field)" 
+                  :key="fieldIndex"
                   :style="{width: field.width}"
                   v-html="renderNormalField(field, item)"
                   @click="onCellClicked(item, field, $event)"
                   @dblclick="onCellDoubleClicked(item, field, $event)"
                   @contextmenu="onCellRightClicked(item, field, $event)"
-                >
-                </td>
+                ></td>
               </template>
             </template>
           </template>
@@ -80,12 +81,12 @@
               @click="onDetailRowClick(item, $event)"
               :class="[css.detailRowClass]"
             >
-                <td :colspan="countVisibleFields">
-                  <component :is="detailRowComponent" 
-                    :row-data="item" 
-                    :row-index="itemIndex"
-                  ></component>
-                </td>
+              <td :colspan="countVisibleFields">
+                <component :is="detailRowComponent" 
+                  :row-data="item" 
+                  :row-index="itemIndex"
+                ></component>
+              </td>
             </tr>
           </transition>
         </template>
