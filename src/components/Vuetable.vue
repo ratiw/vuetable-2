@@ -294,7 +294,7 @@
     </template>
     <template v-if="displayEmptyDataRow">
       <tr>
-        <td :colspan="countVisibleFields" class="vuetable-empty-result" v-htm v-html="noDataTemplate"></td>
+        <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
       </tr>
     </template>
     <template v-if="lessThanMinRows">
