@@ -320,6 +320,7 @@ export default {
   },
 
   computed: {
+    version: () => VERSION,
     useDetailRow () {
       if ( ! this.dataIsAvailable) return false
 
