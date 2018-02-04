@@ -82,7 +82,7 @@ describe('Vuetable - Features', () => {
     })
 
     it('can display data in an object from "data" prop', (done) => {
-      let wrapper = mount(Vuetable, {
+      let wrapper = shallow(Vuetable, {
         propsData: {
           apiMode: false,
           fields: ['code'],
@@ -104,6 +104,40 @@ describe('Vuetable - Features', () => {
         let nodes = wrapper.findAll('td.vuetable-td-code')
         expect(nodes.at(0).text()).toEqual('111')
         expect(nodes.at(1).text()).toEqual('222')
+        done()
+      })
+    })
+
+    it('calls user defined data-manager function', (done) => {
+      const func = jest.fn()
+      let wrapper = shallow(Vuetable, {
+        propsData: {
+          apiMode: false,
+          fields: ['code'],
+          dataPath: 'data',
+          paginationPath: 'pagination',
+          trackBy: 'code',
+          data: {
+            'data': data,
+            'pagination': pagination
+          },
+          dataManager: func,
+        }
+      })
+
+      expect(wrapper.vm.dataManager).toBe(func)
+      Vue.config.errorHandler = done
+      Vue.nextTick( () => {
+        expect(func).toHaveBeenCalledWith([], {
+          'current_page': 1,
+          'from': 1, 
+          'last_page': 0,
+          'next_page_url': '',
+          'per_page': 10,
+          'prev_page_url': '',
+          'to': 0,
+          'total': 0
+        })
         done()
       })
     })
