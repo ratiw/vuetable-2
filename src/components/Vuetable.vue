@@ -522,7 +522,7 @@ export default {
     },
 
     setData (data) {
-      if (data === null) return
+      if (data === null || typeof(data) === 'undefined') return
 
       this.fireEvent('loading')
 
