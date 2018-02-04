@@ -115,6 +115,7 @@
 <script>
 import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
+import {version as VERSION} from '../../package.json'
 
 export default {
   name: 'Vuetable',
@@ -320,6 +321,7 @@ export default {
   },
 
   computed: {
+    version: () => VERSION,
     useDetailRow () {
       if ( ! this.dataIsAvailable) return false
 
