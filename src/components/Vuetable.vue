@@ -133,19 +133,19 @@ export default {
       default: true
     },
     apiUrl: {
-        type: String,
-        default: ''
+      type: String,
+      default: ''
     },
     httpMethod: {
-        type: String,
-        default: 'get',
-        validator: (value) => {
-          return ['get', 'post'].indexOf(value) > -1
-        }
+      type: String,
+      default: 'get',
+      validator: (value) => {
+        return ['get', 'post'].indexOf(value) > -1
+      }
     },
     reactiveApiUrl: {
-        type: Boolean,
-        default: true
+      type: Boolean,
+      default: true
     },
     apiMode: {
       type: Boolean,
@@ -153,23 +153,19 @@ export default {
     },
     data: {
       type: [Array, Object],
-      default () {
-        return null
-      }
+      default: null
     },
     dataManager: {
       type: Function,
-      default () {
-        return null
-      }
+      default: null
     },
     dataPath: {
-        type: String,
-        default: 'data'
+      type: String,
+      default: 'data'
     },
     paginationPath: {
-        type: String,
-        default: 'links.pagination'
+      type: String,
+      default: 'links.pagination'
     },
     queryParams: {
       type: [Object, Function],
@@ -199,15 +195,11 @@ export default {
     },
     perPage: {
         type: Number,
-        default () {
-            return 10
-        }
+        default: 10
     },
     initialPage: {
       type: Number,
-      default () {
-        return 1
-      }
+      default: 1
     },
     sortOrder: {
       type: Array,
@@ -217,9 +209,7 @@ export default {
     },
     multiSort: {
       type: Boolean,
-      default () {
-        return false
-      }
+      default: false
     },
     tableHeight: {
       type: String,
@@ -532,7 +522,7 @@ export default {
     },
 
     setData (data) {
-      this.checkIfRowIdentifierExists()
+      if (data === null) return
 
       this.fireEvent('loading')
 
@@ -546,6 +536,7 @@ export default {
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null)
 
       this.$nextTick( () => {
+        this.checkIfRowIdentifierExists()
         this.checkScrollbarVisibility()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
@@ -969,11 +960,15 @@ export default {
       if (this.dataManager === null && this.data === null) return
 
       if (Array.isArray(this.data)) {
-        this.setData(this.data)
-      } else if (this.isObject(this.data)) {
-        this.normalizeSortOrder()
-        this.setData(this.dataManager(this.sortOrder, this.makePagination()))
+        return this.setData(this.data)
       }
+      
+      // this.normalizeSortOrder()
+      return this.setData(
+        this.dataManager 
+        ? this.dataManager(this.sortOrder, this.makePagination())
+        : this.data
+      )
     },
 
     isObject (unknown) {
