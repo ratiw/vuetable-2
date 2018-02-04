@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.9
+ * vuetable-2 v2.0.0-alpha.10
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -685,7 +685,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1022,7 +1022,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableFieldMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1061,7 +1061,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableFieldCheckbox.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldCheckbox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableFieldCheckbox.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1101,7 +1101,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableFieldHandle.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldHandle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableFieldHandle.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1141,7 +1141,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableFieldSequence.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldSequence.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableFieldSequence.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1181,7 +1181,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1224,7 +1224,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableRowHeader.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableRowHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableRowHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2488,7 +2488,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2528,7 +2528,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2568,7 +2568,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2608,7 +2608,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -3530,15 +3530,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: {
       type: [Array, Object],
-      default: function _default() {
-        return null;
-      }
+      default: null
     },
     dataManager: {
       type: Function,
-      default: function _default() {
-        return null;
-      }
+      default: null
     },
     dataPath: {
       type: String,
@@ -3576,15 +3572,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     perPage: {
       type: Number,
-      default: function _default() {
-        return 10;
-      }
+      default: 10
     },
     initialPage: {
       type: Number,
-      default: function _default() {
-        return 1;
-      }
+      default: 1
     },
     sortOrder: {
       type: Array,
@@ -3594,9 +3586,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     multiSort: {
       type: Boolean,
-      default: function _default() {
-        return false;
-      }
+      default: false
     },
     tableHeight: {
       type: String,
@@ -3896,7 +3886,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     setData: function setData(data) {
       var _this3 = this;
 
-      this.checkIfRowIdentifierExists();
+      if (data === null) return;
 
       this.fireEvent('loading');
 
@@ -3910,6 +3900,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null);
 
       this.$nextTick(function () {
+        _this3.checkIfRowIdentifierExists();
         _this3.checkScrollbarVisibility();
         _this3.fireEvent('pagination-data', _this3.tablePagination);
         _this3.fireEvent('loaded');
@@ -4278,11 +4269,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (this.dataManager === null && this.data === null) return;
 
       if (Array.isArray(this.data)) {
-        this.setData(this.data);
-      } else if (this.isObject(this.data)) {
-        this.normalizeSortOrder();
-        this.setData(this.dataManager(this.sortOrder, this.makePagination()));
+        return this.setData(this.data);
       }
+
+      return this.setData(this.dataManager ? this.dataManager(this.sortOrder, this.makePagination()) : this.data);
     },
     isObject: function isObject(unknown) {
       return (typeof unknown === 'undefined' ? 'undefined' : __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default()(unknown)) === "object" && unknown !== null;
@@ -6055,7 +6045,7 @@ var Component = __webpack_require__(1)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "D:\\www\\projects\\vuetable-2\\src\\components\\VuetableFieldCheckboxMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldCheckboxMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -6183,18 +6173,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('table', {
     class: ['vuetable', _vm.css.tableClass, _vm.css.tableBodyClass]
   }, [_c('colgroup', [_vm._l((_vm.tableFields), function(field, fieldIndex) {
-    return [(field.visible) ? [
-      [_c('col', {
-        key: fieldIndex,
-        class: ['vuetable-th-' + field.name, field.titleClass],
-        style: ({
-          width: field.width
-        }),
-        attrs: {
-          "id": '_col_' + field.name
-        }
-      })]
-    ] : _vm._e()]
+    return [(field.visible) ? [_c('col', {
+      key: fieldIndex,
+      class: ['vuetable-th-' + field.name, field.titleClass],
+      style: ({
+        width: field.width
+      }),
+      attrs: {
+        "id": '_col_' + field.name
+      }
+    })] : _vm._e()]
   })], 2), _vm._v(" "), _c('tfoot', [_vm._t("tableFooter", null, {
     fields: _vm.tableFields
   })], 2), _vm._v(" "), _c('tbody', {
