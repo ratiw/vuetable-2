@@ -11,6 +11,13 @@ describe('Vuetable - Features', () => {
     }
   })
 
+  const shallowVuetable = (fields) => shallow(Vuetable, {
+    propsData: {
+      loadOnStart: false,
+      fields
+    }
+  })
+
   /**
    * title
    */
@@ -43,5 +50,62 @@ describe('Vuetable - Features', () => {
 
     expect(wrapper.find('thead tr th.vuetable-th-code_line').element.innerHTML)
       .toEqual('Code Line')
+  })
+
+  /*
+   * Data mode
+   */
+  describe('Data mode', () => {
+    let data, pagination
+
+    beforeEach( () => {
+      data = [{'code': '111'}, {'code': '222'}]
+      pagination = {'total': 0}
+    })
+
+    it('can display data array from "data" prop', (done) => {
+      let wrapper = shallow(Vuetable, {
+        propsData: {
+          apiMode: false,
+          fields: ['code'],
+          data: data,
+        }
+      })
+
+      Vue.config.errorHandler = done
+      Vue.nextTick( () => {
+        let nodes = wrapper.findAll('td.vuetable-td-code')
+        expect(nodes.at(0).text()).toEqual('111')
+        expect(nodes.at(1).text()).toEqual('222')
+        done()
+      })
+    })
+
+    it('can display data in an object from "data" prop', (done) => {
+      let wrapper = mount(Vuetable, {
+        propsData: {
+          apiMode: false,
+          fields: ['code'],
+          dataPath: 'data',
+          paginationPath: 'pagination',
+          trackBy: 'code',
+          data: {
+            'data': data,
+            'pagination': pagination
+          },
+        }
+      })
+
+      Vue.config.errorHandler = done
+      Vue.nextTick( () => {
+        expect(wrapper.vm.tableData).toBe(data)
+        expect(wrapper.vm.tablePagination).toBe(pagination)
+
+        let nodes = wrapper.findAll('td.vuetable-td-code')
+        expect(nodes.at(0).text()).toEqual('111')
+        expect(nodes.at(1).text()).toEqual('222')
+        done()
+      })
+    })
   })
 })
