@@ -67,7 +67,7 @@ describe('Vuetable - Methods', () => {
       let wrapper = mountVuetable()
 
       expect(wrapper.vm.checkIfRowIdentifierExists()).toBe(false)
-      expect(console.warn).toHaveBeenCalledTimes(2)
+      expect(console.warn).toHaveBeenCalledTimes(1)
     })
 
     it('returns true when row identifier is valid', (done) => {
@@ -95,16 +95,63 @@ describe('Vuetable - Methods', () => {
   })
 
   describe('setData', () => {
+    const data = [{code: 'AAA'}]
+    const pagination = {'total': 0}
 
     it('emits loading and loaded events when argument is Array', () => {
       let wrapper = shallowVuetable(['code'])
-      let data = [{code: 'AAA'}]
+
       wrapper.vm.setData(data)
 
       let emitted = wrapper.emitted()
       expect(emitted).toHaveProperty('vuetable:loading')
       expect(emitted).toHaveProperty('vuetable:loaded')
       expect(wrapper.vm.tableData).toBe(data)
+    })
+
+    it('emits loading and loaded events when argument is Object', (done) => {
+      let wrapper = shallowVuetable(['code'])
+
+      wrapper.vm.setData({
+        'pagination': pagination,
+        'data': data,
+      })
+
+      Vue.config.errorHandler = done
+      Vue.nextTick( () => {
+        let emitted = wrapper.emitted()
+        expect(emitted).toHaveProperty('vuetable:loading')
+        expect(emitted).toHaveProperty('vuetable:loaded')
+        expect(wrapper.vm.tableData).toBe(data)
+        done()
+      })
+    })
+
+    it('set tableData when argument is Array', () => {
+      let wrapper = shallowVuetable(['code'])
+
+      wrapper.vm.setData(data)
+
+      expect(wrapper.vm.tableData).toBe(data)
+    })
+
+    it('set tableData and tablePagination when argument is Object', () => {
+      let wrapper = shallow(Vuetable, {
+        propsData: {
+          apiMode: false,
+          fields: ['code'],
+          dataPath: 'data',
+          paginationPath: 'pagination'
+        }
+      })
+      
+      wrapper.vm.setData({
+        'pagination': pagination,
+        'data': data,
+      })
+
+      expect(wrapper.vm.tableData).toBe(data)
+      expect(wrapper.vm.tablePagination).toBe(pagination)
     })
   })
 
