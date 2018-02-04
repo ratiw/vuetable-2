@@ -115,7 +115,6 @@
 <script>
 import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
-import {version as VERSION} from '../../package.json'
 
 export default {
   name: 'Vuetable',
