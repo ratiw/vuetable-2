@@ -350,7 +350,7 @@ export default {
     },
     dataManager: {
       type: Function,
-      default null
+      default: null
     },
     dataPath: {
         type: String,
