@@ -342,9 +342,7 @@ export default {
     },
     data: {
       type: [Array, Object],
-      default () {
-        return null
-      }
+      default: null
     },
     dataTotal: {
       type: Number,
@@ -352,9 +350,7 @@ export default {
     },
     dataManager: {
       type: Function,
-      default () {
-        return null
-      }
+      default null
     },
     dataPath: {
         type: String,
@@ -392,15 +388,11 @@ export default {
     },
     perPage: {
         type: Number,
-        default () {
-            return 10
-        }
+        default: 10
     },
     initialPage: {
       type: Number,
-      default () {
-        return 1
-      }
+      default: 1
     },
     sortOrder: {
       type: Array,
@@ -839,7 +831,6 @@ export default {
 
         result += fieldName + '|' + this.sortOrder[i].direction + ((i+1) < this.sortOrder.length ? ',' : '');
       }
-      console.log('getDefaultSortParam: ', result)
       return result;
     },
     getAppendParams (params) {
@@ -1206,7 +1197,6 @@ export default {
       if (this.dataManager === null && this.data === null) return
 
       if (Array.isArray(this.data)) {
-        console.log('data mode: array')
         this.setData(this.data)
       } else {
         this.normalizeSortOrder()
