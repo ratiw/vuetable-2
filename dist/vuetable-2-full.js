@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v1.7.4
+ * vuetable-2 v1.7.5
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -3163,7 +3163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     version: function version() {
-      return "1.7.4";
+      return "1.7.5";
     },
     useDetailRow: function useDetailRow() {
       if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
