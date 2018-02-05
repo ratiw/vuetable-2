@@ -640,18 +640,21 @@ export default {
       })
     },
     setData (data) {
-      // this.apiMode = false
-      if (Array.isArray(data)) {
-        this.tableData = data
-        return
-      }
+      if (data === null || typeof(data) === 'undefined') return
 
       this.fireEvent('loading')
+
+      if (Array.isArray(data)) {
+        this.tableData = data
+        this.fireEvent('loaded')
+        return
+      }
 
       this.tableData = this.getObjectValue(data, this.dataPath, null)
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null)
 
       this.$nextTick(function() {
+        this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
@@ -1198,11 +1201,16 @@ export default {
       if (this.dataManager === null && this.data === null) return
 
       if (Array.isArray(this.data)) {
-        this.setData(this.data)
-      } else {
-        this.normalizeSortOrder()
-        this.setData(this.dataManager(this.sortOrder, this.makePagination()))
-      }
+        return this.setData(this.data)
+      } 
+      
+      this.normalizeSortOrder()
+
+      return this.setData(
+        this.dataManager
+          ? this.dataManager(this.sortOrder, this.makePagination())
+          : this.data
+      )
     },
     onRowClass (dataItem, index) {
       if (this.rowClassCallback !== '') {
