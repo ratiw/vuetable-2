@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v1.7.3
+ * vuetable-2 v1.7.4
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -657,7 +657,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationMixin.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -948,7 +948,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1959,7 +1959,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/Vuetable.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1999,7 +1999,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePagination.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2039,7 +2039,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationDropdown.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2079,7 +2079,7 @@ var Component = __webpack_require__(8)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfo.vue"
+Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2989,9 +2989,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: {
       type: [Array, Object],
-      default: function _default() {
-        return null;
-      }
+      default: null
     },
     dataTotal: {
       type: Number,
@@ -2999,9 +2997,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     dataManager: {
       type: Function,
-      default: function _default() {
-        return null;
-      }
+      default: null
     },
     dataPath: {
       type: String,
@@ -3039,15 +3035,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     perPage: {
       type: Number,
-      default: function _default() {
-        return 10;
-      }
+      default: 10
     },
     initialPage: {
       type: Number,
-      default: function _default() {
-        return 1;
-      }
+      default: 1
     },
     sortOrder: {
       type: Array,
@@ -3170,6 +3162,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   computed: {
+    version: function version() {
+      return "1.7.4";
+    },
     useDetailRow: function useDetailRow() {
       if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
         this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!');
@@ -3286,17 +3281,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     setData: function setData(data) {
-      if (Array.isArray(data)) {
-        this.tableData = data;
-        return;
-      }
+      if (data === null || typeof data === 'undefined') return;
 
       this.fireEvent('loading');
+
+      if (Array.isArray(data)) {
+        this.tableData = data;
+        this.fireEvent('loaded');
+        return;
+      }
 
       this.tableData = this.getObjectValue(data, this.dataPath, null);
       this.tablePagination = this.getObjectValue(data, this.paginationPath, null);
 
       this.$nextTick(function () {
+        this.fixHeader();
         this.fireEvent('pagination-data', this.tablePagination);
         this.fireEvent('loaded');
       });
@@ -3468,7 +3467,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         result += fieldName + '|' + this.sortOrder[i].direction + (i + 1 < this.sortOrder.length ? ',' : '');
       }
-      console.log('getDefaultSortParam: ', result);
       return result;
     },
     getAppendParams: function getAppendParams(params) {
@@ -3811,12 +3809,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (this.dataManager === null && this.data === null) return;
 
       if (Array.isArray(this.data)) {
-        console.log('data mode: array');
-        this.setData(this.data);
-      } else {
-        this.normalizeSortOrder();
-        this.setData(this.dataManager(this.sortOrder, this.makePagination()));
+        return this.setData(this.data);
       }
+
+      this.normalizeSortOrder();
+
+      return this.setData(this.dataManager ? this.dataManager(this.sortOrder, this.makePagination()) : this.data);
     },
     onRowClass: function onRowClass(dataItem, index) {
       if (this.rowClassCallback !== '') {
@@ -3887,6 +3885,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     'data': function data(newVal, oldVal) {
       this.setData(newVal);
+    },
+    'tableHeight': function tableHeight(newVal, oldVal) {
+      this.fixHeader();
     }
   }
 });
@@ -5768,10 +5769,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })], 1)]) : _vm._e()])] : _vm._e()]
   }), _vm._v(" "), (_vm.displayEmptyDataRow) ? [_c('tr', [_c('td', {
-    directives: [{
-      name: "htm",
-      rawName: "v-htm"
-    }],
     staticClass: "vuetable-empty-result",
     attrs: {
       "colspan": _vm.countVisibleFields
