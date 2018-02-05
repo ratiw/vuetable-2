@@ -1277,6 +1277,9 @@ export default {
     },
     'data' (newVal, oldVal) {
       this.setData(newVal)
+    },
+    'tableHeight' (newVal, oldVal) {
+      this.fixHeader()
     }
   },
 }
