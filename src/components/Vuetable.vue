@@ -518,6 +518,7 @@ export default {
     }
   },
   computed: {
+    version: () => VERSION,
     useDetailRow () {
       if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
         this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!')
