@@ -1,6 +1,6 @@
 {
   "name": "vuetable-2",
-  "version": "2.0.0-alpha.11",
+  "version": "2.0.0-alpha.12",
   "description": "Datatable component for Vue 2.x",
   "main": "dist/vuetable-2.js",
   "license": "MIT",
@@ -115,6 +115,9 @@
     "not ie <= 8"
   ],
   "jest": {
+    "globals": {
+      "VERSION": "dummy4test"
+    },
     "moduleNameMapper": {
       "^vue$": "vue/dist/vue.common.js"
     },

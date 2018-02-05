@@ -1,4 +1,5 @@
 var path = require('path')
+var version = require("./../package.json").version;
 var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
@@ -29,7 +30,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': env,
+      VERSION: JSON.stringify(version)
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

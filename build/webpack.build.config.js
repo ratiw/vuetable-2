@@ -46,7 +46,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       "process.env": {
         NODE_ENV: '"production"'
       },
-      VERSION: JSON.stringify(require("../package.json").version)
+      VERSION: JSON.stringify(version)
     }),
     new webpack.BannerPlugin({
       banner: banner,
