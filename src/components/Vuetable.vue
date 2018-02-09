@@ -72,28 +72,28 @@
       </colgroup>
       <tbody v-cloak class="vuetable-body">
         <template v-for="(item, itemIndex) in tableData">
-          <tr 
+          <tr
             :key="itemIndex"
-            :item-index="itemIndex" 
-            :render="onRowChanged(item)" 
+            :item-index="itemIndex"
+            :render="onRowChanged(item)"
             :class="onRowClass(item, itemIndex)"
-            @click="onRowClicked(item, $event)" 
-            @dblclick="onRowDoubleClicked(item, $event)" 
+            @click="onRowClicked(item, $event)"
+            @dblclick="onRowDoubleClicked(item, $event)"
           >
             <template v-for="(field, fieldIndex) in tableFields">
               <template v-if="field.visible">
                 <template v-if="isSpecialField(field.name)">
-                  <td v-if="extractName(field.name) == '__sequence'" 
+                  <td v-if="extractName(field.name) == '__sequence'"
                     :key="fieldIndex"
                     :class="['vuetable-sequence', field.dataClass]"
                     v-html="renderSequence(itemIndex)">
                   </td>
-                  <td v-if="extractName(field.name) == '__handle'" 
+                  <td v-if="extractName(field.name) == '__handle'"
                     :key="fieldIndex"
                     :class="['vuetable-handle', field.dataClass]"
                     v-html="renderIconTag(['handle-icon', css.handleIcon])"
                   ></td>
-                  <td v-if="extractName(field.name) == '__checkbox'" 
+                  <td v-if="extractName(field.name) == '__checkbox'"
                     :key="fieldIndex"
                     :class="['vuetable-checkboxes', field.dataClass]"
                   >
@@ -101,7 +101,7 @@
                       @change="toggleCheckbox(item, field.name, $event)"
                       :checked="rowSelected(item, field.name)">
                   </td>
-                  <td v-if="extractName(field.name) === '__component'" 
+                  <td v-if="extractName(field.name) === '__component'"
                     :key="fieldIndex"
                     :class="['vuetable-component', field.dataClass]"
                   >
@@ -109,7 +109,7 @@
                       :row-data="item" :row-index="itemIndex" :row-field="field.sortField"
                     ></component>
                   </td>
-                  <td v-if="extractName(field.name) === '__slot'" 
+                  <td v-if="extractName(field.name) === '__slot'"
                     :key="fieldIndex"
                     :class="['vuetable-slot', field.dataClass]"
                   >
@@ -213,27 +213,27 @@
   </thead>
   <tbody v-cloak class="vuetable-body">
     <template v-for="(item, itemIndex) in tableData">
-      <tr @dblclick="onRowDoubleClicked(item, $event)" 
+      <tr @dblclick="onRowDoubleClicked(item, $event)"
         :key="itemIndex"
-        :item-index="itemIndex" 
-        :render="onRowChanged(item)" 
+        :item-index="itemIndex"
+        :render="onRowChanged(item)"
         :class="onRowClass(item, itemIndex)"
-        @click="onRowClicked(item, $event)" 
+        @click="onRowClicked(item, $event)"
       >
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <td v-if="extractName(field.name) == '__sequence'" 
+              <td v-if="extractName(field.name) == '__sequence'"
                 :key="fieldIndex"
                 :class="['vuetable-sequence', field.dataClass]"
                 v-html="renderSequence(itemIndex)"
               ></td>
-              <td v-if="extractName(field.name) == '__handle'" 
+              <td v-if="extractName(field.name) == '__handle'"
                 :key="fieldIndex"
                 :class="['vuetable-handle', field.dataClass]"
                 v-html="renderIconTag(['handle-icon', css.handleIcon])"
               ></td>
-              <td v-if="extractName(field.name) == '__checkbox'" 
+              <td v-if="extractName(field.name) == '__checkbox'"
                 :key="fieldIndex"
                 :class="['vuetable-checkboxes', field.dataClass]"
               >
@@ -241,7 +241,7 @@
                   @change="toggleCheckbox(item, field.name, $event)"
                   :checked="rowSelected(item, field.name)">
               </td>
-              <td v-if="extractName(field.name) === '__component'" 
+              <td v-if="extractName(field.name) === '__component'"
                 :key="fieldIndex"
                 :class="['vuetable-component', field.dataClass]"
               >
@@ -249,7 +249,7 @@
                   :row-data="item" :row-index="itemIndex" :row-field="field.sortField"
                 ></component>
               </td>
-              <td v-if="extractName(field.name) === '__slot'" 
+              <td v-if="extractName(field.name) === '__slot'"
                 :key="fieldIndex"
                 :class="['vuetable-slot', field.dataClass]"
               >
@@ -259,7 +259,7 @@
               </td>
             </template>
             <template v-else>
-              <td v-if="hasCallback(field)" 
+              <td v-if="hasCallback(field)"
                 :key="fieldIndex"
                 :class="field.dataClass"
                 v-html="callCallback(field, item)"
@@ -267,7 +267,7 @@
                 @dblclick="onCellDoubleClicked(item, field, $event)"
                 @contextmenu="onCellRightClicked(item, field, $event)"
               ></td>
-              <td v-else 
+              <td v-else
                 :key="fieldIndex"
                 :class="field.dataClass"
                 v-html="getObjectValue(item, field.name, '')"
@@ -988,7 +988,7 @@ export default {
       if ( ! this.hasCallback(field)) return
 
       if(typeof(field.callback) == 'function') {
-       return field.callback(this.getObjectValue(item, field.name))
+        return field.callback(this.getObjectValue(item, field.name), item)
       }
 
       let args = field.callback.split('|')
@@ -998,8 +998,8 @@ export default {
         let value = this.getObjectValue(item, field.name)
 
         return (args.length > 0)
-          ? this.$parent[func].apply(this.$parent, [value].concat(args))
-          : this.$parent[func].call(this.$parent, value)
+          ? this.$parent[func].apply(this.$parent, [value].concat(args, item))
+          : this.$parent[func].call(this.$parent, value, item)
       }
 
       return null
@@ -1202,8 +1202,8 @@ export default {
 
       if (Array.isArray(this.data)) {
         return this.setData(this.data)
-      } 
-      
+      }
+
       this.normalizeSortOrder()
 
       return this.setData(
