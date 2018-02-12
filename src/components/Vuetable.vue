@@ -332,7 +332,7 @@ export default {
       return this.tableData.length > 0
     },
     hasRowIdentifier () {
-      return this.dataIsAvailable && typeof(this.tableData[0][this.trackBy]) !== 'undefined'
+      return this.tableData && typeof(this.tableData[0][this.trackBy]) !== 'undefined'
     },
     countVisibleFields () {
       return this.tableFields.filter( (field) => {
@@ -545,8 +545,10 @@ export default {
     },
 
     checkIfRowIdentifierExists () {
+      if (! this.dataIsAvailable) return
+
       if ( ! this.hasRowIdentifier) {
-        this.warn('Invalid unique row identifier in your data! Use "track-by" prop to specify.')
+        this.warn('Invalid your data! Use "track-by" prop to specify.')
         return false
       }
 
