@@ -1,3 +1,4 @@
+import axios from 'axios'
 import moxios from 'moxios'
 import { mount, shallow } from '@vue/test-utils'
 import Vuetable from '@/components/Vuetable.vue'
@@ -257,6 +258,96 @@ describe('AJAX functionality', () => {
           expect(payload.request.url).toEqual(apiUrl)
           done()
         })
+      })
+    })
+  })
+
+  describe('append-params', () => {
+    let appends = {
+      'aaa': 111,
+      'bbb': 222
+    }
+
+    it('appends additional parameters to the API request', (done) => {
+      let wrapper = shallow(Vuetable, {
+        propsData: {
+          apiUrl,
+          fields: ['id', 'code'],
+          paginationPath: '',
+          appendParams: appends
+        }
+      })
+
+      moxios.wait( () => {
+        let request = moxios.requests.mostRecent()
+        request.respondWith({
+          status: 200,
+          response: 'foo'
+        }).then( (payload) => {
+          expect(payload.request.config.params).toEqual(expect.objectContaining(appends))
+          expect(payload.request.url).toEqual(expect.stringContaining(`aaa=111&bbb=222`))
+          done()
+        })
+      })
+    })
+  })
+
+  describe('http-options', () => {
+    let options = {
+      headers: {
+        'Authorization': 'my-token'
+      }
+    }
+
+    it('attaches other options to the API request', (done) => {
+      let wrapper = shallow(Vuetable, {
+        propsData: {
+          apiUrl,
+          fields: ['id', 'code'],
+          paginationPath: '',
+          httpOptions: options
+        }
+      })
+
+      moxios.wait( () => {
+        let request = moxios.requests.mostRecent()
+        request.respondWith({
+          status: 200,
+          response: 'foo'
+        }).then( (payload) => {
+          expect(payload.request.headers).toEqual(expect.objectContaining(options.headers))
+          done()
+        })
+      })
+    })
+  })
+
+  describe.only('http-fetch', () => {
+    it('uses the given http-fetch function when specified', (done) => {
+      
+      const myFetch = jest.fn( () => {
+        return axios.get(apiUrl)
+      })
+
+      let wrapper = shallow(Vuetable, {
+        propsData: {
+          apiUrl,
+          fields: ['id', 'code'],
+          paginationPath: '',
+          httpFetch: myFetch
+        }
+      })
+
+      moxios.wait( () => {
+        expect(myFetch).toBeCalledWith(
+          apiUrl,
+          {
+            params: {
+              page: 1, per_page: 10, sort: ''
+            }
+          }
+        )
+        done()
       })
     })
   })
