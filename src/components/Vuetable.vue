@@ -133,7 +133,7 @@
           <template v-if="useDetailRow">
             <transition :name="detailRowTransition" :key="itemIndex">
               <tr v-if="isVisibleDetailRow(item[trackBy])"
-                :class="[css.detailRowClass]"
+                :class="[css.detailRowClass, onDetailRowClass(item, itemIndex)]"
                 @click="onDetailRowClick(item, $event)"
               >
                 <td :colspan="countVisibleFields">
@@ -425,6 +425,10 @@ export default {
       default: ''
     },
     rowClass: {
+      type: [String, Function],
+      default: ''
+    },
+    detailRowClass: {
       type: [String, Function],
       default: ''
     },
@@ -1223,6 +1227,13 @@ export default {
       }
 
       return this.rowClass
+    },
+    onDetailRowClass (dataItem, index) {
+      if (typeof(this.detailRowClass) === 'function') {
+        return this.detailRowClass(dataItem, index)
+      }
+
+      return this.detailRowClass
     },
     onRowChanged (dataItem) {
       this.fireEvent('row-changed', dataItem)
