@@ -282,7 +282,7 @@
       <template v-if="useDetailRow">
         <transition :name="detailRowTransition" :key="itemIndex">
           <tr v-if="isVisibleDetailRow(item[trackBy])"
-            :class="[css.detailRowClass]"
+            :class="[css.detailRowClass, onDetailRowClass(item, itemIndex)]"
             @click="onDetailRowClick(item, $event)"
           >
             <td :colspan="countVisibleFields">
