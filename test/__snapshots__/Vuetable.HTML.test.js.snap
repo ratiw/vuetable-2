@@ -2,7 +2,7 @@
 
 exports[`Vuetable - HTML structure renders HTML table 1`] = `
 <div
-  class="ui basic container"
+  class=""
 >
   <div
     class="vuetable-head-wrapper"

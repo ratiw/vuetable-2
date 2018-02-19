@@ -244,7 +244,7 @@ export default {
       type: Object,
       default () {
         return {
-          tableWrapper: 'ui basic container',
+          tableWrapper: '',
           tableHeaderClass: 'fixed',
           tableBodyClass: 'vuetable-semantic-no-top fixed',
           tableClass: 'ui blue selectable unstackable celled table',
