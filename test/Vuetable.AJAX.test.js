@@ -322,7 +322,7 @@ describe('AJAX functionality', () => {
     })
   })
 
-  describe.only('http-fetch', () => {
+  describe('http-fetch', () => {
     it('uses the given http-fetch function when specified', (done) => {
       
       const myFetch = jest.fn( () => {
