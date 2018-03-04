@@ -253,7 +253,7 @@ export default {
           descendingIcon: 'blue chevron down icon',
           ascendingClass: 'sorted-asc',
           descendingClass: 'sorted-desc',
-          sortableIcon: '',
+          sortableIcon: 'sort icon',
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
         }
