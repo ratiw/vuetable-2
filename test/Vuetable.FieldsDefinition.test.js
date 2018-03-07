@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { shallow } from '@vue/test-utils'
+import { shallow, mount } from '@vue/test-utils'
 import Vuetable from '@/components/Vuetable.vue'
 import SampleComponent from '@/components/VuetableFieldHandle.vue'
 
@@ -107,13 +107,19 @@ describe('Vuetable - Fields Definition', () => {
    * titleClass option
    */
   it('should use the given titleClass to render field title', () => {
-    let wrapper = shallowVuetable([
-      { name: 'code', titleClass: 'foo-bar' }
-    ])
+    let wrapper = mount(Vuetable, {
+      propsData: {
+        apiMode: false,
+        fields: [
+          { name: 'code', titleClass: 'foo-bar' }
+        ]
+      }
+    })
 
     expect(wrapper.vm.tableFields[0].titleClass).toEqual('foo-bar')
-    let el = wrapper.findAll('col').at(0)
-    expect(el.attributes().id).toEqual('_col_code')
+
+    let el = wrapper.findAll('th').at(0)
+    expect(el.attributes().id).toEqual('_code')
     expect(el.classes()).toContain('foo-bar')
     expect(el.classes()).toContain('vuetable-th-code')
   })

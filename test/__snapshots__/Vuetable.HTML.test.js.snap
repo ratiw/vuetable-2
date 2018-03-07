@@ -10,6 +10,17 @@ exports[`Vuetable - HTML structure renders HTML table 1`] = `
     <table
       class="vuetable ui blue selectable unstackable celled table fixed"
     >
+      <colgroup>
+        <col
+          class="vuetable-col-code"
+        />
+        <col
+          class="vuetable-col-description"
+        />
+         
+        <!---->
+      </colgroup>
+       
       <thead>
         <tr>
           <th
@@ -39,13 +50,13 @@ exports[`Vuetable - HTML structure renders HTML table 1`] = `
     >
       <colgroup>
         <col
-          class="vuetable-th-code"
-          id="_col_code"
+          class="vuetable-col-code"
         />
         <col
-          class="vuetable-th-description"
-          id="_col_description"
+          class="vuetable-col-description"
         />
+         
+        <!---->
       </colgroup>
        
       <tfoot />
