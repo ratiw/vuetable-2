@@ -2,6 +2,16 @@
 <div :class="css.tableWrapper">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
+      <colgroup>
+        <template v-for="(field, fieldIndex) in tableFields">
+          <template v-if="field.visible">
+            <col :key="fieldIndex"
+              :style="{width: field.width}"
+              :class="columnClass(field, fieldIndex)"
+            >
+          </template>
+        </template>
+      </colgroup>
       <thead>
         <slot name="tableHeader" :fields="tableFields">
           <template v-for="(header, headerIndex) in headerRows">
@@ -20,10 +30,9 @@
       <template v-for="(field, fieldIndex) in tableFields">
         <template v-if="field.visible">
           <col :key="fieldIndex"
-            :id="'_col_' + field.name"
             :style="{width: field.width}"
-            :class="['vuetable-th-'+field.name, field.titleClass]"
-          />
+            :class="columnClass(field, fieldIndex)"
+          >
         </template>
       </template>
     </colgroup>
@@ -464,6 +473,15 @@ export default {
         }
         this.lastScrollPosition = horizontal;
       }
+    },
+
+    columnClass (field, fieldIndex) {
+      let fieldName = this.isObject(field.name) 
+        ? field.name.name
+        : field.name
+      fieldName = fieldName.replace(this.fieldPrefix, "")
+
+      return ['vuetable-col-'+fieldName, field.titleClass]
     },
 
     bodyClass (base, field) {
