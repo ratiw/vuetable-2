@@ -2,16 +2,7 @@
 <div :class="css.tableWrapper">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
-      <colgroup>
-        <template v-for="(field, fieldIndex) in tableFields">
-          <template v-if="field.visible">
-            <col :key="fieldIndex"
-              :style="{width: field.width}"
-              :class="columnClass(field, fieldIndex)"
-            >
-          </template>
-        </template>
-      </colgroup>
+      <vuetable-col-group :is-header="true"/>
       <thead>
         <slot name="tableHeader" :fields="tableFields">
           <template v-for="(header, headerIndex) in headerRows">
@@ -26,16 +17,7 @@
 
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
     <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
-    <colgroup>
-      <template v-for="(field, fieldIndex) in tableFields">
-        <template v-if="field.visible">
-          <col :key="fieldIndex"
-            :style="{width: field.width}"
-            :class="columnClass(field, fieldIndex)"
-          >
-        </template>
-      </template>
-    </colgroup>
+    <vuetable-col-group/>
     <tfoot>
       <slot name="tableFooter" :fields="tableFields"></slot>
     </tfoot>
@@ -124,12 +106,14 @@
 <script>
 import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
+import VuetableColGroup from './VuetableColGroup'
 
 export default {
   name: 'Vuetable',
 
   components: {
     VuetableRowHeader,
+    VuetableColGroup,
   },
 
   props: {
@@ -475,15 +459,6 @@ export default {
       }
     },
 
-    columnClass (field, fieldIndex) {
-      let fieldName = this.isObject(field.name) 
-        ? field.name.name
-        : field.name
-      fieldName = fieldName.replace(this.fieldPrefix, "")
-
-      return ['vuetable-col-'+fieldName, field.titleClass]
-    },
-
     bodyClass (base, field) {
       return [ base, field.dataClass ]
     },
@@ -677,6 +652,7 @@ export default {
           else {
             this.scrollVisible = false;
           }
+          this.fireEvent('scrollbar-visible', this.scrollVisible)
         })
       }
     },

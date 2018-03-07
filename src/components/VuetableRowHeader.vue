@@ -33,19 +33,21 @@
         </template>
       </template>
     </template>
-    <th v-if="vuetable.scrollVisible" :style="{width: vuetable.scrollBarWidth}" class="vuetable-gutter-col"></th>
+    <vuetable-col-gutter v-if="vuetable.scrollVisible"/>
   </tr>
 </template>
 <script>
 import VuetableFieldCheckbox from './VuetableFieldCheckbox'
 import VuetableFieldHandle from './VuetableFieldHandle'
 import VuetableFieldSequence from './VuetableFieldSequence'
+import VuetableColGutter from './VuetableColGutter'
 
 export default {
   components: {
     'vuetable-field-checkbox': VuetableFieldCheckbox, 
     'vuetable-field-handle'  : VuetableFieldHandle,
     'vuetable-field-sequence': VuetableFieldSequence,
+    VuetableColGutter
   },
 
   computed: {
