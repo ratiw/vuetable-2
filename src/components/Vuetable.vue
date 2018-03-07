@@ -26,7 +26,6 @@
         <tr :item-index="itemIndex" 
           :key="itemIndex"
           :class="onRowClass(item, itemIndex)"
-          :render="onRowChanged(item)"
           @click="onRowClicked(item, $event)"
           @dblclick="onRowDoubleClicked(item, $event)"
           @mouseover="onMouseOver(item, $event)"
@@ -978,11 +977,6 @@ export default {
       }
 
       return this.rowClass
-    },
-
-    onRowChanged (dataItem) {
-      this.fireEvent('row-changed', dataItem)
-      return true
     },
 
     onRowClicked (dataItem, event) {
