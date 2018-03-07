@@ -7,7 +7,7 @@
         <slot name="tableHeader" :fields="tableFields">
           <template v-for="(header, headerIndex) in headerRows">
             <component :is="header" :key="headerIndex"
-              @vuetable-header="onHeaderEvent"
+              @vuetable:header-event="onHeaderEvent"
             ></component>
           </template>
         </slot>
@@ -39,7 +39,7 @@
                   :vuetable="vuetable"
                   :class="bodyClass('vuetable-component', field)" 
                   :style="{width: field.width}"
-                  @vuetable-field="onFieldEvent"
+                  @vuetable:field-event="onFieldEvent"
                 ></component>
               </template>
               <template v-else-if="isFieldSlot(field.name)">
@@ -1009,11 +1009,11 @@ export default {
     },
 
     onFieldEvent (type, payload) {
-      this.$emit('vuetable-field', type, payload, this)
+      this.$emit(this.eventPrefix+'field-event', type, payload, this)
     },
 
     onHeaderEvent (type, payload) {
-      this.$emit('vuetable-header', type, payload, this)
+      this.$emit(this.eventPrefix+'header-event', type, payload, this)
     },
 
     onCheckboxToggled (isChecked, fieldName, dataItem) {
