@@ -191,11 +191,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .vuetable-gutter-col {
-    padding: 0 !important;
-    border-left: none  !important;
-    border-right: none  !important;
-  }
-</style>
