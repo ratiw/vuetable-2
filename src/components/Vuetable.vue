@@ -662,8 +662,16 @@ export default {
       this.fireEvent('loaded')
     },
 
-    fireEvent (eventName, args) {
-      this.$emit(this.eventPrefix + eventName, args)
+    fireEvent () {
+      if (arguments.length === 1) {
+        return this.$emit(this.eventPrefix + arguments[0])
+      }
+      
+      if (arguments.length > 1) {
+        let args = Array.from(arguments)
+        args[0] = this.eventPrefix + args[0]
+        return this.$emit.apply(this, args)
+      }
     },
 
     warn (msg) {
@@ -980,40 +988,40 @@ export default {
     },
 
     onRowClicked (dataItem, event) {
-      this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
+      this.fireEvent('row-clicked', dataItem, event)
       return true
     },
 
     onRowDoubleClicked (dataItem, event) {
-      this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)
+      this.fireEvent('row-dblclicked', dataItem, event)
     },
 
     onDetailRowClick (dataItem, event) {
-      this.$emit(this.eventPrefix + 'detail-row-clicked', dataItem, event)
+      this.fireEvent('detail-row-clicked', dataItem, event)
     },
 
     onCellClicked (dataItem, field, event) {
-      this.$emit(this.eventPrefix + 'cell-clicked', dataItem, field, event)
+      this.fireEvent('cell-clicked', dataItem, field, event)
     },
 
     onCellDoubleClicked (dataItem, field, event) {
-      this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event)
+      this.fireEvent('cell-dblclicked', dataItem, field, event)
     },
 
     onCellRightClicked (dataItem, field, event) {
-      this.$emit(this.eventPrefix + 'cell-rightclicked', dataItem, field, event)
+      this.fireEvent('cell-rightclicked', dataItem, field, event)
     },
 
     onMouseOver (dataItem, event) {
-      this.$emit(this.eventPrefix + 'row-mouseover', dataItem, event)
+      this.fireEvent('row-mouseover', dataItem, event)
     },
 
     onFieldEvent (type, payload) {
-      this.$emit(this.eventPrefix+'field-event', type, payload, this)
+      this.fireEvent('field-event', type, payload, this)
     },
 
     onHeaderEvent (type, payload) {
-      this.$emit(this.eventPrefix+'header-event', type, payload, this)
+      this.fireEvent('header-event', type, payload, this)
     },
 
     onCheckboxToggled (isChecked, fieldName, dataItem) {
@@ -1031,7 +1039,7 @@ export default {
         this.unselectId(key)
       }
 
-      this.$emit('vuetable:checkbox-toggled', isChecked, fieldName)
+      this.fireEvent('checkbox-toggled', isChecked, fieldName)
     },
 
     onCheckboxToggledAll (isChecked) {
@@ -1047,7 +1055,7 @@ export default {
         })
       }
       
-      this.$emit('vuetable:checkbox-toggled-all', isChecked)
+      this.fireEvent('checkbox-toggled-all', isChecked)
     },
 
     /*
