@@ -1,17 +1,17 @@
 <template>
-  <div :class="[css.wrapperClass]">
+  <div :class="[$_css.wrapperClass]">
     <a @click="loadPage('prev')"
-       :class="[css.linkClass, {[css.disabledClass] : isOnFirstPage}]">
-      <i :class="css.icons.prev"></i>
+       :class="[$_css.linkClass, {[$_css.disabledClass] : isOnFirstPage}]">
+      <i :class="$_css.icons.prev"></i>
     </a>
-    <select :class="['vuetable-pagination-dropdown', css.dropdownClass]" @change="loadPage($event.target.selectedIndex+1)">
-      <option v-for="n in totalPage" :key="n" :class="[css.pageClass]" :value="n" :selected="isCurrentPage(n)">
+    <select :class="['vuetable-pagination-dropdown', $_css.dropdownClass]" @change="loadPage($event.target.selectedIndex+1)">
+      <option v-for="n in totalPage" :key="n" :class="[$_css.pageClass]" :value="n" :selected="isCurrentPage(n)">
         {{pageText}} {{n}}
       </option>
     </select>
     <a @click="loadPage('next')"
-       :class="[css.linkClass, {[css.disabledClass] : isOnLastPage}]">
-      <i :class="css.icons.next"></i>
+       :class="[$_css.linkClass, {[$_css.disabledClass] : isOnLastPage}]">
+      <i :class="$_css.icons.next"></i>
     </a>
   </div>
 </template>
