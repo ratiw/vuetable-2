@@ -1,25 +1,12 @@
 <script>
+import CssSemanticUI from './VuetableCssSemanticUI.js'
+
 export default {
   props: {
     css: {
       type: Object,
       default () {
-        return {
-          wrapperClass: 'ui right floated pagination menu',
-          activeClass: 'active large',
-          disabledClass: 'disabled',
-          pageClass: 'item',
-          linkClass: 'icon item',
-          paginationClass: 'ui bottom attached segment grid',
-          paginationInfoClass: 'left floated left aligned six wide column',
-          dropdownClass: 'ui search dropdown',
-          icons: {
-            first: 'angle double left icon',
-            prev: 'left chevron icon',
-            next: 'right chevron icon',
-            last: 'angle double right icon',
-          }
-        }
+        return {}
       }
     },
     onEachSide: {
@@ -32,7 +19,8 @@ export default {
   data: function() {
     return {
       eventPrefix: 'vuetable-pagination:',
-      tablePagination: null
+      tablePagination: null,
+      $_css: {}
     }
   },
   computed: {
@@ -67,7 +55,13 @@ export default {
       return this.tablePagination.current_page - this.onEachSide
     },
   },
+  created () {
+    this.mergeCss()
+  },
   methods: {
+    mergeCss () {
+      this.$_css = {...CssSemanticUI.pagination, ...this.css}
+    },
     loadPage (page) {
       this.$emit(this.eventPrefix+'change-page', page)
     },

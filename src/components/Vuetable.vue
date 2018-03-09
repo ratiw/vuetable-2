@@ -449,7 +449,7 @@ export default {
     },
 
     mergeCss () {
-      this.$_css = { ...CssSemanticUI, ...this.css }
+      this.$_css = { ...CssSemanticUI.table, ...this.css }
     },
 
     bodyClass (base, field) {

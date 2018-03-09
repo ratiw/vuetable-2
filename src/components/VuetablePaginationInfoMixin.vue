@@ -1,12 +1,12 @@
 <script>
+import CssSemanticUI from './VuetableCssSemanticUI.js'
+
 export default {
   props: {
     css: {
       type: Object,
       default() {
-        return {
-          infoClass: 'left floated left aligned six wide column'
-        }
+        return {}
       }
     },
     infoTemplate: {
@@ -24,7 +24,8 @@ export default {
   },
   data: function() {
     return {
-      tablePagination: null
+      tablePagination: null,
+      $_css: {}
     }
   },
   computed: {
@@ -39,7 +40,13 @@ export default {
         .replace('{total}', this.tablePagination.total || 0)
     },
   },
+  created () {
+    this.mergeCss()
+  },
   methods: {
+    mergeCss () {
+      this.$_css = {...CssSemanticUI.paginationInfo, ...this.css}
+    },
     setPaginationData (tablePagination) {
       this.tablePagination = tablePagination
     },
