@@ -1,7 +1,7 @@
 <template>
-<div :class="css.tableWrapper">
+<div :class="$_css.tableWrapper">
   <div class="vuetable-head-wrapper">
-    <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
+    <table :class="['vuetable', $_css.tableClass, $_css.tableHeaderClass]">
       <vuetable-col-group :is-header="true"/>
       <thead>
         <slot name="tableHeader" :fields="tableFields">
@@ -16,7 +16,7 @@
   </div>
 
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
-    <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
+    <table :class="['vuetable', $_css.tableClass, $_css.tableBodyClass]">
     <vuetable-col-group/>
     <tfoot>
       <slot name="tableFooter" :fields="tableFields"></slot>
@@ -69,7 +69,7 @@
           <transition :name="detailRowTransition" :key="itemIndex">
             <tr v-if="isVisibleDetailRow(item[trackBy])"
               @click="onDetailRowClick(item, $event)"
-              :class="[css.detailRowClass]"
+              :class="[$_css.detailRowClass]"
             >
               <td :colspan="countVisibleFields">
                 <component :is="detailRowComponent" 
@@ -106,6 +106,7 @@
 import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
 import VuetableColGroup from './VuetableColGroup'
+import CssSemanticUI from './VuetableCssSemanticUI.js'
 
 export default {
   name: 'Vuetable',
@@ -235,20 +236,7 @@ export default {
     css: {
       type: Object,
       default () {
-        return {
-          tableWrapper: '',
-          tableHeaderClass: 'fixed',
-          tableBodyClass: 'vuetable-semantic-no-top fixed',
-          tableClass: 'ui blue selectable unstackable celled table',
-          loadingClass: 'loading',
-          ascendingIcon: 'blue chevron up icon',
-          descendingIcon: 'blue chevron down icon',
-          ascendingClass: 'sorted-asc',
-          descendingClass: 'sorted-desc',
-          sortableIcon: 'sort icon',
-          detailRowClass: 'vuetable-detail-row',
-          handleIcon: 'grey sidebar icon',
-        }
+        return {}
       }
     },
     minRows: {
@@ -308,6 +296,7 @@ export default {
       lastScrollPosition: 0,
       scrollBarWidth: '17px', //chrome default
       scrollVisible: false,
+      $_css: {}
     }
   },
 
@@ -371,6 +360,7 @@ export default {
   },
 
   created() {
+    this.mergeCss()
     this.normalizeFields()
     this.normalizeSortOrder()
     this.$nextTick( () => {
@@ -456,6 +446,10 @@ export default {
         }
         this.lastScrollPosition = horizontal;
       }
+    },
+
+    mergeCss () {
+      this.$_css = { ...CssSemanticUI, ...this.css }
     },
 
     bodyClass (base, field) {
