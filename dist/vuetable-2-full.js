@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.16
+ * vuetable-2 v2.0.0-alpha.17
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -3858,7 +3858,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     version: function version() {
-      return "2.0.0-alpha.16";
+      return "2.0.0-alpha.17";
     },
     useDetailRow: function useDetailRow() {
       if (!this.dataIsAvailable) return false;
@@ -6540,18 +6540,18 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    class: [_vm.css.wrapperClass]
+    class: [_vm.$_css.wrapperClass]
   }, [_c('a', {
-    class: [_vm.css.linkClass, ( _obj = {}, _obj[_vm.css.disabledClass] = _vm.isOnFirstPage, _obj )],
+    class: [_vm.$_css.linkClass, ( _obj = {}, _obj[_vm.$_css.disabledClass] = _vm.isOnFirstPage, _obj )],
     on: {
       "click": function($event) {
         _vm.loadPage('prev')
       }
     }
   }, [_c('i', {
-    class: _vm.css.icons.prev
+    class: _vm.$_css.icons.prev
   })]), _vm._v(" "), _c('select', {
-    class: ['vuetable-pagination-dropdown', _vm.css.dropdownClass],
+    class: ['vuetable-pagination-dropdown', _vm.$_css.dropdownClass],
     on: {
       "change": function($event) {
         _vm.loadPage($event.target.selectedIndex + 1)
@@ -6560,21 +6560,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, _vm._l((_vm.totalPage), function(n) {
     return _c('option', {
       key: n,
-      class: [_vm.css.pageClass],
+      class: [_vm.$_css.pageClass],
       domProps: {
         "value": n,
         "selected": _vm.isCurrentPage(n)
       }
     }, [_vm._v("\n      " + _vm._s(_vm.pageText) + " " + _vm._s(n) + "\n    ")])
   })), _vm._v(" "), _c('a', {
-    class: [_vm.css.linkClass, ( _obj$1 = {}, _obj$1[_vm.css.disabledClass] = _vm.isOnLastPage, _obj$1 )],
+    class: [_vm.$_css.linkClass, ( _obj$1 = {}, _obj$1[_vm.$_css.disabledClass] = _vm.isOnLastPage, _obj$1 )],
     on: {
       "click": function($event) {
         _vm.loadPage('next')
       }
     }
   }, [_c('i', {
-    class: _vm.css.icons.next
+    class: _vm.$_css.icons.next
   })])])
   var _obj;
   var _obj$1;
