@@ -69,7 +69,7 @@
           <transition :name="detailRowTransition" :key="itemIndex">
             <tr v-if="isVisibleDetailRow(item[trackBy])"
               @click="onDetailRowClick(item, $event)"
-              :class="[$_css.detailRowClass]"
+              :class="onDetailRowClass(item, itemIndex)"
             >
               <td :colspan="countVisibleFields">
                 <component :is="detailRowComponent" 
@@ -228,6 +228,10 @@ export default {
     detailRowTransition: {
       type: String,
       default: ''
+    },
+    detailRowClass: {
+      type: [String, Function],
+      default: 'vuetable-detail-row'
     },
     trackBy: {
       type: String,
@@ -979,6 +983,14 @@ export default {
       }
 
       return this.rowClass
+    },
+
+    onDetailRowClass (dataItem, index) {
+      if (typeof(this.detailRowClass) === 'function') {
+        return this.detailRowClass(dataItem, index)
+      }
+
+      return this.detailRowClass
     },
 
     onRowClicked (dataItem, event) {

@@ -10,7 +10,6 @@ export default {
     ascendingClass: 'sorted-asc',
     descendingClass: 'sorted-desc',
     sortableIcon: 'sort icon',
-    detailRowClass: 'vuetable-detail-row',
     handleIcon: 'grey sidebar icon',
   },
 
