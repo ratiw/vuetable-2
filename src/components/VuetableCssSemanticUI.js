@@ -9,7 +9,7 @@ export default {
     descendingIcon: 'blue chevron down icon',
     ascendingClass: 'sorted-asc',
     descendingClass: 'sorted-desc',
-    sortableIcon: 'sort icon',
+    sortableIcon: 'grey sort icon',
     handleIcon: 'grey sidebar icon',
   },
 
