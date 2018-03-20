@@ -19,25 +19,29 @@
                 :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
-                v-html="renderTitle(field)"
                 @click="orderBy(field, $event)"
-              ></th>
+              >
+                {{renderTitle(field)}}
+              </th>
               <th v-if="extractName(field.name) == '__slot'"
                 :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
-                v-html="renderTitle(field)"
                 @click="orderBy(field, $event)"
-              ></th>
+              >
+                {{renderTitle(field)}}
+              </th>
               <th v-if="extractName(field.name) == '__sequence'"
                 :key="fieldIndex"
                 :style="{width: field.width}"
-                :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
+                :class="['vuetable-th-sequence', field.titleClass || '']">
+                {{renderTitle(field)}}
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
                 :key="fieldIndex"
                 :style="{width: field.width}"
-                :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="renderTitle(field)">
+                :class="['vuetable-th-'+field.name, field.titleClass || '']">
+                {{renderTitle(field)}}
               </th>
             </template>
             <template v-else>
@@ -46,8 +50,9 @@
                 :id="'_' + field.name"
                 :style="{width: field.width}"
                 :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
-                v-html="renderTitle(field)"
-              ></th>
+              >
+                {{renderTitle(field)}}
+              </th>
             </template>
           </template>
         </template>
@@ -85,14 +90,15 @@
                 <template v-if="isSpecialField(field.name)">
                   <td v-if="extractName(field.name) == '__sequence'" 
                     :key="fieldIndex"
-                    :class="['vuetable-sequence', field.dataClass]"
-                    v-html="renderSequence(itemIndex)">
+                    :class="['vuetable-sequence', field.dataClass]">
+                    {{renderSequence(itemIndex)}}
                   </td>
                   <td v-if="extractName(field.name) == '__handle'" 
                     :key="fieldIndex"
                     :class="['vuetable-handle', field.dataClass]"
-                    v-html="renderIconTag(['handle-icon', css.handleIcon])"
-                  ></td>
+                  >
+                    {{renderIconTag(['handle-icon', css.handleIcon])}}
+                  </td>
                   <td v-if="extractName(field.name) == '__checkbox'" 
                     :key="fieldIndex"
                     :class="['vuetable-checkboxes', field.dataClass]"
@@ -121,11 +127,12 @@
                 <template v-else>
                   <td :class="field.dataClass"
                     :key="fieldIndex"
-                    v-html="renderNormalField(field, item)"
                     @click="onCellClicked(item, field, $event)"
                     @dblclick="onCellDoubleClicked(item, field, $event)"
                     @contextmenu="onCellRightClicked(item, field, $event)"
-                  ></td>
+                  >
+                    {{renderNormalField(field, item)}}
+                  </td>
                 </template>
               </template>
             </template>
@@ -145,7 +152,7 @@
         </template>
         <template v-if="displayEmptyDataRow">
           <tr>
-            <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
+            <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
           </tr>
         </template>
         <template v-if="lessThanMinRows">
@@ -177,26 +184,32 @@
               :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
-              v-html="renderTitle(field)"
               @click="orderBy(field, $event)"
-            ></th>
+            >
+              {{renderTitle(field)}}
+            </th>
             <th v-if="extractName(field.name) == '__slot'"
               :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
-              v-html="renderTitle(field)"
               @click="orderBy(field, $event)"
-            ></th>
+            >
+              {{renderTitle(field)}}
+            </th>
             <th v-if="extractName(field.name) == '__sequence'"
               :key="fieldIndex"
               :style="{width: field.width}"
-              :class="['vuetable-th-sequence', field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)"
-            ></th>
+              :class="['vuetable-th-sequence', field.titleClass || '', sortClass(field)]"
+            >
+              {{renderTitle(field)}}
+            </th>
             <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
               :key="fieldIndex"
               :style="{width: field.width}"
-              :class="['vuetable-th-'+field.name, field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)"
-            ></th>
+              :class="['vuetable-th-'+field.name, field.titleClass || '', sortClass(field)]"
+            >
+              {{renderTitle(field)}}
+            </th>
           </template>
           <template v-else>
             <th @click="orderBy(field, $event)"
@@ -204,8 +217,9 @@
               :id="'_' + field.name"
               :style="{width: field.width}"
               :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field),  {'sortable': isSortable(field)}]"
-              v-html="renderTitle(field)"
-            ></th>
+            >
+              {{renderTitle(field)}}
+            </th>
           </template>
         </template>
       </template>
@@ -226,13 +240,15 @@
               <td v-if="extractName(field.name) == '__sequence'" 
                 :key="fieldIndex"
                 :class="['vuetable-sequence', field.dataClass]"
-                v-html="renderSequence(itemIndex)"
-              ></td>
+              >
+                {{renderSequence(itemIndex)}}
+              </td>
               <td v-if="extractName(field.name) == '__handle'" 
                 :key="fieldIndex"
                 :class="['vuetable-handle', field.dataClass]"
-                v-html="renderIconTag(['handle-icon', css.handleIcon])"
-              ></td>
+              >
+                {{renderIconTag(['handle-icon', css.handleIcon])}}
+              </td>
               <td v-if="extractName(field.name) == '__checkbox'" 
                 :key="fieldIndex"
                 :class="['vuetable-checkboxes', field.dataClass]"
@@ -262,19 +278,21 @@
               <td v-if="hasCallback(field)" 
                 :key="fieldIndex"
                 :class="field.dataClass"
-                v-html="callCallback(field, item)"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
                 @contextmenu="onCellRightClicked(item, field, $event)"
-              ></td>
+              >
+                {{callCallback(field, item)}}
+              </td>
               <td v-else 
                 :key="fieldIndex"
                 :class="field.dataClass"
-                v-html="getObjectValue(item, field.name, '')"
                 @click="onCellClicked(item, field, $event)"
                 @dblclick="onCellDoubleClicked(item, field, $event)"
                 @contextmenu="onCellRightClicked(item, field, $event)"
-              ></td>
+              >
+                {{getObjectValue(item, field.name, '')}}
+              </td>
             </template>
           </template>
         </template>
@@ -294,7 +312,7 @@
     </template>
     <template v-if="displayEmptyDataRow">
       <tr>
-        <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
+        <td :colspan="countVisibleFields" class="vuetable-empty-result">{{noDataTemplate}}</td>
       </tr>
     </template>
     <template v-if="lessThanMinRows">
