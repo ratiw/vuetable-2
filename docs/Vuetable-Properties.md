@@ -10,6 +10,10 @@
 - data-total
 - [detail-row-component](#-detail-row-component)
 - [detail-row-transition](#-detail-row-transition)
+- [row-transition-enter-class](#-row-transition-enter-class)
+- [row-transition-leave-class](#-row-transition-leave-class)
+- [row-transition-enter-active-class](#-row-transition-enter-active-class)
+- [row-transition-leave-active-class](#-row-transition-leave-active-class)
 - [fields](#-fields)
 - [http-fetch](#-http-fetch)
 - [http-options](#-http-options)
@@ -369,6 +373,34 @@
 - description
 
   The CSS class to apply to detail row during transition.
+
+### # row-transition-enter-class
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+  The CSS class to apply to row during enter transition. See: https://vuejs.org/v2/guide/transitions.html#Custom-Transition-Classes
+
+### # row-transition-leave-class
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+  The CSS class to apply to row during leave transition. See: https://vuejs.org/v2/guide/transitions.html#Custom-Transition-Classes
+
+### # row-transition-enter-active-class
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+  The CSS class to apply to row during enter active transition. See: https://vuejs.org/v2/guide/transitions.html#Custom-Transition-Classes
+
+### # row-transition-leave-active-class
+- type: _String_
+- default: `''` _(empty string)_
+- description
+
+  The CSS class to apply to row during leave active transition. See: https://vuejs.org/v2/guide/transitions.html#Custom-Transition-Classes
 
 ### # no-data-template
 - type: _String_
