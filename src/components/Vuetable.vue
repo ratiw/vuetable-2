@@ -748,25 +748,28 @@ export default {
       }
 
       this.$nextTick(function() {
-        this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
+        this.updateHeader()
       })
     },
+    updateHeader() {
+      // $nextTick doesn't seem to work in all cases. This might be because 
+      // $nextTick is finished before the transition element (just my guess)
+      //
+      // the scrollHeight value does not yet changed, causing scrollVisible
+      // to remain "true", therefore, the header gutter never gets updated
+      // to reflect the display of scrollbar in the table body.
+      // setTimeout 80ms seems to work in this case.
+      setTimeout(this.fixHeader, 70)
+    },
     fixHeader() {
-      if (!this.isFixedHeader) {
-        return;
-      }
-
-      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
-      if (elem != null) {
-        if (elem.scrollHeight > elem.clientHeight) {
-          this.scrollVisible = true;
+      this.$nextTick( () => {
+        let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
+        if (elem != null) {
+          this.scrollVisible = (elem.scrollHeight > elem.clientHeight)
         }
-        else {
-          this.scrollVisible = false;
-        }
-      }
+      })
     },
     loadFailed (response) {
       console.error('load-error', response)
@@ -1139,6 +1142,7 @@ export default {
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId)
       }
+      this.fixHeader()
     },
     hideDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
@@ -1146,9 +1150,17 @@ export default {
           this.visibleDetailRows.indexOf(rowId),
           1
         )
+        this.updateHeader()
       }
     },
     toggleDetailRow (rowId) {
+      // $nextTick doesn't seem to work in all cases. This might be because 
+      // $nextTick is finished before the transition element (just my guess)
+      //
+      // the scrollHeight value does not yet changed, causing scrollVisible
+      // to remain "true", therefore, the header gutter never gets updated
+      // to reflect the display of scrollbar in the table body.
+      // setTimeout 80ms seems to work in this case.
       if (this.isVisibleDetailRow(rowId)) {
         this.hideDetailRow(rowId)
       } else {
@@ -1288,7 +1300,7 @@ export default {
     },
     'tableHeight' (newVal, oldVal) {
       this.fixHeader()
-    }
+    },
   },
 }
 </script>
