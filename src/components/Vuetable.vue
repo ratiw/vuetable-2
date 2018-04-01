@@ -761,7 +761,7 @@ export default {
       // to remain "true", therefore, the header gutter never gets updated
       // to reflect the display of scrollbar in the table body.
       // setTimeout 80ms seems to work in this case.
-      setTimeout(this.fixHeader, 70)
+      setTimeout(this.fixHeader, 80)
     },
     fixHeader() {
       this.$nextTick( () => {
@@ -1154,13 +1154,6 @@ export default {
       }
     },
     toggleDetailRow (rowId) {
-      // $nextTick doesn't seem to work in all cases. This might be because 
-      // $nextTick is finished before the transition element (just my guess)
-      //
-      // the scrollHeight value does not yet changed, causing scrollVisible
-      // to remain "true", therefore, the header gutter never gets updated
-      // to reflect the display of scrollbar in the table body.
-      // setTimeout 80ms seems to work in this case.
       if (this.isVisibleDetailRow(rowId)) {
         this.hideDetailRow(rowId)
       } else {
