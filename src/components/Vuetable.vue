@@ -528,7 +528,7 @@ export default {
 
       this.$nextTick( () => {
         this.checkIfRowIdentifierExists()
-        this.checkScrollbarVisibility()
+        this.updateHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
@@ -629,29 +629,31 @@ export default {
 
       this.$nextTick( () => {
         this.checkIfRowIdentifierExists()
-        this.checkScrollbarVisibility()
+        this.updateHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
       })
     },
 
-    checkScrollbarVisibility() {
-      if (!this.isFixedHeader) {
-        return;
-      }
+    updateHeader () {
+      // $nextTick doesn't seem to work in all cases. This might be because 
+      // $nextTick is finished before the transition element (just my guess)
+      //
+      // the scrollHeight value does not yet changed, causing scrollVisible
+      // to remain "true", therefore, the header gutter never gets updated
+      // to reflect the display of scrollbar in the table body.
+      // setTimeout 80ms seems to work in this case.
+      setTimeout(this.checkScrollbarVisibility, 80)
+    },
 
-      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
-      if (elem != null) {
-        this.$nextTick( () => {
-          if (elem.scrollHeight > elem.clientHeight) {
-            this.scrollVisible = true;
-          }
-          else {
-            this.scrollVisible = false;
-          }
+    checkScrollbarVisibility () {
+      this.$nextTick( () => {
+        let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
+        if (elem != null) {
+          this.scrollVisible = (elem.scrollHeight > elem.clientHeight)
           this.fireEvent('scrollbar-visible', this.scrollVisible)
-        })
-      }
+        }
+      })
     },
 
     loadFailed (response) {
@@ -897,6 +899,7 @@ export default {
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId)
       }
+      this.checkScrollbarVisibility()
     },
 
     hideDetailRow (rowId) {
@@ -905,6 +908,7 @@ export default {
           this.visibleDetailRows.indexOf(rowId),
           1
         )
+        this.updateHeader()
       }
     },
 
