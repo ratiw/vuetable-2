@@ -70,7 +70,15 @@
           </template>
         </template>
       </colgroup>
-      <tbody v-cloak class="vuetable-body">
+      <tbody
+        v-cloak
+        class="vuetable-body"
+        is="transition-group"
+        :enter-class="rowTransitionEnterClass"
+        :leave-class="rowTransitionLeaveClass"
+        :enter-active-class="rowTransitionEnterActiveClass"
+        :leave-active-class="rowTransitionLeaveActiveClass"
+      >
         <template v-for="(item, itemIndex) in tableData">
           <tr 
             :key="itemIndex"
@@ -144,7 +152,7 @@
           </template>
         </template>
         <template v-if="displayEmptyDataRow">
-          <tr>
+          <tr :key="0">
             <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
           </tr>
         </template>
@@ -211,7 +219,15 @@
       </template>
     </tr>
   </thead>
-  <tbody v-cloak class="vuetable-body">
+  <tbody
+    v-cloak
+    class="vuetable-body"
+    is="transition-group"
+    :enter-class="rowTransitionEnterClass"
+    :leave-class="rowTransitionLeaveClass"
+    :enter-active-class="rowTransitionEnterActiveClass"
+    :leave-active-class="rowTransitionLeaveActiveClass"
+  >
     <template v-for="(item, itemIndex) in tableData">
       <tr @dblclick="onRowDoubleClicked(item, $event)" 
         :key="itemIndex"
@@ -293,7 +309,7 @@
       </template>
     </template>
     <template v-if="displayEmptyDataRow">
-      <tr>
+      <tr :key="0">
         <td :colspan="countVisibleFields" class="vuetable-empty-result" v-html="noDataTemplate"></td>
       </tr>
     </template>
@@ -436,6 +452,22 @@ export default {
       type: String,
       default: ''
     },
+    rowTransitionEnterClass: {
+      type: String,
+      default: ''
+    },
+    rowTransitionLeaveClass: {
+      type: String,
+      default: ''
+    },
+    rowTransitionEnterActiveClass: {
+      type: String,
+      default: ''
+    },
+    rowTransitionLeaveActiveClass: {
+      type: String,
+      default: ''
+    },    
     trackBy: {
       type: String,
       default: 'id'
