@@ -1288,6 +1288,9 @@ export default {
     },
     'tableHeight' (newVal, oldVal) {
       this.fixHeader()
+    },
+    'perPage' (newVal, oldVal) {
+      this.reload();
     }
   },
 }
