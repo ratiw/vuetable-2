@@ -708,17 +708,7 @@ export default {
     },
 
     getDefaultSortParam () {
-      let result = '';
-
-      for (let i = 0; i < this.sortOrder.length; i++) {
-        let fieldName = this.isSortable(this.sortOrder[i])
-          ? this.sortOrder[i].field
-          : this.sortOrder[i].sortField;
-
-        result += fieldName + '|' + this.sortOrder[i].direction + ((i+1) < this.sortOrder.length ? ',' : '');
-      }
-
-      return result;
+      return this.sortOrder.map( (item) => `${item.sortField}|${this.direction}`).join(',')
     },
 
     getAppendParams (params) {
