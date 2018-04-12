@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.17
+ * vuetable-2 v2.0.0-alpha.19
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -898,8 +898,7 @@ module.exports = defaults;
     descendingIcon: 'blue chevron down icon',
     ascendingClass: 'sorted-asc',
     descendingClass: 'sorted-desc',
-    sortableIcon: 'sort icon',
-    detailRowClass: 'vuetable-detail-row',
+    sortableIcon: 'grey sort icon',
     handleIcon: 'grey sidebar icon'
   },
 
@@ -3784,6 +3783,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type: String,
       default: ''
     },
+    detailRowClass: {
+      type: [String, Function],
+      default: 'vuetable-detail-row'
+    },
     trackBy: {
       type: String,
       default: 'id'
@@ -3858,7 +3861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     version: function version() {
-      return "2.0.0-alpha.17";
+      return "2.0.0-alpha.19";
     },
     useDetailRow: function useDetailRow() {
       if (!this.dataIsAvailable) return false;
@@ -4071,7 +4074,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.$nextTick(function () {
         _this3.checkIfRowIdentifierExists();
-        _this3.checkScrollbarVisibility();
+        _this3.updateHeader();
         _this3.fireEvent('pagination-data', _this3.tablePagination);
         _this3.fireEvent('loaded');
       });
@@ -4159,29 +4162,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.$nextTick(function () {
         _this4.checkIfRowIdentifierExists();
-        _this4.checkScrollbarVisibility();
+        _this4.updateHeader();
         _this4.fireEvent('pagination-data', _this4.tablePagination);
         _this4.fireEvent('loaded');
       });
     },
+    updateHeader: function updateHeader() {
+      setTimeout(this.checkScrollbarVisibility, 80);
+    },
     checkScrollbarVisibility: function checkScrollbarVisibility() {
       var _this5 = this;
 
-      if (!this.isFixedHeader) {
-        return;
-      }
-
-      var elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
-      if (elem != null) {
-        this.$nextTick(function () {
-          if (elem.scrollHeight > elem.clientHeight) {
-            _this5.scrollVisible = true;
-          } else {
-            _this5.scrollVisible = false;
-          }
+      this.$nextTick(function () {
+        var elem = _this5.$el.getElementsByClassName('vuetable-body-wrapper')[0];
+        if (elem != null) {
+          _this5.scrollVisible = elem.scrollHeight > elem.clientHeight;
           _this5.fireEvent('scrollbar-visible', _this5.scrollVisible);
-        });
-      }
+        }
+      });
     },
     loadFailed: function loadFailed(response) {
       console.error('load-error', response);
@@ -4230,15 +4228,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.getDefaultSortParam();
     },
     getDefaultSortParam: function getDefaultSortParam() {
-      var result = '';
-
-      for (var i = 0; i < this.sortOrder.length; i++) {
-        var fieldName = this.isSortable(this.sortOrder[i]) ? this.sortOrder[i].field : this.sortOrder[i].sortField;
-
-        result += fieldName + '|' + this.sortOrder[i].direction + (i + 1 < this.sortOrder.length ? ',' : '');
-      }
-
-      return result;
+      return this.sortOrder.map(function (item) {
+        return item.sortField + '|' + item.direction;
+      }).join(',');
     },
     getAppendParams: function getAppendParams(params) {
       for (var x in this.appendParams) {
@@ -4392,10 +4384,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId);
       }
+      this.checkScrollbarVisibility();
     },
     hideDetailRow: function hideDetailRow(rowId) {
       if (this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.splice(this.visibleDetailRows.indexOf(rowId), 1);
+        this.updateHeader();
       }
     },
     toggleDetailRow: function toggleDetailRow(rowId) {
@@ -4464,6 +4458,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       return this.rowClass;
+    },
+    onDetailRowClass: function onDetailRowClass(dataItem, index) {
+      if (typeof this.detailRowClass === 'function') {
+        return this.detailRowClass(dataItem, index);
+      }
+
+      return this.detailRowClass;
     },
     onRowClicked: function onRowClicked(dataItem, event) {
       this.fireEvent('row-clicked', dataItem, event);
@@ -6695,7 +6696,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": _vm.detailRowTransition
       }
     }, [(_vm.isVisibleDetailRow(item[_vm.trackBy])) ? _c('tr', {
-      class: [_vm.$_css.detailRowClass],
+      class: _vm.onDetailRowClass(item, itemIndex),
       on: {
         "click": function($event) {
           _vm.onDetailRowClick(item, $event)
