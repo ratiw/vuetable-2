@@ -469,11 +469,11 @@ export default {
       this.tableFields = []
 
       this.fields.forEach( (field, i) => {
-        this.tableFields.push(this.newField(field))
+        this.tableFields.push(this.newField(field, i))
       })
     },
 
-    newField (field) {
+    newField (field, index) {
       let defaultField = {
         name: '',
         // title:
@@ -485,6 +485,7 @@ export default {
         formatter: null,
         visible: true,
         width: null,
+        $_index: index,
       }
 
       if (typeof(field) === 'string') {
