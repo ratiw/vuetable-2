@@ -295,6 +295,34 @@ describe('Vuetable - Methods', () => {
     })    
   })
 
+  describe('getDefaultSortParam', () => {
+
+    const mountVuetable = (sortOrder) => shallow(Vuetable, {
+      propsData: {
+        apiMode: false,
+        fields: ['code'],
+        sortOrder
+      }
+    })
+
+    it('returns single sortOrder into sort params', () => {
+      let wrapper = mountVuetable([
+        { field: 'code', sortField: 'code', direction: 'asc' },
+      ])
+
+      expect(wrapper.vm.getDefaultSortParam()).toEqual('code|asc')
+    })
+
+    it('returns consolidated multiple sortOrder into sort param', () => {
+      let wrapper = mountVuetable([
+        { field: 'code', sortField: 'code', direction: 'asc' },
+        { field: 'group.description', sortField: 'group_id', direction: 'desc' }
+      ])
+
+      expect(wrapper.vm.getDefaultSortParam()).toEqual('code|asc,group_id|desc')
+    })
+  })
+
   describe('getObjectValue', () => {
     let obj = { 
       code: 'aaa', 
