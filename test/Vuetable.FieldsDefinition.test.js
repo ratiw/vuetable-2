@@ -31,6 +31,7 @@ describe('Vuetable - Fields Definition', () => {
       formatter: null,
       visible: true,
       width: null,
+      $_index: 0
     },
     {
       name: 'description',
@@ -40,7 +41,8 @@ describe('Vuetable - Fields Definition', () => {
       sortField: null,
       formatter: null,
       visible: true,
-      width: null
+      width: null,
+      $_index: 1
     }
   ]
 
