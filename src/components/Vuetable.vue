@@ -989,32 +989,32 @@ export default {
     },
 
     onRowClicked (dataItem, event) {
-      this.fireEvent('row-clicked', dataItem, event)
+      this.fireEvent('row-clicked', { data: dataItem, event: event })
       return true
     },
 
     onRowDoubleClicked (dataItem, event) {
-      this.fireEvent('row-dblclicked', dataItem, event)
+      this.fireEvent('row-dblclicked', { data: dataItem, event: event })
     },
 
     onDetailRowClick (dataItem, event) {
-      this.fireEvent('detail-row-clicked', dataItem, event)
+      this.fireEvent('detail-row-clicked', { data: dataItem, event: event })
     },
 
     onCellClicked (dataItem, field, event) {
-      this.fireEvent('cell-clicked', dataItem, field, event)
+      this.fireEvent('cell-clicked', { data: dataItem, field: field, event: event })
     },
 
     onCellDoubleClicked (dataItem, field, event) {
-      this.fireEvent('cell-dblclicked', dataItem, field, event)
+      this.fireEvent('cell-dblclicked', { data: dataItem, field: field, event: event })
     },
 
     onCellRightClicked (dataItem, field, event) {
-      this.fireEvent('cell-rightclicked', dataItem, field, event)
+      this.fireEvent('cell-rightclicked', { data: dataItem, field: field, event: event })
     },
 
     onMouseOver (dataItem, event) {
-      this.fireEvent('row-mouseover', dataItem, event)
+      this.fireEvent('row-mouseover', { data: dataItem, event: event })
     },
 
     onFieldEvent (type, payload) {
