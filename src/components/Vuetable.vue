@@ -26,9 +26,9 @@
         <tr :item-index="itemIndex" 
           :key="itemIndex"
           :class="onRowClass(item, itemIndex)"
-          @click="onRowClicked(item, $event)"
-          @dblclick="onRowDoubleClicked(item, $event)"
-          @mouseover="onMouseOver(item, $event)"
+          @click="onRowClicked(item, itemIndex, $event)"
+          @dblclick="onRowDoubleClicked(item, itemIndex, $event)"
+          @mouseover="onMouseOver(item, itemIndex, $event)"
         >
           <template v-for="(field, fieldIndex) in tableFields">
             <template v-if="field.visible">
@@ -57,9 +57,9 @@
                   :key="fieldIndex"
                   :style="{width: field.width}"
                   v-html="renderNormalField(field, item)"
-                  @click="onCellClicked(item, field, $event)"
-                  @dblclick="onCellDoubleClicked(item, field, $event)"
-                  @contextmenu="onCellRightClicked(item, field, $event)"
+                  @click="onCellClicked(item, itemIndex, field, $event)"
+                  @dblclick="onCellDoubleClicked(item, itemIndex, field, $event)"
+                  @contextmenu="onCellRightClicked(item, itemIndex, field, $event)"
                 ></td>
               </template>
             </template>
@@ -68,7 +68,7 @@
         <template v-if="useDetailRow">
           <transition :name="detailRowTransition" :key="itemIndex">
             <tr v-if="isVisibleDetailRow(item[trackBy])"
-              @click="onDetailRowClick(item, $event)"
+              @click="onDetailRowClick(item, itemIndex, $event)"
               :class="onDetailRowClass(item, itemIndex)"
             >
               <td :colspan="countVisibleFields">
@@ -988,33 +988,33 @@ export default {
       return this.detailRowClass
     },
 
-    onRowClicked (dataItem, event) {
-      this.fireEvent('row-clicked', { data: dataItem, event: event })
+    onRowClicked (dataItem, dataIndex, event) {
+      this.fireEvent('row-clicked', { data: dataItem, index: dataIndex, event: event })
       return true
     },
 
-    onRowDoubleClicked (dataItem, event) {
-      this.fireEvent('row-dblclicked', { data: dataItem, event: event })
+    onRowDoubleClicked (dataItem, dataIndex, event) {
+      this.fireEvent('row-dblclicked', { data: dataItem, index: dataIndex, event: event })
     },
 
-    onDetailRowClick (dataItem, event) {
-      this.fireEvent('detail-row-clicked', { data: dataItem, event: event })
+    onDetailRowClick (dataItem, dataIndex, event) {
+      this.fireEvent('detail-row-clicked', { data: dataItem, index: dataIndex, event: event })
     },
 
-    onCellClicked (dataItem, field, event) {
-      this.fireEvent('cell-clicked', { data: dataItem, field: field, event: event })
+    onCellClicked (dataItem, dataIndex, field, event) {
+      this.fireEvent('cell-clicked', { data: dataItem, index: dataIndex, field: field, event: event })
     },
 
-    onCellDoubleClicked (dataItem, field, event) {
-      this.fireEvent('cell-dblclicked', { data: dataItem, field: field, event: event })
+    onCellDoubleClicked (dataItem, dataIndex, field, event) {
+      this.fireEvent('cell-dblclicked', { data: dataItem, index: dataIndex, field: field, event: event })
     },
 
-    onCellRightClicked (dataItem, field, event) {
-      this.fireEvent('cell-rightclicked', { data: dataItem, field: field, event: event })
+    onCellRightClicked (dataItem, dataIndex, field, event) {
+      this.fireEvent('cell-rightclicked', { data: dataItem, index: dataIndex, field: field, event: event })
     },
 
-    onMouseOver (dataItem, event) {
-      this.fireEvent('row-mouseover', { data: dataItem, event: event })
+    onMouseOver (dataItem, dataIndex, event) {
+      this.fireEvent('row-mouseover', { data: dataItem, index: dataIndex, event: event })
     },
 
     onFieldEvent (type, payload) {
