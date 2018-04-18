@@ -306,7 +306,7 @@
     </template>
   </tbody>
   
-  <tfoot>
+  <tfoot v-if="useTfoot">
     <slot name="tfoot" :tableData="tableData"></slot>
   </tfoot>
 </table>
@@ -479,7 +479,11 @@ export default {
     showSortIcons: {
       type: Boolean,
       default: true
-    }
+    },
+	useTfoot: {
+	  type: Boolean,
+      default: false
+	}
   },
   data () {
     return {
