@@ -305,6 +305,10 @@
       </tr>
     </template>
   </tbody>
+  
+  <tfoot>
+    <slot name="tfoot" :tableData="tableData"></slot>
+  </tfoot>
 </table>
 </template>
 
