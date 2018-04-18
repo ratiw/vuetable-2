@@ -26,6 +26,7 @@
 - [reactive-api-url](#-reactive-api-url)
 - [render-icon](#-render-icon)
 - [row-class](#-row-class)
+- [show-sort-icons](#-show-sort-icons)
 - [sort-order](#-sort-order)
 - [table-height](#-table-height)
 - [track-by](#-track-by)
