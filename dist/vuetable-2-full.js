@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.19
+ * vuetable-2 v2.0.0-alpha.20
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -759,7 +759,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1115,7 +1115,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1154,7 +1154,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldCheckbox.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldCheckbox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableFieldCheckbox.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1194,7 +1194,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldHandle.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldHandle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableFieldHandle.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1234,7 +1234,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldSequence.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldSequence.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableFieldSequence.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1274,7 +1274,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfoMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfoMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1313,7 +1313,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableRowHeader.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableRowHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableRowHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2650,7 +2650,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\Vuetable.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/Vuetable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Vuetable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2690,7 +2690,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePagination.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2730,7 +2730,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationDropdown.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationDropdown.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationDropdown.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2770,7 +2770,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetablePaginationInfo.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetablePaginationInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetablePaginationInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -3861,7 +3861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     version: function version() {
-      return "2.0.0-alpha.19";
+      return "2.0.0-alpha.20";
     },
     useDetailRow: function useDetailRow() {
       if (!this.dataIsAvailable) return false;
@@ -4018,10 +4018,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.tableFields = [];
 
       this.fields.forEach(function (field, i) {
-        _this2.tableFields.push(_this2.newField(field));
+        _this2.tableFields.push(_this2.newField(field, i));
       });
     },
-    newField: function newField(field) {
+    newField: function newField(field, index) {
       var defaultField = {
         name: '',
 
@@ -4030,7 +4030,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         sortField: null,
         formatter: null,
         visible: true,
-        width: null
+        width: null,
+        $_index: index
       };
 
       if (typeof field === 'string') {
@@ -4466,27 +4467,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       return this.detailRowClass;
     },
-    onRowClicked: function onRowClicked(dataItem, event) {
-      this.fireEvent('row-clicked', dataItem, event);
+    onRowClicked: function onRowClicked(dataItem, dataIndex, event) {
+      this.fireEvent('row-clicked', { data: dataItem, index: dataIndex, event: event });
       return true;
     },
-    onRowDoubleClicked: function onRowDoubleClicked(dataItem, event) {
-      this.fireEvent('row-dblclicked', dataItem, event);
+    onRowDoubleClicked: function onRowDoubleClicked(dataItem, dataIndex, event) {
+      this.fireEvent('row-dblclicked', { data: dataItem, index: dataIndex, event: event });
     },
-    onDetailRowClick: function onDetailRowClick(dataItem, event) {
-      this.fireEvent('detail-row-clicked', dataItem, event);
+    onDetailRowClick: function onDetailRowClick(dataItem, dataIndex, event) {
+      this.fireEvent('detail-row-clicked', { data: dataItem, index: dataIndex, event: event });
     },
-    onCellClicked: function onCellClicked(dataItem, field, event) {
-      this.fireEvent('cell-clicked', dataItem, field, event);
+    onCellClicked: function onCellClicked(dataItem, dataIndex, field, event) {
+      this.fireEvent('cell-clicked', { data: dataItem, index: dataIndex, field: field, event: event });
     },
-    onCellDoubleClicked: function onCellDoubleClicked(dataItem, field, event) {
-      this.fireEvent('cell-dblclicked', dataItem, field, event);
+    onCellDoubleClicked: function onCellDoubleClicked(dataItem, dataIndex, field, event) {
+      this.fireEvent('cell-dblclicked', { data: dataItem, index: dataIndex, field: field, event: event });
     },
-    onCellRightClicked: function onCellRightClicked(dataItem, field, event) {
-      this.fireEvent('cell-rightclicked', dataItem, field, event);
+    onCellRightClicked: function onCellRightClicked(dataItem, dataIndex, field, event) {
+      this.fireEvent('cell-rightclicked', { data: dataItem, index: dataIndex, field: field, event: event });
     },
-    onMouseOver: function onMouseOver(dataItem, event) {
-      this.fireEvent('row-mouseover', dataItem, event);
+    onMouseOver: function onMouseOver(dataItem, dataIndex, event) {
+      this.fireEvent('row-mouseover', { data: dataItem, index: dataIndex, event: event });
     },
     onFieldEvent: function onFieldEvent(type, payload) {
       this.fireEvent('field-event', type, payload, this);
@@ -6376,7 +6377,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableColGroup.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableColGroup.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableColGroup.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -6420,7 +6421,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableColGutter.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableColGutter.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VuetableColGutter.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -6460,7 +6461,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "C:\\projects\\vuetable-2\\src\\components\\VuetableFieldCheckboxMixin.vue"
+Component.options.__file = "/Users/ratiw/Code/vuetable-2/src/components/VuetableFieldCheckboxMixin.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -6633,13 +6634,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.onRowClicked(item, $event)
+          _vm.onRowClicked(item, itemIndex, $event)
         },
         "dblclick": function($event) {
-          _vm.onRowDoubleClicked(item, $event)
+          _vm.onRowDoubleClicked(item, itemIndex, $event)
         },
         "mouseover": function($event) {
-          _vm.onMouseOver(item, $event)
+          _vm.onMouseOver(item, itemIndex, $event)
         }
       }
     }, [_vm._l((_vm.tableFields), function(field, fieldIndex) {
@@ -6680,13 +6681,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         },
         on: {
           "click": function($event) {
-            _vm.onCellClicked(item, field, $event)
+            _vm.onCellClicked(item, itemIndex, field, $event)
           },
           "dblclick": function($event) {
-            _vm.onCellDoubleClicked(item, field, $event)
+            _vm.onCellDoubleClicked(item, itemIndex, field, $event)
           },
           "contextmenu": function($event) {
-            _vm.onCellRightClicked(item, field, $event)
+            _vm.onCellRightClicked(item, itemIndex, field, $event)
           }
         }
       })]] : _vm._e()]
@@ -6699,7 +6700,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: _vm.onDetailRowClass(item, itemIndex),
       on: {
         "click": function($event) {
-          _vm.onDetailRowClick(item, $event)
+          _vm.onDetailRowClick(item, itemIndex, $event)
         }
       }
     }, [_c('td', {
