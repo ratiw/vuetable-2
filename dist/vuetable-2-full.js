@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-alpha.20
+ * vuetable-2 v2.0.0-alpha.21
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -3861,7 +3861,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     version: function version() {
-      return "2.0.0-alpha.20";
+      return "2.0.0-alpha.21";
     },
     useDetailRow: function useDetailRow() {
       if (!this.dataIsAvailable) return false;
