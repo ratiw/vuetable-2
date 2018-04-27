@@ -49,7 +49,7 @@ export default {
       if (!this.tablePagination || this.tablePagination.current_page <= this.onEachSide) {
         return 1
       } else if (this.tablePagination.current_page >= (this.totalPage - this.onEachSide)) {
-        return this.totalPage - this.onEachSide*2
+        return this.totalPage - this.onEachSide * 2
       }
 
       return this.tablePagination.current_page - this.onEachSide
@@ -63,7 +63,7 @@ export default {
       this.$_css = {...CssSemanticUI.pagination, ...this.css}
     },
     loadPage (page) {
-      this.$emit(this.eventPrefix+'change-page', page)
+      this.$emit(this.eventPrefix + 'change-page', page)
     },
     isCurrentPage (page) {
       return page === this.tablePagination.current_page
