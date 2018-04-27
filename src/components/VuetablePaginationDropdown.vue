@@ -31,10 +31,8 @@ export default {
   },
   methods: {
     registerEvents () {
-      let self = this
-
       this.$on('vuetable:pagination-data', (tablePagination) => {
-        self.setPaginationData(tablePagination)
+        this.setPaginationData(tablePagination)
       })
     }
   },
