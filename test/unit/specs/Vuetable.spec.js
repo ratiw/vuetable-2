@@ -98,6 +98,27 @@ describe('data requests', () => {
     })
       .then(done, done)
   })
+
+  it('should call callback if provided in refresh/reload function', done => {
+    const vm = new Vue({
+      template: '<vuetable ref="vuetable" :load-on-start="false" :fields="columns" :api-url="apiUrl" :silent="true"></vuetable>',
+      components: {'vuetable': VuetableWithMocks},
+      data: {
+        columns: [
+          'name', 'description'
+        ],
+        apiUrl: 'http://example.com/api/test'
+      }
+    }).$mount()
+
+    let callback = sinon.spy()
+    vm.$refs.vuetable.refresh(callback, callback)
+    vm.$refs.vuetable.reload(callback, callback)
+
+    vm.$nextTick().then(() => {
+      expect(callback).to.have.been.calledTwice
+    }).then(done, done)
+  })
 })
 
 /**
