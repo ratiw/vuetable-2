@@ -9,7 +9,7 @@ export default {
       this.vuetable.onCheckboxToggled(event.target.checked, this.rowField.name, dataItem)
     },
 
-    toggleAllCheckbox(field, event) {
+    toggleAllCheckbox(event) {
       this.vuetable.onCheckboxToggledAll(event.target.checked)
     },
 
