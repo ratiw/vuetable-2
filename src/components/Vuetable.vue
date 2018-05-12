@@ -1264,12 +1264,23 @@ export default {
         this.gotoPage(page)
       }
     },
-    reload () {
-      return this.loadData()
+    reload (success, failed) {
+      var noop = () => {}
+
+      success = success || noop
+      failed = failed || noop
+
+      return this.loadData(response => {
+        this.loadSuccess(response)
+        success(response)
+      }, error => {
+        this.loadFailed(error)
+        failed(error)
+      })
     },
     refresh () {
       this.currentPage = 1
-      return this.loadData()
+      return this.reload.apply(this, arguments)
     },
     resetData () {
       this.tableData = null
