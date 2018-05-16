@@ -1,6 +1,6 @@
 <template>
 <div :class="$_css.tableWrapper">
-  <div class="vuetable-head-wrapper">
+  <div class="vuetable-head-wrapper" v-if="isFixedHeader">
     <table :class="['vuetable', $_css.tableClass, $_css.tableHeaderClass]">
       <vuetable-col-group :is-header="true"/>
       <thead>
@@ -16,8 +16,17 @@
   </div>
 
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
-    <table :class="['vuetable', $_css.tableClass, $_css.tableBodyClass]">
+    <table :class="['vuetable', isFixedHeader ? 'fixed-header' : '', $_css.tableClass, $_css.tableBodyClass]">
     <vuetable-col-group/>
+    <thead v-if="!isFixedHeader">
+    <slot name="tableHeader" :fields="tableFields">
+      <template v-for="(header, headerIndex) in headerRows">
+        <component :is="header" :key="headerIndex"
+                   @vuetable:header-event="onHeaderEvent"
+        ></component>
+      </template>
+    </slot>
+    </thead>
     <tfoot>
       <slot name="tableFooter" :fields="tableFields"></slot>
     </tfoot>
@@ -414,6 +423,10 @@ export default {
     tableHeight (newVal, oldVal) {
       this.checkScrollbarVisibility()
     },
+
+    fields(newVal, oldVal) {
+    	this.normalizeFields();
+    }
   },
   
   methods: {
@@ -1094,7 +1107,7 @@ export default {
   [v-cloak] {
     display: none;
   }
-  table.vuetable {
+  table.vuetable.fixed-header {
     table-layout: fixed;
   }
   .vuetable th.sortable:hover {
