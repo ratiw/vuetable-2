@@ -1,6 +1,6 @@
 <template>
 <div :class="$_css.tableWrapper">
-  <div class="vuetable-head-wrapper">
+  <div class="vuetable-head-wrapper" v-if="isFixedHeader">
     <table :class="['vuetable', $_css.tableClass, $_css.tableHeaderClass]">
       <vuetable-col-group :is-header="true"/>
       <thead>
@@ -15,9 +15,18 @@
     </table>
   </div>
 
-  <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
-    <table :class="['vuetable', $_css.tableClass, $_css.tableBodyClass]">
+  <div class="vuetable-body-wrapper" :class="{'fixed-header' : isFixedHeader}" :style="{height: tableHeight}">
+    <table :class="['vuetable', isFixedHeader ? 'fixed-header' : '', $_css.tableClass, $_css.tableBodyClass]">
     <vuetable-col-group/>
+    <thead v-if="!isFixedHeader">
+    <slot name="tableHeader" :fields="tableFields">
+      <template v-for="(header, headerIndex) in headerRows">
+        <component :is="header" :key="headerIndex"
+          @vuetable:header-event="onHeaderEvent"
+        ></component>
+      </template>
+    </slot>
+    </thead>
     <tfoot>
       <slot name="tableFooter" :fields="tableFields"></slot>
     </tfoot>
@@ -414,6 +423,10 @@ export default {
     tableHeight (newVal, oldVal) {
       this.checkScrollbarVisibility()
     },
+
+    fields(newVal, oldVal) {
+    	this.normalizeFields();
+    }
   },
   
   methods: {
@@ -1090,11 +1103,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   [v-cloak] {
     display: none;
   }
-  table.vuetable {
+  table.vuetable.fixed-header {
     table-layout: fixed;
   }
   .vuetable th.sortable:hover {
@@ -1108,31 +1121,17 @@ export default {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
   }
-  .vuetable-body-wrapper {
+  .vuetable-body-wrapper.fixed-header {
     position:relative;
     overflow-y:auto;
   }
-  .vuetable-body-wrapper table.vuetable {
+  .vuetable-body-wrapper table.vuetable.fixed-header {
+    border-top:none !important;
+    margin-top:0 !important;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
   }
-  .vuetable-actions {
-    width: 15%;
-    padding: 12px 0px;
-    text-align: center;
-  }
-  .vuetable-pagination {
-    background: #f9fafb !important;
-  }
-  .vuetable-pagination-info {
-    margin-top: auto;
-    margin-bottom: auto;
-  }
   .vuetable-empty-result {
     text-align: center;
-  }
-  .vuetable-semantic-no-top {
-    border-top:none !important;
-    margin-top:0 !important;
   }
 </style>
