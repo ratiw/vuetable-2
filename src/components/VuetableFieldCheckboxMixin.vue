@@ -18,8 +18,11 @@ export default {
     },
 
     isAllItemsInCurrentPageSelected() {
+      // wait until DOM is ready
+      if (! this.$el) return
+
       if (! this.vuetable.tableData) return 
-      
+
       let idColumn = this.vuetable.trackBy
       let checkbox = this.$el.querySelector('input[type=checkbox]')
       let selected = this.vuetable.tableData.filter( (item) => this.vuetable.isSelectedRow(item[idColumn]) )
