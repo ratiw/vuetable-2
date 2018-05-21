@@ -46,3 +46,8 @@ export default {
   mixins: [PaginationMixin],
 }
 </script>
+<style>
+  .vuetable-pagination {
+    background: #f9fafb !important;
+  }
+</style>

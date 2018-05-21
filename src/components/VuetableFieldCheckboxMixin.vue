@@ -18,9 +18,6 @@ export default {
     },
 
     isAllItemsInCurrentPageSelected() {
-      // wait until DOM is ready
-      if (! this.$el) return
-
       if (! this.vuetable.tableData) return 
 
       let idColumn = this.vuetable.trackBy

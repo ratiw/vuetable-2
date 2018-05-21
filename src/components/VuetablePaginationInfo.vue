@@ -11,3 +11,10 @@ export default {
   mixins: [PaginationInfoMixin],
 }
 </script>
+<style>
+  .vuetable-pagination-info {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+</style>
+
