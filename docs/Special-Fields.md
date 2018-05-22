@@ -6,8 +6,8 @@ Vuetable currently have the following special fields
 - [__sequence](#-__sequence)
 - [__handle](#-__handle)
 - [__checkbox](#-__checkbox)
-- [__component](#-__component)
-- [__slot](#-__slot)
+- [__component](#-__componentltnamegt)
+- [__slot](#-__slotltnamegt)
 
 You can see the usage of these special fields in the [Vuetable-2 Tutorial - Using special fields](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/lesson-11.md).
 
