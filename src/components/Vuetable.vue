@@ -390,7 +390,17 @@ export default {
         type: Number,
         default: 10
     },
+    /**
+     * Page that should be displayed when the table is first displayed
+     */
     initialPage: {
+      type: Number,
+      default: 1
+    },
+    /**
+     * First page number. Set this prop to 0 for zero-based pagination.
+     */
+    firstPage: {
       type: Number,
       default: 1
     },
@@ -890,7 +900,7 @@ export default {
         this.singleColumnSort(field)
       }
 
-      this.currentPage = 1    // reset page index
+      this.currentPage = this.firstPage    // reset page index
       if (this.apiMode || this.dataManager) {
         this.loadData()
       }
@@ -1118,7 +1128,7 @@ export default {
       this.$emit('vuetable:checkbox-toggled-all', isChecked)
     },
     gotoPreviousPage () {
-      if (this.currentPage > 1) {
+      if (this.currentPage > this.firstPage) {
         this.currentPage--
         this.loadData()
       }
@@ -1130,7 +1140,7 @@ export default {
       }
     },
     gotoPage (page) {
-      if (page != this.currentPage && (page > 0 && page <= this.tablePagination.last_page)) {
+      if (page != this.currentPage && (page >= this.firstPage && page <= this.tablePagination.last_page)) {
         this.currentPage = page
         this.loadData()
       }
@@ -1268,7 +1278,7 @@ export default {
       return this.loadData()
     },
     refresh () {
-      this.currentPage = 1
+      this.currentPage = this.firstPage
       return this.loadData()
     },
     resetData () {

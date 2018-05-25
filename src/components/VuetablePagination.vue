@@ -1,6 +1,6 @@
 <template>
-  <div v-show="tablePagination && tablePagination.last_page > 1" :class="css.wrapperClass">
-    <a @click="loadPage(1)"
+  <div v-show="tablePagination && lastPage > firstPage" :class="css.wrapperClass">
+    <a @click="loadPage(firstPage)"
       :class="['btn-nav', css.linkClass, isOnFirstPage ? css.disabledClass : '']">
         <i v-if="css.icons.first != ''" :class="[css.icons.first]"></i>
         <span v-else>&laquo;</span>
@@ -11,17 +11,17 @@
         <span v-else>&nbsp;&lsaquo;</span>
     </a>
     <template v-if="notEnoughPages">
-      <template v-for="n in totalPage">
-        <a @click="loadPage(n)"
-          :class="[css.pageClass, isCurrentPage(n) ? css.activeClass : '']"
+      <template v-for="(n, i) in totalPage">
+        <a @click="loadPage(i+firstPage)"
+          :class="[css.pageClass, isCurrentPage(i+firstPage) ? css.activeClass : '']"
           v-html="n">
         </a>
       </template>
     </template>
     <template v-else>
-      <template v-for="n in windowSize">
-        <a @click="loadPage(windowStart+n-1)"
-          :class="[css.pageClass, isCurrentPage(windowStart+n-1) ? css.activeClass : '']"
+      <template v-for="(n, i) in windowSize">
+        <a @click="loadPage(windowStart+i+firstPage-1)"
+          :class="[css.pageClass, isCurrentPage(windowStart+i+firstPage-1) ? css.activeClass : '']"
           v-html="windowStart+n-1">
         </a>
       </template>
@@ -31,7 +31,7 @@
       <i v-if="css.icons.next != ''" :class="[css.icons.next]"></i>
       <span v-else>&rsaquo;&nbsp;</span>
     </a>
-    <a @click="loadPage(totalPage)"
+    <a @click="loadPage(lastPage)"
       :class="['btn-nav', css.linkClass, isOnLastPage ? css.disabledClass : '']">
       <i v-if="css.icons.last != ''" :class="[css.icons.last]"></i>
       <span v-else>&raquo;</span>
