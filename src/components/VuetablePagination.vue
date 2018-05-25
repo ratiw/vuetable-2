@@ -1,5 +1,5 @@
 <template>
-  <div v-show="tablePagination && tablePagination.last_page > firstPage" :class="css.wrapperClass">
+  <div v-show="tablePagination && lastPage > firstPage" :class="css.wrapperClass">
     <a @click="loadPage(firstPage)"
       :class="['btn-nav', css.linkClass, isOnFirstPage ? css.disabledClass : '']">
         <i v-if="css.icons.first != ''" :class="[css.icons.first]"></i>
