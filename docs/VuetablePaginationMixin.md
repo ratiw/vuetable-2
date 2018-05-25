@@ -36,13 +36,26 @@ This mixin provides sliding style pagination functionality where the current pag
 
   The value of this property specifies the slide size on each side of the center.
 
+#### # first-page
+- type: _Number_
+- default: `1`
+- description
+
+  The value of this property specifies the first page number of the data. Set it to 0 for apis that provide zero-based pagination.
+
 ### Computed
 
 #### # totalPage
 - return: _Number_
 - description
 
-  The total number of available pages. This value is taken from the `last_page` field of pagination information.
+  The total number of available pages. This value is taken as the range from the `firstPage` property to the `last_page` field of pagination information.
+
+#### # lastPage
+- return: _Number_
+- description
+
+  The last page number of the data. This value is taken from the `last_page` field of pagination information.
 
 #### # isOnFirstPage
 - return: _Boolean_

@@ -15,6 +15,7 @@
 - [http-options](#-http-options)
 - [http-method](#-http-method)
 - [initial-page](#-initial-page)
+- [first-page](#-first-page)
 - [load-on-start](#-load-on-start)
 - [min-rows](#-min-rows)
 - [multi-sort](#-multi-sort)
@@ -264,6 +265,14 @@
 - description
 
   The initial page number of data to be requested on the first time.
+
+### # first-page (since v1.7)
+- works in `api-mode` only
+- type: _Number_
+- default: `1`
+- description
+
+  The first page number of data from the api. Set this to 0 for apis that use zero based pagination. 
 
 ### # css
 - type: _Object_
