@@ -28,6 +28,10 @@ export default {
         return 2
       }
     },
+    firstPage: {
+      type: Number,
+      default: 1
+    }
   },
   data: function() {
     return {
@@ -37,6 +41,11 @@ export default {
   },
   computed: {
     totalPage () {
+      return this.tablePagination === null
+        ? 0
+        : this.lastPage - this.firstPage + 1
+    },
+    lastPage () {
       return this.tablePagination === null
         ? 0
         : this.tablePagination.last_page
@@ -49,7 +58,7 @@ export default {
     isOnLastPage () {
       return this.tablePagination === null
         ? false
-        : this.tablePagination.current_page === this.tablePagination.last_page
+        : this.tablePagination.current_page === this.lastPage
     },
     notEnoughPages () {
       return this.totalPage < (this.onEachSide * 2) + 4

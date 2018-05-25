@@ -390,7 +390,17 @@ export default {
         type: Number,
         default: 10
     },
+    /**
+     * Page that should be displayed when the table is first displayed
+     */
     initialPage: {
+      type: Number,
+      default: 1
+    },
+    /**
+     * First page number. Set this prop to 0 for zero-based pagination.
+     */
+    firstPage: {
       type: Number,
       default: 1
     },
