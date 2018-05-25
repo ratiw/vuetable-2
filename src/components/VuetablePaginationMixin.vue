@@ -53,7 +53,7 @@ export default {
     isOnFirstPage () {
       return this.tablePagination === null
         ? false
-        : this.tablePagination.current_page === 1
+        : this.tablePagination.current_page === this.firstPage
     },
     isOnLastPage () {
       return this.tablePagination === null
