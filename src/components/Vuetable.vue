@@ -812,7 +812,7 @@ export default {
       }
 
       params[this.queryParams.sort] = this.getSortParam()
-      params[this.queryParams.page] = this.currentPage
+      params[this.queryParams.page] = this.getPageParam()
       params[this.queryParams.perPage] = this.perPage
 
       return params
@@ -839,6 +839,13 @@ export default {
         result += fieldName + '|' + this.sortOrder[i].direction + ((i+1) < this.sortOrder.length ? ',' : '');
       }
       return result;
+    },
+    getPageParam () {
+      if (typeof this.$parent['getPageParam'] === 'function') {
+        return this.$parent['getPageParam'].call(this.$parent, this.currentPage)
+      }
+
+      return this.currentPage
     },
     getAppendParams (params) {
       for (let x in this.appendParams) {
