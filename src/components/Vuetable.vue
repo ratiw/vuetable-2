@@ -901,7 +901,7 @@ export default {
         this.sortOrder.push({
           field: field.name,
           sortField: field.sortField,
-          direction: 'asc'
+          direction: field.defSortDirection
         });
       } else { //this field is in the sort array, now we change its state
         if(this.sortOrder[i].direction === 'asc') {
