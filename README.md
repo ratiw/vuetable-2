@@ -28,7 +28,7 @@ If you any question, please post your questions in the "Issues" section of [this
 
 # Breaking Changes
 ## v2.0.0-beta.1
-- Please see the release note [here]()
+- Please see the release note.
 
 ## v1.6.0
 - The `icons` prop of VuetablePagination is now moved into the `css` prop object. See this [codepen](https://codepen.io/ratiw/pen/GmJayw).
