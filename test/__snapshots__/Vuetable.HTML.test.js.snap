@@ -4,8 +4,10 @@ exports[`Vuetable - HTML structure renders HTML table 1`] = `
 <div
   class=""
 >
+  <!---->
+   
   <div
-    class="vuetable-head-wrapper"
+    class="vuetable-body-wrapper"
   >
     <table
       class="vuetable ui blue selectable unstackable celled table fixed"
@@ -39,25 +41,6 @@ exports[`Vuetable - HTML structure renders HTML table 1`] = `
           <!---->
         </tr>
       </thead>
-    </table>
-  </div>
-   
-  <div
-    class="vuetable-body-wrapper"
-  >
-    <table
-      class="vuetable ui blue selectable unstackable celled table vuetable-semantic-no-top fixed"
-    >
-      <colgroup>
-        <col
-          class="vuetable-col-code"
-        />
-        <col
-          class="vuetable-col-description"
-        />
-         
-        <!---->
-      </colgroup>
        
       <tfoot />
        
