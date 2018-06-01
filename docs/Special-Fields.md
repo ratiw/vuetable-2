@@ -98,7 +98,7 @@ Vuetable will pass 3 props to the component
 - `row-index` -- the current row index 
 - `row-field` -- the current `sortField` in field definition
 
-You can see a sample use of `__component` special field in the [Vuetable-2 Tutorial -- Using special fields](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/lesson-11.md)
+You can see a sample use of `__component` special field in the [Vuetable-2 Tutorial -- Using special fields](https://github.com/ratiw/vuetable-2-tutorial/wiki/lesson-11)
 
 The generated HTML output will be like this
 ```html
