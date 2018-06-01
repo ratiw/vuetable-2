@@ -12,8 +12,12 @@
                 :style="{width: field.width}"
                 :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]"
               >
-                <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
-                  :checked="checkCheckboxesState(field.name)">
+                <input type="checkbox" 
+                    @change="toggleAllCheckboxes(field.name, $event)"
+                    :class="[css.checkboxInputClass]"
+                    :checked="checkCheckboxesState(field.name)"
+                    id="check_all">
+                <label :class="[css.checkboxLabelClass]" for="check_all"></label>
               </th>
               <th v-if="extractName(field.name) == '__component'"
                 :key="fieldIndex"
@@ -99,7 +103,10 @@
                   >
                     <input type="checkbox"
                       @change="toggleCheckbox(item, field.name, $event)"
-                      :checked="rowSelected(item, field.name)">
+                      :class="[css.checkboxInputClass]"
+                      :checked="rowSelected(item, field.name)"
+                      :id="`check_${itemIndex}`">
+                    <label :class="[css.checkboxLabelClass]" :for="`check_${itemIndex}`"></label>
                   </td>
                   <td v-if="extractName(field.name) === '__component'" 
                     :key="fieldIndex"
@@ -170,8 +177,12 @@
               :style="{width: field.width}"
               :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]"
             >
-              <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
-                :checked="checkCheckboxesState(field.name)">
+              <input type="checkbox" 
+                @change="toggleAllCheckboxes(field.name, $event)"
+                :class="[css.checkboxInputClass]"
+                :checked="checkCheckboxesState(field.name)"
+                id="check_all">
+              <label :class="[css.checkboxLabelClass]" for="check_all"></label>
             </th>
             <th v-if="extractName(field.name) == '__component'"
               :key="fieldIndex"
@@ -239,7 +250,10 @@
               >
                 <input type="checkbox"
                   @change="toggleCheckbox(item, field.name, $event)"
-                  :checked="rowSelected(item, field.name)">
+                  :class="[css.checkboxInputClass]"
+                  :checked="rowSelected(item, field.name)"
+                  :id="`check_${itemIndex}`">
+                <label :class="[css.checkboxLabelClass]" :for="`check_${itemIndex}`"></label>
               </td>
               <td v-if="extractName(field.name) === '__component'" 
                 :key="fieldIndex"
@@ -454,7 +468,9 @@ export default {
           detailRowClass: 'vuetable-detail-row',
           handleIcon: 'grey sidebar icon',
           tableBodyClass: 'vuetable-semantic-no-top vuetable-fixed-layout',
-          tableHeaderClass: 'vuetable-fixed-layout'
+          tableHeaderClass: 'vuetable-fixed-layout',
+          checkboxLabelClass: 'custom-checkbox-label',
+          checkboxInputClass: 'custom-checkbox-input'
         }
       }
     },
