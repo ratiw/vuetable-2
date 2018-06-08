@@ -13,6 +13,7 @@
     <template v-if="notEnoughPages">
       <template v-for="n in totalPage">
         <a @click="loadPage(n)"
+          :key="n"
           :class="[css.pageClass, isCurrentPage(n) ? css.activeClass : '']"
           v-html="n">
         </a>
@@ -21,6 +22,7 @@
     <template v-else>
       <template v-for="n in windowSize">
         <a @click="loadPage(windowStart+n-1)"
+          :key="n"
           :class="[css.pageClass, isCurrentPage(windowStart+n-1) ? css.activeClass : '']"
           v-html="windowStart+n-1">
         </a>
