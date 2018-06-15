@@ -80,7 +80,7 @@ When Vuetable needs to make a request to the server, it will first check if this
 //
 getSortParam: function(sortOrder) {
   return sortOrder.map(function(sort) {
-    return (sort.direction === 'desc' ? '+' : '') + sort.field
+    return (sort.direction === 'desc' ? '-' : '') + sort.field
   }).join(',')
 }
 ```
