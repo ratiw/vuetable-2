@@ -727,9 +727,13 @@ export default {
       ).catch(() => failed())
     },
     fetch (apiUrl, httpOptions) {
-      return this.httpFetch
-          ? this.httpFetch(apiUrl, httpOptions)
-          : axios[this.httpMethod](apiUrl, httpOptions)
+      if (this.httpFetch) return this.httpFetch(apiUrl, httpOptions)
+      else if (this.httpMethod === 'get') return axios.get(apiUrl, httpOptions)
+      else { // Is a POST request
+        let params = httpOptions.params
+        delete httpOptions.params
+        return axios.post(apiUrl, params, httpOptions)
+      }
     },
     loadSuccess (response) {
       this.fireEvent('load-success', response)
