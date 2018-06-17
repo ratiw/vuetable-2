@@ -305,11 +305,15 @@
       </tr>
     </template>
   </tbody>
+  
+  <tfoot v-if="useTfoot">
+    <slot name="tfoot" :tableData="tableData"></slot>
+  </tfoot>
 </table>
 </template>
 
 <script>
-import axios from 'axios'
+import axiosAux from 'axios'
 
 export default {
   props: {
@@ -475,7 +479,11 @@ export default {
     showSortIcons: {
       type: Boolean,
       default: true
-    }
+    },
+	useTfoot: {
+	  type: Boolean,
+      default: false
+	}
   },
   data () {
     return {
@@ -492,6 +500,9 @@ export default {
     }
   },
   mounted () {
+    if (!window.axios) {
+      window.axios = axiosAux;
+    }
     this.normalizeFields()
     this.normalizeSortOrder()
     if (this.isFixedHeader) {
