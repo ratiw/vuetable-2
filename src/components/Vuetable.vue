@@ -727,8 +727,13 @@ export default {
       ).catch(() => failed())
     },
     fetch (apiUrl, httpOptions) {
-      if (this.httpFetch) return this.httpFetch(apiUrl, httpOptions)
-      else if (this.httpMethod === 'get') return axios.get(apiUrl, httpOptions)
+      if (this.httpFetch) {
+        return this.httpFetch(apiUrl, httpOptions)
+      }
+      
+      if (this.httpMethod === 'get') {
+        return axios.get(apiUrl, httpOptions)
+      }
       else { // Is a POST request
         let params = httpOptions.params
         delete httpOptions.params
