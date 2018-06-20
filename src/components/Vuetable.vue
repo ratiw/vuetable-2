@@ -623,6 +623,7 @@ export default {
             dataClass: '',
             callback: null,
             visible: true,
+            defSortDirection: 'asc',
           }
         } else {
           obj = {
@@ -634,6 +635,7 @@ export default {
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
             visible: (field.visible === undefined) ? true : field.visible,
+            defSortDirection: (field.defSortDirection === undefined || ['asc', 'desc'].indexOf(field.defSortDirection) === -1) ? 'asc' : field.defSortDirection,
           }
         }
         self.tableFields.push(obj)
@@ -757,28 +759,25 @@ export default {
       }
 
       this.$nextTick(function() {
+        this.fixHeader()
         this.fireEvent('pagination-data', this.tablePagination)
         this.fireEvent('loaded')
-        this.updateHeader()
       })
-    },
-    updateHeader() {
-      // $nextTick doesn't seem to work in all cases. This might be because 
-      // $nextTick is finished before the transition element (just my guess)
-      //
-      // the scrollHeight value does not yet changed, causing scrollVisible
-      // to remain "true", therefore, the header gutter never gets updated
-      // to reflect the display of scrollbar in the table body.
-      // setTimeout 80ms seems to work in this case.
-      setTimeout(this.fixHeader, 80)
     },
     fixHeader() {
-      this.$nextTick( () => {
-        let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
-        if (elem != null) {
-          this.scrollVisible = (elem.scrollHeight > elem.clientHeight)
+      if (!this.isFixedHeader) {
+        return;
+      }
+
+      let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
+      if (elem != null) {
+        if (elem.scrollHeight > elem.clientHeight) {
+          this.scrollVisible = true;
         }
-      })
+        else {
+          this.scrollVisible = false;
+        }
+      }
     },
     loadFailed (response) {
       console.error('load-error', response)
@@ -911,7 +910,7 @@ export default {
         this.sortOrder.push({
           field: field.name,
           sortField: field.sortField,
-          direction: 'asc'
+          direction: field.defSortDirection
         });
       } else { //this field is in the sort array, now we change its state
         if(this.sortOrder[i].direction === 'asc') {
@@ -935,7 +934,7 @@ export default {
         this.sortOrder[0].direction = this.sortOrder[0].direction === 'asc' ? 'desc' : 'asc'
       } else {
         // reset sort direction
-        this.sortOrder[0].direction = 'asc'
+        this.sortOrder[0].direction = field.defSortDirection ? field.defSortDirection : 'asc'
       }
       this.sortOrder[0].field = field.name
       this.sortOrder[0].sortField = field.sortField
@@ -1151,7 +1150,6 @@ export default {
       if (!this.isVisibleDetailRow(rowId)) {
         this.visibleDetailRows.push(rowId)
       }
-      this.fixHeader()
     },
     hideDetailRow (rowId) {
       if (this.isVisibleDetailRow(rowId)) {
@@ -1159,7 +1157,6 @@ export default {
           this.visibleDetailRows.indexOf(rowId),
           1
         )
-        this.updateHeader()
       }
     },
     toggleDetailRow (rowId) {
@@ -1302,7 +1299,7 @@ export default {
     },
     'tableHeight' (newVal, oldVal) {
       this.fixHeader()
-    },
+    }
   },
 }
 </script>
