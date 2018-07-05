@@ -489,6 +489,7 @@ export default {
       lastScrollPosition: 0,
       scrollBarWidth: '17px', //chrome default
       scrollVisible: false,
+      currentRequestId: 0,
     }
   },
   mounted () {
