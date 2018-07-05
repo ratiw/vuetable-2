@@ -489,6 +489,7 @@ export default {
       lastScrollPosition: 0,
       scrollBarWidth: '17px', //chrome default
       scrollVisible: false,
+      currentRequestId: 0,
     }
   },
   mounted () {
@@ -711,7 +712,7 @@ export default {
     notIn (str, arr) {
       return arr.indexOf(str) === -1
     },
-    loadData (success = this.loadSuccess, failed = this.loadFailed) {
+    loadData (success = this.loadSuccess(++this.currentRequestId), failed = this.loadFailed(this.currentRequestId)) {
       if (this.isDataMode) {
         this.callDataManager()
         return
@@ -731,27 +732,34 @@ export default {
           ? this.httpFetch(apiUrl, httpOptions)
           : axios[this.httpMethod](apiUrl, httpOptions)
     },
-    loadSuccess (response) {
-      this.fireEvent('load-success', response)
+    loadSuccess (requestId) {
+      let $this = this
+      return function (response) {
+        if (requestId !== $this.currentRequestId) {
+            return;
+          }
 
-      let body = this.transform(response.data)
+          $this.fireEvent('load-success', response)
 
-      this.tableData = this.getObjectValue(body, this.dataPath, null)
-      this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
+          let body = $this.transform(response.data)
 
-      if (this.tablePagination === null) {
-        this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. '
-          + 'It looks like the data returned from the sever does not have pagination information '
-          + "or you may have set it incorrectly.\n"
-          + 'You can explicitly suppress this warning by setting pagination-path="".'
-        )
+          $this.tableData = $this.getObjectValue(body, $this.dataPath, null)
+          $this.tablePagination = $this.getObjectValue(body, $this.paginationPath, null)
+
+          if ($this.tablePagination === null) {
+            $this.warn('vuetable: pagination-path "' + $this.paginationPath + '" not found. '
+              + 'It looks like the data returned from the sever does not have pagination information '
+              + "or you may have set it incorrectly.\n"
+              + 'You can explicitly suppress this warning by setting pagination-path="".'
+            )
+          }
+
+        $this.$nextTick(function () {
+          $this.fixHeader()
+          $this.fireEvent('pagination-data', this.tablePagination)
+          $this.fireEvent('loaded')
+        })
       }
-
-      this.$nextTick(function() {
-        this.fixHeader()
-        this.fireEvent('pagination-data', this.tablePagination)
-        this.fireEvent('loaded')
-      })
     },
     fixHeader() {
       if (!this.isFixedHeader) {
@@ -768,10 +776,17 @@ export default {
         }
       }
     },
-    loadFailed (response) {
-      console.error('load-error', response)
-      this.fireEvent('load-error', response)
-      this.fireEvent('loaded')
+    loadFailed (requestId) {
+      let $this = this
+      return function (response) {
+        if (requestId !== $this.currentRequestId) {
+          return;
+        }
+
+        console.error('load-error', response)
+        $this.fireEvent('load-error', response)
+        $this.fireEvent('loaded')
+      }
     },
     transform (data) {
       let func = 'transform'
