@@ -11,7 +11,7 @@
             :key="fieldIndex"
             :class="headerClass('vuetable-th-component', field)"
             :style="{width: field.width}"
-            @click="onColumnHeaderClicked($event)"
+            @click="onColumnHeaderClicked(field, $event)"
           ></component>
         </template>
         <template v-else-if="vuetable.isFieldSlot(field.name)">
