@@ -424,10 +424,14 @@ export default {
       this.checkScrollbarVisibility()
     },
 
-    fields(newVal, oldVal) {
+    fields (newVal, oldVal) {
     	this.normalizeFields();
+    },
+
+    perPage (newVal, oldVal) {
+      this.reload();
     }
-  },
+},
   
   methods: {
 
