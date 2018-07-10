@@ -21,7 +21,7 @@ export default {
     renderSequence() {
       return this.vuetable.tablePagination
         ? this.vuetable.tablePagination.from + this.rowIndex
-        : this.rowIndex
+        : 1 + this.rowIndex
     }
   }
 }
