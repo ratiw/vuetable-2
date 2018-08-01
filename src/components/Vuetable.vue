@@ -32,7 +32,7 @@
       </tfoot>
       <tbody v-cloak class="vuetable-body">
         <template v-for="(item, itemIndex) in tableData">
-          <tr :item-index="itemIndex" 
+          <tr :item-index="itemIndex"
             :key="itemIndex"
             :class="onRowClass(item, itemIndex)"
             @click="onRowClicked(item, itemIndex, $event)"
@@ -46,13 +46,13 @@
                     :key="fieldIndex"
                     :row-data="item" :row-index="itemIndex" :row-field="field"
                     :vuetable="vuetable"
-                    :class="bodyClass('vuetable-component', field)" 
+                    :class="bodyClass('vuetable-component', field)"
                     :style="{width: field.width}"
                     @vuetable:field-event="onFieldEvent"
                   ></component>
                 </template>
                 <template v-else-if="isFieldSlot(field.name)">
-                  <td :class="bodyClass('vuetable-slot', field)" 
+                  <td :class="bodyClass('vuetable-slot', field)"
                     :key="fieldIndex"
                     :style="{width: field.width}"
                   >
@@ -62,7 +62,7 @@
                   </td>
                 </template>
                 <template v-else>
-                  <td :class="bodyClass('vuetable-td-'+field.name, field)" 
+                  <td :class="bodyClass('vuetable-td-'+field.name, field)"
                     :key="fieldIndex"
                     :style="{width: field.width}"
                     v-html="renderNormalField(field, item)"
@@ -81,9 +81,10 @@
                 :class="onDetailRowClass(item, itemIndex)"
               >
                 <td :colspan="countVisibleFields">
-                  <component :is="detailRowComponent" 
-                    :row-data="item" 
+                  <component :is="detailRowComponent"
+                    :row-data="item"
                     :row-index="itemIndex"
+                    :options="detailRowOptions"
                   ></component>
                 </td>
               </tr>
@@ -92,8 +93,8 @@
         </template>
         <template v-if="displayEmptyDataRow">
           <tr>
-            <td :colspan="countVisibleFields" 
-              class="vuetable-empty-result" 
+            <td :colspan="countVisibleFields"
+              class="vuetable-empty-result"
               v-html="noDataTemplate"
             ></td>
           </tr>
@@ -241,6 +242,12 @@ export default {
     detailRowClass: {
       type: [String, Function],
       default: 'vuetable-detail-row'
+    },
+    detailRowOptions: {
+      type: Object,
+      default() {
+        return {}
+      }
     },
     trackBy: {
       type: String,
@@ -432,7 +439,7 @@ export default {
       this.reload();
     }
 },
-  
+
   methods: {
 
     getScrollBarWidth () {
@@ -511,7 +518,7 @@ export default {
           title: this.makeTitle(field),
         })
       }
-      
+
       let obj = Object.assign({}, defaultField, field)
       obj.name = this.normalizeFieldName(obj.name)
       if (obj.title === undefined) {
@@ -526,7 +533,7 @@ export default {
 
     normalizeFieldName (fieldName) {
       if (fieldName instanceof Object) return fieldName
-      
+
       return typeof(fieldName) === 'string' && fieldName.replace('__', this.fieldPrefix)
     },
 
@@ -627,7 +634,7 @@ export default {
       if (this.httpFetch) {
         return this.httpFetch(apiUrl, httpOptions)
       }
-      
+
       if (this.httpMethod === 'get') {
         return axios.get(apiUrl, httpOptions)
       }
@@ -663,7 +670,7 @@ export default {
     },
 
     updateHeader () {
-      // $nextTick doesn't seem to work in all cases. This might be because 
+      // $nextTick doesn't seem to work in all cases. This might be because
       // $nextTick is finished before the transition element (just my guess)
       //
       // the scrollHeight value does not yet changed, causing scrollVisible
@@ -693,7 +700,7 @@ export default {
       if (arguments.length === 1) {
         return this.$emit(this.eventPrefix + arguments[0])
       }
-      
+
       if (arguments.length > 1) {
         let args = Array.from(arguments)
         args[0] = this.eventPrefix + args[0]
@@ -846,7 +853,7 @@ export default {
     },
 
     callFormatter (field, item) {
-      if ( ! this.hasFormatter(field)) return 
+      if ( ! this.hasFormatter(field)) return
 
       if (typeof(field.formatter) === 'function') {
        return field.formatter(this.getObjectValue(item, field.name), this)
@@ -985,10 +992,10 @@ export default {
       if (Array.isArray(this.data)) {
         return this.setData(this.data)
       }
-      
+
       // this.normalizeSortOrder()
       return this.setData(
-        this.dataManager 
+        this.dataManager
         ? this.dataManager(this.sortOrder, this.makePagination())
         : this.data
       )
@@ -1081,7 +1088,7 @@ export default {
           this.unselectId(dataItem[idColumn])
         })
       }
-      
+
       this.fireEvent('checkbox-toggled-all', isChecked)
     },
 
