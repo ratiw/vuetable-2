@@ -11,6 +11,7 @@
             :key="fieldIndex"
             :class="headerClass('vuetable-th-component', field)"
             :style="{width: field.width}"
+            @vuetable:header-event="vuetable.onHeaderEvent"
             @click="onColumnHeaderClicked(field, $event)"
           ></component>
         </template>
