@@ -990,19 +990,25 @@ export default {
       if (this.dataManager === null && this.data === null) return
 
       if (Array.isArray(this.data)) {
-        return this.setData(this.data)
+        this.setData(this.data)
       }
 
-      // this.normalizeSortOrder()
-      return this.setData(
-        this.dataManager
-        ? this.dataManager(this.sortOrder, this.makePagination())
-        : this.data
-      )
+      // here, the data is supposed to be an object
+      const result = this.dataManager(this.sortOrder, this.makePagination())
+
+      if (this.isPromiseObject(result)) {
+        result.then(data => this.setData(data))
+      } else {
+        this.setData(result)
+      }
     },
 
     isObject (unknown) {
       return typeof(unknown) === "object" && unknown !== null
+    },
+
+    isPromiseObject (unknown) {
+      return typeof(unknown) === "object" && typeof unknown.then === "function"
     },
 
     onRowClass (dataItem, index) {
