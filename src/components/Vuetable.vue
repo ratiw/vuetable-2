@@ -616,7 +616,7 @@ export default {
 
     loadData (success = this.loadSuccess, failed = this.loadFailed) {
       if (this.isDataMode) {
-        this.callDataManager()
+        this.handleDataMode()
         return
       }
 
@@ -894,6 +894,10 @@ export default {
       return this.selectedTo.indexOf(key) >= 0
     },
 
+    clearSelectedValues () {
+      this.selectedTo = []
+    },
+
     gotoPreviousPage () {
       if (this.currentPage > 1) {
         this.currentPage--
@@ -986,14 +990,22 @@ export default {
       })
     },
 
-    callDataManager () {
-      if (this.dataManager === null && this.data === null) return
-
-      if (Array.isArray(this.data)) {
+    handleDataMode () {
+      // data is array
+      if (this.data !== null && Array.isArray(this.data)) {
         this.setData(this.data)
+        return
       }
 
-      // here, the data is supposed to be an object
+      // data must be an object, check if dataManager is present
+      if (this.dataManager) {
+        this.callDataManager()
+      } else {
+        this.setData(this.data)
+      }
+    },
+
+    callDataManager () {
       const result = this.dataManager(this.sortOrder, this.makePagination())
 
       if (this.isPromiseObject(result)) {
