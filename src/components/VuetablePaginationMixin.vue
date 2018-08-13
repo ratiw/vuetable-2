@@ -15,6 +15,10 @@ export default {
         return 2
       }
     },
+    firstPage: {
+      type: Number,
+      default: 1
+    }
   },
   data: function() {
     return {
@@ -27,17 +31,22 @@ export default {
     totalPage () {
       return this.tablePagination === null
         ? 0
+        : this.last_page - this.firstPage + 1
+    },
+    lastPage () {
+      return this.tablePagination === null
+        ? 0
         : this.tablePagination.last_page
     },
     isOnFirstPage () {
       return this.tablePagination === null
         ? false
-        : this.tablePagination.current_page === 1
+        : this.tablePagination.current_page === this.firstPage
     },
     isOnLastPage () {
       return this.tablePagination === null
         ? false
-        : this.tablePagination.current_page === this.tablePagination.last_page
+        : this.tablePagination.current_page === this.lastPage
     },
     notEnoughPages () {
       return this.totalPage < (this.onEachSide * 2) + 4
