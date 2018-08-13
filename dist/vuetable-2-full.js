@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v2.0.0-beta.1
+ * vuetable-2 v2.0.0-beta.2
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
@@ -911,13 +911,17 @@ var singletonElement = null
 var singletonCounter = 0
 var isProduction = false
 var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
 
 // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 // tags it will allow on a page
 var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
 
-module.exports = function (parentId, list, _isProduction) {
+module.exports = function (parentId, list, _isProduction, _options) {
   isProduction = _isProduction
+
+  options = _options || {}
 
   var styles = listToStyles(parentId, list)
   addStylesToDom(styles)
@@ -982,7 +986,7 @@ function createStyleElement () {
 
 function addStyle (obj /* StyleObjectPart */) {
   var update, remove
-  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
 
   if (styleElement) {
     if (isProduction) {
@@ -1063,6 +1067,9 @@ function applyToTag (styleElement, obj) {
 
   if (media) {
     styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
   }
 
   if (sourceMap) {
@@ -3839,7 +3846,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type: Number,
       default: 10
     },
+
     initialPage: {
+      type: Number,
+      default: 1
+    },
+
+    firstPage: {
       type: Number,
       default: 1
     },
@@ -3877,6 +3890,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     detailRowClass: {
       type: [String, Function],
       default: 'vuetable-detail-row'
+    },
+    detailRowOptions: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
     },
     trackBy: {
       type: String,
@@ -3952,7 +3971,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     version: function version() {
-      return "2.0.0-beta.1";
+      return "2.0.0-beta.2";
     },
     useDetailRow: function useDetailRow() {
       if (!this.dataIsAvailable) return false;
@@ -4061,6 +4080,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     fields: function fields(newVal, oldVal) {
       this.normalizeFields();
+    },
+    perPage: function perPage(newVal, oldVal) {
+      this.reload();
     }
   },
 
@@ -4226,7 +4248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var failed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.loadFailed;
 
       if (this.isDataMode) {
-        this.callDataManager();
+        this.handleDataMode();
         return;
       }
 
@@ -4239,7 +4261,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     fetch: function fetch(apiUrl, httpOptions) {
-      return this.httpFetch ? this.httpFetch(apiUrl, httpOptions) : __WEBPACK_IMPORTED_MODULE_4_axios___default.a[this.httpMethod](apiUrl, httpOptions);
+      if (this.httpFetch) {
+        return this.httpFetch(apiUrl, httpOptions);
+      }
+
+      if (this.httpMethod === 'get') {
+        return __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get(apiUrl, httpOptions);
+      } else {
+        var params = httpOptions.params;
+        delete httpOptions.params;
+        return __WEBPACK_IMPORTED_MODULE_4_axios___default.a.post(apiUrl, params, httpOptions);
+      }
     },
     loadSuccess: function loadSuccess(response) {
       var _this4 = this;
@@ -4364,7 +4396,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.singleColumnSort(field);
       }
 
-      this.currentPage = 1;
+      this.currentPage = this.firstPage;
       if (this.apiMode || this.dataManager) {
         this.loadData();
       }
@@ -4454,8 +4486,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     isSelectedRow: function isSelectedRow(key) {
       return this.selectedTo.indexOf(key) >= 0;
     },
+    clearSelectedValues: function clearSelectedValues() {
+      this.selectedTo = [];
+    },
     gotoPreviousPage: function gotoPreviousPage() {
-      if (this.currentPage > 1) {
+      if (this.currentPage > this.firstPage) {
         this.currentPage--;
         this.loadData();
       }
@@ -4467,7 +4502,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     gotoPage: function gotoPage(page) {
-      if (page != this.currentPage && page > 0 && page <= this.tablePagination.last_page) {
+      if (page != this.currentPage && page >= this.firstPage && page <= this.tablePagination.last_page) {
         this.currentPage = page;
         this.loadData();
       }
@@ -4535,17 +4570,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         item.sortField = item.sortField || item.field;
       });
     },
-    callDataManager: function callDataManager() {
-      if (this.dataManager === null && this.data === null) return;
-
-      if (Array.isArray(this.data)) {
-        return this.setData(this.data);
+    handleDataMode: function handleDataMode() {
+      if (this.data !== null && Array.isArray(this.data)) {
+        this.setData(this.data);
+        return;
       }
 
-      return this.setData(this.dataManager ? this.dataManager(this.sortOrder, this.makePagination()) : this.data);
+      if (this.dataManager) {
+        this.callDataManager();
+      } else {
+        this.setData(this.data);
+      }
+    },
+    callDataManager: function callDataManager() {
+      var _this6 = this;
+
+      var result = this.dataManager(this.sortOrder, this.makePagination());
+
+      if (this.isPromiseObject(result)) {
+        result.then(function (data) {
+          return _this6.setData(data);
+        });
+      } else {
+        this.setData(result);
+      }
     },
     isObject: function isObject(unknown) {
       return (typeof unknown === 'undefined' ? 'undefined' : __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default()(unknown)) === "object" && unknown !== null;
+    },
+    isPromiseObject: function isPromiseObject(unknown) {
+      return (typeof unknown === 'undefined' ? 'undefined' : __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default()(unknown)) === "object" && typeof unknown.then === "function";
     },
     onRowClass: function onRowClass(dataItem, index) {
       if (typeof this.rowClass === 'function') {
@@ -4607,17 +4661,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.fireEvent('checkbox-toggled', isChecked, fieldName);
     },
     onCheckboxToggledAll: function onCheckboxToggledAll(isChecked) {
-      var _this6 = this;
+      var _this7 = this;
 
       var idColumn = this.trackBy;
 
       if (isChecked) {
         this.tableData.forEach(function (dataItem) {
-          _this6.selectId(dataItem[idColumn]);
+          _this7.selectId(dataItem[idColumn]);
         });
       } else {
         this.tableData.forEach(function (dataItem) {
-          _this6.unselectId(dataItem[idColumn]);
+          _this7.unselectId(dataItem[idColumn]);
         });
       }
 
@@ -4636,7 +4690,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.loadData();
     },
     refresh: function refresh() {
-      this.currentPage = 1;
+      this.currentPage = this.firstPage;
       return this.loadData();
     },
     resetData: function resetData() {
@@ -4854,7 +4908,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     renderSequence: function renderSequence() {
-      return this.vuetable.tablePagination ? this.vuetable.tablePagination.from + this.rowIndex : this.rowIndex;
+      return this.vuetable.tablePagination ? this.vuetable.tablePagination.from + this.rowIndex : 1 + this.rowIndex;
     }
   }
 });
@@ -5019,6 +5073,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       default: function _default() {
         return 2;
       }
+    },
+    firstPage: {
+      type: Number,
+      default: 1
     }
   },
   data: function data() {
@@ -5030,13 +5088,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   computed: {
     totalPage: function totalPage() {
+      return this.tablePagination === null ? 0 : this.last_page - this.firstPage + 1;
+    },
+    lastPage: function lastPage() {
       return this.tablePagination === null ? 0 : this.tablePagination.last_page;
     },
     isOnFirstPage: function isOnFirstPage() {
-      return this.tablePagination === null ? false : this.tablePagination.current_page === 1;
+      return this.tablePagination === null ? false : this.tablePagination.current_page === this.firstPage;
     },
     isOnLastPage: function isOnLastPage() {
-      return this.tablePagination === null ? false : this.tablePagination.current_page === this.tablePagination.last_page;
+      return this.tablePagination === null ? false : this.tablePagination.current_page === this.lastPage;
     },
     notEnoughPages: function notEnoughPages() {
       return this.totalPage < this.onEachSide * 2 + 4;
@@ -6610,16 +6671,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: ['vuetable-pagination-dropdown', _vm.$_css.dropdownClass],
     on: {
       "change": function($event) {
-        _vm.loadPage($event.target.selectedIndex + 1)
+        _vm.loadPage($event.target.selectedIndex + _vm.firstPage)
       }
     }
-  }, _vm._l((_vm.totalPage), function(n) {
+  }, _vm._l((_vm.totalPage), function(n, i) {
     return _c('option', {
       key: n,
       class: [_vm.$_css.pageClass],
       domProps: {
-        "value": n,
-        "selected": _vm.isCurrentPage(n)
+        "value": i + _vm.firstPage,
+        "selected": _vm.isCurrentPage(i + _vm.firstPage)
       }
     }, [_vm._v("\n      " + _vm._s(_vm.pageText) + " " + _vm._s(n) + "\n    ")])
   })), _vm._v(" "), _c('a', {
@@ -6778,7 +6839,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       tag: "component",
       attrs: {
         "row-data": item,
-        "row-index": itemIndex
+        "row-index": itemIndex,
+        "options": _vm.detailRowOptions
       }
     })], 1)]) : _vm._e()])] : _vm._e()]
   }), _vm._v(" "), (_vm.displayEmptyDataRow) ? [_c('tr', [_c('td', {
@@ -6817,15 +6879,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.tablePagination && _vm.tablePagination.last_page > 1),
-      expression: "tablePagination && tablePagination.last_page > 1"
+      value: (_vm.tablePagination && _vm.lastPage > _vm.firstPage),
+      expression: "tablePagination && lastPage > firstPage"
     }],
     class: _vm.$_css.wrapperClass
   }, [_c('a', {
     class: ['btn-nav', _vm.$_css.linkClass, _vm.isOnFirstPage ? _vm.$_css.disabledClass : ''],
     on: {
       "click": function($event) {
-        _vm.loadPage(1)
+        _vm.loadPage(_vm.firstPage)
       }
     }
   }, [(_vm.$_css.icons.first != '') ? _c('i', {
@@ -6839,29 +6901,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [(_vm.$_css.icons.next != '') ? _c('i', {
     class: [_vm.$_css.icons.prev]
-  }) : _c('span', [_vm._v(" ‹")])]), _vm._v(" "), (_vm.notEnoughPages) ? [_vm._l((_vm.totalPage), function(n, idx) {
+  }) : _c('span', [_vm._v(" ‹")])]), _vm._v(" "), (_vm.notEnoughPages) ? [_vm._l((_vm.totalPage), function(n, i) {
     return [_c('a', {
-      key: idx,
-      class: [_vm.$_css.pageClass, _vm.isCurrentPage(n) ? _vm.$_css.activeClass : ''],
+      key: i,
+      class: [_vm.$_css.pageClass, _vm.isCurrentPage(i + _vm.firstPage) ? _vm.$_css.activeClass : ''],
       domProps: {
         "innerHTML": _vm._s(n)
       },
       on: {
         "click": function($event) {
-          _vm.loadPage(n)
+          _vm.loadPage(i + _vm.firstPage)
         }
       }
     })]
-  })] : [_vm._l((_vm.windowSize), function(n, idx) {
+  })] : [_vm._l((_vm.windowSize), function(n, i) {
     return [_c('a', {
-      key: idx,
-      class: [_vm.$_css.pageClass, _vm.isCurrentPage(_vm.windowStart + n - 1) ? _vm.$_css.activeClass : ''],
+      key: i,
+      class: [_vm.$_css.pageClass, _vm.isCurrentPage(_vm.windowStart + i + _vm.firstPage - 1) ? _vm.$_css.activeClass : ''],
       domProps: {
         "innerHTML": _vm._s(_vm.windowStart + n - 1)
       },
       on: {
         "click": function($event) {
-          _vm.loadPage(_vm.windowStart + n - 1)
+          _vm.loadPage(_vm.windowStart + i + _vm.firstPage - 1)
         }
       }
     })]
@@ -6878,7 +6940,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: ['btn-nav', _vm.$_css.linkClass, _vm.isOnLastPage ? _vm.$_css.disabledClass : ''],
     on: {
       "click": function($event) {
-        _vm.loadPage(_vm.totalPage)
+        _vm.loadPage(_vm.lastPage)
       }
     }
   }, [(_vm.$_css.icons.last != '') ? _c('i', {
@@ -6981,8 +7043,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "vuetable": _vm.vuetable
       },
       on: {
+        "vuetable:header-event": _vm.vuetable.onHeaderEvent,
         "click": function($event) {
-          _vm.onColumnHeaderClicked($event)
+          _vm.onColumnHeaderClicked(field, $event)
         }
       }
     })] : (_vm.vuetable.isFieldSlot(field.name)) ? [_c('th', {
@@ -7078,7 +7141,7 @@ var content = __webpack_require__(140);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(21)("6f33786d", content, false);
+var update = __webpack_require__(21)("9c7810fe", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -7104,7 +7167,7 @@ var content = __webpack_require__(141);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(21)("7f3cb8dd", content, false);
+var update = __webpack_require__(21)("53e9288b", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -7130,7 +7193,7 @@ var content = __webpack_require__(142);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(21)("0146e62c", content, false);
+var update = __webpack_require__(21)("80b0882e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -7156,7 +7219,7 @@ var content = __webpack_require__(143);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(21)("564f3514", content, false);
+var update = __webpack_require__(21)("63364b20", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
