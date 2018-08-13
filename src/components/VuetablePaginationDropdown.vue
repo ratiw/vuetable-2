@@ -4,8 +4,8 @@
        :class="[$_css.linkClass, {[$_css.disabledClass] : isOnFirstPage}]">
       <i :class="$_css.icons.prev"></i>
     </a>
-    <select :class="['vuetable-pagination-dropdown', $_css.dropdownClass]" @change="loadPage($event.target.selectedIndex+1)">
-      <option v-for="n in totalPage" :key="n" :class="[$_css.pageClass]" :value="n" :selected="isCurrentPage(n)">
+    <select :class="['vuetable-pagination-dropdown', $_css.dropdownClass]" @change="loadPage($event.target.selectedIndex+firstPage)">
+      <option v-for="(n, i) in totalPage" :key="n" :class="[$_css.pageClass]" :value="i+firstPage" :selected="isCurrentPage(i+firstPage)">
         {{pageText}} {{n}}
       </option>
     </select>
