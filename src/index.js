@@ -6,8 +6,9 @@ import VuetablePaginationMixin from './components/VuetablePaginationMixin.vue'
 import VuetablePaginationInfoMixin from './components/VuetablePaginationInfoMixin.vue'
 import Promise from 'promise-polyfill'
 
-if (!window.Promise) {
-	window.Promise = Promise
+const rootVariable = (typeof self === 'object' && self.self === self && self) || (typeof global === 'object' && global) || this
+if (!rootVariable.Promise) {
+  rootVariable.Promise = Promise
 }
 
 function install(Vue){
