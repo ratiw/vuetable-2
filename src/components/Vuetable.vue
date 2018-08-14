@@ -1030,7 +1030,7 @@ export default {
     },
 
     isPromiseObject (unknown) {
-      return typeof(unknown) === "object" && typeof unknown.then === "function"
+      return this.isObject(unknown) && typeof(unknown.then) === "function"
     },
 
     onRowClass (dataItem, index) {
