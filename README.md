@@ -15,7 +15,7 @@
 
 # Documentation and Tutorial
 
-You can find documentation for v2.0 of Vuetable-2 [here](https://upbeat-montalcini-9fc063.netlify.com)
+You can find documentation for v2.0 of Vuetable-2 [here](https://vuetable.com)
 
 The tutorial for v2.0 is in the work, so you'll have to wait until I can find the time to finish it, sorry.
 
