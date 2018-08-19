@@ -31,7 +31,7 @@ export default {
     totalPage () {
       return this.tablePagination === null
         ? 0
-        : this.last_page - this.firstPage + 1
+        : this.lastPage - this.firstPage + 1
     },
     lastPage () {
       return this.tablePagination === null
