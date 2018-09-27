@@ -63,7 +63,7 @@ The original functionality still works
 ## NPM
 
 ```shell
-npm install vuetable-2 --save-dev
+npm install vuetable-2 --save
 ```
 
 ## Javascript via CDN
