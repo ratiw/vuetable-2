@@ -53,6 +53,7 @@
                 </template>
                 <template v-else-if="isFieldSlot(field.name)">
                   <td :class="bodyClass('vuetable-slot', field)"
+                    :data-label="field.dataLabel || field.title"
                     :key="fieldIndex"
                     :style="{width: field.width}"
                   >
@@ -63,6 +64,7 @@
                 </template>
                 <template v-else>
                   <td :class="bodyClass('vuetable-td-'+field.name, field)"
+                    :data-label="field.dataLabel || field.title"
                     :key="fieldIndex"
                     :style="{width: field.width}"
                     v-html="renderNormalField(field, item)"
