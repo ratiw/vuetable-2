@@ -15,8 +15,9 @@ import VuetableRowHeader from './components/VuetableRowHeader.vue'
 import VuetableColGutter from './components/VuetableColGutter.vue'
 import Promise from 'promise-polyfill'
 
-if (!window.Promise) {
-	window.Promise = Promise
+const rootVariable = (typeof self === 'object' && self.self === self && self) || (typeof global === 'object' && global) || this
+if (!rootVariable.Promise) {
+  rootVariable.Promise = Promise
 }
 
 function install(Vue) {
