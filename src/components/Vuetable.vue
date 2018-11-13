@@ -117,10 +117,11 @@ import axios from 'axios'
 import VuetableRowHeader from './VuetableRowHeader'
 import VuetableColGroup from './VuetableColGroup'
 import CssSemanticUI from './VuetableCssSemanticUI.js'
+import InfiniteScrollMixin from './VuetableInfiniteScrollMixin'
 
 export default {
   name: 'Vuetable',
-
+  mixins: [InfiniteScrollMixin],
   components: {
     VuetableRowHeader,
     VuetableColGroup,
@@ -660,7 +661,8 @@ export default {
 
       let body = this.transform ? this.transform(response.data) : response.data
 
-      this.tableData = this.getObjectValue(body, this.dataPath, null)
+      let newData = this.getObjectValue(body, this.dataPath, null)
+      this.tableData = this.infiniteScroll ? this.tableData.concat(newData) : newData
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
 
       if (this.tablePagination === null) {
