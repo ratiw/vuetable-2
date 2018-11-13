@@ -30,7 +30,6 @@
       },
     },
     mounted() {
-      console.log('in mounted form mixing')
       if (!this.isFixedHeader) return
       const tBody = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
       const rowElem = this.$el.querySelectorAll('tbody.vuetable-body tr')[0]
