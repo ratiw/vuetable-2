@@ -79,7 +79,7 @@
             :class="onRowClass(item, itemIndex)"
             @click="onRowClicked(item, $event)"
             @dblclick="onRowDoubleClicked(item, $event)"
-            :data-key="item['trackBy']"
+            :data-id="item['id']"
           >
             <template v-for="(field, fieldIndex) in tableFields">
               <template v-if="field.visible">
@@ -220,7 +220,7 @@
         :render="onRowChanged(item)"
         :class="onRowClass(item, itemIndex)"
         @click="onRowClicked(item, $event)"
-        :data-key="item['trackBy']"
+        :data-id="item['id']"
       >
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
