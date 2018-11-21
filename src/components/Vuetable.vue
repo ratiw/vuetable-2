@@ -80,6 +80,7 @@
             @click="onRowClicked(item, $event)"
             @dblclick="onRowDoubleClicked(item, $event)"
             :data-id="item['id']"
+            :data-position="tablePagination['from'] + itemIndex"
           >
             <template v-for="(field, fieldIndex) in tableFields">
               <template v-if="field.visible">
@@ -221,6 +222,7 @@
         :class="onRowClass(item, itemIndex)"
         @click="onRowClicked(item, $event)"
         :data-id="item['id']"
+        :data-position="tablePagination['from'] + itemIndex"
       >
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
