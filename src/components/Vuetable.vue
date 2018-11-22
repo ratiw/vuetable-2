@@ -14,6 +14,7 @@
               >
                 <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
                   :checked="checkCheckboxesState(field.name)">
+                <label></label>
               </th>
               <th v-if="extractName(field.name) == '__component'"
                 :key="fieldIndex"
@@ -100,6 +101,7 @@
                     <input type="checkbox"
                       @change="toggleCheckbox(item, field.name, $event)"
                       :checked="rowSelected(item, field.name)">
+                    <label></label>
                   </td>
                   <td v-if="extractName(field.name) === '__component'" 
                     :key="fieldIndex"
@@ -172,6 +174,7 @@
             >
               <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
                 :checked="checkCheckboxesState(field.name)">
+              <label></label>
             </th>
             <th v-if="extractName(field.name) == '__component'"
               :key="fieldIndex"
@@ -240,6 +243,7 @@
                 <input type="checkbox"
                   @change="toggleCheckbox(item, field.name, $event)"
                   :checked="rowSelected(item, field.name)">
+                <label></label>
               </td>
               <td v-if="extractName(field.name) === '__component'" 
                 :key="fieldIndex"
