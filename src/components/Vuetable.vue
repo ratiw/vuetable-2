@@ -28,7 +28,7 @@
       </slot>
       </thead>
       <tfoot>
-        <slot name="tableFooter" :fields="tableFields"></slot>
+        <slot name="tableFooter" :vuetable="vuetable"></slot>
       </tfoot>
       <tbody v-cloak class="vuetable-body">
         <template v-for="(item, itemIndex) in tableData">
@@ -92,12 +92,14 @@
           </template>
         </template>
         <template v-if="displayEmptyDataRow">
-          <tr>
-            <td :colspan="countVisibleFields"
-              class="vuetable-empty-result"
-              v-html="noDataTemplate"
-            ></td>
-          </tr>
+          <slot name="noDataTemplate" :vuetable="vuetable">
+            <tr>
+              <td :colspan="countVisibleFields"
+                class="vuetable-empty-result"
+                v-html="noDataTemplate"
+              ></td>
+            </tr>
+          </slot>
         </template>
         <template v-if="lessThanMinRows">
           <tr v-for="i in blankRows" class="blank-row" :key="i">
