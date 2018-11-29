@@ -28,7 +28,7 @@
       </slot>
       </thead>
       <tfoot>
-        <slot name="tableFooter" :vuetable="vuetable"></slot>
+        <slot name="tableFooter" :vuetable="vuetable" :fields="tableFields"></slot>
       </tfoot>
       <tbody v-cloak class="vuetable-body">
         <template v-for="(item, itemIndex) in tableData">
