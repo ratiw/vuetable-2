@@ -9,7 +9,7 @@ Vuetable currently have the following special fields
 - [__component](#-__componentltnamegt)
 - [__slot](#-__slotltnamegt)
 
-You can see the usage of these special fields in the [Vuetable-2 Tutorial - Using special fields](https://github.com/ratiw/vuetable-2-tutorial/blob/master/doc/lesson-11.md).
+You can see the usage of these special fields in the [Vuetable-2 Tutorial - Using special fields](https://github.com/ratiw/vuetable-2-tutorial/wiki/lesson-11).
 
 #### # __sequence
 
