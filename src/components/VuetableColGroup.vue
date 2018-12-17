@@ -34,9 +34,14 @@ export default {
 
   methods: {
     columnClass (field, fieldIndex) {
-      let fieldName = typeof(field.name) === "object" && field.name !== null
-        ? field.name.name
-        : field.name
+      let fieldName
+      if (typeof field.name === "function" && "options" in field.name) {
+        fieldName = field.options.name
+      } else if (typeof field.name === "object" && field.name !== null) {
+        fieldName = field.name.name
+      } else {
+        fieldName = field.name
+      }
       fieldName = fieldName.replace(this.fieldPrefix, "")
 
       return ['vuetable-col-'+fieldName, field.titleClass]
