@@ -35,10 +35,20 @@ export default {
   methods: {
     columnClass (field, fieldIndex) {
       let fieldName
-      if (typeof field.name === "function" && "options" in field.name) {
-        fieldName = field.options.name
+      if (typeof field.name === "function") {
+        let component = field.name
+
+        // if the component was defined with `Vue.extend`, use the name property
+        if (typeof component.options === "object" && component.options.name) {
+          fieldName = component.options.name
+        }
+        // if no name was specified in the options or if the component is
+        // an es6 classstyle component, use the name of the function instead
+        else {
+          fieldName = component.name
+        }
       } else if (typeof field.name === "object" && field.name !== null) {
-        fieldName = field.name.name
+        fieldName = field.name.name // use the name property
       } else {
         fieldName = field.name
       }
