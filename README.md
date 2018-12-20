@@ -37,7 +37,7 @@ If you any question, please post your questions in the "Issues" section of [this
 ## NPM
 
 ```shell
-npm install vuetable-2@next
+npm install vuetable-2@next --save
 ```
 
 ## Yarn
