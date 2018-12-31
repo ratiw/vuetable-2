@@ -738,6 +738,10 @@ export default {
 
       this.tableData = this.getObjectValue(body, this.dataPath, null)
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null)
+      if (this.tablePagination.current_page > this.tablePagination.last_page) {
+        this.currentPage = this.tablePagination.last_page
+        this.loadData()
+      }
 
       if (this.tablePagination === null) {
         this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. '
