@@ -29,12 +29,12 @@ export default {
         checkbox.indeterminate = false
         return false
       }
-      // count > 0 and count < perPage, set checkbox state to 'indeterminate'
-      else if (selected.length < this.vuetable.perPage) {
+      // count > 0 and count < total available, set checkbox state to 'indeterminate'
+      else if (selected.length < this.vuetable.tableData.length) {
         checkbox.indeterminate = true
         return true
       }
-      // count == perPage, set checkbox state to 'checked'
+      // count == total available, set checkbox state to 'checked'
       else {
         checkbox.indeterminate = false
         return true
