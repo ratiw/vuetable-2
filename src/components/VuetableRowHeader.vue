@@ -38,10 +38,10 @@
   </tr>
 </template>
 <script>
-import VuetableFieldCheckbox from './VuetableFieldCheckbox'
-import VuetableFieldHandle from './VuetableFieldHandle'
-import VuetableFieldSequence from './VuetableFieldSequence'
-import VuetableColGutter from './VuetableColGutter'
+import VuetableFieldCheckbox from './VuetableFieldCheckbox.vue'
+import VuetableFieldHandle from './VuetableFieldHandle.vue'
+import VuetableFieldSequence from './VuetableFieldSequence.vue'
+import VuetableColGutter from './VuetableColGutter.vue'
 
 export default {
   components: {
