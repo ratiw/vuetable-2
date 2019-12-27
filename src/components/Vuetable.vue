@@ -1083,8 +1083,8 @@ export default {
         })
         return false
       }
-      // count > 0 and count < perPage, set checkbox state to 'indeterminate'
-      else if (selected.length < this.perPage) {
+      // count > 0 and count < countTableData, set checkbox state to 'indeterminate'
+      else if (selected.length < this.countTableData) {
         els.forEach(function(el) {
           el.indeterminate = true
         })
