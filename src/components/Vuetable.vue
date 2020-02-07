@@ -150,6 +150,10 @@ export default {
       type: Boolean,
       default: true
     },
+    api: {
+      default: axios,
+      type: Function
+    },
     apiMode: {
       type: Boolean,
       default: true
@@ -646,12 +650,12 @@ export default {
       }
 
       if (this.httpMethod === 'get') {
-        return axios.get(apiUrl, httpOptions)
+        return this.api.get(apiUrl, httpOptions)
       }
       else { // Is a POST request
         let params = httpOptions.params
         delete httpOptions.params
-        return axios.post(apiUrl, params, httpOptions)
+        return this.api.post(apiUrl, params, httpOptions)
       }
     },
 
