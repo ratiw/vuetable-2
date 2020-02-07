@@ -11,7 +11,6 @@
             :key="fieldIndex"
             :class="headerClass('vuetable-th-component', field)"
             :style="{width: field.width}"
-            @vuetable:header-event="vuetable.onHeaderEvent"
             @click="onColumnHeaderClicked(field, $event)"
           ></component>
         </template>
@@ -45,7 +44,7 @@ import VuetableColGutter from './VuetableColGutter'
 
 export default {
   components: {
-    'vuetable-field-checkbox': VuetableFieldCheckbox, 
+    'vuetable-field-checkbox': VuetableFieldCheckbox,
     'vuetable-field-handle'  : VuetableFieldHandle,
     'vuetable-field-sequence': VuetableFieldSequence,
     VuetableColGutter
@@ -188,6 +187,7 @@ export default {
 
     onColumnHeaderClicked (field, event) {
       this.vuetable.orderBy(field, event)
+      this.vuetable.onHeaderEvent(field, event)
     }
   }
 }
