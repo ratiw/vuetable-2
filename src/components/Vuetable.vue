@@ -94,9 +94,10 @@
         <template v-if="displayEmptyDataRow">
           <tr>
             <td :colspan="countVisibleFields"
-              class="vuetable-empty-result"
-              v-html="noDataTemplate"
-            ></td>
+              class="vuetable-empty-result">
+              <slot name="no-data" v-if="isFieldSlot('no-data')"></slot>
+              <span v-else v-html="noDataTemplate"/>
+            </td>
           </tr>
         </template>
         <template v-if="lessThanMinRows">
