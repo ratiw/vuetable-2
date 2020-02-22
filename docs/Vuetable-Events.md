@@ -49,7 +49,7 @@
   - response: _Object_ -- the response returned from the server
 - description
 
-  This event will be fired when up the data cannot be retrieved from the server or the server responses with an error.
+  This event will be fired when (all the) data cannot be retrieved from the server or the server responses with an error.
 
 ### # vuetable:loaded
 - payload: _none_
@@ -76,9 +76,9 @@
   - event: _Event_ -- the MouseObject event
 - description
 
-  This event will be fired when the user clicked on any column in the row. You can use the pass-in event object to target the DOM element that you want to manipulate. The pass-in data item argument is the actual data that Vuetable received from the server and it is reactived. Which means if you changed its value, the data displayed in the table will also be changed.
+  This event will be fired when the user clicked on any column in the row. You can use the pass-in event object to target the DOM element that you want to manipulate. The pass-in data item argument is the actual data that Vuetable received from the server and it is reactive. Which means if you changed its value, the data displayed in the table will also be changed.
 
-  > Changing the pass-in data in this event will not cause "indefinite update loop" However, the change only affects the current displaying data. It does not change anything on the server side.
+  > Changing the pass-in data in this event will not cause "indefinite update loop." However, the change only affects the current displaying data. It does not change anything on the server side.
 
 ### # vuetable:row-dblclicked
 - payload:
@@ -88,7 +88,7 @@
 
   This event will be fired when the user "double-clicked" on any column in the row. You can use the pass-in event object to target the DOM element that you want to manipulate. The pass-in data item argument is the actual data that Vuetable received from the server and it is reactived. Which means if you changed its value, the data displayed in the table will also be changed.
 
-  > Changing the pass-in data in this event will not cause "indefinite update loop" However, the change only affects the current displaying data. It does not change anything on the server side.
+  > Changing the pass-in data in this event will not cause "indefinite update loop." However, the change only affects the current displaying data. It does not change anything on the server side.
 
 ### # vuetable:cell-clicked
 - payload:
@@ -97,7 +97,7 @@
   - event: _Event_ -- the MouseObject event
 - description
 
-  This event will be fired when a cell in the tabel body has been clicked.
+  This event will be fired when a cell in the table body has been clicked.
 
 
 
