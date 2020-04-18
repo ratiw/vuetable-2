@@ -3,7 +3,7 @@
     <div class="vuetable-head-wrapper" v-if="isFixedHeader">
       <table :class="['vuetable', $_css.tableClass, $_css.tableHeaderClass]">
         <vuetable-col-group :is-header="true"/>
-        <thead>
+        <thead :class="[$_css.tableHeaderClass]">
           <slot name="tableHeader" :fields="tableFields">
             <template v-for="(header, headerIndex) in headerRows">
               <component :is="header" :key="headerIndex"
@@ -18,7 +18,7 @@
     <div class="vuetable-body-wrapper" :class="{'fixed-header' : isFixedHeader}" :style="{height: tableHeight}">
       <table :class="['vuetable', isFixedHeader ? 'fixed-header' : '', $_css.tableClass, $_css.tableBodyClass]">
       <vuetable-col-group/>
-      <thead v-if="!isFixedHeader">
+      <thead v-if="!isFixedHeader" :class="[$_css.tableHeaderClass]">
       <slot name="tableHeader" :fields="tableFields">
         <template v-for="(header, headerIndex) in headerRows">
           <component :is="header" :key="headerIndex"
