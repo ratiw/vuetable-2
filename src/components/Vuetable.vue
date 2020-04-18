@@ -2,7 +2,7 @@
 <div v-if="isFixedHeader">
   <div class="vuetable-head-wrapper">
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
-    <thead>
+    <thead :class="[css.tableHeaderClass]">
       <tr>
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
@@ -160,7 +160,7 @@
   </div>
 </div>
 <table v-else :class="['vuetable', css.tableClass]"> <!-- no fixed header - regular table -->
-  <thead>
+  <thead :class="[css.tableHeaderClass]">
     <tr>
       <template v-for="(field, fieldIndex) in tableFields">
         <template v-if="field.visible">
