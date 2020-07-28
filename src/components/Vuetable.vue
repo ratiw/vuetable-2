@@ -70,7 +70,7 @@
           </template>
         </template>
       </colgroup>
-      <tbody v-cloak class="vuetable-body">
+      <tbody v-cloak :class="['vuetable-body', css.tableBodyClass]">
         <template v-for="(item, itemIndex) in tableData">
           <tr 
             :key="itemIndex"
@@ -211,7 +211,7 @@
       </template>
     </tr>
   </thead>
-  <tbody v-cloak class="vuetable-body">
+  <tbody v-cloak :class="['vuetable-body', css.tableBodyClass]">
     <template v-for="(item, itemIndex) in tableData">
       <tr @dblclick="onRowDoubleClicked(item, $event)" 
         :key="itemIndex"
