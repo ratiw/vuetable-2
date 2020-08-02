@@ -119,7 +119,7 @@ describe('Properties', () => {
       console.error.restore()
     })
 
-    it('should parse basic array of fields definition correctly', () => {
+    it('should parse basic array of fields definition correctly', async () => {
       const vm = new Vue({
         template: '<vuetable :fields="columns" :silent="true"></vuetable>',
         components: { Vuetable },
@@ -149,12 +149,14 @@ describe('Properties', () => {
             arr[1].visible
           )
       })
+
+      await vm.$nextTick()
       let nodes = comp.$el.querySelectorAll('table thead tr th')
       expect(nodes[0].attributes.id.value).to.equal('_code')
       expect(nodes[1].attributes.id.value).to.equal('_description')
     })
 
-    it('should parse array of object of fields definition correctly', () => {
+    it('should parse array of object of fields definition correctly', async () => {
       const vm = new Vue({
         template: '<vuetable :fields="columns" :silent="true"></vuetable>',
         components: { Vuetable },
@@ -173,7 +175,8 @@ describe('Properties', () => {
       expect(comp.tableFields[0].dataClass).to.be.empty
       expect(comp.tableFields[0].callback).to.be.empty
       expect(comp.tableFields[0].visible).to.be.true
-
+      
+      await vm.$nextTick()
       let nodes = comp.$el.querySelectorAll('table thead tr th')
       expect(nodes[0].attributes.id.value).to.equal('_code')
       expect(nodes[1].attributes.id.value).to.equal('_description')
@@ -206,7 +209,7 @@ describe('Properties', () => {
       expect(vm.$children[0].tableFields[0].title).to.equal('My Title')
     })
 
-    it('should use the given titleClass to render field title', () => {
+    it('should use the given titleClass to render field title', async () => {
       const vm = new Vue({
         template: '<vuetable ref="vuetable" :silent="true" :fields="columns"></vuetable>',
         components: { Vuetable },
@@ -219,6 +222,8 @@ describe('Properties', () => {
       }).$mount()
       let comp = vm.$refs.vuetable
       expect(comp.tableFields[0].titleClass).to.equal('foo-bar')
+      
+      await vm.$nextTick()
       let nodes = comp.$el.querySelectorAll('table thead tr th')
       expect(nodes[0].attributes.id.value).to.equal('_code')
       expect(nodes[0].classList.contains('foo-bar')).to.be.true
