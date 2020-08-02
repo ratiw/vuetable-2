@@ -228,6 +228,7 @@ let tableColumns = [
         : `<i class="orange birthday icon"></i> ${lang['birthdate']}`
     },
     sortField: 'birthdate',
+    defaultSortDirection: 'desc',
     width: '100px',
     callback: 'formatDate|D/MM/Y'
   },
