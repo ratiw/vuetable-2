@@ -53,6 +53,10 @@ new Vue({
 })
 ```
 
+### Default sort direction
+
+If a field wants to be sorted descending by default, you can specify `defaultSortDirection: 'desc'` in the field definition.
+
 ### Multi-column Sorting
 
 Multi-column sorting can be enabled by setting `multi-sort` prop value to `true`. 

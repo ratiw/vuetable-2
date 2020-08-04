@@ -630,6 +630,7 @@ export default {
             width: field.width,
             title: (field.title === undefined) ? self.setTitle(field.name) : field.title,
             sortField: field.sortField,
+            defaultSortDirection: field.defaultSortDirection,
             titleClass: (field.titleClass === undefined) ? '' : field.titleClass,
             dataClass: (field.dataClass === undefined) ? '' : field.dataClass,
             callback: (field.callback === undefined) ? '' : field.callback,
@@ -923,7 +924,7 @@ export default {
         this.sortOrder[0].direction = this.sortOrder[0].direction === 'asc' ? 'desc' : 'asc'
       } else {
         // reset sort direction
-        this.sortOrder[0].direction = 'asc'
+        this.sortOrder[0].direction = field.defaultSortDirection || 'asc'
       }
       this.sortOrder[0].field = field.name
       this.sortOrder[0].sortField = field.sortField
