@@ -1,13 +1,13 @@
 {
-  "name": "vuetable-2",
-  "version": "1.7.5",
-  "description": "Datatable component for Vue 2.x",
+  "name": "@kulmann/vuetable-2",
+  "version": "1.7.6",
+  "description": "FORKED - Datatable component for Vue 2.x",
   "main": "dist/vuetable-2.js",
   "license": "MIT",
-  "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
+  "author": "Benedikt Kulmann <b@kulmann.biz>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ratiw/vuetable-2.git"
+    "url": "git+https://github.com/kulmann/vuetable-2.git"
   },
   "private": false,
   "keywords": [
