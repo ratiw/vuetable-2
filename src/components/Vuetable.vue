@@ -7,7 +7,7 @@
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <th v-if="extractName(field.name) == '__checkbox'"
+              <th v-if="extractName(field.name) === '__checkbox'"
                 :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]"
@@ -15,21 +15,21 @@
                 <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
                   :checked="checkCheckboxesState(field.name)">
               </th>
-              <th v-if="extractName(field.name) == '__component'"
+              <th v-if="extractName(field.name) === '__component'"
                 :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
                 @click="orderBy(field, $event)"
               ></th>
-              <th v-if="extractName(field.name) == '__slot'"
+              <th v-if="extractName(field.name) === '__slot'"
                 :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
                 @click="orderBy(field, $event)"
               ></th>
-              <th v-if="extractName(field.name) == '__sequence'"
+              <th v-if="extractName(field.name) === '__sequence'"
                 :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
@@ -72,28 +72,31 @@
       </colgroup>
       <tbody v-cloak class="vuetable-body">
         <template v-for="(item, itemIndex) in tableData">
-          <tr 
+          <tr
             :key="itemIndex"
-            :item-index="itemIndex" 
-            :render="onRowChanged(item)" 
+            :item-index="itemIndex"
+            :render="onRowChanged(item)"
             :class="onRowClass(item, itemIndex)"
-            @click="onRowClicked(item, $event)" 
-            @dblclick="onRowDoubleClicked(item, $event)" 
+            @click="onRowClicked(item, $event)"
+            @dblclick="onRowDoubleClicked(item, $event)"
+            @mouseover="onRowHover(item, $event)"
+            @mouseenter="onRowHoverEnter(item, $event)"
+            @mouseleave="onRowHoverLeave(item, $event)"
           >
             <template v-for="(field, fieldIndex) in tableFields">
               <template v-if="field.visible">
                 <template v-if="isSpecialField(field.name)">
-                  <td v-if="extractName(field.name) == '__sequence'" 
+                  <td v-if="extractName(field.name) === '__sequence'"
                     :key="fieldIndex"
                     :class="['vuetable-sequence', field.dataClass]"
                     v-html="renderSequence(itemIndex)">
                   </td>
-                  <td v-if="extractName(field.name) == '__handle'" 
+                  <td v-if="extractName(field.name) === '__handle'"
                     :key="fieldIndex"
                     :class="['vuetable-handle', field.dataClass]"
                     v-html="renderIconTag(['handle-icon', css.handleIcon])"
                   ></td>
-                  <td v-if="extractName(field.name) == '__checkbox'" 
+                  <td v-if="extractName(field.name) === '__checkbox'"
                     :key="fieldIndex"
                     :class="['vuetable-checkboxes', field.dataClass]"
                   >
@@ -101,7 +104,7 @@
                       @change="toggleCheckbox(item, field.name, $event)"
                       :checked="rowSelected(item, field.name)">
                   </td>
-                  <td v-if="extractName(field.name) === '__component'" 
+                  <td v-if="extractName(field.name) === '__component'"
                     :key="fieldIndex"
                     :class="['vuetable-component', field.dataClass]"
                   >
@@ -109,9 +112,12 @@
                       :row-data="item" :row-index="itemIndex" :row-field="field.sortField"
                     ></component>
                   </td>
-                  <td v-if="extractName(field.name) === '__slot'" 
+                  <td v-if="extractName(field.name) === '__slot'"
                     :key="fieldIndex"
                     :class="['vuetable-slot', field.dataClass]"
+                    @click="onCellClicked(item, field, $event)"
+                    @dblclick="onCellDoubleClicked(item, field, $event)"
+                    @contextmenu="onCellRightClicked(item, field, $event)"
                   >
                     <slot :name="extractArgs(field.name)"
                       :row-data="item" :row-index="itemIndex" :row-field="field.sortField"
@@ -165,7 +171,7 @@
       <template v-for="(field, fieldIndex) in tableFields">
         <template v-if="field.visible">
           <template v-if="isSpecialField(field.name)">
-            <th v-if="extractName(field.name) == '__checkbox'"
+            <th v-if="extractName(field.name) === '__checkbox'"
               :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]"
@@ -173,21 +179,21 @@
               <input type="checkbox" @change="toggleAllCheckboxes(field.name, $event)"
                 :checked="checkCheckboxesState(field.name)">
             </th>
-            <th v-if="extractName(field.name) == '__component'"
+            <th v-if="extractName(field.name) === '__component'"
               :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
               v-html="renderTitle(field)"
               @click="orderBy(field, $event)"
             ></th>
-            <th v-if="extractName(field.name) == '__slot'"
+            <th v-if="extractName(field.name) === '__slot'"
               :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
               v-html="renderTitle(field)"
               @click="orderBy(field, $event)"
             ></th>
-            <th v-if="extractName(field.name) == '__sequence'"
+            <th v-if="extractName(field.name) === '__sequence'"
               :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-sequence', field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)"
@@ -213,27 +219,31 @@
   </thead>
   <tbody v-cloak class="vuetable-body">
     <template v-for="(item, itemIndex) in tableData">
-      <tr @dblclick="onRowDoubleClicked(item, $event)" 
+      <tr
         :key="itemIndex"
-        :item-index="itemIndex" 
-        :render="onRowChanged(item)" 
+        :item-index="itemIndex"
+        :render="onRowChanged(item)"
         :class="onRowClass(item, itemIndex)"
-        @click="onRowClicked(item, $event)" 
+        @click="onRowClicked(item, $event)"
+        @dblclick="onRowDoubleClicked(item, $event)"
+        @mouseover="onRowHover(item, $event)"
+        @mouseenter="onRowHoverEnter(item, $event)"
+        @mouseleave="onRowHoverLeave(item, $event)"
       >
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
-              <td v-if="extractName(field.name) == '__sequence'" 
+              <td v-if="extractName(field.name) === '__sequence'"
                 :key="fieldIndex"
                 :class="['vuetable-sequence', field.dataClass]"
                 v-html="renderSequence(itemIndex)"
               ></td>
-              <td v-if="extractName(field.name) == '__handle'" 
+              <td v-if="extractName(field.name) === '__handle'"
                 :key="fieldIndex"
                 :class="['vuetable-handle', field.dataClass]"
                 v-html="renderIconTag(['handle-icon', css.handleIcon])"
               ></td>
-              <td v-if="extractName(field.name) == '__checkbox'" 
+              <td v-if="extractName(field.name) === '__checkbox'"
                 :key="fieldIndex"
                 :class="['vuetable-checkboxes', field.dataClass]"
               >
@@ -241,7 +251,7 @@
                   @change="toggleCheckbox(item, field.name, $event)"
                   :checked="rowSelected(item, field.name)">
               </td>
-              <td v-if="extractName(field.name) === '__component'" 
+              <td v-if="extractName(field.name) === '__component'"
                 :key="fieldIndex"
                 :class="['vuetable-component', field.dataClass]"
               >
@@ -249,9 +259,12 @@
                   :row-data="item" :row-index="itemIndex" :row-field="field.sortField"
                 ></component>
               </td>
-              <td v-if="extractName(field.name) === '__slot'" 
+              <td v-if="extractName(field.name) === '__slot'"
                 :key="fieldIndex"
                 :class="['vuetable-slot', field.dataClass]"
+                @click="onCellClicked(item, field, $event)"
+                @dblclick="onCellDoubleClicked(item, field, $event)"
+                @contextmenu="onCellRightClicked(item, field, $event)"
               >
                 <slot :name="extractArgs(field.name)"
                   :row-data="item" :row-index="itemIndex" :row-field="field.sortField"
@@ -259,7 +272,7 @@
               </td>
             </template>
             <template v-else>
-              <td v-if="hasCallback(field)" 
+              <td v-if="hasCallback(field)"
                 :key="fieldIndex"
                 :class="field.dataClass"
                 v-html="callCallback(field, item)"
@@ -267,7 +280,7 @@
                 @dblclick="onCellDoubleClicked(item, field, $event)"
                 @contextmenu="onCellRightClicked(item, field, $event)"
               ></td>
-              <td v-else 
+              <td v-else
                 :key="fieldIndex"
                 :class="field.dataClass"
                 v-html="getObjectValue(item, field.name, '')"
@@ -596,7 +609,7 @@ export default {
     },
     handleScroll (e) { //make sure that the header and the body are aligned when scrolling horizontally on a table that is wider than the viewport
       let horizontal = e.currentTarget.scrollLeft;
-      if (horizontal != this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
+      if (horizontal !== this.lastScrollPosition) { //don't modify header scroll if we are scrolling vertically
         let header = this.$el.getElementsByClassName('vuetable-head-wrapper')[0]
         if (header != null) {
           header.scrollLeft = horizontal;
@@ -614,7 +627,7 @@ export default {
       this.tableFields = []
       let self = this
       let obj
-      this.fields.forEach(function(field, i) {
+      this.fields.forEach(function(field) {
         if (typeof (field) === 'string') {
           obj = {
             name: field,
@@ -760,12 +773,7 @@ export default {
 
       let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0]
       if (elem != null) {
-        if (elem.scrollHeight > elem.clientHeight) {
-          this.scrollVisible = true;
-        }
-        else {
-          this.scrollVisible = false;
-        }
+        this.scrollVisible = elem.scrollHeight > elem.clientHeight;
       }
     },
     loadFailed (response) {
@@ -815,7 +823,7 @@ export default {
       return params
     },
     getSortParam () {
-      if (!this.sortOrder || this.sortOrder.field == '') {
+      if (!this.sortOrder || this.sortOrder.field === '') {
         return ''
       }
 
@@ -857,7 +865,7 @@ export default {
       return this.currentSortOrderPosition(field) !== false;
     },
     hasSortableIcon (field) {
-      return this.isSortable(field) && this.css.sortableIcon != ''
+      return this.isSortable(field) && this.css.sortableIcon !== ''
     },
     currentSortOrderPosition (field) {
       if ( ! this.isSortable(field)) {
@@ -940,7 +948,7 @@ export default {
       let i = this.currentSortOrderPosition(field)
 
       if (i !== false) {
-        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingClass : this.css.descendingClass
+        cls = (this.sortOrder[i].direction === 'asc') ? this.css.ascendingClass : this.css.descendingClass
       }
 
       return cls
@@ -950,7 +958,7 @@ export default {
       let i = this.currentSortOrderPosition(field)
 
       if (i !== false) {
-        cls = (this.sortOrder[i].direction == 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
+        cls = (this.sortOrder[i].direction === 'asc') ? this.css.ascendingIcon : this.css.descendingIcon
       }
 
       return cls;
@@ -977,17 +985,16 @@ export default {
         step = (max - min) / (count-1)
       }
 
-      let opacity = max - current * step
-
-      return opacity
+      // return opacity
+      return max - current * step
     },
     hasCallback (item) {
-      return item.callback ? true : false
+      return !!item.callback
     },
     callCallback (field, item) {
       if ( ! this.hasCallback(field)) return
 
-      if(typeof(field.callback) == 'function') {
+      if(typeof(field.callback) === 'function') {
        return field.callback(this.getObjectValue(item, field.name))
       }
 
@@ -1008,14 +1015,13 @@ export default {
       defaultValue = (typeof defaultValue === 'undefined') ? null : defaultValue
 
       let obj = object
-      if (path.trim() != '') {
+      if (path.trim() !== '') {
         let keys = path.split('.')
         keys.forEach(function(key) {
           if (obj !== null && typeof obj[key] !== 'undefined' && obj[key] !== null) {
             obj = obj[key]
           } else {
             obj = defaultValue
-            return
           }
         })
       }
@@ -1051,13 +1057,13 @@ export default {
     isSelectedRow (key) {
       return this.selectedTo.indexOf(key) >= 0
     },
-    rowSelected (dataItem, fieldName){
+    rowSelected (dataItem/*, fieldName*/){
       let idColumn = this.trackBy
       let key = dataItem[idColumn]
 
       return this.isSelectedRow(key)
     },
-    checkCheckboxesState (fieldName) {
+    checkCheckboxesState (/*fieldName*/) {
       if (! this.tableData) return
 
       let self = this
@@ -1076,7 +1082,7 @@ export default {
         return self.selectedTo.indexOf(item[idColumn]) >= 0
       })
 
-      // count == 0, clear the checkbox
+      // count === 0, clear the checkbox
       if (selected.length <= 0) {
         els.forEach(function(el) {
           el.indeterminate = false
@@ -1090,7 +1096,7 @@ export default {
         })
         return true
       }
-      // count == perPage, set checkbox state to 'checked'
+      // count === perPage, set checkbox state to 'checked'
       else {
         els.forEach(function(el) {
           el.indeterminate = false
@@ -1127,7 +1133,7 @@ export default {
       }
     },
     gotoPage (page) {
-      if (page != this.currentPage && (page > 0 && page <= this.tablePagination.last_page)) {
+      if (page !== this.currentPage && (page > 0 && page <= this.tablePagination.last_page)) {
         this.currentPage = page
         this.loadData()
       }
@@ -1176,7 +1182,6 @@ export default {
         : this.css.renderIcon(classes, options)
     },
     makePagination (total = null, perPage = null, currentPage = null) {
-      let pagination = {}
       total = total === null ? this.dataTotal : total
       perPage = perPage === null ? this.perPage : perPage
       currentPage = currentPage === null ? this.currentPage : currentPage
@@ -1202,8 +1207,8 @@ export default {
 
       if (Array.isArray(this.data)) {
         return this.setData(this.data)
-      } 
-      
+      }
+
       this.normalizeSortOrder()
 
       return this.setData(
@@ -1231,6 +1236,15 @@ export default {
     onRowClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
       return true
+    },
+    onRowHover (dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover', dataItem, event)
+    },
+    onRowHoverEnter (dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover-enter', dataItem, event)
+    },
+    onRowHoverLeave (dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover-leave', dataItem, event)
     },
     onRowDoubleClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)
