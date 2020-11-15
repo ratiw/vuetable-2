@@ -79,6 +79,9 @@
             :class="onRowClass(item, itemIndex)"
             @click="onRowClicked(item, $event)"
             @dblclick="onRowDoubleClicked(item, $event)"
+            @mouseover="onRowHover(item, $event)"
+            @mouseenter="onRowHoverEnter(item, $event)"
+            @mouseleave="onRowHoverLeave(item, $event)"
           >
             <template v-for="(field, fieldIndex) in tableFields">
               <template v-if="field.visible">
@@ -216,12 +219,16 @@
   </thead>
   <tbody v-cloak class="vuetable-body">
     <template v-for="(item, itemIndex) in tableData">
-      <tr @dblclick="onRowDoubleClicked(item, $event)"
+      <tr
         :key="itemIndex"
         :item-index="itemIndex"
         :render="onRowChanged(item)"
         :class="onRowClass(item, itemIndex)"
         @click="onRowClicked(item, $event)"
+        @dblclick="onRowDoubleClicked(item, $event)"
+        @mouseover="onRowHover(item, $event)"
+        @mouseenter="onRowHoverEnter(item, $event)"
+        @mouseleave="onRowHoverLeave(item, $event)"
       >
         <template v-for="(field, fieldIndex) in tableFields">
           <template v-if="field.visible">
@@ -1229,6 +1236,15 @@ export default {
     onRowClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-clicked', dataItem, event)
       return true
+    },
+    onRowHover (dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover', dataItem, event)
+    },
+    onRowHoverEnter (dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover-enter', dataItem, event)
+    },
+    onRowHoverLeave (dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover-leave', dataItem, event)
     },
     onRowDoubleClicked (dataItem, event) {
       this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event)

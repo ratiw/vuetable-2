@@ -3282,7 +3282,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     handleScroll: function handleScroll(e) {
       var horizontal = e.currentTarget.scrollLeft;
-      if (horizontal != this.lastScrollPosition) {
+      if (horizontal !== this.lastScrollPosition) {
         var header = this.$el.getElementsByClassName('vuetable-head-wrapper')[0];
         if (header != null) {
           header.scrollLeft = horizontal;
@@ -3299,7 +3299,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.tableFields = [];
       var self = this;
       var obj = void 0;
-      this.fields.forEach(function (field, i) {
+      this.fields.forEach(function (field) {
         if (typeof field === 'string') {
           obj = {
             name: field,
@@ -3437,11 +3437,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
       if (elem != null) {
-        if (elem.scrollHeight > elem.clientHeight) {
-          this.scrollVisible = true;
-        } else {
-          this.scrollVisible = false;
-        }
+        this.scrollVisible = elem.scrollHeight > elem.clientHeight;
       }
     },
     loadFailed: function loadFailed(response) {
@@ -3493,7 +3489,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return params;
     },
     getSortParam: function getSortParam() {
-      if (!this.sortOrder || this.sortOrder.field == '') {
+      if (!this.sortOrder || this.sortOrder.field === '') {
         return '';
       }
 
@@ -3533,7 +3529,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return this.currentSortOrderPosition(field) !== false;
     },
     hasSortableIcon: function hasSortableIcon(field) {
-      return this.isSortable(field) && this.css.sortableIcon != '';
+      return this.isSortable(field) && this.css.sortableIcon !== '';
     },
     currentSortOrderPosition: function currentSortOrderPosition(field) {
       if (!this.isSortable(field)) {
@@ -3611,7 +3607,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var i = this.currentSortOrderPosition(field);
 
       if (i !== false) {
-        cls = this.sortOrder[i].direction == 'asc' ? this.css.ascendingClass : this.css.descendingClass;
+        cls = this.sortOrder[i].direction === 'asc' ? this.css.ascendingClass : this.css.descendingClass;
       }
 
       return cls;
@@ -3621,7 +3617,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var i = this.currentSortOrderPosition(field);
 
       if (i !== false) {
-        cls = this.sortOrder[i].direction == 'asc' ? this.css.ascendingIcon : this.css.descendingIcon;
+        cls = this.sortOrder[i].direction === 'asc' ? this.css.ascendingIcon : this.css.descendingIcon;
       }
 
       return cls;
@@ -3638,17 +3634,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         step = (max - min) / (count - 1);
       }
 
-      var opacity = max - current * step;
-
-      return opacity;
+      return max - current * step;
     },
     hasCallback: function hasCallback(item) {
-      return item.callback ? true : false;
+      return !!item.callback;
     },
     callCallback: function callCallback(field, item) {
       if (!this.hasCallback(field)) return;
 
-      if (typeof field.callback == 'function') {
+      if (typeof field.callback === 'function') {
         return field.callback(this.getObjectValue(item, field.name));
       }
 
@@ -3667,14 +3661,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       defaultValue = typeof defaultValue === 'undefined' ? null : defaultValue;
 
       var obj = object;
-      if (path.trim() != '') {
+      if (path.trim() !== '') {
         var keys = path.split('.');
         keys.forEach(function (key) {
           if (obj !== null && typeof obj[key] !== 'undefined' && obj[key] !== null) {
             obj = obj[key];
           } else {
             obj = defaultValue;
-            return;
           }
         });
       }
@@ -3710,13 +3703,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     isSelectedRow: function isSelectedRow(key) {
       return this.selectedTo.indexOf(key) >= 0;
     },
-    rowSelected: function rowSelected(dataItem, fieldName) {
+    rowSelected: function rowSelected(dataItem) {
       var idColumn = this.trackBy;
       var key = dataItem[idColumn];
 
       return this.isSelectedRow(key);
     },
-    checkCheckboxesState: function checkCheckboxesState(fieldName) {
+    checkCheckboxesState: function checkCheckboxesState() {
       if (!this.tableData) return;
 
       var self = this;
@@ -3778,7 +3771,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     gotoPage: function gotoPage(page) {
-      if (page != this.currentPage && page > 0 && page <= this.tablePagination.last_page) {
+      if (page !== this.currentPage && page > 0 && page <= this.tablePagination.last_page) {
         this.currentPage = page;
         this.loadData();
       }
@@ -3828,7 +3821,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var perPage = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       var currentPage = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-      var pagination = {};
       total = total === null ? this.dataTotal : total;
       perPage = perPage === null ? this.perPage : perPage;
       currentPage = currentPage === null ? this.currentPage : currentPage;
@@ -3879,6 +3871,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     onRowClicked: function onRowClicked(dataItem, event) {
       this.$emit(this.eventPrefix + 'row-clicked', dataItem, event);
       return true;
+    },
+    onRowHover: function onRowHover(dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover', dataItem, event);
+    },
+    onRowHoverEnter: function onRowHoverEnter(dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover-enter', dataItem, event);
+    },
+    onRowHoverLeave: function onRowHoverLeave(dataItem, event) {
+      this.$emit(this.eventPrefix + 'row-hover-leave', dataItem, event);
     },
     onRowDoubleClicked: function onRowDoubleClicked(dataItem, event) {
       this.$emit(this.eventPrefix + 'row-dblclicked', dataItem, event);
@@ -5380,7 +5381,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('table', {
     class: ['vuetable', _vm.css.tableClass, _vm.css.tableHeaderClass]
   }, [_c('thead', [_c('tr', [_vm._l((_vm.tableFields), function(field, fieldIndex) {
-    return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__checkbox') ? _c('th', {
+    return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) === '__checkbox') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-checkbox-' + _vm.trackBy, field.titleClass],
       style: ({
@@ -5398,7 +5399,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return _vm.toggleAllCheckboxes(field.name, $event)
         }
       }
-    })]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__component') ? _c('th', {
+    })]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__component') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-component-' + _vm.trackBy, field.titleClass, _vm.sortClass(field), {
         'sortable': _vm.isSortable(field)
@@ -5414,7 +5415,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__slot') ? _c('th', {
+    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__slot') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-slot-' + _vm.extractArgs(field.name), field.titleClass, _vm.sortClass(field), {
         'sortable': _vm.isSortable(field)
@@ -5430,7 +5431,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__sequence') ? _c('th', {
+    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__sequence') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-sequence', field.titleClass || ''],
       style: ({
@@ -5507,22 +5508,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         },
         "dblclick": function($event) {
           return _vm.onRowDoubleClicked(item, $event)
+        },
+        "mouseover": function($event) {
+          return _vm.onRowHover(item, $event)
+        },
+        "mouseenter": function($event) {
+          return _vm.onRowHoverEnter(item, $event)
+        },
+        "mouseleave": function($event) {
+          return _vm.onRowHoverLeave(item, $event)
         }
       }
     }, [_vm._l((_vm.tableFields), function(field, fieldIndex) {
-      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__sequence') ? _c('td', {
+      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) === '__sequence') ? _c('td', {
         key: fieldIndex,
         class: ['vuetable-sequence', field.dataClass],
         domProps: {
           "innerHTML": _vm._s(_vm.renderSequence(itemIndex))
         }
-      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__handle') ? _c('td', {
+      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__handle') ? _c('td', {
         key: fieldIndex,
         class: ['vuetable-handle', field.dataClass],
         domProps: {
           "innerHTML": _vm._s(_vm.renderIconTag(['handle-icon', _vm.css.handleIcon]))
         }
-      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__checkbox') ? _c('td', {
+      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__checkbox') ? _c('td', {
         key: fieldIndex,
         class: ['vuetable-checkboxes', field.dataClass]
       }, [_c('input', {
@@ -5626,7 +5636,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }) : _vm._e()], 2)])])]) : _c('table', {
     class: ['vuetable', _vm.css.tableClass]
   }, [_c('thead', [_c('tr', [_vm._l((_vm.tableFields), function(field, fieldIndex) {
-    return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__checkbox') ? _c('th', {
+    return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) === '__checkbox') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-checkbox-' + _vm.trackBy, field.titleClass],
       style: ({
@@ -5644,7 +5654,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return _vm.toggleAllCheckboxes(field.name, $event)
         }
       }
-    })]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__component') ? _c('th', {
+    })]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__component') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-component-' + _vm.trackBy, field.titleClass, _vm.sortClass(field), {
         'sortable': _vm.isSortable(field)
@@ -5660,7 +5670,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__slot') ? _c('th', {
+    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__slot') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-slot-' + _vm.extractArgs(field.name), field.titleClass, _vm.sortClass(field), {
         'sortable': _vm.isSortable(field)
@@ -5676,7 +5686,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__sequence') ? _c('th', {
+    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__sequence') ? _c('th', {
       key: fieldIndex,
       class: ['vuetable-th-sequence', field.titleClass || '', _vm.sortClass(field)],
       style: ({
@@ -5725,27 +5735,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "render": _vm.onRowChanged(item)
       },
       on: {
+        "click": function($event) {
+          return _vm.onRowClicked(item, $event)
+        },
         "dblclick": function($event) {
           return _vm.onRowDoubleClicked(item, $event)
         },
-        "click": function($event) {
-          return _vm.onRowClicked(item, $event)
+        "mouseover": function($event) {
+          return _vm.onRowHover(item, $event)
+        },
+        "mouseenter": function($event) {
+          return _vm.onRowHoverEnter(item, $event)
+        },
+        "mouseleave": function($event) {
+          return _vm.onRowHoverLeave(item, $event)
         }
       }
     }, [_vm._l((_vm.tableFields), function(field, fieldIndex) {
-      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__sequence') ? _c('td', {
+      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) === '__sequence') ? _c('td', {
         key: fieldIndex,
         class: ['vuetable-sequence', field.dataClass],
         domProps: {
           "innerHTML": _vm._s(_vm.renderSequence(itemIndex))
         }
-      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__handle') ? _c('td', {
+      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__handle') ? _c('td', {
         key: fieldIndex,
         class: ['vuetable-handle', field.dataClass],
         domProps: {
           "innerHTML": _vm._s(_vm.renderIconTag(['handle-icon', _vm.css.handleIcon]))
         }
-      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__checkbox') ? _c('td', {
+      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__checkbox') ? _c('td', {
         key: fieldIndex,
         class: ['vuetable-checkboxes', field.dataClass]
       }, [_c('input', {
