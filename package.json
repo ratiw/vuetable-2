@@ -43,7 +43,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "axios": "^0.15.3"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
