@@ -20,6 +20,8 @@ if (!rootVariable.Promise) {
   rootVariable.Promise = Promise
 }
 
+//i am just trying to check if this works
+
 function install(Vue) {
   Vue.component("vuetable", Vuetable);
   Vue.component("vuetable-col-gutter", VuetableColGutter)
