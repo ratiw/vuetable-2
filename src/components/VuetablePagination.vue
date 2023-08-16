@@ -21,6 +21,7 @@
     <template v-else>
       <template v-for="n in windowSize">
         <a @click="loadPage(windowStart+n-1)"
+          :key="n"
           :class="[css.pageClass, isCurrentPage(windowStart+n-1) ? css.activeClass : '']"
           v-html="windowStart+n-1">
         </a>
